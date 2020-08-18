@@ -17,7 +17,7 @@ func _aseprite_list_layers(file_name: String) -> Array:
 
   return output[0].split('\n')
 
-func _aseprite_export_spritesheet(file_name: String, output_folder: String) -> Dictionary:
+func _aseprite_export_spritesheet(file_name: String, output_folder: String, exception_pattern: String) -> Dictionary:
   var basename = _get_file_basename(file_name)
   var output_dir = output_folder.replace("res://", "./")
   var data_file = "%s/%s.json" % [output_dir, basename]
@@ -37,6 +37,9 @@ func _aseprite_export_spritesheet(file_name: String, output_folder: String) -> D
     file_name
   ]
 
+  if exception_pattern != "":
+    _add_ignore_layer_arguments(file_name, arguments, exception_pattern)
+
   var exit_code = OS.execute(aseprite_command, arguments, true, output, true)
 
   if exit_code != 0:
@@ -49,16 +52,29 @@ func _aseprite_export_spritesheet(file_name: String, output_folder: String) -> D
     "sprite_sheet": sprite_sheet
   }
 
-func export_file_to_spritesheet(source_file: String, output_folder: String) -> int:
-  var output = _aseprite_export_spritesheet(source_file, output_folder)
+func _add_ignore_layer_arguments(file_name: String, arguments: Array, exception_pattern: String):
+  var layers = _get_exception_layers(file_name, exception_pattern)
+  if not layers.empty():
+    for l in layers:
+      arguments.push_front(l)
+      arguments.push_front('--ignore-layer')
 
-  if output.empty():
-    return FAILED
-  print(output)
-  return OK
+func _get_exception_layers(file_name: String, exception_pattern: String) -> Array:
+  var layers = _aseprite_list_layers(file_name)
+  var regex = RegEx.new()
+  if regex.compile(exception_pattern) != OK:
+    print('exception regex error')
+    return []
 
-func create_sprite_frames_from_aseprite_file(source_file: String, output_folder: String) -> int:
-  var output = _aseprite_export_spritesheet(source_file, output_folder)
+  var exception_layers = []
+  for layer in layers:
+    if regex.search(layer) != null:
+      exception_layers.push_back(layer)
+
+  return exception_layers
+
+func create_sprite_frames_from_aseprite_file(source_file: String, output_folder: String, exception_pattern: String) -> int:
+  var output = _aseprite_export_spritesheet(source_file, output_folder, exception_pattern)
   if output.empty():
     return FAILED
   return _import(output.data_file)

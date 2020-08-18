@@ -46,6 +46,7 @@ func _on_output_folder_selected(path):
 func _on_next_btn_up():
   var aseprite_file = $container/options/file_location/HBoxContainer/file_location_path.text
   var output_location = $container/options/output_folder/HBoxContainer/file_location_path.text
+  var exception_pattern = $container/options/exclude_pattern/pattern.text
   var dir = Directory.new()
 
   if not dir.file_exists(aseprite_file):
@@ -56,7 +57,8 @@ func _on_next_btn_up():
     print('output location does not exist')
     return # TODO error dialog
 
-  var exit_code = aseprite.create_sprite_frames_from_aseprite_file(aseprite_file, output_location)
+
+  var exit_code = aseprite.create_sprite_frames_from_aseprite_file(aseprite_file, output_location, exception_pattern)
 
   if exit_code != 0:
     pass # TODO show error dialog
