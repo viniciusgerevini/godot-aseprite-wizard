@@ -1,0 +1,153 @@
+[gd_scene format=2]
+
+[node name="ASWizardWindow" type="WindowDialog"]
+visible = true
+margin_right = 600.0
+margin_bottom = 400.0
+window_title = "Aseprite Spritesheet Import Wizard"
+resizable = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 30
+custom_constants/margin_top = 30
+custom_constants/margin_left = 30
+custom_constants/margin_bottom = 30
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="options" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 30.0
+margin_top = 30.0
+margin_right = 570.0
+margin_bottom = 370.0
+custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="file_location" type="VBoxContainer" parent="MarginContainer/options"]
+margin_right = 540.0
+margin_bottom = 44.0
+custom_constants/separation = 10
+
+[node name="file_location_label" type="Label" parent="MarginContainer/options/file_location"]
+margin_right = 540.0
+margin_bottom = 14.0
+hint_tooltip = "Location of the Aseprite *.ase source file"
+mouse_filter = 1
+text = "Aseprite File Location:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/options/file_location"]
+margin_top = 24.0
+margin_right = 540.0
+margin_bottom = 44.0
+custom_constants/separation = 20
+
+[node name="file_location_path" type="Label" parent="MarginContainer/options/file_location/HBoxContainer"]
+margin_top = 3.0
+margin_right = 32.0
+margin_bottom = 17.0
+text = "none"
+
+[node name="file_location_btn" type="Button" parent="MarginContainer/options/file_location/HBoxContainer"]
+margin_left = 52.0
+margin_right = 127.0
+margin_bottom = 20.0
+text = "Select file"
+
+[node name="output_folder" type="VBoxContainer" parent="MarginContainer/options"]
+margin_top = 64.0
+margin_right = 540.0
+margin_bottom = 108.0
+custom_constants/separation = 10
+
+[node name="label" type="Label" parent="MarginContainer/options/output_folder"]
+margin_right = 540.0
+margin_bottom = 14.0
+hint_tooltip = "Folder where the SpriteSheet resource is going to be saved"
+mouse_filter = 1
+text = "Output folder:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/options/output_folder"]
+margin_top = 24.0
+margin_right = 540.0
+margin_bottom = 44.0
+custom_constants/separation = 20
+
+[node name="file_location_path" type="Label" parent="MarginContainer/options/output_folder/HBoxContainer"]
+margin_top = 3.0
+margin_right = 32.0
+margin_bottom = 17.0
+text = "none"
+
+[node name="output_folder_btn" type="Button" parent="MarginContainer/options/output_folder/HBoxContainer"]
+margin_left = 52.0
+margin_right = 127.0
+margin_bottom = 20.0
+text = "Select file"
+
+[node name="exclude_pattern" type="VBoxContainer" parent="MarginContainer/options"]
+margin_top = 128.0
+margin_right = 540.0
+margin_bottom = 176.0
+custom_constants/separation = 10
+
+[node name="label" type="Label" parent="MarginContainer/options/exclude_pattern"]
+margin_right = 540.0
+margin_bottom = 14.0
+hint_tooltip = "If layer name matches this pattern, it won't be exported."
+mouse_filter = 1
+text = "Exclude layers with name matching pattern:"
+
+[node name="pattern" type="LineEdit" parent="MarginContainer/options/exclude_pattern"]
+margin_top = 24.0
+margin_right = 540.0
+margin_bottom = 48.0
+
+[node name="layer_importing_mode" type="VBoxContainer" parent="MarginContainer/options"]
+margin_top = 196.0
+margin_right = 540.0
+margin_bottom = 244.0
+custom_constants/separation = 10
+
+[node name="label" type="Label" parent="MarginContainer/options/layer_importing_mode"]
+margin_right = 540.0
+margin_bottom = 14.0
+hint_tooltip = "If selected, layers will be grouped and exported as one SpriteSheet.
+If not selected, one resource will be created for each layer."
+mouse_filter = 1
+text = "Layers importing mode:"
+
+[node name="group_layers" type="CheckBox" parent="MarginContainer/options/layer_importing_mode"]
+margin_top = 24.0
+margin_right = 540.0
+margin_bottom = 48.0
+hint_tooltip = "If selected, layers will be grouped and exported as one SpriteSheet.
+If not selected, one resource will be created for each layer."
+pressed = true
+text = "Group all layers in one SpriteSheet"
+
+[node name="buttons" type="HBoxContainer" parent="MarginContainer/options"]
+margin_top = 264.0
+margin_right = 540.0
+margin_bottom = 284.0
+custom_constants/separation = 30
+alignment = 2
+
+[node name="close" type="Button" parent="MarginContainer/options/buttons"]
+margin_left = 422.0
+margin_right = 468.0
+margin_bottom = 20.0
+text = "close"
+
+[node name="next" type="Button" parent="MarginContainer/options/buttons"]
+margin_left = 498.0
+margin_right = 540.0
+margin_bottom = 20.0
+text = "Next"
