@@ -6,7 +6,7 @@ const menu_item_name = "Aseprite Spritesheet Wizard"
 const CONFIG_FILE_PATH = './aseprite_wizard.cfg'
 
 var config: ConfigFile = ConfigFile.new()
-var window: WizardWindow
+var window: WindowDialog
 
 func _enter_tree():
   add_tool_menu_item(menu_item_name, self, "_open_window")

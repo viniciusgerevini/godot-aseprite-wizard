@@ -145,8 +145,7 @@ func create_sprite_frames_from_aseprite_layers(source_file: String, output_folde
     if o.empty():
       result = FAILED
     else:
-      if _import(o.data_file) != OK:
-        result = FAILED
+      result = _import(o.data_file)
 
   return result
 

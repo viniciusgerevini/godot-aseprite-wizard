@@ -8,14 +8,9 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "WindowDialog",
-"class": "WizardWindow",
-"language": "GDScript",
-"path": "res://addons/AsepriteWizard/first_options_window.gd"
-} ]
+_global_script_classes=[  ]
 _global_script_class_icons={
-"WizardWindow": ""
+
 }
 
 [application]

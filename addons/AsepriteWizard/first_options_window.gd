@@ -1,6 +1,5 @@
 tool
 extends WindowDialog
-class_name WizardWindow
 
 const CONFIG_SECTION_KEY = 'file_locations'
 const LAST_SOURCE_PATH_KEY = 'source'
@@ -12,20 +11,24 @@ var config: ConfigFile
 
 var file_dialog_aseprite: FileDialog
 var output_folder_dialog: FileDialog
+var warning_dialog: AcceptDialog
 
 var aseprite = preload("aseprite_cmd.gd").new()
 
 func _ready():
   file_dialog_aseprite = _create_aseprite_file_selection()
   output_folder_dialog = _create_outuput_folder_selection()
+  warning_dialog = AcceptDialog.new()
   get_parent().add_child(file_dialog_aseprite)
   get_parent().add_child(output_folder_dialog)
+  get_parent().add_child(warning_dialog)
 
   _load_persisted_config()
 
 func _exit_tree():
   file_dialog_aseprite.queue_free()
   output_folder_dialog.queue_free()
+  warning_dialog.queue_free()
 
 func _load_persisted_config():
   if config.has_section_key(CONFIG_SECTION_KEY, GROUP_MODE_KEY):
@@ -86,21 +89,21 @@ func _on_next_btn_up():
   var dir = Directory.new()
 
   if not dir.file_exists(aseprite_file):
-    print('source file does not exist')
-    return # TODO error dialog
+    _show_error_message('source file does not exist')
+    return
 
   if not output_location or not dir.dir_exists(output_location):
-    print('output location does not exist')
-    return # TODO error dialog
+    _show_error_message('output location does not exist')
+    return
 
   if group_layers:
     var exit_code = aseprite.create_sprite_frames_from_aseprite_file(aseprite_file, output_location, exception_pattern)
     if exit_code != 0:
-      pass # TODO show error dialog
+      _show_error(exit_code)
   else:
     var exit_code = aseprite.create_sprite_frames_from_aseprite_layers(aseprite_file, output_location, exception_pattern)
     if exit_code != 0:
-      pass # TODO show error dialog
+      _show_error(exit_code)
 
   _close_window()
 
@@ -111,6 +114,19 @@ func _close_window():
   config.set_value(CONFIG_SECTION_KEY, GROUP_MODE_KEY, _group_mode_field().pressed)
   config.set_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY, _exception_pattern_field().text)
   self.hide()
+
+func _show_error(code: int):
+  match code:
+    FAILED:
+      _show_error_message('unable to import file')
+    ERR_PARSE_ERROR:
+      _show_error_message('aseprite generated bad data file')
+    _:
+      _show_error_message('import failed with code %d' % code)
+
+func _show_error_message(message: String):
+  warning_dialog.dialog_text = "Error: %s" % message
+  warning_dialog.popup_centered()
 
 func _file_location_field() -> LineEdit:
   return $container/options/file_location/HBoxContainer/file_location_path as LineEdit
