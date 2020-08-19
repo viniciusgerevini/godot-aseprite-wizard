@@ -257,7 +257,7 @@ func _create_atlastexture_from_frame(image, frame_data):
     var i = Image.new()
     i.load(image)
     var texture = ImageTexture.new()
-    texture.create_from_image(i)
+    texture.create_from_image(i, 0)
     atlas.atlas = texture
   atlas.region = Rect2(frame.x, frame.y, frame.w, frame.h)
   return atlas
