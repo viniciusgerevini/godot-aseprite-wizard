@@ -1,8 +1,8 @@
 tool
 extends WindowDialog
 
-var file_dialog_aseprite
-var output_folder_dialog
+var file_dialog_aseprite: FileDialog
+var output_folder_dialog: FileDialog
 
 var aseprite = preload("aseprite_cmd.gd").new()
 
@@ -18,9 +18,15 @@ func _exit_tree():
   output_folder_dialog.queue_free()
 
 func _open_aseprite_file_selection_dialog():
+  var current_selection = $container/options/output_folder/HBoxContainer/file_location_path.text
+  if current_selection != "":
+    file_dialog_aseprite.current_dir = current_selection.get_base_dir()
   file_dialog_aseprite.popup_centered_ratio()
 
 func _open_output_folder_selection_dialog():
+  var current_selection = $container/options/output_folder/HBoxContainer/file_location_path.text
+  if current_selection != "":
+    output_folder_dialog.current_dir = current_selection
   output_folder_dialog.popup_centered_ratio()
 
 func _create_aseprite_file_selection():
