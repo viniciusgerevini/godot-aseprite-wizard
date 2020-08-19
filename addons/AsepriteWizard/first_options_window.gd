@@ -12,16 +12,23 @@ var config: ConfigFile
 var file_dialog_aseprite: FileDialog
 var output_folder_dialog: FileDialog
 var warning_dialog: AcceptDialog
+var config_window: WindowDialog
 
+const config_dialog = preload('config_dialog.tscn')
 var aseprite = preload("aseprite_cmd.gd").new()
 
 func _ready():
   file_dialog_aseprite = _create_aseprite_file_selection()
   output_folder_dialog = _create_outuput_folder_selection()
   warning_dialog = AcceptDialog.new()
+  config_window = config_dialog.instance()
+  config_window.init(config)
+  aseprite.init(config, config_window.get_default_command())
+
   get_parent().add_child(file_dialog_aseprite)
   get_parent().add_child(output_folder_dialog)
   get_parent().add_child(warning_dialog)
+  get_parent().add_child(config_window)
 
   _load_persisted_config()
 
@@ -29,6 +36,7 @@ func _exit_tree():
   file_dialog_aseprite.queue_free()
   output_folder_dialog.queue_free()
   warning_dialog.queue_free()
+  config_window.queue_free()
 
 func _load_persisted_config():
   if config.has_section_key(CONFIG_SECTION_KEY, GROUP_MODE_KEY):
@@ -115,6 +123,9 @@ func _close_window():
   config.set_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY, _exception_pattern_field().text)
   self.hide()
 
+func _on_config_button_up():
+  config_window.popup_centered()
+
 func _show_error(code: int):
   match code:
     FAILED:
@@ -142,4 +153,3 @@ func _group_mode_field() -> CheckBox:
 
 func init(config_file: ConfigFile):
   config = config_file
-

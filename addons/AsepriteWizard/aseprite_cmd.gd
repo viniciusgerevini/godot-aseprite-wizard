@@ -1,12 +1,26 @@
 tool
 extends Node
 
-const aseprite_command = 'aseprite'
+var default_command = 'aseprite'
+var config: ConfigFile
+
+func init(config_file: ConfigFile, default_cmd: String):
+  config = config_file
+  default_command = default_cmd
+
+func _aseprite_command() -> String:
+  var command
+  if config.has_section_key('aseprite', 'command'):
+    command = config.get_value('aseprite', 'command')
+
+  if not command or command == "":
+    return default_command
+  return command
 
 func _aseprite_list_layers(file_name: String) -> Array:
   var output = []
 
-  var exit_code = OS.execute(aseprite_command, ["-b", "--all-layers", "--list-layers", file_name], true, output, true)
+  var exit_code = OS.execute(_aseprite_command(), ["-b", "--all-layers", "--list-layers", file_name], true, output, true)
 
   if exit_code != 0:
     print('aseprite: failed listing layers')
@@ -41,7 +55,7 @@ func _aseprite_export_spritesheet(file_name: String, output_folder: String, exce
   if exception_pattern != "":
     _add_ignore_layer_arguments(file_name, arguments, exception_pattern)
 
-  var exit_code = OS.execute(aseprite_command, arguments, true, output, true)
+  var exit_code = OS.execute(_aseprite_command(), arguments, true, output, true)
 
   if exit_code != 0:
     print('aseprite: failed to export spritesheet')
@@ -94,7 +108,7 @@ func _aseprite_export_layer(file_name: String, layer_name: String, output_folder
     file_name
   ]
 
-  var exit_code = OS.execute(aseprite_command, arguments, true, output, true)
+  var exit_code = OS.execute(_aseprite_command(), arguments, true, output, true)
 
   if exit_code != 0:
     print('aseprite: failed to export layer spritesheet')
