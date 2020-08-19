@@ -86,6 +86,7 @@ custom_constants/separation = 20
 margin_right = 445.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
+text = "res://"
 
 [node name="output_folder_btn" type="Button" parent="container/options/output_folder/HBoxContainer"]
 margin_left = 465.0

@@ -11,6 +11,7 @@ func _ready():
   output_folder_dialog = _create_outuput_folder_selection()
   get_parent().add_child(file_dialog_aseprite)
   get_parent().add_child(output_folder_dialog)
+  $container/options/output_folder/HBoxContainer/file_location_path.text = 'res://'
 
 func _exit_tree():
   file_dialog_aseprite.queue_free()
@@ -47,6 +48,8 @@ func _on_next_btn_up():
   var aseprite_file = $container/options/file_location/HBoxContainer/file_location_path.text
   var output_location = $container/options/output_folder/HBoxContainer/file_location_path.text
   var exception_pattern = $container/options/exclude_pattern/pattern.text
+  var group_layers = $container/options/layer_importing_mode/group_layers.pressed
+
   var dir = Directory.new()
 
   if not dir.file_exists(aseprite_file):
@@ -57,18 +60,21 @@ func _on_next_btn_up():
     print('output location does not exist')
     return # TODO error dialog
 
-
-  var exit_code = aseprite.create_sprite_frames_from_aseprite_file(aseprite_file, output_location, exception_pattern)
-
-  if exit_code != 0:
-    pass # TODO show error dialog
+  if group_layers:
+    print('grouped')
+    var exit_code = aseprite.create_sprite_frames_from_aseprite_file(aseprite_file, output_location, exception_pattern)
+    if exit_code != 0:
+      pass # TODO show error dialog
+  else:
+    print('not grouped')
+    var exit_code = aseprite.create_sprite_frames_from_aseprite_layers(aseprite_file, output_location, exception_pattern)
+    if exit_code != 0:
+      pass # TODO show error dialog
 
   self.hide()
 
 func _on_close_btn_up():
   self.hide()
 
-# TODO grouped layers vs isolated layer
-# TODO layer exception
 
 
