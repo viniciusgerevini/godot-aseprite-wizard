@@ -6,8 +6,9 @@ This plugin uses Aseprite CLI to generate spritesheet, and then converts it to S
 
 This plugin makes it easier to use Aseprite as your animation's source of truth. In other words, you can create all your animations in Aseprite, and then import them directly to an AnimatedSprite, without extra work.
 
-![Aseprite Wizard Screen](./screenshots/main_screen.png)
+<img align="center" src="./screenshots/main_screen.png" />
 
+<img align="center" src="./screenshots/aseprite_godot.png" />
 ## Features
 
 - Creates SpriteFrames with Atlas Texture to be used in AnimatedSprites.
