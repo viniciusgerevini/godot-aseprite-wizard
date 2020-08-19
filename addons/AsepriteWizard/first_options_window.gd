@@ -61,12 +61,10 @@ func _on_next_btn_up():
     return # TODO error dialog
 
   if group_layers:
-    print('grouped')
     var exit_code = aseprite.create_sprite_frames_from_aseprite_file(aseprite_file, output_location, exception_pattern)
     if exit_code != 0:
       pass # TODO show error dialog
   else:
-    print('not grouped')
     var exit_code = aseprite.create_sprite_frames_from_aseprite_layers(aseprite_file, output_location, exception_pattern)
     if exit_code != 0:
       pass # TODO show error dialog

@@ -239,6 +239,7 @@ func _create_atlastexture_from_frame(image, frame_data):
 
   if ResourceLoader.has_cached(image):
     atlas.atlas = ResourceLoader.load(image, 'Image', true)
+    atlas.atlas.take_over_path(image)
   else:
     var i = Image.new()
     i.load(image)
