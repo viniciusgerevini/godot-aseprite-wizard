@@ -94,16 +94,6 @@ func _on_next_btn_up():
   var exception_pattern = _exception_pattern_field().text
   var group_layers = _group_mode_field().pressed
 
-  var dir = Directory.new()
-
-  if not dir.file_exists(aseprite_file):
-    _show_error_message('source file does not exist')
-    return
-
-  if not output_location or not dir.dir_exists(output_location):
-    _show_error_message('output location does not exist')
-    return
-
   var export_mode = aseprite.FILE_EXPORT_MODE if group_layers else aseprite.LAYERS_EXPORT_MODE
 
   var exit_code = aseprite.create_resource(aseprite_file, output_location, exception_pattern, export_mode)

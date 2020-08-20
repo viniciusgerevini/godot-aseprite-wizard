@@ -158,6 +158,13 @@ func _get_exception_layers(file_name: String, exception_pattern: String) -> Arra
   return exception_layers
 
 func create_resource(source_file: String, output_folder: String, exception_pattern: String, export_mode: int) -> int:
+  var dir = Directory.new()
+  if not dir.file_exists(source_file):
+    return ERR_SOURCE_FILE_NOT_FOUND
+
+  if not dir.dir_exists(output_folder):
+    return ERR_OUTPUT_FOLDER_NOT_FOUND
+
   match export_mode:
     FILE_EXPORT_MODE:
       return create_sprite_frames_from_aseprite_file(source_file, output_folder, exception_pattern)
