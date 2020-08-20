@@ -16,6 +16,7 @@ This plugin makes it easier to use Aseprite as your animation's source of truth.
 - Converts Aseprite frame duration (defined in milliseconds) to Godot's animation FPS. This way you can create your animation with the right timing in Aseprite, and it should work the same way in Godot.
 - Chose to export Aseprite file as single SpriteFrames resource, or separate each layer as its own resource.
 - Filter out layers you don't want in the final animation, using regex.
+- Supports Aseprite animation direction (forward, reverse, ping-pong)
 
 ## How to use
 
