@@ -32,6 +32,7 @@ Options:
 | Merge layers in one resource: | If selected, all layers will be merged and exported as a single resource file with same base name as source (e.g person.res). If not selected, each layer will be exported as a separated resource (e.g head.res, left_arm.res, legs.res)|
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Trim image | Removes borders from sprites/layers/cels before savimg them. |
+| Output filename / prefix | Output filename. In case layers are not being merged, this is used as file prefix. If not set, source filename is used.|
 
 
 ## Instalation and Configuration

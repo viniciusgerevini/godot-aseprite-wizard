@@ -5,8 +5,8 @@
 [node name="ASWizardWindow" type="WindowDialog"]
 visible = true
 margin_right = 600.0
-margin_bottom = 450.0
-rect_min_size = Vector2( 600, 470 )
+margin_bottom = 600.0
+rect_min_size = Vector2( 600, 600 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 window_title = "Aseprite Spritesheet Import Wizard"
@@ -32,7 +32,7 @@ __meta__ = {
 margin_left = 30.0
 margin_top = 30.0
 margin_right = 570.0
-margin_bottom = 390.0
+margin_bottom = 458.0
 custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
@@ -48,7 +48,7 @@ margin_right = 540.0
 margin_bottom = 14.0
 hint_tooltip = "Location of the Aseprite *.ase source file"
 mouse_filter = 1
-text = "Aseprite File Location:"
+text = "Aseprite File Location:*"
 clip_text = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="container/options/file_location"]
@@ -79,7 +79,7 @@ margin_right = 540.0
 margin_bottom = 14.0
 hint_tooltip = "Folder where the SpriteSheet resource is going to be saved"
 mouse_filter = 1
-text = "Output folder:"
+text = "Output folder:*"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="container/options/output_folder"]
 margin_top = 24.0
@@ -117,10 +117,29 @@ margin_top = 24.0
 margin_right = 540.0
 margin_bottom = 48.0
 
-[node name="layer_importing_mode" type="VBoxContainer" parent="container/options"]
+[node name="custom_filename" type="VBoxContainer" parent="container/options"]
 margin_top = 204.0
 margin_right = 540.0
-margin_bottom = 320.0
+margin_bottom = 252.0
+custom_constants/separation = 10
+
+[node name="label" type="Label" parent="container/options/custom_filename"]
+margin_right = 540.0
+margin_bottom = 14.0
+hint_tooltip = "Output filename. In case layers are not being merged, this is used as file prefix.
+If not set, source filename is used."
+mouse_filter = 1
+text = "Output file name / prefix"
+
+[node name="pattern" type="LineEdit" parent="container/options/custom_filename"]
+margin_top = 24.0
+margin_right = 540.0
+margin_bottom = 48.0
+
+[node name="layer_importing_mode" type="VBoxContainer" parent="container/options"]
+margin_top = 272.0
+margin_right = 540.0
+margin_bottom = 388.0
 custom_constants/separation = 10
 
 [node name="label" type="Label" parent="container/options/layer_importing_mode"]
@@ -153,9 +172,9 @@ hint_tooltip = "Removes borders from sprites/layers before save them."
 text = "Trim image"
 
 [node name="buttons" type="HBoxContainer" parent="container/options"]
-margin_top = 340.0
+margin_top = 408.0
 margin_right = 540.0
-margin_bottom = 360.0
+margin_bottom = 428.0
 custom_constants/separation = 30
 alignment = 2
 

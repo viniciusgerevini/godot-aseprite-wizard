@@ -55,7 +55,8 @@ func _aseprite_export_spritesheet(file_name: String, output_folder: String, opti
   var exception_pattern = options.get('exception_pattern', "")
   var only_visible_layers = options.get('only_visible_layers', false)
   var trim_images = options.get('trim_images', false)
-  var basename = _get_file_basename(file_name)
+  var output_name = file_name if options.get('output_filename') == "" else options.get('output_filename')
+  var basename = _get_file_basename(output_name)
   var output_dir = output_folder.replace("res://", "./")
   var data_file = "%s/%s.json" % [output_dir, basename]
   var sprite_sheet = "%s/%s.png" % [output_dir, basename]
@@ -119,8 +120,9 @@ func _aseprite_export_layers_spritesheet(file_name: String, output_folder: Strin
   return output
 
 func _aseprite_export_layer(file_name: String, layer_name: String, output_folder: String, options: Dictionary) -> Dictionary:
-  var data_file = "%s/%s.json" % [output_folder, layer_name]
-  var sprite_sheet = "%s/%s.png" % [output_folder, layer_name]
+  var output_prefix = options.get('output_filename', "")
+  var data_file = "%s/%s%s.json" % [output_folder, output_prefix, layer_name]
+  var sprite_sheet = "%s/%s%s.png" % [output_folder, output_prefix, layer_name]
   var output = []
 
   var arguments = [

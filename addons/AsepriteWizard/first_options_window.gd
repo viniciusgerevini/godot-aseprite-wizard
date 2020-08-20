@@ -8,6 +8,7 @@ const GROUP_MODE_KEY = 'group_mode'
 const EXCEPTIONS_KEY = 'exceptions_key'
 const ONLY_VISIBLE_LAYERS_KEY = 'only_visible_layers'
 const TRIM_IMAGES_KEY = 'trim_images'
+const CUSTOM_NAME_KEY = 'custom_name'
 
 var config: ConfigFile
 
@@ -52,6 +53,9 @@ func _load_persisted_config():
 
   if config.has_section_key(CONFIG_SECTION_KEY, EXCEPTIONS_KEY):
     _exception_pattern_field().text = config.get_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY)
+
+  if config.has_section_key(CONFIG_SECTION_KEY, CUSTOM_NAME_KEY):
+    _custom_name_field().text = config.get_value(CONFIG_SECTION_KEY, CUSTOM_NAME_KEY)
 
   if config.has_section_key(CONFIG_SECTION_KEY, LAST_SOURCE_PATH_KEY):
     _file_location_field().text = config.get_value(CONFIG_SECTION_KEY, LAST_SOURCE_PATH_KEY)
@@ -106,7 +110,8 @@ func _on_next_btn_up():
     "export_mode": export_mode,
     "exception_pattern": _exception_pattern_field().text,
     "only_visible_layers": _only_visible_layers_field().pressed,
-    "trim_images": _trim_image_field().pressed
+    "trim_images": _trim_image_field().pressed,
+    "output_filename": _custom_name_field().text
   }
 
   var exit_code = aseprite.create_resource(aseprite_file, output_location, options)
@@ -121,6 +126,7 @@ func _on_close_btn_up():
 func _close_window():
   config.set_value(CONFIG_SECTION_KEY, GROUP_MODE_KEY, _group_mode_field().pressed)
   config.set_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY, _exception_pattern_field().text)
+  config.set_value(CONFIG_SECTION_KEY, CUSTOM_NAME_KEY, _custom_name_field().text)
   config.set_value(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY, _only_visible_layers_field().pressed)
   config.set_value(CONFIG_SECTION_KEY, TRIM_IMAGES_KEY, _trim_image_field().pressed)
 
@@ -165,6 +171,9 @@ func _only_visible_layers_field() -> CheckBox:
 
 func _trim_image_field() -> CheckBox:
   return $container/options/layer_importing_mode/trim_image as CheckBox
+
+func _custom_name_field() -> LineEdit:
+  return $container/options/custom_filename/pattern as LineEdit
 
 func init(config_file: ConfigFile):
   config = config_file
