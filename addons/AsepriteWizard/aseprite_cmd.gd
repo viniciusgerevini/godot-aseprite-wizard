@@ -230,10 +230,9 @@ func _import(source_file) -> int:
   var resource = _create_sprite_frames_with_animations(content, texture_path)
 
   var save_path = "%s.%s" % [source_file.get_basename(), "res"]
+  var code =  ResourceSaver.save(save_path, resource, ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
   resource.take_over_path(save_path)
-  return ResourceSaver.save(save_path, resource, ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
-#  return ResourceSaver.save(save_path, resource)
-
+  return code
 
 func _create_sprite_frames_with_animations(content, texture_path):
   var frames = _get_frames_from_content(content)

@@ -102,7 +102,6 @@ func _on_next_btn_up():
   var group_layers = _group_mode_field().pressed
 
   var export_mode = aseprite.FILE_EXPORT_MODE if group_layers else aseprite.LAYERS_EXPORT_MODE
-
   var options = {
     "export_mode": export_mode,
     "exception_pattern": _exception_pattern_field().text,
