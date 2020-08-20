@@ -104,15 +104,12 @@ func _on_next_btn_up():
     _show_error_message('output location does not exist')
     return
 
-  if group_layers:
-    var exit_code = aseprite.create_sprite_frames_from_aseprite_file(aseprite_file, output_location, exception_pattern)
-    if exit_code != 0:
-      _show_error(exit_code)
-  else:
-    var exit_code = aseprite.create_sprite_frames_from_aseprite_layers(aseprite_file, output_location, exception_pattern)
-    if exit_code != 0:
-      _show_error(exit_code)
+  var export_mode = aseprite.FILE_EXPORT_MODE if group_layers else aseprite.LAYERS_EXPORT_MODE
 
+  var exit_code = aseprite.create_resource(aseprite_file, output_location, exception_pattern, export_mode)
+  if exit_code != 0:
+    _show_error(exit_code)
+    return
   _close_window()
 
 func _on_close_btn_up():
@@ -128,10 +125,16 @@ func _on_config_button_up():
 
 func _show_error(code: int):
   match code:
-    FAILED:
+    aseprite.ERR_SOURCE_FILE_NOT_FOUND:
+      _show_error_message('source file does not exist')
+    aseprite.ERR_OUTPUT_FOLDER_NOT_FOUND:
+      _show_error_message('output location does not exist')
+    aseprite.ERR_ASEPRITE_EXPORT_FAILED:
       _show_error_message('unable to import file')
-    ERR_PARSE_ERROR:
+    aseprite.ERR_INVALID_ASEPRITE_SPRITESHEET:
       _show_error_message('aseprite generated bad data file')
+    aseprite.ERR_NO_VALID_LAYERS_FOUND:
+      _show_error_message('no valid layers found')
     _:
       _show_error_message('import failed with code %d' % code)
 

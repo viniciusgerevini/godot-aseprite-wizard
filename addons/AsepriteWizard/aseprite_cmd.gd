@@ -1,6 +1,21 @@
 tool
 extends Node
 
+enum {
+  FILE_EXPORT_MODE,
+  LAYERS_EXPORT_MODE
+}
+
+enum {
+  SUCCESS,
+  ERR_SOURCE_FILE_NOT_FOUND,
+  ERR_OUTPUT_FOLDER_NOT_FOUND,
+  ERR_ASEPRITE_EXPORT_FAILED,
+  ERR_UNKNOWN_EXPORT_MODE,
+  ERR_NO_VALID_LAYERS_FOUND,
+  ERR_INVALID_ASEPRITE_SPRITESHEET
+}
+
 var default_command = 'aseprite'
 var config: ConfigFile
 
@@ -142,22 +157,31 @@ func _get_exception_layers(file_name: String, exception_pattern: String) -> Arra
   print(exception_layers)
   return exception_layers
 
+func create_resource(source_file: String, output_folder: String, exception_pattern: String, export_mode: int) -> int:
+  match export_mode:
+    FILE_EXPORT_MODE:
+      return create_sprite_frames_from_aseprite_file(source_file, output_folder, exception_pattern)
+    LAYERS_EXPORT_MODE:
+      return create_sprite_frames_from_aseprite_layers(source_file, output_folder, exception_pattern)
+    _:
+      return ERR_UNKNOWN_EXPORT_MODE
+
 func create_sprite_frames_from_aseprite_file(source_file: String, output_folder: String, exception_pattern: String) -> int:
   var output = _aseprite_export_spritesheet(source_file, output_folder, exception_pattern)
   if output.empty():
-    return FAILED
+    return ERR_ASEPRITE_EXPORT_FAILED
   return _import(output.data_file)
 
 func create_sprite_frames_from_aseprite_layers(source_file: String, output_folder: String, exception_pattern: String) -> int:
   var output = _aseprite_export_layers_spritesheet(source_file, output_folder, exception_pattern)
   if output.empty():
-    return FAILED
+    return ERR_NO_VALID_LAYERS_FOUND
 
   var result = OK
 
   for o in output:
     if o.empty():
-      result = FAILED
+      result = ERR_ASEPRITE_EXPORT_FAILED
     else:
       result = _import(o.data_file)
 
@@ -174,7 +198,7 @@ func _import(source_file) -> int:
   var content =  parse_json(file.get_as_text())
 
   if not _is_valid_aseprite_spritesheet(content):
-    return ERR_PARSE_ERROR
+    return ERR_INVALID_ASEPRITE_SPRITESHEET
 
   var texture_path = _parse_texture_path(source_file, content)
   var resource = _create_sprite_frames_with_animations(content, texture_path)

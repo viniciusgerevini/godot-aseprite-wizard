@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/AsepriteWizard/config_dialog.gd" type="Script" id=1]
 
-[node name="config_dialog" type="WindowDialog"]
+[node name="config_dialog2" type="WindowDialog"]
 margin_right = 48.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 400, 200 )
