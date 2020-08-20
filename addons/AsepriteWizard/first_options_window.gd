@@ -6,6 +6,7 @@ const LAST_SOURCE_PATH_KEY = 'source'
 const LAST_OUTPUT_DIR_KEY = 'output'
 const GROUP_MODE_KEY = 'group_mode'
 const EXCEPTIONS_KEY = 'exceptions_key'
+const ONLY_VISIBLE_LAYERS_KEY = 'only_visible_layers'
 
 var config: ConfigFile
 
@@ -41,6 +42,9 @@ func _exit_tree():
 func _load_persisted_config():
   if config.has_section_key(CONFIG_SECTION_KEY, GROUP_MODE_KEY):
     _group_mode_field().pressed = config.get_value(CONFIG_SECTION_KEY, GROUP_MODE_KEY)
+
+  if config.has_section_key(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY):
+    _only_visible_layers_field().pressed = config.get_value(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY)
 
   if config.has_section_key(CONFIG_SECTION_KEY, EXCEPTIONS_KEY):
     _exception_pattern_field().text = config.get_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY)
@@ -96,7 +100,13 @@ func _on_next_btn_up():
 
   var export_mode = aseprite.FILE_EXPORT_MODE if group_layers else aseprite.LAYERS_EXPORT_MODE
 
-  var exit_code = aseprite.create_resource(aseprite_file, output_location, exception_pattern, export_mode)
+  var options = {
+    "export_mode": export_mode,
+    "exception_pattern": _exception_pattern_field().text,
+    "only_visible_layers": _only_visible_layers_field().pressed
+  }
+
+  var exit_code = aseprite.create_resource(aseprite_file, output_location, options)
   if exit_code != 0:
     _show_error(exit_code)
     return
@@ -108,6 +118,7 @@ func _on_close_btn_up():
 func _close_window():
   config.set_value(CONFIG_SECTION_KEY, GROUP_MODE_KEY, _group_mode_field().pressed)
   config.set_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY, _exception_pattern_field().text)
+  config.set_value(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY, _only_visible_layers_field().pressed)
   self.hide()
 
 func _on_config_button_up():
@@ -143,6 +154,9 @@ func _exception_pattern_field() -> LineEdit:
 
 func _group_mode_field() -> CheckBox:
   return $container/options/layer_importing_mode/group_layers as CheckBox
+
+func _only_visible_layers_field() -> CheckBox:
+  return $container/options/layer_importing_mode/visible_layers as CheckBox
 
 func init(config_file: ConfigFile):
   config = config_file

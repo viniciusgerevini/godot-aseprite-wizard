@@ -5,8 +5,10 @@
 [node name="ASWizardWindow" type="WindowDialog"]
 visible = true
 margin_right = 600.0
-margin_bottom = 400.0
-rect_min_size = Vector2( 600, 400 )
+margin_bottom = 450.0
+rect_min_size = Vector2( 600, 420 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 window_title = "Aseprite Spritesheet Import Wizard"
 resizable = true
 script = ExtResource( 1 )
@@ -16,7 +18,8 @@ __meta__ = {
 
 [node name="container" type="MarginContainer" parent="."]
 anchor_right = 1.0
-anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/margin_right = 30
 custom_constants/margin_top = 30
 custom_constants/margin_left = 30
@@ -29,7 +32,7 @@ __meta__ = {
 margin_left = 30.0
 margin_top = 30.0
 margin_right = 570.0
-margin_bottom = 370.0
+margin_bottom = 356.0
 custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
@@ -117,30 +120,35 @@ margin_bottom = 48.0
 [node name="layer_importing_mode" type="VBoxContainer" parent="container/options"]
 margin_top = 204.0
 margin_right = 540.0
-margin_bottom = 252.0
+margin_bottom = 286.0
 custom_constants/separation = 10
 
 [node name="label" type="Label" parent="container/options/layer_importing_mode"]
 margin_right = 540.0
 margin_bottom = 14.0
-hint_tooltip = "If selected, layers will be grouped and exported as one SpriteSheet.
-If not selected, one resource will be created for each layer."
 mouse_filter = 1
-text = "Layers importing mode:"
+text = "Layers options:"
 
 [node name="group_layers" type="CheckBox" parent="container/options/layer_importing_mode"]
 margin_top = 24.0
 margin_right = 540.0
 margin_bottom = 48.0
-hint_tooltip = "If selected, layers will be grouped and exported as one SpriteSheet.
+hint_tooltip = "If selected, layers will be merged and exported as one SpriteSheet.
 If not selected, one resource will be created for each layer."
 pressed = true
-text = "Group all layers in one SpriteSheet"
+text = "Merge layers in one resource"
+
+[node name="visible_layers" type="CheckBox" parent="container/options/layer_importing_mode"]
+margin_top = 58.0
+margin_right = 540.0
+margin_bottom = 82.0
+hint_tooltip = "If selected, layers not visible in the source file won't be included in the final image."
+text = "Only include visible layers"
 
 [node name="buttons" type="HBoxContainer" parent="container/options"]
-margin_top = 272.0
+margin_top = 306.0
 margin_right = 540.0
-margin_bottom = 292.0
+margin_bottom = 326.0
 custom_constants/separation = 30
 alignment = 2
 
