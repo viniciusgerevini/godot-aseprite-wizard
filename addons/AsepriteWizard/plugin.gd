@@ -3,7 +3,7 @@ extends EditorPlugin
 
 const WizardWindow = preload("ASWizardWindow.tscn")
 const menu_item_name = "Aseprite Spritesheet Wizard"
-const CONFIG_FILE_PATH = './aseprite_wizard.cfg'
+const CONFIG_FILE_PATH = 'user://aseprite_wizard.cfg'
 
 var config: ConfigFile = ConfigFile.new()
 var window: WindowDialog
