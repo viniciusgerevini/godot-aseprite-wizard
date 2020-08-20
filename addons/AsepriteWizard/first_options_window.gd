@@ -7,6 +7,7 @@ const LAST_OUTPUT_DIR_KEY = 'output'
 const GROUP_MODE_KEY = 'group_mode'
 const EXCEPTIONS_KEY = 'exceptions_key'
 const ONLY_VISIBLE_LAYERS_KEY = 'only_visible_layers'
+const TRIM_IMAGES_KEY = 'trim_images'
 
 var config: ConfigFile
 
@@ -45,6 +46,9 @@ func _load_persisted_config():
 
   if config.has_section_key(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY):
     _only_visible_layers_field().pressed = config.get_value(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY)
+
+  if config.has_section_key(CONFIG_SECTION_KEY, TRIM_IMAGES_KEY):
+    _trim_image_field().pressed = config.get_value(CONFIG_SECTION_KEY, TRIM_IMAGES_KEY)
 
   if config.has_section_key(CONFIG_SECTION_KEY, EXCEPTIONS_KEY):
     _exception_pattern_field().text = config.get_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY)
@@ -95,7 +99,6 @@ func _on_output_folder_selected(path):
 func _on_next_btn_up():
   var aseprite_file = _file_location_field().text
   var output_location = _output_folder_field().text
-  var exception_pattern = _exception_pattern_field().text
   var group_layers = _group_mode_field().pressed
 
   var export_mode = aseprite.FILE_EXPORT_MODE if group_layers else aseprite.LAYERS_EXPORT_MODE
@@ -103,7 +106,8 @@ func _on_next_btn_up():
   var options = {
     "export_mode": export_mode,
     "exception_pattern": _exception_pattern_field().text,
-    "only_visible_layers": _only_visible_layers_field().pressed
+    "only_visible_layers": _only_visible_layers_field().pressed,
+    "trim_images": _trim_image_field().pressed
   }
 
   var exit_code = aseprite.create_resource(aseprite_file, output_location, options)
@@ -119,6 +123,8 @@ func _close_window():
   config.set_value(CONFIG_SECTION_KEY, GROUP_MODE_KEY, _group_mode_field().pressed)
   config.set_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY, _exception_pattern_field().text)
   config.set_value(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY, _only_visible_layers_field().pressed)
+  config.set_value(CONFIG_SECTION_KEY, TRIM_IMAGES_KEY, _trim_image_field().pressed)
+
   self.hide()
 
 func _on_config_button_up():
@@ -157,6 +163,9 @@ func _group_mode_field() -> CheckBox:
 
 func _only_visible_layers_field() -> CheckBox:
   return $container/options/layer_importing_mode/visible_layers as CheckBox
+
+func _trim_image_field() -> CheckBox:
+  return $container/options/layer_importing_mode/trim_image as CheckBox
 
 func init(config_file: ConfigFile):
   config = config_file

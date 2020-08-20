@@ -29,7 +29,9 @@ Options:
 | Aseprite File Location: | *.aseprite or *.ase source file containing animations.| |
 | Output folder:          | Folder to save the output `SpriteFrames` resource(s). If exporting with grouped layers, output will be one file named `[source filename].res`. If exporting layers separated, output will be multiple files named `[layer_name].res`
 | Exclude layers matching pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
-| Group all layers in one Spritesheet: | If selected, all layers will be grouped and exported as a single resource file with same base name as source (e.g person.res). If not selected, each layer will be exported as a separated resource (e.g head.res, left_arm.res, legs.res)|
+| Merge layers in one resource: | If selected, all layers will be merged and exported as a single resource file with same base name as source (e.g person.res). If not selected, each layer will be exported as a separated resource (e.g head.res, left_arm.res, legs.res)|
+| Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+| Trim image | Removes borders from sprites/layers/cels before savimg them. |
 
 
 ## Instalation and Configuration

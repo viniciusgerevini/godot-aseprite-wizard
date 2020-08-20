@@ -6,7 +6,7 @@
 visible = true
 margin_right = 600.0
 margin_bottom = 450.0
-rect_min_size = Vector2( 600, 420 )
+rect_min_size = Vector2( 600, 470 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 window_title = "Aseprite Spritesheet Import Wizard"
@@ -32,7 +32,7 @@ __meta__ = {
 margin_left = 30.0
 margin_top = 30.0
 margin_right = 570.0
-margin_bottom = 356.0
+margin_bottom = 390.0
 custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
@@ -120,14 +120,14 @@ margin_bottom = 48.0
 [node name="layer_importing_mode" type="VBoxContainer" parent="container/options"]
 margin_top = 204.0
 margin_right = 540.0
-margin_bottom = 286.0
+margin_bottom = 320.0
 custom_constants/separation = 10
 
 [node name="label" type="Label" parent="container/options/layer_importing_mode"]
 margin_right = 540.0
 margin_bottom = 14.0
 mouse_filter = 1
-text = "Layers options:"
+text = "Options:"
 
 [node name="group_layers" type="CheckBox" parent="container/options/layer_importing_mode"]
 margin_top = 24.0
@@ -145,10 +145,17 @@ margin_bottom = 82.0
 hint_tooltip = "If selected, layers not visible in the source file won't be included in the final image."
 text = "Only include visible layers"
 
-[node name="buttons" type="HBoxContainer" parent="container/options"]
-margin_top = 306.0
+[node name="trim_image" type="CheckBox" parent="container/options/layer_importing_mode"]
+margin_top = 92.0
 margin_right = 540.0
-margin_bottom = 326.0
+margin_bottom = 116.0
+hint_tooltip = "Removes borders from sprites/layers before save them."
+text = "Trim image"
+
+[node name="buttons" type="HBoxContainer" parent="container/options"]
+margin_top = 340.0
+margin_right = 540.0
+margin_bottom = 360.0
 custom_constants/separation = 30
 alignment = 2
 

@@ -54,6 +54,7 @@ func _aseprite_list_layers(file_name: String, only_visible = false) -> Array:
 func _aseprite_export_spritesheet(file_name: String, output_folder: String, options: Dictionary) -> Dictionary:
   var exception_pattern = options.get('exception_pattern', "")
   var only_visible_layers = options.get('only_visible_layers', false)
+  var trim_images = options.get('trim_images', false)
   var basename = _get_file_basename(file_name)
   var output_dir = output_folder.replace("res://", "./")
   var data_file = "%s/%s.json" % [output_dir, basename]
@@ -74,6 +75,9 @@ func _aseprite_export_spritesheet(file_name: String, output_folder: String, opti
 
   if not only_visible_layers:
     arguments.push_front("--all-layers")
+
+  if trim_images:
+    arguments.push_front("--trim")
 
   if exception_pattern != "":
     _add_ignore_layer_arguments(file_name, arguments, exception_pattern)
@@ -110,11 +114,11 @@ func _aseprite_export_layers_spritesheet(file_name: String, output_folder: Strin
 
   for layer in layers:
     if layer != "" and (not exception_regex or exception_regex.search(layer) == null):
-      output.push_back(_aseprite_export_layer(file_name, layer, output_dir))
+      output.push_back(_aseprite_export_layer(file_name, layer, output_dir, options))
 
   return output
 
-func _aseprite_export_layer(file_name: String, layer_name: String, output_folder: String) -> Dictionary:
+func _aseprite_export_layer(file_name: String, layer_name: String, output_folder: String, options: Dictionary) -> Dictionary:
   var data_file = "%s/%s.json" % [output_folder, layer_name]
   var sprite_sheet = "%s/%s.png" % [output_folder, layer_name]
   var output = []
@@ -132,6 +136,9 @@ func _aseprite_export_layer(file_name: String, layer_name: String, output_folder
     sprite_sheet,
     file_name
   ]
+
+  if options.get('trim_images', false):
+    arguments.push_front("--trim")
 
   var exit_code = OS.execute(_aseprite_command(), arguments, true, output, true)
 
