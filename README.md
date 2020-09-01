@@ -49,8 +49,7 @@ Loops are useful for running, walking and idle cycles. Single run is usefull for
 
 ### Import overwrite previous files
 
-Currently, import overwrite previous imported files. My first script implementation had a "diff" step, but I dropped it, because it was too complex. I intend to re-implement it, but for now any new import will overwrite the previous files.
-
+Currently, import overwrite previous imported files. Any modification in the previous file will be lost.
 
 ## Known Issues
 
