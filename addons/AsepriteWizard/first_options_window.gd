@@ -118,7 +118,7 @@ func _on_next_btn_up():
   if exit_code != 0:
     _show_error(exit_code)
     return
-  _close_window()
+  _show_import_success_message()
 
 func _on_close_btn_up():
   _close_window()
@@ -153,6 +153,12 @@ func _show_error(code: int):
 func _show_error_message(message: String):
   warning_dialog.dialog_text = "Error: %s" % message
   warning_dialog.popup_centered()
+
+func _show_import_success_message():
+  warning_dialog.dialog_text = "Aseprite import succeeded"
+  warning_dialog.popup_centered()
+  warning_dialog.connect("hide", self, "_close_window")
+
 
 func _file_location_field() -> LineEdit:
   return $container/options/file_location/HBoxContainer/file_location_path as LineEdit
