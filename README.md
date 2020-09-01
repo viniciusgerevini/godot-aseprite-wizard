@@ -2,9 +2,7 @@
 
 Godot plugin to help importing Aseprite animations as SpriteFrames.
 
-This plugin uses Aseprite CLI to generate spritesheet, and then converts it to SpriteFrames, that can be used in AnimatedSprite node.
-
-This plugin makes it easier to use Aseprite as your animation's source of truth. In other words, you can create all your animations in Aseprite, and then import them directly to an AnimatedSprite, without extra work.
+This plugin uses Aseprite CLI to generate the spritesheet, and then converts it to SpriteFrames, that can be used in AnimatedSprite node.
 
 <img align="center" src="./screenshots/main_screen.png" />
 
@@ -14,7 +12,7 @@ This plugin makes it easier to use Aseprite as your animation's source of truth.
 - Creates SpriteFrames with Atlas Texture to be used in AnimatedSprites.
 - Separate each Aseprite Tag as its own animation. In case no tags are defined, import everything as default animation.
 - Converts Aseprite frame duration (defined in milliseconds) to Godot's animation FPS. This way you can create your animation with the right timing in Aseprite, and it should work the same way in Godot.
-- Chose to export Aseprite file as single SpriteFrames resource, or separate each layer as its own resource.
+- Choose to export Aseprite file as single SpriteFrames resource, or separate each layer as its own resource.
 - Filter out layers you don't want in the final animation, using regex.
 - Supports Aseprite animation direction (forward, reverse, ping-pong)
 
@@ -26,13 +24,13 @@ Options:
 
 | Field                   | Description |
 | ----------------------- | ----------- |
-| Aseprite File Location: | *.aseprite or *.ase source file containing animations.| |
-| Output folder:          | Folder to save the output `SpriteFrames` resource(s). If exporting with grouped layers, output will be one file named `[source filename].res`. If exporting layers separated, output will be multiple files named `[layer_name].res`
+| Aseprite File Location: | *.aseprite or *.ase source file containing animations. |
+| Output folder:          | Folder to save the output `SpriteFrames` resource(s). |
+| Output filename / prefix | Defines output filename. In case layers are split in multiple files, this is used as file prefix (e.g prefix_layer_name.res). If not set, source filename is used.|
 | Exclude layers matching pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
-| Merge layers in one resource: | If selected, all layers will be merged and exported as a single resource file with same base name as source (e.g person.res). If not selected, each layer will be exported as a separated resource (e.g head.res, left_arm.res, legs.res)|
+| Split layers in multiple resource: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with same base name as source.  |
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
-| Trim image | Removes borders from sprites/layers/cels before savimg them. |
-| Output filename / prefix | Output filename. In case layers are not being merged, this is used as file prefix. If not set, source filename is used.|
+| Trim image | Removes padding from sprites/layers/cels before savimg them. |
 
 
 ## Instalation and Configuration
@@ -45,16 +43,13 @@ This plugin requires Aseprite. It tries to use the `aseprite` command from your 
 
 ### Non-looping animations
 
-Aseprite does not have the concept of Loop / single run animations, as in Godot. Because of that, all animations are imported with Loop on. To disable it, you need to open the resource in the editor and uncheck the loop button.
+Aseprite does not have the concept of Loop / single run animations, as in Godot. Because of that, all animations are imported with Loop on. To disable it, you need to open the resource in the editor and uncheck the loop toggle.
 
 Loops are useful for running, walking and idle cycles. Single run is usefull for death, attack and engage animations.
-
-I'll work on a way to define the loop when importing the file.
 
 ### Import overwrite previous files
 
 Currently, import overwrite previous imported files. My first script implementation had a "diff" step, but I dropped it, because it was too complex. I intend to re-implement it, but for now any new import will overwrite the previous files.
-
 
 
 ## Known Issues
@@ -73,6 +68,6 @@ Godot is using the cached resource. Open another SpriteFrame and then re-open th
 
 ### Warnings in the output related with image file importing.
 
-Those warnings are related on how I import the file the first time. You'll probably see them when importing the same file twice, without loosing focus from Godot (not giving a chance to re-import first one). There is nothing you can do, but those warnings do not affect the process.
+Those warnings are related on how I import the image file the first time. You'll probably see them when importing the same file twice. Bad news, there is nothing you can do. Good news, those warnings do not affect the process.
 
 

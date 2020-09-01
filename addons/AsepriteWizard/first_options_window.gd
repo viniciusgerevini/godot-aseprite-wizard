@@ -43,7 +43,7 @@ func _exit_tree():
 
 func _load_persisted_config():
   if config.has_section_key(CONFIG_SECTION_KEY, GROUP_MODE_KEY):
-    _group_mode_field().pressed = config.get_value(CONFIG_SECTION_KEY, GROUP_MODE_KEY)
+    _split_mode_field().pressed = config.get_value(CONFIG_SECTION_KEY, GROUP_MODE_KEY)
 
   if config.has_section_key(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY):
     _only_visible_layers_field().pressed = config.get_value(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY)
@@ -103,9 +103,9 @@ func _on_output_folder_selected(path):
 func _on_next_btn_up():
   var aseprite_file = _file_location_field().text
   var output_location = _output_folder_field().text
-  var group_layers = _group_mode_field().pressed
+  var split_layers = _split_mode_field().pressed
 
-  var export_mode = aseprite.FILE_EXPORT_MODE if group_layers else aseprite.LAYERS_EXPORT_MODE
+  var export_mode = aseprite.LAYERS_EXPORT_MODE if split_layers else aseprite.FILE_EXPORT_MODE
   var options = {
     "export_mode": export_mode,
     "exception_pattern": _exception_pattern_field().text,
@@ -124,7 +124,7 @@ func _on_close_btn_up():
   _close_window()
 
 func _close_window():
-  config.set_value(CONFIG_SECTION_KEY, GROUP_MODE_KEY, _group_mode_field().pressed)
+  config.set_value(CONFIG_SECTION_KEY, GROUP_MODE_KEY, _split_mode_field().pressed)
   config.set_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY, _exception_pattern_field().text)
   config.set_value(CONFIG_SECTION_KEY, CUSTOM_NAME_KEY, _custom_name_field().text)
   config.set_value(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY, _only_visible_layers_field().pressed)
@@ -163,8 +163,8 @@ func _output_folder_field() -> LineEdit:
 func _exception_pattern_field() -> LineEdit:
   return $container/options/exclude_pattern/pattern as LineEdit
 
-func _group_mode_field() -> CheckBox:
-  return $container/options/layer_importing_mode/group_layers as CheckBox
+func _split_mode_field() -> CheckBox:
+  return $container/options/layer_importing_mode/split_layers as CheckBox
 
 func _only_visible_layers_field() -> CheckBox:
   return $container/options/layer_importing_mode/visible_layers as CheckBox

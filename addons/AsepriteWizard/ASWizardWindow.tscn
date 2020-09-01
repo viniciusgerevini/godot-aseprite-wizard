@@ -148,14 +148,13 @@ margin_bottom = 14.0
 mouse_filter = 1
 text = "Options:"
 
-[node name="group_layers" type="CheckBox" parent="container/options/layer_importing_mode"]
+[node name="split_layers" type="CheckBox" parent="container/options/layer_importing_mode"]
 margin_top = 24.0
 margin_right = 540.0
 margin_bottom = 48.0
-hint_tooltip = "If selected, layers will be merged and exported as one SpriteSheet.
-If not selected, one resource will be created for each layer."
-pressed = true
-text = "Merge layers in one resource"
+hint_tooltip = "If selected, one resource will be created for each layer.
+If not selected, layers will be merged and exported as one SpriteSheet."
+text = "Split layers in multiple resources"
 
 [node name="visible_layers" type="CheckBox" parent="container/options/layer_importing_mode"]
 margin_top = 58.0
