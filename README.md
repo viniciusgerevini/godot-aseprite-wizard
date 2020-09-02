@@ -7,7 +7,8 @@ This plugin uses Aseprite CLI to generate the spritesheet, and then converts it 
 <img align="center" src="./screenshots/main_screen.png" />
 
 <img align="center" src="./screenshots/aseprite_godot.png" />
-## Features
+
+### Features
 
 - Creates SpriteFrames with Atlas Texture to be used in AnimatedSprites.
 - Separate each Aseprite Tag as its own animation. In case no tags are defined, import everything as default animation.
@@ -30,7 +31,7 @@ Options:
 | Exclude layers matching pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
 | Split layers in multiple resource: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with same base name as source.  |
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
-| Trim image | Removes padding from sprites/layers/cels before savimg them. |
+| Trim image | Removes padding from sprites/layers/cels before saving them. |
 
 
 ## Instalation and Configuration
