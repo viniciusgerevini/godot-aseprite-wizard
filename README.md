@@ -17,6 +17,8 @@ This plugin uses Aseprite CLI to generate the spritesheet, and then converts it 
 - Filter out layers you don't want in the final animation, using regex.
 - Supports Aseprite animation direction (forward, reverse, ping-pong)
 
+Check this video to see the plugin in action: https://www.youtube.com/watch?v=Yeqlce685E0
+
 ## How to use
 
 After activating the plugin, you can find it on `Project -> Tools -> Aseprite Spritesheet Wizard` menu.
