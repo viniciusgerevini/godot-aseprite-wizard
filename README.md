@@ -54,20 +54,17 @@ Currently, import overwrite previous imported files. Any modification in the pre
 
 ## Known Issues
 
-You may see some weirdness related to Godot caching the resource in the editor. I've tried to workaround the cache the best I could, but you will still see some caching issues.
 
-None of those issues affect the game. They are editor only, meaning, you should see the most updated resource when running the game.
+###  Spritesheet file not showing on File Sytem dock
 
-###  Spritesheet file not showing on File Sytem dock.
+Changing focus from Godot to another window, and then coming back, will trigger a re-import.
 
-Changing focus from Godot to another window, and then coming back, will trigger a re-import.|
-
-### SpriteFrames dock showing outdated resource.
+### SpriteFrames dock showing outdated resource
 
 Godot is using the cached resource. Open another SpriteFrame and then re-open the affected one. You should see the newest version.
 
-### Warnings in the output related with image file importing.
+### Warnings in the output related with image file being imported
 
-Those warnings are related on how I import the image file the first time. You'll probably see them when importing the same file twice. Bad news, there is nothing you can do. Good news, those warnings do not affect the process.
+Those warnings are related on how I import the image file the first time. You'll probably see them when importing the same file twice. It does not affect the process.
 
 
