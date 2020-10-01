@@ -137,6 +137,8 @@ func _on_config_button_up():
 
 func _show_error(code: int):
   match code:
+    aseprite.ERR_ASEPRITE_CMD_NOT_FOUND:
+      _show_error_message('Aseprite command failed. Please, check if the right command is in your PATH or configured through the "configuration" button.')
     aseprite.ERR_SOURCE_FILE_NOT_FOUND:
       _show_error_message('source file does not exist')
     aseprite.ERR_OUTPUT_FOLDER_NOT_FOUND:
