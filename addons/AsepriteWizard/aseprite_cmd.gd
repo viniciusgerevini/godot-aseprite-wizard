@@ -8,6 +8,7 @@ enum {
 
 enum {
   SUCCESS,
+  ERR_ASEPRITE_CMD_NOT_FOUND,
   ERR_SOURCE_FILE_NOT_FOUND,
   ERR_OUTPUT_FOLDER_NOT_FOUND,
   ERR_ASEPRITE_EXPORT_FAILED,
@@ -177,6 +178,9 @@ func _get_exception_layers(file_name: String, exception_pattern: String) -> Arra
   return exception_layers
 
 func create_resource(source_file: String, output_folder: String, options = {}) -> int:
+  if not _is_aseprite_command_valid():
+    return ERR_ASEPRITE_CMD_NOT_FOUND
+
   var export_mode = options.get('export_mode', FILE_EXPORT_MODE)
 
   var dir = Directory.new()
@@ -312,3 +316,8 @@ func _create_atlastexture_from_frame(image, frame_data):
     atlas.atlas = texture
   atlas.region = Rect2(frame.x, frame.y, frame.w, frame.h)
   return atlas
+
+func _is_aseprite_command_valid():
+  var exit_code = OS.execute(_aseprite_command(), ['--version'], true)
+  return exit_code == 0
+

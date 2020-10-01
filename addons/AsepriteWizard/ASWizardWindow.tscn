@@ -3,7 +3,6 @@
 [ext_resource path="res://addons/AsepriteWizard/first_options_window.gd" type="Script" id=1]
 
 [node name="ASWizardWindow" type="WindowDialog"]
-visible = true
 margin_right = 600.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 600, 600 )
