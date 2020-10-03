@@ -4,8 +4,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 The Working in Progress (WIP) section is for changes that are already in master, but haven't been published to Godot's asset library yet. Even though the section is called WIP, all changes in master are stable and functional.
 
-## WIP (2020-10-xx)
-
+## 1.0.1 (2020-10-03)
 
 ### Added
 
@@ -14,6 +13,7 @@ The Working in Progress (WIP) section is for changes that are already in master,
 ### Changed
 
 - show better error message when Aseprite command fails
+- replace space indentation by tabs, as people were seing some weird issues with mixed indent errors on instalation.
 
 ## 1.0.0 (2020-09-03)
 
