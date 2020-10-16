@@ -245,7 +245,7 @@ func _create_sprite_frames_with_animations(content, texture_path):
 	var sprite_frames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 
-	if content.meta.has("frameTags"):
+	if content.meta.has("frameTags") and content.meta.frameTags.size() > 0:
 		for tag in content.meta.frameTags:
 			var selected_frames = frames.slice(tag.from, tag.to)
 			_add_animation_frames(sprite_frames, tag.name, selected_frames, texture_path, tag.direction)
