@@ -49,6 +49,9 @@ func get_import_options(i):
 		{"name": "exception_pattern", "default_value": ''},
 		{"name": "only_visible_layers", "default_value": false},
 		{"name": "trim_images", "default_value": false},
+		{"name": "import_texture_strip", "default_value": false},
+		{"name": "import_sprite_frames", "default_value": true},
+		{"name": "import_texture_atlas", "default_value": false}
 		]
 
 func import(source_file, save_path, options, platform_variants, gen_files):		
@@ -69,14 +72,13 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
 	while file_name != "":
-		print(file_name)
 		dir.remove(file_name)
 		file_name = dir.get_next()	
 		
 	var output_filename = '';
 
 	var export_mode = aseprite.LAYERS_EXPORT_MODE if options['split_layers'] else aseprite.FILE_EXPORT_MODE
-
+	
 	var aseprite_opts = {
 		"export_mode": export_mode,
 		"exception_pattern": options['exception_pattern'],
@@ -89,16 +91,47 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 	if exit_code != 0:
 		print("ERROR - Could not import aseprite file: %s" % get_error_message(exit_code))
 		return FAILED
-		
+						
 	dir.open(save_path)
 	dir.list_dir_begin()
 		
 	file_name = dir.get_next()
 	while file_name != "":
-		if file_name.ends_with(".res") or file_name.ends_with(".png"):
-			var res = load(save_path + "/" + file_name)
-			ResourceSaver.save(source_path + "/" + file_name, res)
+		if file_name != ".." and file_name != ".":
+			var path = save_path + "/" + file_name
+			var target_path = source_path + "/" + file_name
+			var res = null
 			
+			if file_name.ends_with(".res"): 
+				var sprite_frames : SpriteFrames = ResourceLoader.load(path, 'SpriteFrames', true)
+				
+				if options["import_sprite_frames"]:
+					res = sprite_frames
+				
+				if options["import_texture_atlas"]:
+					var atlas_texture = null
+					for anim in sprite_frames.animations:
+						var i=0
+						for frame in anim.frames:
+							if not atlas_texture:
+								atlas_texture = (frame as AtlasTexture).atlas
+								var atlas_name = "%s/%sAtlas.tres" % [source_path, file_name.substr(0, file_name.length() - 4)]
+								ResourceSaver.save(atlas_name, atlas_texture)
+								atlas_texture.take_over_path(atlas_name)
+							
+							frame.atlas = atlas_texture
+							
+							var resource_name = "%s/%s_%s_%s.res" % [source_path, file_name.substr(0, file_name.length() - 4), anim.name, i]
+							i+=1
+							ResourceSaver.save(resource_name, frame)
+									
+			elif options['import_texture_strip'] and file_name.ends_with(".png"):
+				var img = Image.new()
+				img.load(path)
+				res = ImageTexture.new()
+				res.create_from_image(img)
+				
+			if res:
+				ResourceSaver.save(target_path, res)
 		file_name = dir.get_next()
-		
 	return OK
