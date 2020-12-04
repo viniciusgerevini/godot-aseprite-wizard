@@ -51,7 +51,8 @@ func get_import_options(i):
 		{"name": "trim_images", "default_value": false},
 		{"name": "import_texture_strip", "default_value": false},
 		{"name": "import_sprite_frames", "default_value": true},
-		{"name": "import_texture_atlas", "default_value": false}
+		{"name": "import_texture_atlas", "default_value": false},
+		{"name": "import_animated_texture", "default_value": false},
 		]
 
 func import(source_file, save_path, options, platform_variants, gen_files):		
@@ -99,14 +100,13 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 	while file_name != "":
 		if file_name != ".." and file_name != ".":
 			var path = save_path + "/" + file_name
-			var target_path = source_path + "/" + file_name
-			var res = null
-			
+				
 			if file_name.ends_with(".res"): 
 				var sprite_frames : SpriteFrames = ResourceLoader.load(path, 'SpriteFrames', true)
 				
 				if options["import_sprite_frames"]:
-					res = sprite_frames
+					var res = sprite_frames
+					ResourceSaver.save(source_path + "/" + file_name, res)
 				
 				if options["import_texture_atlas"]:
 					var atlas_texture = null
@@ -121,17 +121,45 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 							
 							frame.atlas = atlas_texture
 							
-							var resource_name = "%s/%s_%s_%s.res" % [source_path, file_name.substr(0, file_name.length() - 4), anim.name, i]
+							var resource_name = "%s/%sAtlas_%s_%s.res" % [source_path, file_name.substr(0, file_name.length() - 4), anim.name, i]
 							i+=1
 							ResourceSaver.save(resource_name, frame)
-									
+							
+				if options["import_animated_texture"]:
+					
+					for anim in sprite_frames.animations:
+						var tex : AnimatedTexture = AnimatedTexture.new()
+						tex.frames = anim.frames.size()
+						
+						var i=0
+						for frame in anim.frames:
+							var atlas_tex = frame as AtlasTexture
+							var image : Image = atlas_tex.atlas.get_data()
+							var single_image = Image.new()
+							single_image.create(atlas_tex.get_width(), atlas_tex.get_height(), false, image.get_format())
+							single_image.blit_rect(image, atlas_tex.region, Vector2.ZERO)
+							
+							var resource_name = "%s/%s_%s_%s.res" % [source_path, file_name.substr(0, file_name.length() - 4), anim.name, i]
+							
+							var res = ImageTexture.new()
+							res.create_from_image(single_image)
+							res.flags = atlas_tex.flags
+							ResourceSaver.save(resource_name, res)
+							res.take_over_path(resource_name)
+							
+							tex.set_frame_texture(i, res)
+							
+							i+=1
+							
+						var resource_name = "%s/%s_%s.res" % [source_path, file_name.substr(0, file_name.length() - 4), anim.name]
+						ResourceSaver.save(resource_name, tex)
+																
 			elif options['import_texture_strip'] and file_name.ends_with(".png"):
 				var img = Image.new()
 				img.load(path)
-				res = ImageTexture.new()
+				var res = ImageTexture.new()
 				res.create_from_image(img)
+				ResourceSaver.save(source_path + "/" + file_name, res)
 				
-			if res:
-				ResourceSaver.save(target_path, res)
 		file_name = dir.get_next()
 	return OK
