@@ -59,27 +59,32 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 	
 	var config = ConfigFile.new()
 	config.load(CONFIG_FILE_PATH)
+	aseprite.init(config, 'aseprite')
 	
 	var dir = Directory.new()
 	dir.make_dir(save_path)
 	
-	aseprite.init(config, 'aseprite')
-	
-	print(absolute_source_file)
-	
+	# Clear the directories contents
+	dir.open(save_path)
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	while file_name != "":
+		print(file_name)
+		dir.remove(file_name)
+		file_name = dir.get_next()	
+		
 	var output_filename = '';
 
 	var export_mode = aseprite.LAYERS_EXPORT_MODE if options['split_layers'] else aseprite.FILE_EXPORT_MODE
+
 	var aseprite_opts = {
 		"export_mode": export_mode,
-		"exception_pattern": '',
-		"only_visible_layers": false,
-		"trim_images": false,
+		"exception_pattern": options['exception_pattern'],
+		"only_visible_layers": options['only_visible_layers'],
+		"trim_images": options['trim_images'],
 		"output_filename": output_filename
 	}
-	
-	print(source_path)
-	
+		
 	var exit_code = aseprite.create_resource(absolute_source_file, absolute_save_path, aseprite_opts)
 	if exit_code != 0:
 		print("ERROR - Could not import aseprite file: %s" % get_error_message(exit_code))
@@ -88,9 +93,9 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 	dir.open(save_path)
 	dir.list_dir_begin()
 		
-	var file_name = dir.get_next()
+	file_name = dir.get_next()
 	while file_name != "":
-		if file_name.ends_with(".res"):
+		if file_name.ends_with(".res") or file_name.ends_with(".png"):
 			var res = load(save_path + "/" + file_name)
 			ResourceSaver.save(source_path + "/" + file_name, res)
 			
