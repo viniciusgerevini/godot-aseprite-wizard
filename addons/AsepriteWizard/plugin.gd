@@ -2,19 +2,26 @@ tool
 extends EditorPlugin
 
 const WizardWindow = preload("ASWizardWindow.tscn")
+const ImportPlugin = preload("import_plugin.gd")
 const menu_item_name = "Aseprite Spritesheet Wizard"
 const CONFIG_FILE_PATH = 'user://aseprite_wizard.cfg'
 
 var config: ConfigFile = ConfigFile.new()
 var window: WindowDialog
+var importPlugin : EditorImportPlugin
 
 func _enter_tree():
 	add_tool_menu_item(menu_item_name, self, "_open_window")
+	
 	config = ConfigFile.new()
 	config.load(CONFIG_FILE_PATH)
+	
+	importPlugin = ImportPlugin.new()
+	add_import_plugin(importPlugin)
 
 func _exit_tree():
 	remove_tool_menu_item(menu_item_name)
+	remove_import_plugin(importPlugin)
 	config = null
 
 func _open_window(_ud):
