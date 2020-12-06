@@ -45,7 +45,7 @@ func get_preset_name(i):
 
 func get_import_options(i):
 	return [
-		{"name": "split_layers", "default_value": true},
+		{"name": "split_layers", "default_value": false},
 		{"name": "exclude_layers_pattern", "default_value": ''},
 		{"name": "only_visible_layers", "default_value": false},
 		{"name": "trim_images", "default_value": false},
