@@ -4,6 +4,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 The Working in Progress (WIP) section is for changes that are already in master, but haven't been published to Godot's asset library yet. Even though the section is called WIP, all changes in master are stable and functional.
 
+## 1.1.0 (2020-12-07)
+
+### Added
+
+- Aseprite Importer. Now `ase` and `aseprite` files can be used seamlessly.
+- Importer with options to also create AtlasTexture, AnimatedTexture and Image strip files.
+
+
 ## 1.0.2 (2020-10-26)
 
 ### Fixed
