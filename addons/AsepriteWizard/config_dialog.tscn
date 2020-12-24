@@ -6,6 +6,7 @@
 margin_right = 400.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 400, 250 )
+window_title = "Aseprite Wizard Configuration"
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
