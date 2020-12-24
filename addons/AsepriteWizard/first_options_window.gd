@@ -1,6 +1,8 @@
 tool
 extends WindowDialog
 
+signal importer_state_changed
+
 const CONFIG_SECTION_KEY = 'file_locations'
 const LAST_SOURCE_PATH_KEY = 'source'
 const LAST_OUTPUT_DIR_KEY = 'output'
@@ -26,6 +28,7 @@ func _ready():
 	warning_dialog = AcceptDialog.new()
 	config_window = config_dialog.instance()
 	config_window.init(config)
+	config_window.connect("importer_state_changed", self, "_notify_importer_state_changed")
 	aseprite.init(config, config_window.get_default_command())
 
 	get_parent().add_child(file_dialog_aseprite)
@@ -185,3 +188,7 @@ func _custom_name_field() -> LineEdit:
 
 func init(config_file: ConfigFile):
 	config = config_file
+
+func _notify_importer_state_changed():
+	emit_signal("importer_state_changed")
+

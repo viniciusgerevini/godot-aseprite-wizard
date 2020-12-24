@@ -1,22 +1,31 @@
 tool
 extends WindowDialog
 
+signal importer_state_changed
+
+const _CONFIG_SECTION_KEY = 'aseprite'
+const _COMMAND_KEY = 'command'
+const _IMPORTER_ENABLE_KEY = 'is_importer_enabled'
+
 var config: ConfigFile
 
+
 func _ready():
-	if config.has_section_key('aseprite', 'command'):
-		_aseprite_command_field().text = config.get_value('aseprite', 'command')
-	else:
-		_aseprite_command_field().text = get_default_command()
+	_aseprite_command_field().text = config.get_value(_CONFIG_SECTION_KEY, _COMMAND_KEY, get_default_command())
+	_importer_enable_field().pressed = config.get_value(_CONFIG_SECTION_KEY, _IMPORTER_ENABLE_KEY, true)
 
 func init(config_file: ConfigFile):
 	config = config_file
 
 func _on_save_button_up():
 	if _aseprite_command_field().text == "":
-		config.set_value('aseprite', 'command', get_default_command())
+		config.set_value(_CONFIG_SECTION_KEY, _COMMAND_KEY, get_default_command())
 	else:
-		config.set_value('aseprite', 'command', _aseprite_command_field().text)
+		config.set_value(_CONFIG_SECTION_KEY, _COMMAND_KEY, _aseprite_command_field().text)
+
+	if _importer_enable_field().pressed != config.get_value(_CONFIG_SECTION_KEY, _IMPORTER_ENABLE_KEY, true):
+		config.set_value(_CONFIG_SECTION_KEY, _IMPORTER_ENABLE_KEY, _importer_enable_field().pressed)
+		self.emit_signal("importer_state_changed")
 
 	self.hide()
 
@@ -28,3 +37,6 @@ static func get_default_command() -> String:
 
 func _aseprite_command_field() -> LineEdit:
 	return $MarginContainer/VBoxContainer/VBoxContainer/aseprite_command as LineEdit
+
+func _importer_enable_field() -> CheckBox:
+	return $MarginContainer/VBoxContainer/enable_importer as CheckBox
