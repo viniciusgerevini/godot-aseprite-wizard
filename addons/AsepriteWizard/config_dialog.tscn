@@ -53,8 +53,9 @@ margin_bottom = 48.0
 margin_top = 78.0
 margin_right = 320.0
 margin_bottom = 102.0
+hint_tooltip = "Enable Aseprite automatic importer for files located inside the project folder."
 pressed = true
-text = "Enable Aseprite files importer"
+text = "Enable Aseprite Importer"
 
 [node name="VBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 margin_top = 132.0
