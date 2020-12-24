@@ -28,8 +28,12 @@ It also adds Aseprite importer to Godot, so you can use `*.ase` and `*.aseprite`
 
 Follow Godot [ installing plugins guide ]( https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html).
 
-This plugin requires Aseprite. It tries to use the `aseprite` command from your PATH. However, if you are using a portable version, the command is not in your PATH or you are running Aseprite on Windows, you can change the aseprite executable's path clicking on the configuration button, in the wizard screen.
+If you are using Windows, a portable version or if the `aseprite` command is not in your PATH, you need to set the right path on `Project -> Tools -> Aseprite Spritesheet Wizard -> [Configuration button]`.
 
+| Configuration           | Description |
+| ----------------------- | ----------- |
+| Aseprite Command Path   | Path to the aseprite executable. Default: `aseprite` |
+| Enable Aseprite Importer   | Enable/Disable Aseprite automatic importer. Default: `true` |
 
 ## How to use
 
