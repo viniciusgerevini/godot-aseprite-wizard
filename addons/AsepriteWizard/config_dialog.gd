@@ -3,6 +3,8 @@ extends WindowDialog
 
 var config: ConfigFile
 
+signal importer_state_changed
+
 func _ready():
 	if config.has_section_key('aseprite', 'command'):
 		_aseprite_command_field().text = config.get_value('aseprite', 'command')
@@ -21,7 +23,10 @@ func _on_save_button_up():
 	else:
 		config.set_value('aseprite', 'command', _aseprite_command_field().text)
 
-	config.set_value('aseprite', 'is_importer_enabled', _importer_enable_field().pressed)
+	if _importer_enable_field().pressed != config.get_value('aseprite', 'is_importer_enabled', true):
+		config.set_value('aseprite', 'is_importer_enabled', _importer_enable_field().pressed)
+		self.emit_signal("importer_state_changed")
+
 	self.hide()
 
 func _on_close_button_up():
