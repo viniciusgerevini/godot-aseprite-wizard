@@ -2,10 +2,10 @@
 
 [ext_resource path="res://addons/AsepriteWizard/config_dialog.gd" type="Script" id=1]
 
-[node name="config_dialog2" type="WindowDialog"]
-margin_right = 48.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 400, 200 )
+[node name="config_dialog" type="WindowDialog"]
+margin_right = 400.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 400, 250 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -26,7 +26,7 @@ __meta__ = {
 margin_left = 40.0
 margin_top = 40.0
 margin_right = 360.0
-margin_bottom = 160.0
+margin_bottom = 210.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 30
@@ -48,10 +48,17 @@ margin_top = 24.0
 margin_right = 320.0
 margin_bottom = 48.0
 
-[node name="VBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="enable_importer" type="CheckBox" parent="MarginContainer/VBoxContainer"]
 margin_top = 78.0
 margin_right = 320.0
-margin_bottom = 98.0
+margin_bottom = 102.0
+pressed = true
+text = "Enable Aseprite files importer"
+
+[node name="VBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 132.0
+margin_right = 320.0
+margin_bottom = 152.0
 custom_constants/separation = 30
 alignment = 2
 

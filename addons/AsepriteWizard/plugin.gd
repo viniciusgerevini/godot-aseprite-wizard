@@ -10,18 +10,24 @@ var config: ConfigFile = ConfigFile.new()
 var window: WindowDialog
 var importPlugin : EditorImportPlugin
 
+var _importer_enabled = false
+
 func _enter_tree():
 	add_tool_menu_item(menu_item_name, self, "_open_window")
-	
+
 	config = ConfigFile.new()
 	config.load(CONFIG_FILE_PATH)
-	
-	importPlugin = ImportPlugin.new()
-	add_import_plugin(importPlugin)
+
+	if (_should_enable_importer()):
+		importPlugin = ImportPlugin.new()
+		add_import_plugin(importPlugin)
+		_importer_enabled = true
 
 func _exit_tree():
 	remove_tool_menu_item(menu_item_name)
-	remove_import_plugin(importPlugin)
+	if _importer_enabled:
+		remove_import_plugin(importPlugin)
+		_importer_enabled = false
 	config = null
 
 func _open_window(_ud):
@@ -41,3 +47,6 @@ func _add_to_editor(element):
 	var editor_interface = get_editor_interface()
 	var base_control = editor_interface.get_base_control()
 	base_control.add_child(element)
+
+func _should_enable_importer():
+	return config.get_value('aseprite', 'is_importer_enabled', true)
