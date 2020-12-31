@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 The Working in Progress (WIP) section is for changes that are already in master, but haven't been published to Godot's asset library yet. Even though the section is called WIP, all changes in master are stable and functional.
 
+## 1.2.1 (2020-12-31)
+
+### Fixed
+
+- Importer was removing output folder on Windows, failing the import.
+- Re-enabling the importer plugin would crash the editor.
+
 ## 1.2.0 (2020-12-24)
 
 ### Added
