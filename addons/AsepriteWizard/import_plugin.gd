@@ -94,7 +94,8 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
 	while file_name != "":
-		dir.remove(file_name)
+		if file_name != '.' and file_name != '..':
+			dir.remove(file_name)
 		file_name = dir.get_next()
 
 	var export_mode = aseprite.LAYERS_EXPORT_MODE if options['split_layers'] else aseprite.FILE_EXPORT_MODE

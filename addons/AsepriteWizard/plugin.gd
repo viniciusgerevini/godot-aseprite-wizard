@@ -49,6 +49,7 @@ func _on_importer_state_changed():
 		remove_import_plugin(importPlugin)
 		_importer_enabled = false
 	else:
+		importPlugin = ImportPlugin.new()
 		add_import_plugin(importPlugin)
 		_importer_enabled = true
 
