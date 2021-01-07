@@ -33,6 +33,7 @@ func _aseprite_command() -> String:
 		return default_command
 	return command
 
+
 func _aseprite_list_layers(file_name: String, only_visible = false) -> Array:
 	var output = []
 	var arguments = ["-b", "--list-layers", file_name]
@@ -51,6 +52,7 @@ func _aseprite_list_layers(file_name: String, only_visible = false) -> Array:
 		return output
 
 	return output[0].split('\n')
+
 
 func _aseprite_export_spritesheet(file_name: String, output_folder: String, options: Dictionary) -> Dictionary:
 	var exception_pattern = options.get('exception_pattern', "")
@@ -120,6 +122,7 @@ func _aseprite_export_layers_spritesheet(file_name: String, output_folder: Strin
 
 	return output
 
+
 func _aseprite_export_layer(file_name: String, layer_name: String, output_folder: String, options: Dictionary) -> Dictionary:
 	var output_prefix = options.get('output_filename', "")
 	var data_file = "%s/%s%s.json" % [output_folder, output_prefix, layer_name]
@@ -155,12 +158,14 @@ func _aseprite_export_layer(file_name: String, layer_name: String, output_folder
 		"sprite_sheet": sprite_sheet.replace("./", "res://")
 	}
 
+
 func _add_ignore_layer_arguments(file_name: String, arguments: Array, exception_pattern: String):
 	var layers = _get_exception_layers(file_name, exception_pattern)
 	if not layers.empty():
 		for l in layers:
 			arguments.push_front(l)
 			arguments.push_front('--ignore-layer')
+
 
 func _get_exception_layers(file_name: String, exception_pattern: String) -> Array:
 	var layers = _aseprite_list_layers(file_name)
@@ -176,6 +181,7 @@ func _get_exception_layers(file_name: String, exception_pattern: String) -> Arra
 	print('Layers ignored:')
 	print(exception_layers)
 	return exception_layers
+
 
 func create_resource(source_file: String, output_folder: String, options = {}) -> int:
 	if not _is_aseprite_command_valid():
@@ -198,11 +204,13 @@ func create_resource(source_file: String, output_folder: String, options = {}) -
 		_:
 			return ERR_UNKNOWN_EXPORT_MODE
 
+
 func create_sprite_frames_from_aseprite_file(source_file: String, output_folder: String, options: Dictionary) -> int:
 	var output = _aseprite_export_spritesheet(source_file, output_folder, options)
 	if output.empty():
 		return ERR_ASEPRITE_EXPORT_FAILED
 	return _import(output.data_file)
+
 
 func create_sprite_frames_from_aseprite_layers(source_file: String, output_folder: String, options: Dictionary) -> int:
 	var output = _aseprite_export_layers_spritesheet(source_file, output_folder, options)
@@ -219,8 +227,10 @@ func create_sprite_frames_from_aseprite_layers(source_file: String, output_folde
 
 	return result
 
+
 func _get_file_basename(file_path: String) -> String:
 	return file_path.get_file().trim_suffix('.%s' % file_path.get_extension())
+
 
 func _import(source_file) -> int:
 	var file = File.new()
@@ -232,15 +242,17 @@ func _import(source_file) -> int:
 	if not _is_valid_aseprite_spritesheet(content):
 		return ERR_INVALID_ASEPRITE_SPRITESHEET
 
-	var texture_path = _parse_texture_path(source_file, content)
-	var resource = _create_sprite_frames_with_animations(content, texture_path)
+	var texture = _parse_texture_path(source_file, content)
+
+	var resource = _create_sprite_frames_with_animations(content, texture)
 
 	var save_path = "%s.%s" % [source_file.get_basename(), "res"]
 	var code =  ResourceSaver.save(save_path, resource, ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
 	resource.take_over_path(save_path)
 	return code
 
-func _create_sprite_frames_with_animations(content, texture_path):
+
+func _create_sprite_frames_with_animations(content, texture):
 	var frames = _get_frames_from_content(content)
 	var sprite_frames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
@@ -248,17 +260,18 @@ func _create_sprite_frames_with_animations(content, texture_path):
 	if content.meta.has("frameTags") and content.meta.frameTags.size() > 0:
 		for tag in content.meta.frameTags:
 			var selected_frames = frames.slice(tag.from, tag.to)
-			_add_animation_frames(sprite_frames, tag.name, selected_frames, texture_path, tag.direction)
+			_add_animation_frames(sprite_frames, tag.name, selected_frames, texture, tag.direction)
 	else:
-		_add_animation_frames(sprite_frames, "default", frames, texture_path)
+		_add_animation_frames(sprite_frames, "default", frames, texture)
 
 	return sprite_frames
+
 
 func _get_frames_from_content(content):
 	return content.frames if typeof(content.frames) == TYPE_ARRAY  else content.frames.values()
 
 
-func _add_animation_frames(sprite_frames, animation_name, frames, texture_path, direction = 'forward'):
+func _add_animation_frames(sprite_frames, animation_name, frames, texture, direction = 'forward'):
 	sprite_frames.add_animation(animation_name)
 
 	var min_duration = _get_min_duration(frames)
@@ -268,7 +281,7 @@ func _add_animation_frames(sprite_frames, animation_name, frames, texture_path, 
 		frames.invert()
 
 	for frame in frames:
-		var atlas = _create_atlastexture_from_frame(texture_path, frame)
+		var atlas = _create_atlastexture_from_frame(texture, frame)
 		var number_of_sprites = ceil(frame.duration / min_duration)
 		for _i in range(number_of_sprites):
 			sprite_frames.add_frame(animation_name, atlas)
@@ -277,7 +290,7 @@ func _add_animation_frames(sprite_frames, animation_name, frames, texture_path, 
 		frames.invert()
 
 		for frame in frames:
-			var atlas = _create_atlastexture_from_frame(texture_path, frame)
+			var atlas = _create_atlastexture_from_frame(texture, frame)
 			var number_of_sprites = ceil(frame.duration / min_duration)
 			for _i in range(number_of_sprites):
 				sprite_frames.add_frame(animation_name, atlas)
@@ -296,24 +309,29 @@ func _get_min_duration(frames) -> int:
 	return min_duration
 
 func _parse_texture_path(source_file, content):
-	return "%s/%s" % [source_file.get_base_dir(), content.meta.image]
+	var path = "%s/%s" % [source_file.get_base_dir(), content.meta.image]
+
+	if not ResourceLoader.has_cached(path):
+		# this is a fallback to generate the spritesheet file when it hasn't
+		# been imported before. Files generated in this method are usually
+		# bigger in size than the ones imported by Godot's importer.
+		var image = Image.new()
+		image.load(path)
+		var texture = ImageTexture.new()
+		texture.create_from_image(image)
+		return texture
+
+	return ResourceLoader.load(path, 'Image', true)
+
 
 func _is_valid_aseprite_spritesheet(content):
 	return content.has("frames") and content.has("meta") and content.meta.has('image')
 
+
 func _create_atlastexture_from_frame(image, frame_data):
 	var atlas = AtlasTexture.new()
 	var frame = frame_data.frame
-
-	if ResourceLoader.has_cached(image):
-		atlas.atlas = ResourceLoader.load(image, 'Image', true)
-		atlas.atlas.take_over_path(image)
-	else:
-		var i = Image.new()
-		i.load(image)
-		var texture = ImageTexture.new()
-		texture.create_from_image(i, 0)
-		atlas.atlas = texture
+	atlas.atlas = image
 	atlas.region = Rect2(frame.x, frame.y, frame.w, frame.h)
 	return atlas
 
