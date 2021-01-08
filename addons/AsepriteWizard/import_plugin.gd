@@ -84,6 +84,7 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 
 	var config = ConfigFile.new()
 	config.load(CONFIG_FILE_PATH)
+
 	aseprite.init(config, 'aseprite')
 
 	var dir = Directory.new()

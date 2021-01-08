@@ -13,6 +13,7 @@ const TRIM_IMAGES_KEY = 'trim_images'
 const CUSTOM_NAME_KEY = 'custom_name'
 
 var config: ConfigFile
+var file_system: EditorFileSystem
 
 var file_dialog_aseprite: FileDialog
 var output_folder_dialog: FileDialog
@@ -29,7 +30,7 @@ func _ready():
 	config_window = config_dialog.instance()
 	config_window.init(config)
 	config_window.connect("importer_state_changed", self, "_notify_importer_state_changed")
-	aseprite.init(config, config_window.get_default_command())
+	aseprite.init(config, config_window.get_default_command(), file_system)
 
 	get_parent().add_child(file_dialog_aseprite)
 	get_parent().add_child(output_folder_dialog)
@@ -116,8 +117,10 @@ func _on_next_btn_up():
 		"trim_images": _trim_image_field().pressed,
 		"output_filename": _custom_name_field().text
 	}
-
 	var exit_code = aseprite.create_resource(aseprite_file, output_location, options)
+	if exit_code is GDScriptFunctionState:
+		exit_code = yield(exit_code, "completed")
+
 	if exit_code != 0:
 		_show_error(exit_code)
 		return
@@ -186,8 +189,9 @@ func _trim_image_field() -> CheckBox:
 func _custom_name_field() -> LineEdit:
 	return $container/options/custom_filename/pattern as LineEdit
 
-func init(config_file: ConfigFile):
+func init(config_file: ConfigFile, editor_file_system: EditorFileSystem):
 	config = config_file
+	file_system = editor_file_system
 
 func _notify_importer_state_changed():
 	emit_signal("importer_state_changed")

@@ -4,6 +4,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 The Working in Progress (WIP) section is for changes that are already in master, but haven't been published to Godot's asset library yet. Even though the section is called WIP, all changes in master are stable and functional.
 
+## 1.2.2 (2021-01-08)
+
+### Fixed
+
+- Resource files generated were bigger than they should be.
+- Sprite sheet path used could lead to silent failure creating `SpriteFrames` with animations, but no images.
+- Sprite frame files now are shown in the file system dock as soon as they are created.
+- Fixed warnings caused by image import.
+
+### Thanks
+
+- Thanks to Lucas Castro (@castroclucas) for identifying the resource size issue and helping me fix it.
+
 ## 1.2.1 (2020-12-31)
 
 ### Fixed
@@ -24,6 +37,9 @@ The Working in Progress (WIP) section is for changes that are already in master,
 - Aseprite Importer. Now `ase` and `aseprite` files can be used seamlessly.
 - Importer with options to also create AtlasTexture, AnimatedTexture and Image strip files.
 
+### Thanks
+
+- Thanks to @aaaaaaaaargh for implementing the importer interface.
 
 ## 1.0.2 (2020-10-26)
 

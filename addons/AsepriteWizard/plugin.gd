@@ -32,7 +32,7 @@ func _exit_tree():
 
 func _open_window(_ud):
 	window = WizardWindow.instance()
-	window.init(config)
+	window.init(config, get_editor_interface().get_resource_filesystem())
 	_add_to_editor(window)
 	window.popup_centered()
 	window.connect("popup_hide", self, "_on_window_closed")
