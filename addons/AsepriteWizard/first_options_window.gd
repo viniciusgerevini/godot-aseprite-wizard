@@ -117,8 +117,9 @@ func _on_next_btn_up():
 		"trim_images": _trim_image_field().pressed,
 		"output_filename": _custom_name_field().text
 	}
-
-	var exit_code = yield(aseprite.create_resource(aseprite_file, output_location, options), "completed")
+	var exit_code = aseprite.create_resource(aseprite_file, output_location, options)
+	if exit_code is GDScriptFunctionState:
+		exit_code = yield(exit_code, "completed")
 
 	if exit_code != 0:
 		_show_error(exit_code)
