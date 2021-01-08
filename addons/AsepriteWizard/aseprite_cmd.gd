@@ -224,7 +224,7 @@ func create_sprite_frames_from_aseprite_file(source_file: String, output_folder:
 	if (_should_check_file_system):
 		yield(_scan_filesystem(), "completed")
 
-	return _import(output.data_file)
+	return _import(output)
 
 
 func create_sprite_frames_from_aseprite_layers(source_file: String, output_folder: String, options: Dictionary):
@@ -241,7 +241,7 @@ func create_sprite_frames_from_aseprite_layers(source_file: String, output_folde
 		if o.empty():
 			result = ERR_ASEPRITE_EXPORT_FAILED
 		else:
-			result = _import(o.data_file)
+			result = _import(o)
 
 	return result
 
@@ -250,7 +250,9 @@ func _get_file_basename(file_path: String) -> String:
 	return file_path.get_file().trim_suffix('.%s' % file_path.get_extension())
 
 
-func _import(source_file) -> int:
+func _import(data) -> int:
+	var source_file = data.data_file
+	var sprite_sheet = data.sprite_sheet
 	var file = File.new()
 	var err = file.open(source_file, File.READ)
 	if err != OK:
@@ -260,7 +262,7 @@ func _import(source_file) -> int:
 	if not _is_valid_aseprite_spritesheet(content):
 		return ERR_INVALID_ASEPRITE_SPRITESHEET
 
-	var texture = _parse_texture_path(source_file, content)
+	var texture = _parse_texture_path(sprite_sheet)
 
 	var resource = _create_sprite_frames_with_animations(content, texture)
 
@@ -326,9 +328,7 @@ func _get_min_duration(frames) -> int:
 			min_duration = frame.duration
 	return min_duration
 
-func _parse_texture_path(source_file, content):
-	var path = "%s/%s" % [source_file.get_base_dir(), content.meta.image]
-
+func _parse_texture_path(path):
 	if not _should_check_file_system and not ResourceLoader.has_cached(path):
 		# this is a fallback for the importer. It generates the spritesheet file when it hasn't
 		# been imported before. Files generated in this method are usually
