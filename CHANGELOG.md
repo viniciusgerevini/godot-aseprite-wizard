@@ -9,7 +9,9 @@ The Working in Progress (WIP) section is for changes that are already in master,
 ### Fixed
 
 - Resource files generated were bigger than they should be.
-- Sprite sheet path used could lead to silent failure creating `SpriteFrames` with animations but no images.
+- Sprite sheet path used could lead to silent failure creating `SpriteFrames` with animations, but no images.
+- Sprite frame files now are shown in the file system dock as soon as they are created.
+- Fixed warnings caused by image import.
 
 ### Thanks
 

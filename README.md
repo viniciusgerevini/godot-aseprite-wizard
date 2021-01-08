@@ -6,21 +6,21 @@ This plugin uses Aseprite CLI to generate the spritesheet, and then converts it 
 
 It also adds Aseprite importer to Godot, so you can use `*.ase` and `*.aseprite` files directly as resources.
 
-<img align="center" src="./screenshots/import_dock.png" />
-
 <img align="center" src="./screenshots/main_screen.png" />
+
+<img align="center" src="./screenshots/import_dock.png" />
 
 <img align="center" src="./screenshots/aseprite_godot.png" />
 
 ### Features
 
-- Adds Aseprite file importer to Godot.
 - Creates SpriteFrames with Atlas Texture to be used in AnimatedSprites.
 - Separate each Aseprite Tag as its own animation. In case no tags are defined, import everything as default animation.
 - Converts Aseprite frame duration (defined in milliseconds) to Godot's animation FPS. This way you can create your animation with the right timing in Aseprite, and it should work the same way in Godot.
 - Choose to export Aseprite file as single SpriteFrames resource, or separate each layer as its own resource.
 - Filter out layers you don't want in the final animation, using regex.
 - Supports Aseprite animation direction (forward, reverse, ping-pong)
+- Adds Aseprite file importer to Godot (check limitations section).
 - (Importer only) Suppports importing Aseprite files as SpriteFrames, Atlas Texture, Animated Texture and Texture strip.
 
 
@@ -39,15 +39,17 @@ If you are using Windows, a portable version or if the `aseprite` command is not
 
 After activating the plugin, the importer will be enable allowing Aseprite files to be used seamlessly. In addition to that, you can find the wizard screen on `Project -> Tools -> Aseprite Spritesheet Wizard` menu.
 
-### Importer flow
-
-If you use the importer flow, any `*.ase` or `*.aseprite` file saved in the project will be automatically imported as a `SpriteFrames` resource, which can be used in `AnimatedSprite` nodes. You can change import settings for each file in the Import dock.
-
 ### Wizard flow
 
 The wizard screen allows you to import files from outside your project root. This can be used in cases where you prefer to not include your Aseprite files to your project, or you don't want them to be imported automatically.
 
 Check this video to see the wizard in action: https://www.youtube.com/watch?v=Yeqlce685E0
+
+### Importer flow
+
+If you use the importer flow, any `*.ase` or `*.aseprite` file saved in the project will be automatically imported as a `SpriteFrames` resource, which can be used in `AnimatedSprite` nodes. You can change import settings for each file in the Import dock.
+
+__Note: Currently, files created in the importer are bigger than the ones created through the wizard flow__
 
 ### Options
 
@@ -97,14 +99,10 @@ Godot is using the cached resource. Open another SpriteFrame and then re-open th
 
 This issue will only show outdated resources in the editor. When running the project you will always see the newest changes.
 
+### Files imported by the importer are bigger than the ones imported using the Wizard.
 
-###  Spritesheet file not showing on File Sytem dock (wizard only)
+The sprite sheet file (png) used in the resource is created by Aseprite, outside Godot Editor. Because of that, the plugin needs to trigger a file system scan to import this file.
 
-Changing focus from Godot to another window, and then coming back, will trigger a re-import.
+However, the scan operation is asyncronous and it can't be used in the importer. We implemented a fallback method but, unfortunatelly, it creates bigger resource files.
 
-
-### Warnings in the output related with image file being imported (wizard only)
-
-Those warnings are related on how I import the image file the first time. You'll probably see them when importing the same file twice. It does not affect the process.
-
-
+Until we find an alternative way, the importer will create bigger files. If you prefer to stick with the wizard flow, but you save your aseprite files inside your project folder, there is a configuration to disable the automatic importer.
