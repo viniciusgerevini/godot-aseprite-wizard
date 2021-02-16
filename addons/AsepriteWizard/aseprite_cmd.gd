@@ -336,7 +336,7 @@ func _parse_texture_path(path):
 		var image = Image.new()
 		image.load(path)
 		var texture = ImageTexture.new()
-		texture.create_from_image(image)
+		texture.create_from_image(image, 0)
 		return texture
 
 	return ResourceLoader.load(path, 'Image', true)

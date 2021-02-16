@@ -203,7 +203,7 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 							var frame_filename = "%s/%s" % [source_path, replace_vars(options["animated_texture/frame_filename_pattern"], replacement_vars)]
 
 							var res = ImageTexture.new()
-							res.create_from_image(single_image)
+							res.create_from_image(single_image, 0)
 							res.flags = atlas_tex.flags
 							ResourceSaver.save(frame_filename, res)
 							res.take_over_path(frame_filename)
@@ -225,7 +225,7 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 				var img : Image = Image.new()
 				img.load("%s/%s" % [save_path, file_name])
 				var res = ImageTexture.new()
-				res.create_from_image(img)
+				res.create_from_image(img, 0)
 				ResourceSaver.save(texture_filename, res)
 
 		file_name = dir.get_next()

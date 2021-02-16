@@ -4,6 +4,16 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 The Working in Progress (WIP) section is for changes that are already in master, but haven't been published to Godot's asset library yet. Even though the section is called WIP, all changes in master are stable and functional.
 
+## 1.2.3 (2021-02-16)
+
+### Fixed
+
+- Automatic importer was importing images with filters on, generating blurry images.
+
+### Thanks
+
+- Thanks to Ryan Lloyd (@SirRamEsq) for identifying and debugging this issue.
+
 ## 1.2.2 (2021-01-08)
 
 ### Fixed
