@@ -91,7 +91,7 @@ Loops are useful for running, walking and idle cycles. Single run is useful for 
 Currently, import overwrite previous imported files. Any modification in the previous file will be lost.
 
 
-## Blurry images when importing through Wizard Screen
+### Blurry images when importing through Wizard Screen
 
 The wizard screen uses Godot's default image loader. To prevent blurry images, disable the filter flag for Textures in the Import dock and set it as default preset.
 
