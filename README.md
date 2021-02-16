@@ -78,7 +78,7 @@ Importer-only options:
 | Animated Texture Frame Filename Pattern | Name for Animated Texture frames files. Default value: `{basename}.{layer}.{animation}.{frame}.Texture.{extension}` |
 
 
-## Limitations
+## Limitations and F.A.Q.
 
 ### Non-looping animations
 
@@ -89,6 +89,14 @@ Loops are useful for running, walking and idle cycles. Single run is useful for 
 ### Import overwrite previous files
 
 Currently, import overwrite previous imported files. Any modification in the previous file will be lost.
+
+
+## Blurry image when using wizard
+
+The wizard screen uses Godot's default image loader. To prevent blurry images, disable the filter flag for Textures in the Import dock and set it as default preset.
+
+For more info, check: https://docs.godotengine.org/en/3.2/getting_started/workflow/assets/import_process.html
+
 
 ## Known Issues
 
