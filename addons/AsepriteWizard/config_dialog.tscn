@@ -65,7 +65,7 @@ margin_top = 112.0
 margin_right = 321.0
 margin_bottom = 136.0
 hint_tooltip = "Wizard only: removes *.json and *.png files generated during import."
-text = "Clean up source files"
+text = "Remove source files"
 
 [node name="VBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 margin_top = 156.0

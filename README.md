@@ -34,6 +34,7 @@ If you are using Windows, a portable version or if the `aseprite` command is not
 | ----------------------- | ----------- |
 | Aseprite Command Path   | Path to the aseprite executable. Default: `aseprite` |
 | Enable Aseprite Importer   | Enable/Disable Aseprite automatic importer. Default: `true` |
+| Remove Source Files   | Remove `*.json` and `*.png` files generated during import in Wizard. Default: `false` |
 
 ## How to use
 
