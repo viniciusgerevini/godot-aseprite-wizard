@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Wizard: option to disable resource generation. Only *.json and *.png files are created
 - Wizard: Option for removing *.json and *.png files generated during import.
 
+### Fixed
+- Wizard screen size issues on MacOS and sometimes on Windows.
 
 ## 1.2.3 (2021-02-16)
 
