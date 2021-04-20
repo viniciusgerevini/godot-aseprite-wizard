@@ -2,7 +2,11 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-The Working in Progress (WIP) section is for changes that are already in master, but haven't been published to Godot's asset library yet. Even though the section is called WIP, all changes in master are stable and functional.
+## Unreleased
+
+### Added
+- Wizard: option to disable resource generation. Only *.json and *.png files are created
+
 
 ## 1.2.3 (2021-02-16)
 

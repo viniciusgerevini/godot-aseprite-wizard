@@ -63,6 +63,12 @@ __Note: Currently, files created in the importer are bigger than the ones create
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Trim image | Removes padding from sprites/layers/cels before saving them. |
 
+Wizard-only options:
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Do not create resource file | Does not create AnimatedSprite resource. Useful if you are only interested on the .json and .png output from Aseprite. |
+
 Importer-only options:
 
 | Field                   | Description |
