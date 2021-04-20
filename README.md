@@ -68,7 +68,7 @@ Wizard-only options:
 
 | Field                   | Description |
 | ----------------------- | ----------- |
-| Do not create resource file | Does not create AnimatedSprite resource. Useful if you are only interested on the .json and .png output from Aseprite. |
+| Do not create resource file | Does not create SpriteFrames resource. Useful if you are only interested on the .json and .png output from Aseprite. |
 
 Importer-only options:
 

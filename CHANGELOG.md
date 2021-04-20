@@ -2,7 +2,7 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## Unreleased
+## 1.3.0 (2021-04-20)
 
 ### Added
 - Wizard: option to disable resource generation. Only *.json and *.png files are created
