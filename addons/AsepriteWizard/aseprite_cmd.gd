@@ -224,6 +224,9 @@ func create_sprite_frames_from_aseprite_file(source_file: String, output_folder:
 	if (_should_check_file_system):
 		yield(_scan_filesystem(), "completed")
 
+	if options.get("do_not_create_resource", false):
+		return OK
+
 	return _import(output)
 
 
@@ -241,7 +244,10 @@ func create_sprite_frames_from_aseprite_layers(source_file: String, output_folde
 		if o.empty():
 			result = ERR_ASEPRITE_EXPORT_FAILED
 		else:
-			result = _import(o)
+			if options.get("do_not_create_resource", false):
+				result = OK
+			else:
+				result = _import(o)
 
 	return result
 
