@@ -227,7 +227,16 @@ func create_sprite_frames_from_aseprite_file(source_file: String, output_folder:
 	if options.get("do_not_create_resource", false):
 		return OK
 
-	return _import(output)
+	var result = _import(output)
+
+	if options.get("remove_source_files_allowed", false) and config.get_value('aseprite', 'remove_source_files', false):
+		var dir = Directory.new()
+		dir.remove(output.data_file)
+		dir.remove(output.sprite_sheet)
+		if (_should_check_file_system):
+			yield(_scan_filesystem(), "completed")
+
+	return result
 
 
 func create_sprite_frames_from_aseprite_layers(source_file: String, output_folder: String, options: Dictionary):
@@ -240,6 +249,8 @@ func create_sprite_frames_from_aseprite_layers(source_file: String, output_folde
 	if (_should_check_file_system):
 		yield(_scan_filesystem(), "completed")
 
+	var should_remove_source = options.get("remove_source_files_allowed", false) and config.get_value('aseprite', 'remove_source_files', false)
+
 	for o in output:
 		if o.empty():
 			result = ERR_ASEPRITE_EXPORT_FAILED
@@ -248,6 +259,13 @@ func create_sprite_frames_from_aseprite_layers(source_file: String, output_folde
 				result = OK
 			else:
 				result = _import(o)
+				if should_remove_source:
+					var dir = Directory.new()
+					dir.remove(o.data_file)
+					dir.remove(o.sprite_sheet)
+
+	if should_remove_source and _should_check_file_system:
+		yield(_scan_filesystem(), "completed")
 
 	return result
 

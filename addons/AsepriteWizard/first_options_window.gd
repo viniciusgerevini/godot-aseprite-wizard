@@ -121,7 +121,8 @@ func _on_next_btn_up():
 		"only_visible_layers": _only_visible_layers_field().pressed,
 		"trim_images": _trim_image_field().pressed,
 		"output_filename": _custom_name_field().text,
-		"do_not_create_resource": _do_not_create_res_field().pressed
+		"do_not_create_resource": _do_not_create_res_field().pressed,
+		"remove_source_files_allowed": true
 	}
 	var exit_code = aseprite.create_resource(aseprite_file, output_location, options)
 	if exit_code is GDScriptFunctionState:
