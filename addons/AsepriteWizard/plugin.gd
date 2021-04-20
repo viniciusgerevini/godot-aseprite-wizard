@@ -7,7 +7,7 @@ const menu_item_name = "Aseprite Spritesheet Wizard"
 const CONFIG_FILE_PATH = 'user://aseprite_wizard.cfg'
 
 var config: ConfigFile = ConfigFile.new()
-var window: WindowDialog
+var window: PopupPanel
 var importPlugin : EditorImportPlugin
 
 var _importer_enabled = false

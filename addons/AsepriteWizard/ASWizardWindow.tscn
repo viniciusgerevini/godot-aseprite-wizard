@@ -2,18 +2,14 @@
 
 [ext_resource path="res://addons/AsepriteWizard/first_options_window.gd" type="Script" id=1]
 
-[node name="ASWizardWindow" type="WindowDialog"]
+[node name="ASWizardWindow" type="PopupPanel"]
+visible = true
 margin_right = 600.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 600, 600 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
-window_title = "Aseprite Spritesheet Import Wizard"
-resizable = true
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="container" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -61,6 +57,8 @@ custom_constants/separation = 20
 margin_right = 445.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
+caret_blink = true
+caret_blink_speed = 0.5
 
 [node name="file_location_btn" type="Button" parent="container/options/file_location/HBoxContainer"]
 margin_left = 465.0
@@ -92,6 +90,8 @@ margin_right = 445.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 text = "res://"
+caret_blink = true
+caret_blink_speed = 0.5
 
 [node name="output_folder_btn" type="Button" parent="container/options/output_folder/HBoxContainer"]
 margin_left = 465.0
@@ -116,6 +116,8 @@ text = "Exclude layers with name matching pattern:"
 margin_top = 24.0
 margin_right = 540.0
 margin_bottom = 48.0
+caret_blink = true
+caret_blink_speed = 0.5
 
 [node name="custom_filename" type="VBoxContainer" parent="container/options"]
 margin_top = 204.0
@@ -135,6 +137,8 @@ text = "Output file name / prefix"
 margin_top = 24.0
 margin_right = 540.0
 margin_bottom = 48.0
+caret_blink = true
+caret_blink_speed = 0.5
 
 [node name="layer_importing_mode" type="VBoxContainer" parent="container/options"]
 margin_top = 272.0
