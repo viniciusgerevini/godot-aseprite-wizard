@@ -34,6 +34,7 @@ If you are using Windows, a portable version or if the `aseprite` command is not
 | ----------------------- | ----------- |
 | Aseprite Command Path   | Path to the aseprite executable. Default: `aseprite` |
 | Enable Aseprite Importer   | Enable/Disable Aseprite automatic importer. Default: `true` |
+| Remove Source Files   | Remove `*.json` and `*.png` files generated during import in Wizard. Default: `false` |
 
 ## How to use
 
@@ -62,6 +63,12 @@ __Note: Currently, files created in the importer are bigger than the ones create
 | Split layers in multiple resource: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with same base name as source.  |
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Trim image | Removes padding from sprites/layers/cels before saving them. |
+
+Wizard-only options:
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Do not create resource file | Does not create AnimatedSprite resource. Useful if you are only interested on the .json and .png output from Aseprite. |
 
 Importer-only options:
 

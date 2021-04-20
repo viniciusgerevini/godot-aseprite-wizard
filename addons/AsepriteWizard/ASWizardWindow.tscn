@@ -7,7 +7,7 @@ margin_right = 600.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 600, 600 )
 size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 0
 window_title = "Aseprite Spritesheet Import Wizard"
 resizable = true
 script = ExtResource( 1 )
@@ -17,6 +17,7 @@ __meta__ = {
 
 [node name="container" type="MarginContainer" parent="."]
 anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 30
@@ -31,7 +32,7 @@ __meta__ = {
 margin_left = 30.0
 margin_top = 30.0
 margin_right = 570.0
-margin_bottom = 458.0
+margin_bottom = 570.0
 custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
@@ -138,7 +139,7 @@ margin_bottom = 48.0
 [node name="layer_importing_mode" type="VBoxContainer" parent="container/options"]
 margin_top = 272.0
 margin_right = 540.0
-margin_bottom = 388.0
+margin_bottom = 422.0
 custom_constants/separation = 10
 
 [node name="label" type="Label" parent="container/options/layer_importing_mode"]
@@ -166,13 +167,23 @@ text = "Only include visible layers"
 margin_top = 92.0
 margin_right = 540.0
 margin_bottom = 116.0
-hint_tooltip = "Removes borders from sprites/layers before save them."
+hint_tooltip = "Removes borders from sprites/layers before saving them."
 text = "Trim image"
 
-[node name="buttons" type="HBoxContainer" parent="container/options"]
-margin_top = 408.0
+[node name="disable_resource_creation" type="CheckBox" parent="container/options/layer_importing_mode"]
+margin_top = 126.0
 margin_right = 540.0
-margin_bottom = 428.0
+margin_bottom = 150.0
+hint_tooltip = "Removes borders from sprites/layers before saving them."
+text = "Do not create resource file"
+__meta__ = {
+"_editor_description_": "Only source *.json and *.png files will be created."
+}
+
+[node name="buttons" type="HBoxContainer" parent="container/options"]
+margin_top = 442.0
+margin_right = 540.0
+margin_bottom = 462.0
 custom_constants/separation = 30
 alignment = 2
 
