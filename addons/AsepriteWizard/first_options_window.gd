@@ -1,7 +1,8 @@
 tool
-extends WindowDialog
+extends PanelContainer
 
 signal importer_state_changed
+signal close_requested
 
 const CONFIG_SECTION_KEY = 'file_locations'
 const LAST_SOURCE_PATH_KEY = 'source'
@@ -144,7 +145,8 @@ func _close_window():
 	config.set_value(CONFIG_SECTION_KEY, TRIM_IMAGES_KEY, _trim_image_field().pressed)
 	config.set_value(CONFIG_SECTION_KEY, DO_NOT_CREATE_RES_KEY, _do_not_create_res_field().pressed)
 
-	self.hide()
+	self.emit_signal("close_requested")
+
 
 func _on_config_button_up():
 	config_window.popup_centered()
