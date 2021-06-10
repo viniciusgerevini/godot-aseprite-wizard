@@ -44,7 +44,8 @@ After activating the plugin, the importer will be enable allowing Aseprite files
 
 The wizard screen allows you to import files from outside your project root. This can be used in cases where you prefer to not include your Aseprite files to your project, or you don't want them to be imported automatically.
 
-Check this video to see the wizard in action: https://www.youtube.com/watch?v=Yeqlce685E0
+Check this video to see the wizard in action: https://www.youtube.com/watch?v=Yeqlce685E0 . This video is slightly outdated, but the main features are still the same.
+
 
 ### Importer flow
 

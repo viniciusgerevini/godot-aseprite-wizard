@@ -1,5 +1,5 @@
 tool
-extends WindowDialog
+extends PopupPanel
 
 signal importer_state_changed
 

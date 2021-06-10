@@ -2,22 +2,22 @@
 
 [ext_resource path="res://addons/AsepriteWizard/first_options_window.gd" type="Script" id=1]
 
-[node name="ASWizardWindow" type="WindowDialog"]
+[node name="ASWizardWindow" type="PanelContainer"]
 margin_right = 600.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 600, 600 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
-window_title = "Aseprite Spritesheet Import Wizard"
-resizable = true
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="container" type="MarginContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 593.0
+margin_bottom = 593.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 30
@@ -31,20 +31,20 @@ __meta__ = {
 [node name="options" type="VBoxContainer" parent="container"]
 margin_left = 30.0
 margin_top = 30.0
-margin_right = 570.0
-margin_bottom = 570.0
+margin_right = 556.0
+margin_bottom = 556.0
 custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="file_location" type="VBoxContainer" parent="container/options"]
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 48.0
 custom_constants/separation = 10
 
 [node name="file_location_label" type="Label" parent="container/options/file_location"]
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 14.0
 hint_tooltip = "Location of the Aseprite *.ase source file"
 mouse_filter = 1
@@ -53,29 +53,30 @@ clip_text = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="container/options/file_location"]
 margin_top = 24.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 48.0
 custom_constants/separation = 20
 
 [node name="file_location_path" type="LineEdit" parent="container/options/file_location/HBoxContainer"]
-margin_right = 445.0
+margin_right = 431.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
+caret_blink = true
 
 [node name="file_location_btn" type="Button" parent="container/options/file_location/HBoxContainer"]
-margin_left = 465.0
-margin_right = 540.0
+margin_left = 451.0
+margin_right = 526.0
 margin_bottom = 24.0
 text = "Select file"
 
 [node name="output_folder" type="VBoxContainer" parent="container/options"]
 margin_top = 68.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 116.0
 custom_constants/separation = 10
 
 [node name="label" type="Label" parent="container/options/output_folder"]
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 14.0
 hint_tooltip = "Folder where the SpriteSheet resource is going to be saved"
 mouse_filter = 1
@@ -83,30 +84,31 @@ text = "Output folder:*"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="container/options/output_folder"]
 margin_top = 24.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 48.0
 custom_constants/separation = 20
 
 [node name="file_location_path" type="LineEdit" parent="container/options/output_folder/HBoxContainer"]
-margin_right = 445.0
+margin_right = 431.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 text = "res://"
+caret_blink = true
 
 [node name="output_folder_btn" type="Button" parent="container/options/output_folder/HBoxContainer"]
-margin_left = 465.0
-margin_right = 540.0
+margin_left = 451.0
+margin_right = 526.0
 margin_bottom = 24.0
 text = "Select file"
 
 [node name="exclude_pattern" type="VBoxContainer" parent="container/options"]
 margin_top = 136.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 184.0
 custom_constants/separation = 10
 
 [node name="label" type="Label" parent="container/options/exclude_pattern"]
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 14.0
 hint_tooltip = "If layer name matches this pattern, it won't be exported."
 mouse_filter = 1
@@ -114,17 +116,18 @@ text = "Exclude layers with name matching pattern:"
 
 [node name="pattern" type="LineEdit" parent="container/options/exclude_pattern"]
 margin_top = 24.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 48.0
+caret_blink = true
 
 [node name="custom_filename" type="VBoxContainer" parent="container/options"]
 margin_top = 204.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 252.0
 custom_constants/separation = 10
 
 [node name="label" type="Label" parent="container/options/custom_filename"]
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 14.0
 hint_tooltip = "Output filename. In case layers are not being merged, this is used as file prefix.
 If not set, source filename is used."
@@ -133,24 +136,25 @@ text = "Output file name / prefix"
 
 [node name="pattern" type="LineEdit" parent="container/options/custom_filename"]
 margin_top = 24.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 48.0
+caret_blink = true
 
 [node name="layer_importing_mode" type="VBoxContainer" parent="container/options"]
 margin_top = 272.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 422.0
 custom_constants/separation = 10
 
 [node name="label" type="Label" parent="container/options/layer_importing_mode"]
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 14.0
 mouse_filter = 1
 text = "Options:"
 
 [node name="split_layers" type="CheckBox" parent="container/options/layer_importing_mode"]
 margin_top = 24.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 48.0
 hint_tooltip = "If selected, one resource will be created for each layer.
 If not selected, layers will be merged and exported as one SpriteSheet."
@@ -158,21 +162,21 @@ text = "Split layers in multiple resources"
 
 [node name="visible_layers" type="CheckBox" parent="container/options/layer_importing_mode"]
 margin_top = 58.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 82.0
 hint_tooltip = "If selected, layers not visible in the source file won't be included in the final image."
 text = "Only include visible layers"
 
 [node name="trim_image" type="CheckBox" parent="container/options/layer_importing_mode"]
 margin_top = 92.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 116.0
 hint_tooltip = "Removes borders from sprites/layers before saving them."
 text = "Trim image"
 
 [node name="disable_resource_creation" type="CheckBox" parent="container/options/layer_importing_mode"]
 margin_top = 126.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 150.0
 hint_tooltip = "Removes borders from sprites/layers before saving them."
 text = "Do not create resource file"
@@ -182,27 +186,27 @@ __meta__ = {
 
 [node name="buttons" type="HBoxContainer" parent="container/options"]
 margin_top = 442.0
-margin_right = 540.0
+margin_right = 526.0
 margin_bottom = 462.0
 custom_constants/separation = 30
 alignment = 2
 
 [node name="config" type="Button" parent="container/options/buttons"]
-margin_left = 283.0
-margin_right = 378.0
+margin_left = 269.0
+margin_right = 364.0
 margin_bottom = 20.0
 size_flags_horizontal = 0
 text = "configuration"
 
 [node name="close" type="Button" parent="container/options/buttons"]
-margin_left = 408.0
-margin_right = 454.0
+margin_left = 394.0
+margin_right = 440.0
 margin_bottom = 20.0
 text = "close"
 
 [node name="next" type="Button" parent="container/options/buttons"]
-margin_left = 484.0
-margin_right = 540.0
+margin_left = 470.0
+margin_right = 526.0
 margin_bottom = 20.0
 text = "Import"
 [connection signal="button_up" from="container/options/file_location/HBoxContainer/file_location_btn" to="." method="_open_aseprite_file_selection_dialog"]

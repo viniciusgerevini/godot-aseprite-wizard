@@ -2,6 +2,20 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 1.4.0 (2021-06-10)
+
+### Changed
+
+- Aseprite Wizard opens on the bottom dock instead of a standalone window.
+- Does not close dock after import anymore.
+- Configuration window is a panel now. You will not be able to move it around, but it prevents sizing issues.
+
+
+### Fixed
+
+- Configuration and main wizard screen content would overflow in high resolution screen or scaled interfaces.
+
+
 ## 1.3.0 (2021-04-20)
 
 ### Added

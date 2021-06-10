@@ -1,7 +1,8 @@
 tool
-extends WindowDialog
+extends PanelContainer
 
 signal importer_state_changed
+signal close_requested
 
 const CONFIG_SECTION_KEY = 'file_locations'
 const LAST_SOURCE_PATH_KEY = 'source'
@@ -19,7 +20,7 @@ var file_system: EditorFileSystem
 var file_dialog_aseprite: FileDialog
 var output_folder_dialog: FileDialog
 var warning_dialog: AcceptDialog
-var config_window: WindowDialog
+var config_window: PopupPanel
 
 const config_dialog = preload('config_dialog.tscn')
 var aseprite = preload("aseprite_cmd.gd").new()
@@ -133,10 +134,17 @@ func _on_next_btn_up():
 		return
 	_show_import_success_message()
 
+
 func _on_close_btn_up():
 	_close_window()
 
+
 func _close_window():
+	_save_config()
+	self.emit_signal("close_requested")
+
+
+func _save_config():
 	config.set_value(CONFIG_SECTION_KEY, GROUP_MODE_KEY, _split_mode_field().pressed)
 	config.set_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY, _exception_pattern_field().text)
 	config.set_value(CONFIG_SECTION_KEY, CUSTOM_NAME_KEY, _custom_name_field().text)
@@ -144,7 +152,6 @@ func _close_window():
 	config.set_value(CONFIG_SECTION_KEY, TRIM_IMAGES_KEY, _trim_image_field().pressed)
 	config.set_value(CONFIG_SECTION_KEY, DO_NOT_CREATE_RES_KEY, _do_not_create_res_field().pressed)
 
-	self.hide()
 
 func _on_config_button_up():
 	config_window.popup_centered()
@@ -173,7 +180,7 @@ func _show_error_message(message: String):
 func _show_import_success_message():
 	warning_dialog.dialog_text = "Aseprite import succeeded"
 	warning_dialog.popup_centered()
-	warning_dialog.connect("hide", self, "_close_window")
+	_save_config()
 
 
 func _file_location_field() -> LineEdit:
