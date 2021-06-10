@@ -20,7 +20,7 @@ var file_system: EditorFileSystem
 var file_dialog_aseprite: FileDialog
 var output_folder_dialog: FileDialog
 var warning_dialog: AcceptDialog
-var config_window: WindowDialog
+var config_window: PopupPanel
 
 const config_dialog = preload('config_dialog.tscn')
 var aseprite = preload("aseprite_cmd.gd").new()
