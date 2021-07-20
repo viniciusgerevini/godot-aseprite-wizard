@@ -69,7 +69,7 @@ Wizard-only options:
 
 | Field                   | Description |
 | ----------------------- | ----------- |
-| Do not create resource file | Does not create SpriteFrames resource. Useful if you are only interested on the .json and .png output from Aseprite. |
+| Do not create resource file | Does not create SpriteFrames resource. Useful if you are only interested in the .json and .png output from Aseprite. |
 
 Importer-only options:
 
@@ -86,7 +86,16 @@ Importer-only options:
 | Animated Texture Frame Filename Pattern | Name for Animated Texture frames files. Default value: `{basename}.{layer}.{animation}.{frame}.Texture.{extension}` |
 
 
-## Limitations and F.A.Q.
+## F.A.Q. and limitations
+
+### What is the correct command to use in Aseprite Command Path
+
+The plugin uses `aseprite` as default command. In case your system uses a different location you can either add it to the PATH variable or provide the full path to the executable. Here are some common locations:
+
+- Steam on Windows: `C:\\Steam\steamapps\common\Aseprite\aseprite.exe`. (This will vary depending on your Steam Library location).
+- MacOS: `/Applications/Aseprite.app/Contents/MacOS/aseprite`.
+- Ubuntu: `/usr/bin/aseprite`. (Note: usually your PATH already includes binaries from `/usr/bin`)
+
 
 ### Non-looping animations
 
@@ -96,7 +105,7 @@ Loops are useful for running, walking and idle cycles. Single run is useful for 
 
 ### Import overwrite previous files
 
-Currently, import overwrite previous imported files. Any modification in the previous file will be lost.
+Currently, import overwrite previous imported files. Any manual modification in the previous resource file will be lost.
 
 
 ### Blurry images when importing through Wizard Screen
