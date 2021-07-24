@@ -331,6 +331,8 @@ func _add_animation_frames(sprite_frames, animation_name, frames, texture, direc
 			sprite_frames.add_frame(animation_name, atlas)
 
 	if direction == 'pingpong':
+		frames.remove(frames.size() - 1)
+		frames.remove(0)
 		frames.invert()
 
 		for frame in frames:
