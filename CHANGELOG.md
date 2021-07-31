@@ -2,6 +2,24 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 2.0.0 (2021-07-31)
+
+## Breaking Changes
+
+- Animations with ping-pong method are adding two less frames. It aligns with how they behave in
+Aseprite, but this means if you re-import previous imported ping-poing animations they will be faster than before.
+
+## Fixes
+
+- Ping-pong method was adding first and last frame twice.
+- Capitalised buttons text.
+- Fixed wrong tooltip for option to disable resource generation.
+
+## Thanks
+
+- Thanks to @imsamuka for implementing these changes.
+
+
 ## 1.4.0 (2021-06-10)
 
 ### Changed
@@ -9,7 +27,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Aseprite Wizard opens on the bottom dock instead of a standalone window.
 - Does not close dock after import anymore.
 - Configuration window is a panel now. You will not be able to move it around, but it prevents sizing issues.
-
 
 ### Fixed
 
