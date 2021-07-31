@@ -178,7 +178,7 @@ text = "Trim image"
 margin_top = 126.0
 margin_right = 526.0
 margin_bottom = 150.0
-hint_tooltip = "Removes borders from sprites/layers before saving them."
+hint_tooltip = "Does not create SpriteFrames resource. Useful if you are only interested in the .json and .png output from Aseprite."
 text = "Do not create resource file"
 __meta__ = {
 "_editor_description_": "Only source *.json and *.png files will be created."
@@ -192,23 +192,24 @@ custom_constants/separation = 30
 alignment = 2
 
 [node name="config" type="Button" parent="container/options/buttons"]
-margin_left = 269.0
-margin_right = 364.0
+margin_left = 267.0
+margin_right = 363.0
 margin_bottom = 20.0
 size_flags_horizontal = 0
-text = "configuration"
+text = "Configuration"
 
 [node name="close" type="Button" parent="container/options/buttons"]
-margin_left = 394.0
+margin_left = 393.0
 margin_right = 440.0
 margin_bottom = 20.0
-text = "close"
+text = "Close"
 
 [node name="next" type="Button" parent="container/options/buttons"]
 margin_left = 470.0
 margin_right = 526.0
 margin_bottom = 20.0
 text = "Import"
+
 [connection signal="button_up" from="container/options/file_location/HBoxContainer/file_location_btn" to="." method="_open_aseprite_file_selection_dialog"]
 [connection signal="button_up" from="container/options/output_folder/HBoxContainer/output_folder_btn" to="." method="_open_output_folder_selection_dialog"]
 [connection signal="button_up" from="container/options/buttons/config" to="." method="_on_config_button_up"]
