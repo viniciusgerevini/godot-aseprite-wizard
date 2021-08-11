@@ -48,7 +48,8 @@ func get_import_options(i):
 		{"name": "split_layers", "default_value": false},
 		{"name": "exclude_layers_pattern", "default_value": ''},
 		{"name": "only_visible_layers", "default_value": false},
-		{"name": "trim_images", "default_value": false},
+		{"name": "ignore_empty_frames", "default_value": true},
+		{"name": "trim_mode", "property_hint": PROPERTY_HINT_ENUM, "default_value": 0, "hint_string": "Disabled,Trim,Trim by grid" },
 
 		{"name": "sprite_filename_pattern", "default_value": "{basename}.{layer}.{extension}"},
 
@@ -105,7 +106,9 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 		"export_mode": export_mode,
 		"exception_pattern": options['exclude_layers_pattern'],
 		"only_visible_layers": options['only_visible_layers'],
-		"trim_images": options['trim_images'],
+		"trim_images": options['trim_mode'] == 1,
+		"trim_by_grid": options['trim_mode'] == 2,
+		"ignore_empty": options['ignore_empty_frames'],
 		"output_filename": ''
 	}
 
