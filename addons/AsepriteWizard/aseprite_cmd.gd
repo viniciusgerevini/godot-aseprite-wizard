@@ -63,8 +63,6 @@ func _aseprite_list_layers(file_name: String, only_visible = false) -> Array:
 func _aseprite_export_spritesheet(file_name: String, output_folder: String, options: Dictionary) -> Dictionary:
 	var exception_pattern = options.get('exception_pattern', "")
 	var only_visible_layers = options.get('only_visible_layers', false)
-	var trim_images = options.get('trim_images', false)
-	var trim_by_grid = options.get('trim_by_grid', false)
 	var output_name = file_name if options.get('output_filename') == "" else options.get('output_filename')
 	var basename = _get_file_basename(output_name)
 	var output_dir = output_folder.replace("res://", "./")
@@ -87,8 +85,14 @@ func _aseprite_export_spritesheet(file_name: String, output_folder: String, opti
 	if not only_visible_layers:
 		arguments.push_front("--all-layers")
 
-	if trim_images:
+	if options.get('trim_images', false):
 		arguments.push_front("--trim")
+		
+	if options.get('trim_by_grid', false):
+		arguments.push_front('--trim-by-grid')
+		
+	if options.get('ignore_empty', false):
+		arguments.push_front('--ignore-empty')
 
 	if exception_pattern != "":
 		_add_ignore_layer_arguments(file_name, arguments, exception_pattern)
@@ -108,7 +112,6 @@ func _aseprite_export_spritesheet(file_name: String, output_folder: String, opti
 func _aseprite_export_layers_spritesheet(file_name: String, output_folder: String, options: Dictionary) -> Array:
 	var exception_pattern = options.get('exception_pattern', "")
 	var only_visible_layers = options.get('only_visible_layers', false)
-	var basename = _get_file_basename(file_name)
 	var output_dir = output_folder.replace("res://", "./")
 
 	var layers = _aseprite_list_layers(file_name, only_visible_layers)
@@ -352,7 +355,7 @@ func _add_animation_frames(sprite_frames, animation_name, frames, texture, direc
 	sprite_frames.set_animation_speed(animation_name, fps)
 
 func _calculate_fps(min_duration: int) -> float:
-	return ceil(1000 / min_duration)
+	return ceil(1000.0 / min_duration)
 
 func _get_min_duration(frames) -> int:
 	var min_duration = 100000
