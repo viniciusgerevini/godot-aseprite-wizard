@@ -45,22 +45,30 @@ func get_preset_name(i):
 
 func get_import_options(i):
 	return [
-		{"name": "split_layers", "default_value": false},
-		{"name": "exclude_layers_pattern", "default_value": ''},
-		{"name": "only_visible_layers", "default_value": false},
-		{"name": "ignore_empty_frames", "default_value": true},
-		{"name": "trim_mode", "property_hint": PROPERTY_HINT_ENUM, "default_value": 0, "hint_string": "Disabled,Trim,Trim by grid" },
+		{"name": "general/exclude_layers_pattern", "default_value": ''},
+		{"name": "general/only_visible_layers", "default_value": false},
+		{"name": "general/ignore_empty_frames", "default_value": true},
+		{"name": "general/trim_mode", "property_hint": PROPERTY_HINT_ENUM, "default_value": 0, "hint_string": "Disabled,Trim,Trim by grid" },
 
-		{"name": "sprite_filename_pattern", "default_value": "{basename}.{layer}.{extension}"},
+		{"name": "sprite_frames_per_layer/import_sprite_frames_per_layer", "default_value": true},
+		{"name": "sprite_frames_per_layer/layer_mask/mode", "property_hint": PROPERTY_HINT_ENUM, "default_value": 0, "hint_string": "Ignored,Include,Exclude" },
+		{"name": "sprite_frames_per_layer/layer_mask/pattern", "default_value": ".*"},
+		{"name": "sprite_frames_per_layer/filename_pattern", "default_value": "{basename}.{layer}.{extension}"},
 
 		{"name": "texture_strip/import_texture_strip", "default_value": false},
+		{"name": "texture_strip/layer_mask/mode", "property_hint": PROPERTY_HINT_ENUM, "default_value": 0, "hint_string": "Ignored,Include,Exclude" },
+		{"name": "texture_strip/layer_mask/pattern", "default_value": ".*"},
 		{"name": "texture_strip/filename_pattern", "default_value": "{basename}.{layer}.Strip.{extension}"},
 
 		{"name": "texture_atlas/import_texture_atlas", "default_value": false},
+		{"name": "texture_atlas/layer_mask/mode", "property_hint": PROPERTY_HINT_ENUM, "default_value": 0, "hint_string": "Ignored,Include,Exclude" },
+		{"name": "texture_atlas/layer_mask/pattern", "default_value": ".*"},
 		{"name": "texture_atlas/filename_pattern", "default_value": "{basename}.{layer}.Atlas.{extension}"},
 		{"name": "texture_atlas/frame_filename_pattern", "default_value": "{basename}.{layer}.{animation}.{frame}.Atlas.{extension}"},
 
 		{"name": "animated_texture/import_animated_texture", "default_value": false},
+		{"name": "animated_texture/layer_mask/mode", "property_hint": PROPERTY_HINT_ENUM, "default_value": 0, "hint_string": "Ignored,Include,Exclude" },
+		{"name": "animated_texture/layer_mask/pattern", "default_value": ".*"},
 		{"name": "animated_texture/filename_pattern", "default_value": "{basename}.{layer}.{animation}.Texture.{extension}"},
 		{"name": "animated_texture/frame_filename_pattern", "default_value": "{basename}.{layer}.{animation}.{frame}.Texture.{extension}"},
 		]
@@ -74,6 +82,25 @@ static func replace_vars(pattern : String, vars : Dictionary):
 		var v = vars[k]
 		result = result.replace("{%s}" % k, v)
 	return result
+	
+static func is_layer_match(options, mask_option_prefix: String, layer: String):	
+	var mode = options[mask_option_prefix + "/mode"]
+		
+	if(mode == 0): 
+		return true
+			
+	var pattern = options[mask_option_prefix + "/pattern"]
+		
+	var regex = RegEx.new()
+	if regex.compile(pattern) != OK:
+		print('layer match pattern regex error')
+		return false
+		
+	var match_result = mode == 1
+	
+	if regex.search(layer) != null:
+		return match_result
+	return !match_result
 
 func import(source_file, save_path, options, platform_variants, gen_files):
 	var absolute_source_file = ProjectSettings.globalize_path(source_file)
@@ -100,15 +127,15 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 			dir.remove(file_name)
 		file_name = dir.get_next()
 
-	var export_mode = aseprite.LAYERS_EXPORT_MODE if options['split_layers'] else aseprite.FILE_EXPORT_MODE
+	var export_mode = aseprite.LAYERS_EXPORT_MODE if options['sprite_frames_per_layer/import_sprite_frames_per_layer'] else aseprite.FILE_EXPORT_MODE
 
 	var aseprite_opts = {
 		"export_mode": export_mode,
-		"exception_pattern": options['exclude_layers_pattern'],
-		"only_visible_layers": options['only_visible_layers'],
-		"trim_images": options['trim_mode'] == 1,
-		"trim_by_grid": options['trim_mode'] == 2,
-		"ignore_empty": options['ignore_empty_frames'],
+		"exception_pattern": options['general/exclude_layers_pattern'],
+		"only_visible_layers": options['general/only_visible_layers'],
+		"trim_images": options['general/trim_mode'] == 1,
+		"trim_by_grid": options['general/trim_mode'] == 2,
+		"ignore_empty": options['general/ignore_empty_frames'],
 		"output_filename": ''
 	}
 
@@ -135,7 +162,7 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 				# This is a SpriteFrames resource generated for a layer.
 				var local_replacement_vars = global_replacement_vars.duplicate()
 				local_replacement_vars["layer"] = file_name.substr(0, file_name.length() - 4)
-
+				
 				if not main_sprite_frame_saved:
 					# Save this resource as the main resource. We need to set something here or Godot won't stop
 					# re-importing the resource. So this is either the SpriteFrames instance of the first layer
@@ -148,15 +175,15 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 
 				var sprite_frames : SpriteFrames = ResourceLoader.load("%s/%s" % [save_path, file_name], 'SpriteFrames', true)
 
-				if options["split_layers"]:
+				if options["sprite_frames_per_layer/import_sprite_frames_per_layer"] and is_layer_match(options, 'sprite_frames_per_layer/layer_mask', local_replacement_vars["layer"]) :
 					var sprite_replacement_vars = local_replacement_vars.duplicate()
 					sprite_replacement_vars["extension"] = "res"
 
-					var sprite_filename = "%s/%s" % [source_path, replace_vars(options["sprite_filename_pattern"], sprite_replacement_vars)]
+					var sprite_filename = "%s/%s" % [source_path, replace_vars(options["sprite_frames_per_layer/filename_pattern"], sprite_replacement_vars)]
 					ResourceSaver.save(sprite_filename, sprite_frames)
 					sprite_frames.take_over_path(sprite_filename)
 
-				if options["texture_atlas/import_texture_atlas"]:
+				if options["texture_atlas/import_texture_atlas"] and is_layer_match(options, 'texture_atlas/layer_mask', local_replacement_vars["layer"]):
 					# Create a TextureAtlas resource for this layer.
 					var atlas_texture = null
 					var replacement_vars = local_replacement_vars.duplicate()
@@ -183,7 +210,7 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 							ResourceSaver.save(frame_filename, frame)
 							i+=1
 
-				if options["animated_texture/import_animated_texture"]:
+				if options["animated_texture/import_animated_texture"] and is_layer_match(options, 'animated_texture/layer_mask', local_replacement_vars["layer"]):
 					var replacement_vars = local_replacement_vars.duplicate()
 					replacement_vars["extension"] = "res"
 
@@ -221,15 +248,17 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 			elif options['texture_strip/import_texture_strip'] and file_name.ends_with(".png"):
 				var replacement_vars = global_replacement_vars.duplicate()
 				replacement_vars["layer"] = file_name.substr(0, file_name.length() - 4)
-				replacement_vars["extension"] = "png"
+				
+				if is_layer_match(options, 'texture_strip/layer_mask', replacement_vars["layer"]):
+					replacement_vars["extension"] = "png"
 
-				var texture_filename = "%s/%s" % [source_path, replace_vars(options["texture_strip/filename_pattern"], replacement_vars)]
+					var texture_filename = "%s/%s" % [source_path, replace_vars(options["texture_strip/filename_pattern"], replacement_vars)]
 
-				var img : Image = Image.new()
-				img.load("%s/%s" % [save_path, file_name])
-				var res = ImageTexture.new()
-				res.create_from_image(img, 0)
-				ResourceSaver.save(texture_filename, res)
+					var img : Image = Image.new()
+					img.load("%s/%s" % [save_path, file_name])
+					var res = ImageTexture.new()
+					res.create_from_image(img, 0)
+					ResourceSaver.save(texture_filename, res)
 
 		file_name = dir.get_next()
 	return OK
