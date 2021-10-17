@@ -64,7 +64,6 @@ func _aseprite_export_spritesheet(file_name: String, output_folder: String, opti
 	var exception_pattern = options.get('exception_pattern', "")
 	var only_visible_layers = options.get('only_visible_layers', false)
 	var trim_images = options.get('trim_images', false)
-	var trim_by_grid = options.get('trim_by_grid', false)
 	var output_name = file_name if options.get('output_filename') == "" else options.get('output_filename')
 	var basename = _get_file_basename(output_name)
 	var output_dir = output_folder.replace("res://", "./")
@@ -155,9 +154,6 @@ func _aseprite_export_layer(file_name: String, layer_name: String, output_folder
 		
 	if options.get('trim_by_grid', false):
 		arguments.push_front('--trim-by-grid')
-		
-	if options.get('ignore_empty', false):
-		arguments.push_front('--ignore-empty')
 
 	var exit_code = OS.execute(_aseprite_command(), arguments, true, output, true)
 
