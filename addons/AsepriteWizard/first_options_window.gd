@@ -194,19 +194,19 @@ func _exception_pattern_field() -> LineEdit:
 	return $container/options/exclude_pattern/pattern as LineEdit
 
 func _split_mode_field() -> CheckBox:
-	return $container/options/layer_importing_mode/split_layers as CheckBox
+	return $container/options/layer_importing_mode/split_layers/field as CheckBox
 
 func _only_visible_layers_field() -> CheckBox:
-	return $container/options/layer_importing_mode/visible_layers as CheckBox
+	return $container/options/layer_importing_mode/visible_layers/field as CheckBox
 
-func _trim_image_field() -> Node:
-	return $container/options/layer_importing_mode/trim_mode/trim_mode
+func _trim_image_field() -> OptionButton:
+	return $container/options/layer_importing_mode/trim_mode/field as OptionButton
 
 func _custom_name_field() -> LineEdit:
 	return $container/options/custom_filename/pattern as LineEdit
 
 func _do_not_create_res_field() -> CheckBox:
-	return $container/options/layer_importing_mode/disable_resource_creation as CheckBox
+	return $container/options/layer_importing_mode/disable_resource_creation/field as CheckBox
 
 func init(config_file: ConfigFile, editor_file_system: EditorFileSystem):
 	config = config_file
