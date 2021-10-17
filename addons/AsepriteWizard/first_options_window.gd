@@ -10,7 +10,7 @@ const LAST_OUTPUT_DIR_KEY = 'output'
 const GROUP_MODE_KEY = 'group_mode'
 const EXCEPTIONS_KEY = 'exceptions_key'
 const ONLY_VISIBLE_LAYERS_KEY = 'only_visible_layers'
-const TRIM_IMAGES_KEY = 'trim_images'
+const TRIM_MODE_KEY = 'trim_mode'
 const CUSTOM_NAME_KEY = 'custom_name'
 const DO_NOT_CREATE_RES_KEY = 'disable_resource_creation'
 
@@ -54,8 +54,8 @@ func _load_persisted_config():
 	if config.has_section_key(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY):
 		_only_visible_layers_field().pressed = config.get_value(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY)
 
-	if config.has_section_key(CONFIG_SECTION_KEY, TRIM_IMAGES_KEY):
-		_trim_image_field().pressed = config.get_value(CONFIG_SECTION_KEY, TRIM_IMAGES_KEY)
+	if config.has_section_key(CONFIG_SECTION_KEY, TRIM_MODE_KEY):
+		_trim_image_field().selected = config.get_value(CONFIG_SECTION_KEY, TRIM_MODE_KEY)
 
 	if config.has_section_key(CONFIG_SECTION_KEY, EXCEPTIONS_KEY):
 		_exception_pattern_field().text = config.get_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY)
@@ -120,7 +120,8 @@ func _on_next_btn_up():
 		"export_mode": export_mode,
 		"exception_pattern": _exception_pattern_field().text,
 		"only_visible_layers": _only_visible_layers_field().pressed,
-		"trim_images": _trim_image_field().pressed,
+		"trim_images": _trim_image_field().selected == 1,
+		"trim_by_grid": _trim_image_field().selected == 2,
 		"output_filename": _custom_name_field().text,
 		"do_not_create_resource": _do_not_create_res_field().pressed,
 		"remove_source_files_allowed": true
@@ -149,7 +150,7 @@ func _save_config():
 	config.set_value(CONFIG_SECTION_KEY, EXCEPTIONS_KEY, _exception_pattern_field().text)
 	config.set_value(CONFIG_SECTION_KEY, CUSTOM_NAME_KEY, _custom_name_field().text)
 	config.set_value(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY, _only_visible_layers_field().pressed)
-	config.set_value(CONFIG_SECTION_KEY, TRIM_IMAGES_KEY, _trim_image_field().pressed)
+	config.set_value(CONFIG_SECTION_KEY, TRIM_MODE_KEY, _trim_image_field().selected)
 	config.set_value(CONFIG_SECTION_KEY, DO_NOT_CREATE_RES_KEY, _do_not_create_res_field().pressed)
 
 
@@ -193,19 +194,19 @@ func _exception_pattern_field() -> LineEdit:
 	return $container/options/exclude_pattern/pattern as LineEdit
 
 func _split_mode_field() -> CheckBox:
-	return $container/options/layer_importing_mode/split_layers as CheckBox
+	return $container/options/layer_importing_mode/split_layers/field as CheckBox
 
 func _only_visible_layers_field() -> CheckBox:
-	return $container/options/layer_importing_mode/visible_layers as CheckBox
+	return $container/options/layer_importing_mode/visible_layers/field as CheckBox
 
-func _trim_image_field() -> CheckBox:
-	return $container/options/layer_importing_mode/trim_image as CheckBox
+func _trim_image_field() -> OptionButton:
+	return $container/options/layer_importing_mode/trim_mode/field as OptionButton
 
 func _custom_name_field() -> LineEdit:
 	return $container/options/custom_filename/pattern as LineEdit
 
 func _do_not_create_res_field() -> CheckBox:
-	return $container/options/layer_importing_mode/disable_resource_creation as CheckBox
+	return $container/options/layer_importing_mode/disable_resource_creation/field as CheckBox
 
 func init(config_file: ConfigFile, editor_file_system: EditorFileSystem):
 	config = config_file
