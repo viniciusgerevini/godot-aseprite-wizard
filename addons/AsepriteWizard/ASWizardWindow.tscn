@@ -143,7 +143,7 @@ caret_blink = true
 [node name="layer_importing_mode" type="VBoxContainer" parent="container/options"]
 margin_top = 272.0
 margin_right = 526.0
-margin_bottom = 422.0
+margin_bottom = 418.0
 custom_constants/separation = 10
 
 [node name="label" type="Label" parent="container/options/layer_importing_mode"]
@@ -167,27 +167,39 @@ margin_bottom = 82.0
 hint_tooltip = "If selected, layers not visible in the source file won't be included in the final image."
 text = "Only include visible layers"
 
-[node name="trim_image" type="CheckBox" parent="container/options/layer_importing_mode"]
+[node name="disable_resource_creation" type="CheckBox" parent="container/options/layer_importing_mode"]
 margin_top = 92.0
 margin_right = 526.0
 margin_bottom = 116.0
-hint_tooltip = "Removes borders from sprites/layers before saving them."
-text = "Trim image"
-
-[node name="disable_resource_creation" type="CheckBox" parent="container/options/layer_importing_mode"]
-margin_top = 126.0
-margin_right = 526.0
-margin_bottom = 150.0
 hint_tooltip = "Does not create SpriteFrames resource. Useful if you are only interested in the .json and .png output from Aseprite."
 text = "Do not create resource file"
 __meta__ = {
 "_editor_description_": "Only source *.json and *.png files will be created."
 }
 
-[node name="buttons" type="HBoxContainer" parent="container/options"]
-margin_top = 442.0
+[node name="trim_mode" type="HBoxContainer" parent="container/options/layer_importing_mode"]
+margin_top = 126.0
 margin_right = 526.0
-margin_bottom = 462.0
+margin_bottom = 146.0
+
+[node name="trim" type="Label" parent="container/options/layer_importing_mode/trim_mode"]
+margin_top = 3.0
+margin_right = 29.0
+margin_bottom = 17.0
+text = "Trim"
+
+[node name="trim_mode" type="OptionButton" parent="container/options/layer_importing_mode/trim_mode"]
+margin_left = 33.0
+margin_right = 118.0
+margin_bottom = 20.0
+text = "Disabled"
+items = [ "Disabled", null, false, 0, null, "Trim", null, false, 1, null, "Trim by Grid", null, false, 2, null ]
+selected = 0
+
+[node name="buttons" type="HBoxContainer" parent="container/options"]
+margin_top = 438.0
+margin_right = 526.0
+margin_bottom = 458.0
 custom_constants/separation = 30
 alignment = 2
 
