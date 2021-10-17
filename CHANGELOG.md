@@ -2,6 +2,21 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 2.1.0 (2021-10-17)
+
+## Added
+
+- Added `Trim by grid` option, which trims empty tiles respecting Aseprite's configured grid.
+
+## Changed
+
+- Wizard option list consistent to Godot's options.
+
+## Thanks
+
+- Thanks to @aaaaaaaaargh for adding the `Trim by grid` option.
+
+
 ## 2.0.0 (2021-07-31)
 
 ## Breaking Changes
