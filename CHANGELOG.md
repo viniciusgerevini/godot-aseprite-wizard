@@ -4,39 +4,39 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## 2.1.1 (2021-10-20)
 
-## Fixed
+### Fixed
 
 - Node renaming was breking wizard screen
 
 ## 2.1.0 (2021-10-17)
 
-## Added
+### Added
 
 - Added `Trim by grid` option, which trims empty tiles respecting Aseprite's configured grid.
 
-## Changed
+### Changed
 
 - Wizard option list consistent to Godot's options.
 
-## Thanks
+### Thanks
 
 - Thanks to @aaaaaaaaargh for adding the `Trim by grid` option.
 
 
 ## 2.0.0 (2021-07-31)
 
-## Breaking Changes
+### Breaking Changes
 
 - Animations with ping-pong method are adding two less frames. It aligns with how they behave in
 Aseprite, but this means if you re-import previous imported ping-poing animations they will be faster than before.
 
-## Fixes
+### Fixes
 
 - Ping-pong method was adding first and last frame twice.
 - Capitalised buttons text.
 - Fixed wrong tooltip for option to disable resource generation.
 
-## Thanks
+### Thanks
 
 - Thanks to @imsamuka for implementing these changes.
 
