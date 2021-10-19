@@ -152,14 +152,14 @@ margin_bottom = 14.0
 mouse_filter = 1
 text = "Options:"
 
-[node name="split layers" type="HBoxContainer" parent="container/options/layer_importing_mode"]
+[node name="split_layers" type="HBoxContainer" parent="container/options/layer_importing_mode"]
 margin_top = 24.0
 margin_right = 526.0
 margin_bottom = 48.0
 hint_tooltip = "If selected, one resource will be created for each layer.
 If not selected, layers will be merged and exported as one SpriteSheet."
 
-[node name="label" type="Label" parent="container/options/layer_importing_mode/split layers"]
+[node name="label" type="Label" parent="container/options/layer_importing_mode/split_layers"]
 margin_top = 5.0
 margin_right = 250.0
 margin_bottom = 19.0
@@ -167,7 +167,7 @@ rect_min_size = Vector2( 250, 0 )
 mouse_filter = 1
 text = "Split layers in multiple resources"
 
-[node name="field" type="CheckBox" parent="container/options/layer_importing_mode/split layers"]
+[node name="field" type="CheckBox" parent="container/options/layer_importing_mode/split_layers"]
 margin_left = 254.0
 margin_right = 301.0
 margin_bottom = 24.0
