@@ -2,6 +2,21 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 3.0.0 (2021-11-20)
+
+### Breaking changes
+
+- Animations starting with `_` will be set as non loopable (loop = false). Both default loop configuration and the exception prefix can be changed via configuration window.
+
+### Added
+
+- Default loop value configuration.
+- Loop exception prefix configuration.
+
+### Thanks
+
+Thanks to Micky (@Mickeon) for suggesting this feature.
+
 ## 2.1.1 (2021-10-20)
 
 ### Fixed

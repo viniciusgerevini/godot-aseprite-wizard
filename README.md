@@ -19,7 +19,8 @@ It also adds Aseprite importer to Godot, so you can use `*.ase` and `*.aseprite`
 - Converts Aseprite frame duration (defined in milliseconds) to Godot's animation FPS. This way you can create your animation with the right timing in Aseprite, and it should work the same way in Godot.
 - Choose to export Aseprite file as single SpriteFrames resource, or separate each layer as its own resource.
 - Filter out layers you don't want in the final animation, using regex.
-- Supports Aseprite animation direction (forward, reverse, ping-pong)
+- Supports Aseprite animation direction (forward, reverse, ping-pong).
+- Supports loopable and non-loopable animations.
 - Adds Aseprite file importer to Godot (check limitations section).
 - (Importer only) Suppports importing Aseprite files as SpriteFrames, Atlas Texture, Animated Texture and Texture strip.
 
@@ -36,7 +37,7 @@ If you are using Windows, a portable version or if the `aseprite` command is not
 | Enable Aseprite Importer   | Enable/Disable Aseprite automatic importer. Default: `true` |
 | Remove Source Files   | Remove `*.json` and `*.png` files generated during import in Wizard. Default: `false` |
 | Loop animations       | Default animation loop configuration. Default: `true` |
-| Loop exception prefix | Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The Prefix is removed from animation name (i.e  `_death` > `death`). Default: `_` |
+| Loop exception prefix | Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The prefix is removed from the animation name (i.e  `_death` > `death`). Default: `_` |
 
 ## How to use
 
