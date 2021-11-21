@@ -352,7 +352,8 @@ func _add_animation_frames(sprite_frames, anim_name, frames, texture, direction 
 
 	if direction == 'pingpong':
 		frames.remove(frames.size() - 1)
-		frames.remove(0)
+		if is_loopable:
+			frames.remove(0)
 		frames.invert()
 
 		for frame in frames:
