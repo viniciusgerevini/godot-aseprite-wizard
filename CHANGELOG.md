@@ -13,9 +13,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Default loop value configuration.
 - Loop exception prefix configuration.
 
+### Fixed
+
+- wizard dock was not persisting pre-filled options if not closed.
+
 ### Thanks
 
-Thanks to Micky (@Mickeon) for suggesting this feature.
+Thanks to Micky (@Mickeon) for suggesting the loop prefix feature.
 
 ## 2.1.1 (2021-10-20)
 
