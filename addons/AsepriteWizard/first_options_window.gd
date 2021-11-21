@@ -3,6 +3,7 @@ extends PanelContainer
 
 signal importer_state_changed
 signal close_requested
+signal save_requested
 
 const CONFIG_SECTION_KEY = 'file_locations'
 const LAST_SOURCE_PATH_KEY = 'source'
@@ -32,6 +33,7 @@ func _ready():
 	config_window = config_dialog.instance()
 	config_window.init(config)
 	config_window.connect("importer_state_changed", self, "_notify_importer_state_changed")
+	config_window.connect("config_saved", self, "emit_signal" , ["save_requested"])
 	aseprite.init(config, config_window.get_default_command(), file_system)
 
 	get_parent().add_child(file_dialog_aseprite)
@@ -152,7 +154,7 @@ func _save_config():
 	config.set_value(CONFIG_SECTION_KEY, ONLY_VISIBLE_LAYERS_KEY, _only_visible_layers_field().pressed)
 	config.set_value(CONFIG_SECTION_KEY, TRIM_MODE_KEY, _trim_image_field().selected)
 	config.set_value(CONFIG_SECTION_KEY, DO_NOT_CREATE_RES_KEY, _do_not_create_res_field().pressed)
-
+	emit_signal("save_requested")
 
 func _on_config_button_up():
 	config_window.popup_centered()

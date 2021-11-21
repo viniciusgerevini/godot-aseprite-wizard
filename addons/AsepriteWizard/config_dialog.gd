@@ -2,6 +2,7 @@ tool
 extends PopupPanel
 
 signal importer_state_changed
+signal config_saved
 
 const _CONFIG_SECTION_KEY = 'aseprite'
 const _COMMAND_KEY = 'command'
@@ -39,7 +40,7 @@ func _on_save_button_up():
 	config.set_value(_CONFIG_SECTION_KEY, _REMOVE_SOURCE_FILES_KEY, _remove_source_files_field().pressed)
 	config.set_value(_CONFIG_SECTION_KEY, _LOOP_EXCEPTION_PREFIX, _loop_ex_prefix().text if _loop_ex_prefix().text != "" else _DEFAULT_LOOP_EX_PREFIX)
 	config.set_value(_CONFIG_SECTION_KEY, _LOOP_ENABLED, _enable_animation_loop().pressed)
-
+	emit_signal("config_saved")
 	self.hide()
 
 
