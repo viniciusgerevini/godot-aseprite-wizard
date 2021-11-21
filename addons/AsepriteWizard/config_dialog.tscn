@@ -2,8 +2,7 @@
 
 [ext_resource path="res://addons/AsepriteWizard/config_dialog.gd" type="Script" id=1]
 
-[node name="config_dialog" type="PopupPanel"]
-visible = true
+[node name="config_dialog2" type="PopupPanel"]
 margin_right = 400.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 400, 250 )
@@ -29,7 +28,7 @@ __meta__ = {
 margin_left = 40.0
 margin_top = 40.0
 margin_right = 352.0
-margin_bottom = 216.0
+margin_bottom = 328.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 20
@@ -67,10 +66,47 @@ margin_bottom = 136.0
 hint_tooltip = "Wizard only: removes *.json and *.png files generated during import."
 text = "Remove source files"
 
-[node name="VBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="loop_animations" type="CheckBox" parent="MarginContainer/VBoxContainer"]
 margin_top = 156.0
 margin_right = 312.0
-margin_bottom = 176.0
+margin_bottom = 180.0
+hint_tooltip = "Default loop value for animations"
+pressed = true
+text = "Loop animations"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="loop" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 200.0
+margin_right = 312.0
+margin_bottom = 248.0
+hint_tooltip = "Animations starting with this prefix should be imported with opposite loop configuration. Prefix is removed from animation name."
+custom_constants/separation = 10
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="loop_prefix_label" type="Label" parent="MarginContainer/VBoxContainer/loop"]
+margin_right = 312.0
+margin_bottom = 14.0
+mouse_filter = 1
+text = "Loop exception prefix"
+
+[node name="loop_config_prefix" type="LineEdit" parent="MarginContainer/VBoxContainer/loop"]
+margin_top = 24.0
+margin_right = 312.0
+margin_bottom = 48.0
+text = "_"
+caret_blink = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="VBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 268.0
+margin_right = 312.0
+margin_bottom = 288.0
 custom_constants/separation = 30
 alignment = 2
 
@@ -85,5 +121,6 @@ margin_left = 271.0
 margin_right = 312.0
 margin_bottom = 20.0
 text = "Save"
+
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer2/close" to="." method="_on_close_button_up"]
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer2/save" to="." method="_on_save_button_up"]

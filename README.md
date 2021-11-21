@@ -19,7 +19,8 @@ It also adds Aseprite importer to Godot, so you can use `*.ase` and `*.aseprite`
 - Converts Aseprite frame duration (defined in milliseconds) to Godot's animation FPS. This way you can create your animation with the right timing in Aseprite, and it should work the same way in Godot.
 - Choose to export Aseprite file as single SpriteFrames resource, or separate each layer as its own resource.
 - Filter out layers you don't want in the final animation, using regex.
-- Supports Aseprite animation direction (forward, reverse, ping-pong)
+- Supports Aseprite animation direction (forward, reverse, ping-pong).
+- Supports loopable and non-loopable animations.
 - Adds Aseprite file importer to Godot (check limitations section).
 - (Importer only) Suppports importing Aseprite files as SpriteFrames, Atlas Texture, Animated Texture and Texture strip.
 
@@ -35,6 +36,8 @@ If you are using Windows, a portable version or if the `aseprite` command is not
 | Aseprite Command Path   | Path to the aseprite executable. Default: `aseprite` |
 | Enable Aseprite Importer   | Enable/Disable Aseprite automatic importer. Default: `true` |
 | Remove Source Files   | Remove `*.json` and `*.png` files generated during import in Wizard. Default: `false` |
+| Loop animations       | Default animation loop configuration. Default: `true` |
+| Loop exception prefix | Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The prefix is removed from the animation name (i.e  `_death` > `death`). Default: `_` |
 
 ## How to use
 
@@ -99,9 +102,11 @@ The plugin uses `aseprite` as default command. In case your system uses a differ
 
 ### Non-looping animations
 
-Aseprite does not have the concept of Loop / single run animations, as in Godot. Because of that, all animations are imported with Loop on. To disable it, you need to open the resource in the editor and uncheck the loop toggle (it won't work if you are using the importer flow).
+Aseprite does not have the concept of loop / single run animations, as in Godot. Because of that, looping is handled via a configured convention.
 
-Loops are useful for running, walking and idle cycles. Single run is useful for death, attack and engage animations.
+By default, all animations are imported with loop = true. Any animation starting with `_` (the exception prefix), will be imported with loop = false.
+
+Both the default configuration and the exception prefix can be changed in the configuration window.
 
 ### Import overwrite previous files
 

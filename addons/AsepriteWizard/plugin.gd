@@ -46,16 +46,21 @@ func _open_window(_ud):
 	window.init(config, get_editor_interface().get_resource_filesystem())
 	window.connect("importer_state_changed", self, "_on_importer_state_changed")
 	window.connect("close_requested", self, "_on_window_closed")
+	window.connect("save_requested", self, "_on_save_config")
 	add_control_to_bottom_panel(window, "Aseprite Wizard")
 	make_bottom_panel_item_visible(window)
 
 
+func _on_save_config():
+	config.save(CONFIG_FILE_PATH)
+
+
 func _on_window_closed():
 	if window:
-		config.save(CONFIG_FILE_PATH)
 		remove_control_from_bottom_panel(window)
 		window.queue_free()
 		window = null
+
 
 
 func _on_importer_state_changed():

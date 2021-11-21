@@ -40,6 +40,14 @@ func _aseprite_command() -> String:
 	return command
 
 
+func _loop_config_prefix() -> String:
+	return config.get_value('aseprite', 'loop_config_prefix', '_')
+
+
+func _is_loop_config_enabled() -> String:
+	return config.get_value('aseprite', 'loop_enabled', true)
+
+
 func _aseprite_list_layers(file_name: String, only_visible = false) -> Array:
 	var output = []
 	var arguments = ["-b", "--list-layers", file_name]
@@ -320,7 +328,14 @@ func _get_frames_from_content(content):
 	return content.frames if typeof(content.frames) == TYPE_ARRAY  else content.frames.values()
 
 
-func _add_animation_frames(sprite_frames, animation_name, frames, texture, direction = 'forward'):
+func _add_animation_frames(sprite_frames, anim_name, frames, texture, direction = 'forward'):
+	var animation_name = anim_name
+	var is_loopable = _is_loop_config_enabled()
+
+	if animation_name.begins_with(_loop_config_prefix()):
+		animation_name = anim_name.substr(_loop_config_prefix().length())
+		is_loopable = not is_loopable
+
 	sprite_frames.add_animation(animation_name)
 
 	var min_duration = _get_min_duration(frames)
@@ -337,7 +352,8 @@ func _add_animation_frames(sprite_frames, animation_name, frames, texture, direc
 
 	if direction == 'pingpong':
 		frames.remove(frames.size() - 1)
-		frames.remove(0)
+		if is_loopable:
+			frames.remove(0)
 		frames.invert()
 
 		for frame in frames:
@@ -346,7 +362,7 @@ func _add_animation_frames(sprite_frames, animation_name, frames, texture, direc
 			for _i in range(number_of_sprites):
 				sprite_frames.add_frame(animation_name, atlas)
 
-	sprite_frames.set_animation_loop(animation_name, true)
+	sprite_frames.set_animation_loop(animation_name, is_loopable)
 	sprite_frames.set_animation_speed(animation_name, fps)
 
 func _calculate_fps(min_duration: int) -> float:

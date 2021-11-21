@@ -19,7 +19,7 @@ config/icon="res://icon.png"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "AsepriteWizard" )
+enabled=PoolStringArray( "res://addons/AsepriteWizard/plugin.cfg" )
 
 [rendering]
 
