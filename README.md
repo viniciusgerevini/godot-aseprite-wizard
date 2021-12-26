@@ -99,6 +99,7 @@ The plugin uses `aseprite` as default command. In case your system uses a differ
 - MacOS: `/Applications/Aseprite.app/Contents/MacOS/aseprite`.
 - Ubuntu: `/usr/bin/aseprite`. (Note: usually your PATH already includes binaries from `/usr/bin`)
 
+*Note: Adding aseprite to the PATH on Windows does not always work, as reported by some users. In this case, it's better to stick to the full path.*
 
 ### Non-looping animations
 
