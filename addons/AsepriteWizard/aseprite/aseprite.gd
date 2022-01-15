@@ -121,6 +121,7 @@ func _export_command_common_arguments(source_name, data_path, spritesheet_path, 
 	var arguments = [
 		"-b",
 		"--list-tags",
+		"--sheet-pack",
 		"--data",
 		data_path,
 		"--format",
