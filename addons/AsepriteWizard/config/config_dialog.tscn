@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/AsepriteWizard/config_dialog.gd" type="Script" id=1]
+[ext_resource path="res://addons/AsepriteWizard/config/config_dialog.gd" type="Script" id=1]
 
-[node name="config_dialog2" type="PopupPanel"]
+[node name="config_dialog" type="PopupPanel"]
 margin_right = 400.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 400, 250 )

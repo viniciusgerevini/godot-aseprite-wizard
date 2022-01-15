@@ -2,6 +2,15 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Changed
+
+- Moved configuration screen from dock to Project > Tools > Aseprite Wizard Config.
+- Enabled --sheet-pack for optmised spritesheet generation.
+- Major code refactor.
+
+
 ## 3.0.0 (2021-11-20)
 
 ### Breaking changes
