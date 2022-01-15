@@ -1,47 +1,38 @@
 tool
 extends EditorImportPlugin
 
-const CONFIG_FILE_PATH = 'user://aseprite_wizard.cfg'
+const result_codes = preload("../config/result_codes.gd")
 
-var aseprite = preload("aseprite_cmd.gd").new()
-
-func get_error_message(code: int):
-	match code:
-		aseprite.ERR_ASEPRITE_CMD_NOT_FOUND:
-			return 'Aseprite command failed. Please, check if the right command is in your PATH or configured through the "configuration" button.'
-		aseprite.ERR_SOURCE_FILE_NOT_FOUND:
-			return 'source file does not exist'
-		aseprite.ERR_OUTPUT_FOLDER_NOT_FOUND:
-			return 'output location does not exist'
-		aseprite.ERR_ASEPRITE_EXPORT_FAILED:
-			return 'unable to import file'
-		aseprite.ERR_INVALID_ASEPRITE_SPRITESHEET:
-			return 'aseprite generated bad data file'
-		aseprite.ERR_NO_VALID_LAYERS_FOUND:
-			return 'no valid layers found'
-		_:
-			return 'import failed with code %d' % code
+var _config = preload("../config/config.gd").new()
+var _sf_creator = preload("sprite_frames_creator.gd").new()
 
 func get_importer_name():
 	return "aseprite.wizard.plugin"
 
+
 func get_visible_name():
 	return "Aseprite Importer"
+
 
 func get_recognized_extensions():
 	return ["aseprite", "ase"]
 
+
 func get_save_extension():
 	return "res"
+
 
 func get_resource_type():
 	return "SpriteFrames"
 
+
 func get_preset_count():
 	return 1
 
+
 func get_preset_name(i):
 	return "Default"
+
 
 func get_import_options(i):
 	return [
@@ -64,8 +55,10 @@ func get_import_options(i):
 		{"name": "animated_texture/frame_filename_pattern", "default_value": "{basename}.{layer}.{animation}.{frame}.Texture.{extension}"},
 		]
 
+
 func get_option_visibility(option, options):
 	return true
+
 
 static func replace_vars(pattern : String, vars : Dictionary):
 	var result = pattern;
@@ -73,6 +66,7 @@ static func replace_vars(pattern : String, vars : Dictionary):
 		var v = vars[k]
 		result = result.replace("{%s}" % k, v)
 	return result
+
 
 func import(source_file, save_path, options, platform_variants, gen_files):
 	var absolute_source_file = ProjectSettings.globalize_path(source_file)
@@ -82,10 +76,9 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 	var source_basename = source_file.substr(source_path.length()+1, -1)
 	source_basename = source_basename.substr(0, source_basename.find_last('.'))
 
-	var config = ConfigFile.new()
-	config.load(CONFIG_FILE_PATH)
+	_config.load_config()
 
-	aseprite.init(config, 'aseprite')
+	_sf_creator.init(_config)
 
 	var dir = Directory.new()
 	dir.make_dir(save_path)
@@ -99,7 +92,7 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 			dir.remove(file_name)
 		file_name = dir.get_next()
 
-	var export_mode = aseprite.LAYERS_EXPORT_MODE if options['split_layers'] else aseprite.FILE_EXPORT_MODE
+	var export_mode = _sf_creator.LAYERS_EXPORT_MODE if options['split_layers'] else _sf_creator.FILE_EXPORT_MODE
 
 	var aseprite_opts = {
 		"export_mode": export_mode,
@@ -110,9 +103,9 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 		"output_filename": ''
 	}
 
-	var exit_code = aseprite.create_resource(absolute_source_file, absolute_save_path, aseprite_opts)
+	var exit_code = _sf_creator.create_resource(absolute_source_file, absolute_save_path, aseprite_opts)
 	if exit_code != 0:
-		print("ERROR - Could not import aseprite file: %s" % get_error_message(exit_code))
+		print("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(exit_code))
 		return FAILED
 
 	dir.open(save_path)
