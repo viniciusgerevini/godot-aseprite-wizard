@@ -121,7 +121,7 @@ func _import(data) -> int:
 			return err
 	var content =  parse_json(file.get_as_text())
 
-	if not _is_valid_aseprite_spritesheet(content):
+	if not _aseprite.is_valid_spritesheet(content):
 		return result_code.ERR_INVALID_ASEPRITE_SPRITESHEET
 
 	var texture = _parse_texture_path(sprite_sheet)
@@ -135,7 +135,7 @@ func _import(data) -> int:
 
 
 func _create_sprite_frames_with_animations(content, texture):
-	var frames = _get_frames_from_content(content)
+	var frames = _aseprite.get_content_frames(content)
 	var sprite_frames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 
@@ -147,10 +147,6 @@ func _create_sprite_frames_with_animations(content, texture):
 		_add_animation_frames(sprite_frames, "default", frames, texture)
 
 	return sprite_frames
-
-
-func _get_frames_from_content(content):
-	return content.frames if typeof(content.frames) == TYPE_ARRAY  else content.frames.values()
 
 
 func _add_animation_frames(sprite_frames, anim_name, frames, texture, direction = 'forward'):
@@ -190,8 +186,10 @@ func _add_animation_frames(sprite_frames, anim_name, frames, texture, direction 
 	sprite_frames.set_animation_loop(animation_name, is_loopable)
 	sprite_frames.set_animation_speed(animation_name, fps)
 
+
 func _calculate_fps(min_duration: int) -> float:
 	return ceil(1000 / min_duration)
+
 
 func _get_min_duration(frames) -> int:
 	var min_duration = 100000
@@ -199,6 +197,7 @@ func _get_min_duration(frames) -> int:
 		if frame.duration < min_duration:
 			min_duration = frame.duration
 	return min_duration
+
 
 func _parse_texture_path(path):
 	if not _should_check_file_system and not ResourceLoader.has_cached(path):
@@ -212,10 +211,6 @@ func _parse_texture_path(path):
 		return texture
 
 	return ResourceLoader.load(path, 'Image', true)
-
-
-func _is_valid_aseprite_spritesheet(content):
-	return content.has("frames") and content.has("meta") and content.meta.has('image')
 
 
 func _create_atlastexture_from_frame(image, frame_data):

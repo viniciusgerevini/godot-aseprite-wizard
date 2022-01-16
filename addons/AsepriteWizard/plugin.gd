@@ -4,13 +4,16 @@ extends EditorPlugin
 const ConfigDialog = preload('config/config_dialog.tscn')
 const WizardWindow = preload("animated_sprite/ASWizardWindow.tscn")
 const ImportPlugin = preload("animated_sprite/import_plugin.gd")
+const SpriteInspectorPlugin = preload("animation_player/inspector_plugin.gd")
 const menu_item_name = "Aseprite Spritesheet Wizard"
 const config_menu_item_name = "Aseprite Wizard Config"
+
 
 var config = preload("config/config.gd").new()
 var window: PanelContainer
 var config_window: PopupPanel
-var importPlugin : EditorImportPlugin
+var import_plugin : EditorImportPlugin
+var sprite_inspector_plugin: EditorInspectorPlugin
 
 var _importer_enabled = false
 
@@ -20,9 +23,14 @@ func _enter_tree():
 	config.load_config()
 
 	if (config.is_importer_enabled()):
-		importPlugin = ImportPlugin.new()
-		add_import_plugin(importPlugin)
+		import_plugin = ImportPlugin.new()
+		add_import_plugin(import_plugin)
 		_importer_enabled = true
+
+	sprite_inspector_plugin = SpriteInspectorPlugin.new()
+	sprite_inspector_plugin.file_system = get_editor_interface().get_resource_filesystem()
+	sprite_inspector_plugin.config = config
+	add_inspector_plugin(sprite_inspector_plugin)
 
 
 func _exit_tree():
@@ -30,13 +38,15 @@ func _exit_tree():
 	remove_tool_menu_item(config_menu_item_name)
 
 	if _importer_enabled:
-		remove_import_plugin(importPlugin)
+		remove_import_plugin(import_plugin)
 		_importer_enabled = false
 
 	if window:
 		remove_control_from_bottom_panel(window)
 		window.queue_free()
 		window = null
+
+	remove_inspector_plugin(sprite_inspector_plugin)
 
 
 func _open_window(_ud):
@@ -71,9 +81,9 @@ func _on_window_closed():
 
 func _on_importer_state_changed():
 	if _importer_enabled:
-		remove_import_plugin(importPlugin)
+		remove_import_plugin(import_plugin)
 		_importer_enabled = false
 	else:
-		importPlugin = ImportPlugin.new()
-		add_import_plugin(importPlugin)
+		import_plugin = ImportPlugin.new()
+		add_import_plugin(import_plugin)
 		_importer_enabled = true
