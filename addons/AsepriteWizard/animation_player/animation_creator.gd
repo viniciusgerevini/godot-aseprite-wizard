@@ -109,7 +109,8 @@ func _add_animation_frames(sprite: Sprite, player: AnimationPlayer, anim_name: S
 		player.add_animation(animation_name, Animation.new())
 
 	var animation = player.get_animation(animation_name)
-	var track_index = _create_frame_track(sprite, animation)
+	var track = _get_frame_track_path(player, sprite)
+	var track_index = _create_frame_track(sprite, animation, track)
 
 	if direction == 'reverse':
 		frames.invert()
@@ -144,8 +145,7 @@ func _calculate_frame_index(sprite: Sprite, frame: Dictionary) -> int:
 	return (row * sprite.hframes) + column
 
 
-func _create_frame_track(sprite: Sprite, animation: Animation):
-	var track = _get_frame_track_path(sprite)
+func _create_frame_track(sprite: Sprite, animation: Animation, track: String):
 	var track_index = animation.find_track(track)
 	
 	if track_index != -1:
@@ -159,8 +159,8 @@ func _create_frame_track(sprite: Sprite, animation: Animation):
 	return track_index
 
 
-func _get_frame_track_path(sprite: Sprite):
-	var node_path = sprite.get_tree().get_edited_scene_root().get_path_to(sprite)
+func _get_frame_track_path(player: AnimationPlayer, sprite: Sprite):
+	var node_path = player.get_node(player.root_node).get_path_to(sprite)
 	return "%s:frame" % node_path
 
 
@@ -168,7 +168,7 @@ func _cleanup_animations(sprite: Sprite, player: AnimationPlayer, content: Dicti
 	if not (content.meta.has("frameTags") and content.meta.frameTags.size() > 0):
 		return result_code.SUCCESS
 
-	var track = _get_frame_track_path(sprite)
+	var track = _get_frame_track_path(player, sprite)
 	var tags = ["RESET"]
 	for t in content.meta.frameTags:
 		var a = t.name
