@@ -61,6 +61,7 @@ align = 1
 margin_top = 20.0
 margin_right = 198.0
 margin_bottom = 40.0
+hint_tooltip = "AnimationPlayer  node where animations should be added to."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/animation_player"]
 margin_top = 3.0
@@ -83,6 +84,7 @@ align = 1
 margin_top = 44.0
 margin_right = 198.0
 margin_bottom = 64.0
+hint_tooltip = "Location of the Aseprite (*.ase, *.aseprite)  source file."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/source"]
 margin_top = 3.0
@@ -105,6 +107,7 @@ clip_text = true
 margin_top = 68.0
 margin_right = 198.0
 margin_bottom = 88.0
+hint_tooltip = "Aseprite layer to be used in the animation. By default all layers are included."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/layer"]
 margin_top = 3.0
@@ -149,6 +152,7 @@ margin_bottom = 240.0
 [node name="out_folder" type="HBoxContainer" parent="margin/VBoxContainer/options"]
 margin_right = 198.0
 margin_bottom = 20.0
+hint_tooltip = "Location where the spritesheet file should be saved."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/options/out_folder"]
 margin_top = 3.0
@@ -171,6 +175,7 @@ clip_text = true
 margin_top = 24.0
 margin_right = 198.0
 margin_bottom = 48.0
+hint_tooltip = "Base filename for spritesheet. In case the layer option is used, this works as a prefix to the layer name."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/options/out_filename"]
 margin_top = 5.0
@@ -191,6 +196,7 @@ size_flags_stretch_ratio = 2.0
 margin_top = 52.0
 margin_right = 198.0
 margin_bottom = 76.0
+hint_tooltip = "Exclude layers with name matching this pattern (regex)."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/options/ex_pattern"]
 margin_top = 5.0
@@ -211,6 +217,7 @@ size_flags_stretch_ratio = 2.0
 margin_top = 80.0
 margin_right = 198.0
 margin_bottom = 120.0
+hint_tooltip = "If active, layers not visible in the source file won't be included in the final image."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/options/visible_layers"]
 margin_top = 13.0
