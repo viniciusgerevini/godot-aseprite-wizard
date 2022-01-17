@@ -124,7 +124,7 @@ align = 0
 visible = false
 margin_top = 96.0
 margin_right = 198.0
-margin_bottom = 240.0
+margin_bottom = 216.0
 
 [node name="out_folder" type="HBoxContainer" parent="margin/VBoxContainer/options"]
 margin_right = 198.0
@@ -206,29 +206,6 @@ margin_right = 198.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-
-[node name="trim_mode" type="HBoxContainer" parent="margin/VBoxContainer/options"]
-margin_top = 124.0
-margin_right = 198.0
-margin_bottom = 144.0
-
-[node name="Label" type="Label" parent="margin/VBoxContainer/options/trim_mode"]
-margin_top = 3.0
-margin_right = 97.0
-margin_bottom = 17.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-text = "Trim"
-
-[node name="field" type="OptionButton" parent="margin/VBoxContainer/options/trim_mode"]
-margin_left = 101.0
-margin_right = 198.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-text = "Disabled"
-items = [ "Disabled", null, false, 0, null, "Trim", null, false, 1, null, "Trim by Grid", null, false, 2, null ]
-selected = 0
 
 [node name="import" type="Button" parent="margin/VBoxContainer"]
 margin_top = 96.0

@@ -27,7 +27,6 @@ onready var _options_container = $margin/VBoxContainer/options
 onready var _out_folder_field = $margin/VBoxContainer/options/out_folder/button
 onready var _out_filename_field = $margin/VBoxContainer/options/out_filename/LineEdit
 onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layers/CheckButton
-onready var _trim_mode_field = $margin/VBoxContainer/options/trim_mode/field
 onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
 
 func _ready():
@@ -73,7 +72,6 @@ func _load_config(description):
 	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
 	_out_filename_field.text = config.get("o_name", "")
 	_visible_layers_field.pressed = config.get("only_visible", "") == "True"
-	_trim_mode_field.selected = int(config.get("trim", "0"))
 	_ex_pattern_field.text = config.get("o_ex_p", "")
 
 	if config.get("op_exp", "false") == "True":
@@ -154,8 +152,6 @@ func _on_import_pressed():
 #		"export_mode": export_mode,
 		"exception_pattern": _ex_pattern_field.text,
 		"only_visible_layers": _visible_layers_field.pressed,
-		"trim_images": _trim_mode_field.selected == 1,
-		"trim_by_grid": _trim_mode_field.selected == 2,
 		"output_filename": _out_filename_field.text,
 	}
 
@@ -186,7 +182,6 @@ func _save_config():
 	text += _prop("o_folder", _output_folder)
 	text += _prop("o_name", _out_filename_field.text)
 	text += _prop("only_visible", _visible_layers_field.pressed)
-	text += _prop("trim", _trim_mode_field.selected)
 	text += _prop("o_ex_p", _ex_pattern_field.text)
 
 	sprite.editor_description = Marshalls.utf8_to_base64(text)
