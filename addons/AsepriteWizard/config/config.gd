@@ -10,6 +10,7 @@ const _REMOVE_SOURCE_FILES_KEY = 'remove_source_files'
 const _LOOP_ENABLED = 'loop_enabled'
 const _LOOP_EXCEPTION_PREFIX = 'loop_config_prefix'
 const _DEFAULT_LOOP_EX_PREFIX = '_'
+const _DEFAULT_EXCLUSION_PATTERN_KEY = 'default_layer_ex_pattern'
 
 # IMPORT CONFIGS
 const _IMPORT_SECTION_KEY = 'file_locations'
@@ -81,6 +82,14 @@ func get_animation_loop_exception_prefix() -> String:
 
 func set_animation_loop_exception_prefix(prefix: String) -> void:
 	_config.set_value(_CONFIG_SECTION_KEY, _LOOP_EXCEPTION_PREFIX, prefix if prefix != "" else _DEFAULT_LOOP_EX_PREFIX)
+
+
+func get_default_exclusion_pattern() -> String:
+	return _config.get_value(_CONFIG_SECTION_KEY, _DEFAULT_EXCLUSION_PATTERN_KEY, "")
+
+
+func set_default_exclusion_pattern(pattern: String) -> void:
+	_config.set_value(_CONFIG_SECTION_KEY, _DEFAULT_EXCLUSION_PATTERN_KEY, pattern)
 
 
 #######################################################

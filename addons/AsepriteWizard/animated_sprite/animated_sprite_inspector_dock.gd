@@ -80,7 +80,7 @@ func _load_config(description):
 
 
 func _load_default_config():
-	pass
+	_ex_pattern_field.text = config.get_default_exclusion_pattern()
 
 
 func _set_source(source):
