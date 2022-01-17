@@ -28,11 +28,49 @@ func _is_loop_config_enabled() -> String:
 	return _config.is_default_animation_loop_enabled()
 
 
-func create_resource(source_file: String, output_folder: String, options = {}):
+func create_animations(sprite: AnimatedSprite, options: Dictionary):
 	if not _aseprite.test_command():
 		return result_code.ERR_ASEPRITE_CMD_NOT_FOUND
 
+	var dir = Directory.new()
+	if not dir.file_exists(options.source):
+		return result_code.ERR_SOURCE_FILE_NOT_FOUND
+
+	if not dir.dir_exists(options.output_folder):
+		return result_code.ERR_OUTPUT_FOLDER_NOT_FOUND
+
+	var result = _create_animations_from_file(sprite, options)
+	if result is GDScriptFunctionState:
+		return yield(result, "completed")
+	return result
+
+
+func _create_animations_from_file(sprite: AnimatedSprite, options: Dictionary):
+	var output
+
+	if options.get("layer", "") == "":
+		output = _aseprite.export_file(options.source, options.output_folder, options)
+	else:
+		output = _aseprite.export_layer(options.source, options.layer, options.output_folder, options)
+
+	if output.empty():
+		return result_code.ERR_ASEPRITE_EXPORT_FAILED
+	yield(_scan_filesystem(), "completed")
+
+	var result = _import(output, sprite)
+
+	if _config.should_remove_source_files():
+		var dir = Directory.new()
+		dir.remove(output.data_file)
+
+	return result
+
+
+func create_resource(source_file: String, output_folder: String, options = {}):
 	var export_mode = options.get('export_mode', FILE_EXPORT_MODE)
+
+	if not _aseprite.test_command():
+		return result_code.ERR_ASEPRITE_CMD_NOT_FOUND
 
 	var dir = Directory.new()
 	if not dir.file_exists(source_file):
@@ -112,7 +150,7 @@ func _get_file_basename(file_path: String) -> String:
 	return file_path.get_file().trim_suffix('.%s' % file_path.get_extension())
 
 
-func _import(data) -> int:
+func _import(data, animated_sprite = null) -> int:
 	var source_file = data.data_file
 	var sprite_sheet = data.sprite_sheet
 	var file = File.new()
@@ -127,6 +165,10 @@ func _import(data) -> int:
 	var texture = _parse_texture_path(sprite_sheet)
 
 	var resource = _create_sprite_frames_with_animations(content, texture)
+
+	if is_instance_valid(animated_sprite):
+		animated_sprite.frames = resource
+		return result_code.SUCCESS
 
 	var save_path = "%s.%s" % [source_file.get_basename(), "res"]
 	var code =  ResourceSaver.save(save_path, resource, ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
@@ -224,3 +266,7 @@ func _create_atlastexture_from_frame(image, frame_data):
 func _scan_filesystem():
 	_file_system.scan()
 	yield(_file_system, "filesystem_changed")
+
+
+func list_layers(file: String, only_visibles = false) -> Array:
+	return _aseprite.list_layers(file, only_visibles)

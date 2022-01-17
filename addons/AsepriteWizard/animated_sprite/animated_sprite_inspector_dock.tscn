@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://addons/AsepriteWizard/animation_player/sprite_inspector_dock.gd" type="Script" id=1]
+[ext_resource path="res://addons/AsepriteWizard/animated_sprite/animated_sprite_inspector_dock.gd" type="Script" id=1]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -18,7 +18,7 @@ content_margin_top = 1.0
 content_margin_bottom = 1.0
 bg_color = Color( 0.2, 0.219608, 0.278431, 1 )
 
-[node name="sprite_inspector_dock" type="PanelContainer"]
+[node name="animated_sprite_inspector_dock" type="PanelContainer"]
 margin_right = 14.0
 margin_bottom = 14.0
 custom_styles/panel = SubResource( 1 )
@@ -29,18 +29,18 @@ __meta__ = {
 }
 
 [node name="margin" type="MarginContainer" parent="."]
-margin_right = 187.0
-margin_bottom = 144.0
+margin_right = 97.0
+margin_bottom = 120.0
 custom_constants/margin_top = 2
 custom_constants/margin_bottom = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="margin"]
 margin_top = 2.0
-margin_right = 187.0
-margin_bottom = 142.0
+margin_right = 97.0
+margin_bottom = 118.0
 
 [node name="section_title" type="PanelContainer" parent="margin/VBoxContainer"]
-margin_right = 187.0
+margin_right = 97.0
 margin_bottom = 16.0
 size_flags_horizontal = 3
 custom_styles/panel = SubResource( 2 )
@@ -51,52 +51,29 @@ __meta__ = {
 [node name="title" type="Label" parent="margin/VBoxContainer/section_title"]
 margin_left = 2.0
 margin_top = 1.0
-margin_right = 185.0
+margin_right = 95.0
 margin_bottom = 15.0
 size_flags_horizontal = 3
 text = "Aseprite"
 align = 1
 
-[node name="animation_player" type="HBoxContainer" parent="margin/VBoxContainer"]
-margin_top = 20.0
-margin_right = 187.0
-margin_bottom = 40.0
-hint_tooltip = "AnimationPlayer  node where animations should be added to."
-
-[node name="Label" type="Label" parent="margin/VBoxContainer/animation_player"]
-margin_top = 3.0
-margin_right = 105.0
-margin_bottom = 17.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-text = "AnimationPlayer"
-
-[node name="options" type="OptionButton" parent="margin/VBoxContainer/animation_player"]
-margin_left = 109.0
-margin_right = 187.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-text = "[empty]"
-align = 1
-
 [node name="source" type="HBoxContainer" parent="margin/VBoxContainer"]
-margin_top = 44.0
-margin_right = 187.0
-margin_bottom = 64.0
+margin_top = 20.0
+margin_right = 97.0
+margin_bottom = 40.0
 hint_tooltip = "Location of the Aseprite (*.ase, *.aseprite)  source file."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/source"]
 margin_top = 3.0
-margin_right = 91.0
+margin_right = 81.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Aseprite File"
 
 [node name="button" type="Button" parent="margin/VBoxContainer/source"]
-margin_left = 95.0
-margin_right = 187.0
+margin_left = 85.0
+margin_right = 97.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
@@ -104,22 +81,22 @@ text = "[empty]"
 clip_text = true
 
 [node name="layer" type="HBoxContainer" parent="margin/VBoxContainer"]
-margin_top = 68.0
-margin_right = 187.0
-margin_bottom = 88.0
+margin_top = 44.0
+margin_right = 97.0
+margin_bottom = 64.0
 hint_tooltip = "Aseprite layer to be used in the animation. By default all layers are included."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/layer"]
 margin_top = 3.0
-margin_right = 91.0
+margin_right = 41.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Layer"
 
 [node name="options" type="OptionButton" parent="margin/VBoxContainer/layer"]
-margin_left = 95.0
-margin_right = 187.0
+margin_left = 45.0
+margin_right = 97.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
@@ -127,9 +104,9 @@ text = "[all]"
 align = 1
 
 [node name="options_title" type="PanelContainer" parent="margin/VBoxContainer"]
-margin_top = 92.0
-margin_right = 187.0
-margin_bottom = 116.0
+margin_top = 68.0
+margin_right = 97.0
+margin_bottom = 92.0
 custom_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -138,7 +115,7 @@ __meta__ = {
 [node name="options_title" type="ToolButton" parent="margin/VBoxContainer/options_title"]
 margin_left = 1.0
 margin_top = 1.0
-margin_right = 186.0
+margin_right = 96.0
 margin_bottom = 23.0
 toggle_mode = true
 text = "Options"
@@ -236,13 +213,11 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="import" type="Button" parent="margin/VBoxContainer"]
-margin_top = 120.0
-margin_right = 187.0
-margin_bottom = 140.0
+margin_top = 96.0
+margin_right = 97.0
+margin_bottom = 116.0
 text = "Import"
 
-[connection signal="item_selected" from="margin/VBoxContainer/animation_player/options" to="." method="_on_options_item_selected"]
-[connection signal="pressed" from="margin/VBoxContainer/animation_player/options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="margin/VBoxContainer/source/button" to="." method="_on_source_pressed"]
 [connection signal="item_selected" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_item_selected"]
 [connection signal="pressed" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_pressed"]
