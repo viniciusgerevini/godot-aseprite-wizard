@@ -39,7 +39,6 @@ func get_import_options(i):
 		{"name": "split_layers", "default_value": false},
 		{"name": "exclude_layers_pattern", "default_value": ''},
 		{"name": "only_visible_layers", "default_value": false},
-		{"name": "trim_mode", "property_hint": PROPERTY_HINT_ENUM, "default_value": 0, "hint_string": "Disabled,Trim,Trim by grid" },
 
 		{"name": "sprite_filename_pattern", "default_value": "{basename}.{layer}.{extension}"},
 
@@ -98,14 +97,12 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 		"export_mode": export_mode,
 		"exception_pattern": options['exclude_layers_pattern'],
 		"only_visible_layers": options['only_visible_layers'],
-		"trim_images": options['trim_mode'] == 1,
-		"trim_by_grid": options['trim_mode'] == 2,
 		"output_filename": ''
 	}
 
 	var exit_code = _sf_creator.create_resource(absolute_source_file, absolute_save_path, aseprite_opts)
 	if exit_code != 0:
-		print("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(exit_code))
+		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(exit_code))
 		return FAILED
 
 	dir.open(save_path)

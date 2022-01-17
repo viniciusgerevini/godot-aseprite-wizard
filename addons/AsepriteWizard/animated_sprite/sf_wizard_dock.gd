@@ -42,7 +42,6 @@ func init(config, editor_file_system: EditorFileSystem):
 func _load_persisted_config():
 	_split_mode_field().pressed = _config.should_split_layers()
 	_only_visible_layers_field().pressed = _config.should_include_only_visible_layers()
-	_trim_image_field().selected = _config.get_trim_mode()
 	_exception_pattern_field().text = _config.get_exception_pattern()
 	_custom_name_field().text = _config.get_last_custom_name()
 	_file_location_field().text = _config.get_last_source_path()
@@ -103,8 +102,6 @@ func _on_next_btn_up():
 		"export_mode": export_mode,
 		"exception_pattern": _exception_pattern_field().text,
 		"only_visible_layers": _only_visible_layers_field().pressed,
-		"trim_images": _trim_image_field().selected == 1,
-		"trim_by_grid": _trim_image_field().selected == 2,
 		"output_filename": _custom_name_field().text,
 		"do_not_create_resource": _do_not_create_res_field().pressed,
 		"remove_source_files_allowed": true
@@ -133,7 +130,6 @@ func _save_config():
 	_config.set_exception_pattern(_exception_pattern_field().text)
 	_config.set_custom_name(_custom_name_field().text)
 	_config.set_include_only_visible_layers(_only_visible_layers_field().pressed)
-	_config.set_trim_mode(_trim_image_field().selected)
 	_config.set_do_not_create_resource(_do_not_create_res_field().pressed)
 	_config.save()
 
@@ -171,10 +167,6 @@ func _split_mode_field() -> CheckBox:
 
 func _only_visible_layers_field() -> CheckBox:
 	return $container/options/layer_importing_mode/visible_layers/field as CheckBox
-
-
-func _trim_image_field() -> OptionButton:
-	return $container/options/layer_importing_mode/trim_mode/field as OptionButton
 
 
 func _custom_name_field() -> LineEdit:

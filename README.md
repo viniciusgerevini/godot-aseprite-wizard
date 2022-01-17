@@ -66,7 +66,6 @@ __Note: Currently, files created in the importer are bigger than the ones create
 | Exclude layers matching pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
 | Split layers in multiple resource: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with same base name as source.  |
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
-| Trim | Removes padding from sprites/layers before saving them. Modes: **Trim:** trim empty space around content. **Trim by grid:** trim empty tiles respecting Aseprite's configured grid.|
 
 Wizard-only options:
 

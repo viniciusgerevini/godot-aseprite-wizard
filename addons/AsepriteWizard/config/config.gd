@@ -18,7 +18,6 @@ const _I_LAST_OUTPUT_DIR_KEY = 'output'
 const _I_SHOULD_SPLIT_LAYERS_KEY = 'split_layers'
 const _I_EXCEPTIONS_KEY = 'exceptions_key'
 const _I_ONLY_VISIBLE_LAYERS_KEY = 'only_visible_layers'
-const _I_TRIM_MODE_KEY = 'trim_mode'
 const _I_CUSTOM_NAME_KEY = 'custom_name'
 const _I_DO_NOT_CREATE_RES_KEY = 'disable_resource_creation'
 
@@ -125,14 +124,6 @@ func should_include_only_visible_layers() -> bool:
 
 func set_include_only_visible_layers(include_only_visible: bool) -> void:
 	_config.set_value(_IMPORT_SECTION_KEY, _I_ONLY_VISIBLE_LAYERS_KEY, include_only_visible)
-
-
-func get_trim_mode() -> int:
-	return _config.get_value(_IMPORT_SECTION_KEY, _I_TRIM_MODE_KEY, 0)
-
-
-func set_trim_mode(trim_mode: int) -> void:
-	_config.set_value(_IMPORT_SECTION_KEY, _I_TRIM_MODE_KEY, trim_mode)
 
 
 func get_last_custom_name() -> String:

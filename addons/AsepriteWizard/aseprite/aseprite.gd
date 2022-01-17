@@ -16,7 +16,7 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 	var data_file = "%s/%s.json" % [output_dir, basename]
 	var sprite_sheet = "%s/%s.png" % [output_dir, basename]
 	var output = []
-	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet, options)
+	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
 
 	if not only_visible_layers:
 		arguments.push_front("--all-layers")
@@ -57,7 +57,7 @@ func export_layer(file_name: String, layer_name: String, output_folder: String, 
 	var data_file = "%s/%s%s.json" % [output_dir, output_prefix, layer_name]
 	var sprite_sheet = "%s/%s%s.png" % [output_dir, output_prefix, layer_name]
 	var output = []
-	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet, options)
+	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
 	arguments.push_front(layer_name)
 	arguments.push_front("--layer")
 
@@ -115,8 +115,8 @@ func list_layers(file_name: String, only_visible = false) -> Array:
 	return output[0].split('\n')
 
 
-func _export_command_common_arguments(source_name, data_path, spritesheet_path, options):
-	var arguments = [
+func _export_command_common_arguments(source_name: String, data_path: String, spritesheet_path: String) -> Array:
+	return [
 		"-b",
 		"--list-tags",
 		"--sheet-pack",
@@ -128,14 +128,6 @@ func _export_command_common_arguments(source_name, data_path, spritesheet_path, 
 		spritesheet_path,
 		source_name
 	]
-
-	if options.get('trim_images', false):
-		arguments.push_front("--trim")
-
-	if options.get('trim_by_grid', false):
-		arguments.push_front('--trim-by-grid')
-
-	return arguments
 
 
 func _execute(arguments, output):
