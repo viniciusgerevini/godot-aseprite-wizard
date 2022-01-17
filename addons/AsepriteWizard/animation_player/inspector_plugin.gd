@@ -23,15 +23,3 @@ func parse_end():
 	dock.file_system = file_system
 	
 	add_custom_control(dock)
-#	var props = dock.get_editor_properties()
-	
-#	for prop in props:
-#		print("prop")
-#		print(props[prop])
-#		add_property_editor(prop, props[prop])
-
-#	var property = EditorProperty.new()
-#	property.label = "Aseprite/Animation"
-#	property.add_child(dock)
-#	property.set_bottom_editor(dock)
-#	add_custom_control(property)
