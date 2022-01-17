@@ -3,11 +3,6 @@ extends Reference
 var result_code = preload("../config/result_codes.gd")
 var _aseprite = preload("../aseprite/aseprite.gd").new()
 
-enum {
-	FILE_EXPORT_MODE,
-	LAYERS_EXPORT_MODE
-}
-
 var _config
 var _file_system
 
@@ -21,8 +16,6 @@ func create_animations(sprite: Sprite, player: AnimationPlayer, options: Diction
 	if not _aseprite.test_command():
 		return result_code.ERR_ASEPRITE_CMD_NOT_FOUND
 
-	var export_mode = options.get('export_mode', FILE_EXPORT_MODE)
-
 	var dir = Directory.new()
 	if not dir.file_exists(options.source):
 		return result_code.ERR_SOURCE_FILE_NOT_FOUND
@@ -30,16 +23,20 @@ func create_animations(sprite: Sprite, player: AnimationPlayer, options: Diction
 	if not dir.dir_exists(options.output_folder):
 		return result_code.ERR_OUTPUT_FOLDER_NOT_FOUND
 
-	match export_mode:
-		FILE_EXPORT_MODE:
-			var result = _create_animations_from_file(sprite, player, options)
-			if result is GDScriptFunctionState:
-				return yield(result, "completed")
-			return result
+	var result = _create_animations_from_file(sprite, player, options)
+	if result is GDScriptFunctionState:
+		return yield(result, "completed")
+	return result
 
 
 func _create_animations_from_file(sprite: Sprite, player: AnimationPlayer, options: Dictionary):
-	var output = _aseprite.export_file(options.source, options.output_folder, options)
+	var output
+
+	if options.get("layer", "") == "":
+		output = _aseprite.export_file(options.source, options.output_folder, options)
+	else:
+		output = _aseprite.export_layer(options.source, options.layer, options.output_folder, options)
+
 	if output.empty():
 		return result_code.ERR_ASEPRITE_EXPORT_FAILED
 	yield(_scan_filesystem(), "completed")
@@ -68,7 +65,11 @@ func _import(sprite: Sprite, player: AnimationPlayer, data: Dictionary):
 		return result_code.ERR_INVALID_ASEPRITE_SPRITESHEET
 
 	_load_texture(sprite, sprite_sheet, content)
-	return _configure_animations(sprite, player, content)
+	var result = _configure_animations(sprite, player, content)
+	if result != result_code.SUCCESS:
+		return result
+
+	return _cleanup_animations(sprite, player, content)
 
 
 func _load_texture(sprite: Sprite, sprite_sheet: String, content: Dictionary):
@@ -163,6 +164,39 @@ func _get_frame_track_path(sprite: Sprite):
 	return "%s:frame" % node_path
 
 
+func _cleanup_animations(sprite: Sprite, player: AnimationPlayer, content: Dictionary):
+	if not (content.meta.has("frameTags") and content.meta.frameTags.size() > 0):
+		return result_code.SUCCESS
+
+	var track = _get_frame_track_path(sprite)
+	var tags = ["RESET"]
+	for t in content.meta.frameTags:
+		var a = t.name
+		if a.begins_with(_config.get_animation_loop_exception_prefix()):
+			a = a.substr(_config.get_animation_loop_exception_prefix().length())
+		tags.push_back(a)
+
+	for a in player.get_animation_list():
+		if tags.has(a):
+			continue
+
+		var animation = player.get_animation(a)
+
+		if animation.get_track_count() != 1:
+			var t = animation.find_track(track)
+			if t != -1:
+				animation.remove_track(t)
+			continue
+
+		if animation.find_track(track) != -1:
+			player.remove_animation(a)
+
+	return result_code.SUCCESS
+
 func _scan_filesystem():
 	_file_system.scan()
 	yield(_file_system, "filesystem_changed")
+
+
+func list_layers(file: String, only_visibles = false) -> Array:
+	return _aseprite.list_layers(file, only_visibles)
