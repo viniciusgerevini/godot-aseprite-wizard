@@ -53,7 +53,7 @@ func set_command(aseprite_command: String) -> void:
 
 
 func is_importer_enabled() -> bool:
-	return _config.get_value(_CONFIG_SECTION_KEY, _IMPORTER_ENABLE_KEY, true)
+	return _config.get_value(_CONFIG_SECTION_KEY, _IMPORTER_ENABLE_KEY, false)
 
 
 func set_importer_enabled(is_enabled: bool) -> void:
@@ -61,7 +61,7 @@ func set_importer_enabled(is_enabled: bool) -> void:
 
 
 func should_remove_source_files() -> bool:
-	return _config.get_value(_CONFIG_SECTION_KEY, _REMOVE_SOURCE_FILES_KEY, false)
+	return _config.get_value(_CONFIG_SECTION_KEY, _REMOVE_SOURCE_FILES_KEY, true)
 
 
 func set_remove_source_files(should_remove: bool) -> void:

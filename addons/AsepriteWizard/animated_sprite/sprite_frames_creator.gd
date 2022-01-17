@@ -62,6 +62,8 @@ func _create_animations_from_file(sprite: AnimatedSprite, options: Dictionary):
 	if _config.should_remove_source_files():
 		var dir = Directory.new()
 		dir.remove(output.data_file)
+		dir.remove(output.sprite_sheet)
+		yield(_scan_filesystem(), "completed")
 
 	return result
 
