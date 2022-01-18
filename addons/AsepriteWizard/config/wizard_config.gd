@@ -33,6 +33,6 @@ static func _decode_base64(string: String):
 	return null
 
 
-static func _is_wizard_config(cfg: String) -> bool:
+static func _is_wizard_config(cfg) -> bool:
 	return cfg != null and cfg.begins_with(WIZARD_CONFIG_MARKER)
 
