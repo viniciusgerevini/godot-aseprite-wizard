@@ -117,6 +117,7 @@ margin_left = 1.0
 margin_top = 1.0
 margin_right = 96.0
 margin_bottom = 23.0
+custom_colors/font_color_pressed = Color( 0.8, 0.807843, 0.827451, 1 )
 toggle_mode = true
 text = "Options"
 align = 0

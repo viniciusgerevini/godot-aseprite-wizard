@@ -79,9 +79,7 @@ func _load_config(description):
 	_visible_layers_field.pressed = config.get("only_visible", "") == "True"
 	_ex_pattern_field.text = config.get("o_ex_p", "")
 
-	if config.get("op_exp", "false") == "True":
-		_options_container.visible = true
-		_options_title.pressed = true
+	_set_options_visible(config.get("op_exp", "false") == "True")
 
 
 func _load_default_config():
@@ -263,8 +261,13 @@ func _show_message(message: String):
 
 
 func _on_options_title_toggled(button_pressed):
-	_options_container.visible = button_pressed
+	_set_options_visible(button_pressed)
 	_save_config()
+
+
+func _set_options_visible(is_visible):
+	_options_container.visible = is_visible
+	_options_title.icon = config.get_icon_arrow_down() if is_visible else config.get_icon_arrow_right()
 
 
 func _on_out_folder_pressed():

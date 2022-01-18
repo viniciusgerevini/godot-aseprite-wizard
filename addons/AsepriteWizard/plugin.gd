@@ -19,7 +19,7 @@ var animated_sprite_inspector_plugin: EditorInspectorPlugin
 var _importer_enabled = false
 
 func _enter_tree():
-	config.load_config()
+	_load_config()
 	_setup_menu_entries()
 	_setup_importer()
 	_setup_animated_sprite_inspector_plugin()
@@ -31,6 +31,13 @@ func _exit_tree():
 	_remove_importer()
 	_remove_wizard_dock()
 	_remove_inspector_plugins()
+
+
+func _load_config():
+	var editor_gui = get_editor_interface().get_base_control()
+	config.load_config()
+	config.set_icon_arrow_down(editor_gui.get_icon("GuiTreeArrowDown", "EditorIcons"))
+	config.set_icon_arrow_right(editor_gui.get_icon("GuiTreeArrowRight", "EditorIcons"))
 
 
 func _setup_menu_entries():
