@@ -1,7 +1,8 @@
 tool
 extends PanelContainer
 
-var result_code = preload("../config/result_codes.gd")
+const wizard_config = preload("../config/wizard_config.gd")
+const result_code = preload("../config/result_codes.gd")
 var sprite_frames_creator = preload("sprite_frames_creator.gd").new()
 
 var scene: Node
@@ -30,50 +31,30 @@ onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layer
 onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
 
 func _ready():
-	var description = _decode_config(sprite.editor_description)
+	var cfg = wizard_config.decode(sprite.editor_description)
 
-	if _is_wizard_config(description):
-		_load_config(description)
-	else:
+	if cfg == null:
 		_load_default_config()
+	else:
+		_load_config(cfg)
 
 	sprite_frames_creator.init(config, file_system)
 
 
-func _decode_config(editor_description: String) -> String:
-	var description = ""
-	if editor_description != "":
-		description = Marshalls.base64_to_utf8(editor_description)
-		if description == null:
-			description = ""
-	return description
+func _load_config(cfg):
+	if cfg.has("source"):
+		_set_source(cfg.source)
 
+	if cfg.get("layer", "") != "":
+		_set_layer(cfg.layer)
 
-func _is_wizard_config(description: String) -> bool:
-	return description.begins_with("aseprite_wizard_config")
-
-
-func _load_config(description):
-	var cfg = description.split("\n")
-	var config = {}
-	for c in cfg:
-		var parts = c.split("|=", 1)
-		if parts.size() == 2:
-			config[parts[0].strip_edges()] = parts[1].strip_edges()
-
-	if config.has("source"):
-		_set_source(config.source)
-
-	if config.get("layer", "") != "":
-		_set_layer(config.layer)
-
-	_output_folder = config.get("o_folder", "")
+	_output_folder = cfg.get("o_folder", "")
 	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
-	_out_filename_field.text = config.get("o_name", "")
-	_visible_layers_field.pressed = config.get("only_visible", "") == "True"
-	_ex_pattern_field.text = config.get("o_ex_p", "")
+	_out_filename_field.text = cfg.get("o_name", "")
+	_visible_layers_field.pressed = cfg.get("only_visible", "") == "True"
+	_ex_pattern_field.text = cfg.get("o_ex_p", "")
 
-	_set_options_visible(config.get("op_exp", "false") == "True")
+	_set_options_visible(cfg.get("op_exp", "false") == "True")
 
 
 func _load_default_config():
@@ -151,23 +132,15 @@ func _on_import_pressed():
 
 
 func _save_config():
-	var text = "aseprite_wizard_config\n"
-	if _source != "":
-		text += _prop("source", _source)
-	text += _prop("layer", _layer)
-
-	text += _prop("op_exp", _options_title.pressed)
-
-	text += _prop("o_folder", _output_folder)
-	text += _prop("o_name", _out_filename_field.text)
-	text += _prop("only_visible", _visible_layers_field.pressed)
-	text += _prop("o_ex_p", _ex_pattern_field.text)
-
-	sprite.editor_description = Marshalls.utf8_to_base64(text)
-
-
-func _prop(prop, value):
-	return "%s|= %s\n" % [prop, value]
+	sprite.editor_description = wizard_config.encode({
+		"source": _source,
+		"layer": _layer,
+		"op_exp": _options_title.pressed,
+		"o_folder": _output_folder,
+		"o_name": _out_filename_field.text,
+		"only_visible": _visible_layers_field.pressed,
+		"o_ex_p": _ex_pattern_field.text
+	})
 
 
 func _open_source_dialog():
