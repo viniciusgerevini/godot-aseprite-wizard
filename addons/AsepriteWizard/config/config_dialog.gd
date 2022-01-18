@@ -5,12 +5,13 @@ signal importer_state_changed
 
 var _config
 
-onready var _aseprite_command_field = $MarginContainer/VBoxContainer/VBoxContainer/aseprite_command
+onready var _aseprite_command_field = $MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/aseprite_command
 onready var _importer_enable_field = $MarginContainer/VBoxContainer/enable_importer
 onready var _remove_source_files_field = $MarginContainer/VBoxContainer/remove_source
 onready var _enable_animation_loop = $MarginContainer/VBoxContainer/loop_animations
 onready var _loop_ex_prefix = $MarginContainer/VBoxContainer/loop/loop_config_prefix
 onready var _layer_ex_pattern = $MarginContainer/VBoxContainer/layer_ex/ex_p_config_prefix
+onready var _version_label = $MarginContainer/VBoxContainer/VBoxContainer/version_found
 
 func _ready():
 	_aseprite_command_field.text = _config.get_command()
@@ -19,6 +20,7 @@ func _ready():
 	_enable_animation_loop.pressed = _config.is_default_animation_loop_enabled()
 	_loop_ex_prefix.text = _config.get_animation_loop_exception_prefix()
 	_layer_ex_pattern.text = _config.get_default_exclusion_pattern()
+	_version_label.modulate.a = 0
 
 
 func init(config):
@@ -43,3 +45,17 @@ func _on_save_button_up():
 
 func _on_close_button_up():
 	self.hide()
+
+
+func _on_test_pressed():
+	var output = []
+	if _test_command(output):
+		_version_label.text = "%s found." % PoolStringArray(output).join("\n").strip_edges()
+	else:
+		_version_label.text = "Command not found."
+	_version_label.modulate.a = 1
+
+
+func _test_command(output):
+	var exit_code = OS.execute(_aseprite_command_field.text, ['--version'], true, output, true)
+	return exit_code == 0
