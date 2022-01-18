@@ -25,8 +25,10 @@ func create_animations(sprite: Sprite, player: AnimationPlayer, options: Diction
 
 	var result = _create_animations_from_file(sprite, player, options)
 	if result is GDScriptFunctionState:
-		return yield(result, "completed")
-	return result
+		result = yield(result, "completed")
+
+	if result != result_code.SUCCESS:
+		printerr(result_code.get_error_message(result))
 
 
 func _create_animations_from_file(sprite: Sprite, player: AnimationPlayer, options: Dictionary):
@@ -104,7 +106,7 @@ func _add_animation_frames(sprite: Sprite, player: AnimationPlayer, anim_name: S
 	if animation_name.begins_with(_config.get_animation_loop_exception_prefix()):
 		animation_name = anim_name.substr(_config.get_animation_loop_exception_prefix().length())
 		is_loopable = not is_loopable
-	
+
 	if not player.has_animation(animation_name):
 		player.add_animation(animation_name, Animation.new())
 
@@ -147,7 +149,7 @@ func _calculate_frame_index(sprite: Sprite, frame: Dictionary) -> int:
 
 func _create_frame_track(sprite: Sprite, animation: Animation, track: String):
 	var track_index = animation.find_track(track)
-	
+
 	if track_index != -1:
 		animation.remove_track(track_index)
 

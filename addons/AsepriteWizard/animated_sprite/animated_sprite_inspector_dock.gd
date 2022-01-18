@@ -14,7 +14,6 @@ var _layer: String = ""
 var _source: String = ""
 var _file_dialog_aseprite: FileDialog
 var _output_folder_dialog: FileDialog
-var _warning_dialog: AcceptDialog
 var _importing := false
 
 var _output_folder := ""
@@ -147,15 +146,7 @@ func _on_import_pressed():
 
 	_save_config()
 
-	var exit_code = sprite_frames_creator.create_animations(sprite, options)
-	if exit_code is GDScriptFunctionState:
-		exit_code = yield(exit_code, "completed")
-
-	if exit_code == 0:
-		_show_message("Import completed.")
-	else:
-		_show_message(result_code.get_error_message(exit_code))
-
+	sprite_frames_creator.create_animations(sprite, options)
 	_importing = false
 
 
@@ -203,7 +194,7 @@ func _on_aseprite_file_selected(path):
 
 
 func _show_message(message: String):
-	_warning_dialog = AcceptDialog.new()
+	var _warning_dialog = AcceptDialog.new()
 	get_parent().add_child(_warning_dialog)
 	_warning_dialog.dialog_text = message
 	_warning_dialog.popup_centered()

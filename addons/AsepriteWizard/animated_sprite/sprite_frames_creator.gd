@@ -13,6 +13,7 @@ var _config
 var _file_system: EditorFileSystem
 var _should_check_file_system := false
 
+
 func init(config, editor_file_system: EditorFileSystem = null):
 	_config = config
 	_file_system = editor_file_system
@@ -40,9 +41,12 @@ func create_animations(sprite: AnimatedSprite, options: Dictionary):
 		return result_code.ERR_OUTPUT_FOLDER_NOT_FOUND
 
 	var result = _create_animations_from_file(sprite, options)
+
 	if result is GDScriptFunctionState:
-		return yield(result, "completed")
-	return result
+		result = yield(result, "completed")
+
+	if result != result_code.SUCCESS:
+		printerr(result_code.get_error_message(result))
 
 
 func _create_animations_from_file(sprite: AnimatedSprite, options: Dictionary):
