@@ -2,14 +2,36 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## Unreleased
+## 4.0.0 (2022-01-xx)
+
+The highlight in this version is the addition of `AnimationPlayer` support and a simplified flow for `AnimatedSprite`s. It also contains a major code refactor and improvements to the configuration options.
+
+### Added
+
+- Added AnimationPlayer support. Check README for usage.
+- Added AnimatedSprite Inspector import section, similar to the new AnimationPlayer support.
+- Added "default layer exclusion pattern" option to configuration screen.
+- Added button to test Aseprite command in the configuration screen.
 
 ### Changed
 
-- Moved configuration screen from dock to Project > Tools > Aseprite Wizard Config.
-- Enabled --sheet-pack for optmised spritesheet generation.
+- Moved configuration window from dock to "Project > Tools > Aseprite Wizard Config".
+- Enabled `--sheet-pack` for optmised spritesheet generation.
 - Major code refactor.
+- Importer is not enabled by default anymore. I intend to deprecate the importer in the next major version (speak now or forever hold your peace).
+- "Remove source files" is enabled by default.
 
+### Removed
+
+- Removed "Trim" and "Trim by Grid" options. Reason: Trimming didn't work as expected and fixing it defeated its purposed. When trimming an animation, each frame would have a different size, making the animation
+boundary and position change constantly. This could be fixed in SpriteFrames by calculating the proper margin, however, the resulting file would be bigger than the one with trimming disabled.
+Check [issue #39](https://github.com/viniciusgerevini/godot-aseprite-wizard/issues/39) for more details.
+
+
+### Thanks
+
+- Thanks to @TheOrioli, @furroy and @tavurth for weighting in the AnimationPlayer support discussion. [issue #37](https://github.com/viniciusgerevini/godot-aseprite-wizard/issues/37)
+- Thanks again to @TheOrioli for providing a quick [workaround](https://github.com/KikimoraGames/godot_animationplayer_spriteframes_helper) for whoever is struggling with the lack of AnimationPlayer support.
 
 ## 3.0.0 (2021-11-20)
 
