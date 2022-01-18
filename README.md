@@ -2,11 +2,10 @@
 
 Godot plugin to help import Aseprite animations to AnimationPlayers, AnimatedSprites and SpriteFrames.
 
-<img align="center" src="./screenshots/main_screen.png" />
+<img align="center" src="./screenshots/comparison.png" />
+<img align="center" src="./screenshots/animation_dock.gif" />
 
-<img align="center" src="./screenshots/import_dock.png" />
-
-<img align="center" src="./screenshots/aseprite_godot.png" />
+_Check the screenshots folder for more examples._
 
 ### Features
 
