@@ -105,6 +105,7 @@ func _on_next_btn_up():
 		"only_visible_layers": _only_visible_layers_field().pressed,
 		"trim_images": _trim_image_field().selected == 1,
 		"trim_by_grid": _trim_image_field().selected == 2,
+		"inner_padding": _inner_padding_field().get_value(),
 		"output_filename": _custom_name_field().text,
 		"do_not_create_resource": _do_not_create_res_field().pressed,
 		"remove_source_files_allowed": true
@@ -175,6 +176,10 @@ func _only_visible_layers_field() -> CheckBox:
 
 func _trim_image_field() -> OptionButton:
 	return $container/options/layer_importing_mode/trim_mode/field as OptionButton
+
+
+func _inner_padding_field() -> SpinBox:
+	return $container/options/layer_importing_mode/inner_padding/field as SpinBox
 
 
 func _custom_name_field() -> LineEdit:

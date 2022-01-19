@@ -136,7 +136,10 @@ func _export_command_common_arguments(source_name, data_path, spritesheet_path, 
 
 	if options.get('trim_by_grid', false):
 		arguments.push_front('--trim-by-grid')
-	
+
+	if options.get('inner_padding', 0) > 0:
+		arguments = ['--inner-padding', str(options.get('inner_padding'))] + arguments
+
 	return arguments
 
 

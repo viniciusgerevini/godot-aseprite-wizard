@@ -143,7 +143,7 @@ caret_blink = true
 [node name="layer_importing_mode" type="VBoxContainer" parent="container/options"]
 margin_top = 272.0
 margin_right = 526.0
-margin_bottom = 418.0
+margin_bottom = 452.0
 custom_constants/separation = 10
 
 [node name="label" type="Label" parent="container/options/layer_importing_mode"]
@@ -237,10 +237,30 @@ text = "Disabled"
 items = [ "Disabled", null, false, 0, null, "Trim", null, false, 1, null, "Trim by Grid", null, false, 2, null ]
 selected = 0
 
-[node name="buttons" type="HBoxContainer" parent="container/options"]
-margin_top = 438.0
+[node name="inner_padding" type="HBoxContainer" parent="container/options/layer_importing_mode"]
+margin_top = 156.0
 margin_right = 526.0
-margin_bottom = 458.0
+margin_bottom = 180.0
+hint_tooltip = "Adds padding inside each sprite in the output sheet. This can help prevent tearing."
+
+[node name="label" type="Label" parent="container/options/layer_importing_mode/inner_padding"]
+margin_top = 5.0
+margin_right = 250.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 250, 0 )
+text = "Inner padding (px)"
+
+[node name="field" type="SpinBox" parent="container/options/layer_importing_mode/inner_padding"]
+margin_left = 254.0
+margin_right = 328.0
+margin_bottom = 24.0
+max_value = 20.0
+allow_greater = true
+
+[node name="buttons" type="HBoxContainer" parent="container/options"]
+margin_top = 472.0
+margin_right = 526.0
+margin_bottom = 492.0
 custom_constants/separation = 30
 alignment = 2
 
