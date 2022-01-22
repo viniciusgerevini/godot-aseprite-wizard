@@ -10,6 +10,7 @@ const _REMOVE_SOURCE_FILES_KEY = 'remove_source_files'
 const _LOOP_ENABLED = 'loop_enabled'
 const _LOOP_EXCEPTION_PREFIX = 'loop_config_prefix'
 const _DEFAULT_LOOP_EX_PREFIX = '_'
+const _DEFAULT_EXCLUSION_PATTERN_KEY = 'default_layer_ex_pattern'
 
 # IMPORT CONFIGS
 const _IMPORT_SECTION_KEY = 'file_locations'
@@ -18,11 +19,15 @@ const _I_LAST_OUTPUT_DIR_KEY = 'output'
 const _I_SHOULD_SPLIT_LAYERS_KEY = 'split_layers'
 const _I_EXCEPTIONS_KEY = 'exceptions_key'
 const _I_ONLY_VISIBLE_LAYERS_KEY = 'only_visible_layers'
-const _I_TRIM_MODE_KEY = 'trim_mode'
 const _I_CUSTOM_NAME_KEY = 'custom_name'
 const _I_DO_NOT_CREATE_RES_KEY = 'disable_resource_creation'
 
+# INTERFACE CONFIGS
+var _icon_arrow_down: Texture
+var _icon_arrow_right: Texture
+
 var _config := ConfigFile.new()
+
 
 func load_config() -> void:
 	_config = ConfigFile.new()
@@ -53,7 +58,7 @@ func set_command(aseprite_command: String) -> void:
 
 
 func is_importer_enabled() -> bool:
-	return _config.get_value(_CONFIG_SECTION_KEY, _IMPORTER_ENABLE_KEY, true)
+	return _config.get_value(_CONFIG_SECTION_KEY, _IMPORTER_ENABLE_KEY, false)
 
 
 func set_importer_enabled(is_enabled: bool) -> void:
@@ -61,7 +66,7 @@ func set_importer_enabled(is_enabled: bool) -> void:
 
 
 func should_remove_source_files() -> bool:
-	return _config.get_value(_CONFIG_SECTION_KEY, _REMOVE_SOURCE_FILES_KEY, false)
+	return _config.get_value(_CONFIG_SECTION_KEY, _REMOVE_SOURCE_FILES_KEY, true)
 
 
 func set_remove_source_files(should_remove: bool) -> void:
@@ -82,6 +87,14 @@ func get_animation_loop_exception_prefix() -> String:
 
 func set_animation_loop_exception_prefix(prefix: String) -> void:
 	_config.set_value(_CONFIG_SECTION_KEY, _LOOP_EXCEPTION_PREFIX, prefix if prefix != "" else _DEFAULT_LOOP_EX_PREFIX)
+
+
+func get_default_exclusion_pattern() -> String:
+	return _config.get_value(_CONFIG_SECTION_KEY, _DEFAULT_EXCLUSION_PATTERN_KEY, "")
+
+
+func set_default_exclusion_pattern(pattern: String) -> void:
+	_config.set_value(_CONFIG_SECTION_KEY, _DEFAULT_EXCLUSION_PATTERN_KEY, pattern)
 
 
 #######################################################
@@ -127,14 +140,6 @@ func set_include_only_visible_layers(include_only_visible: bool) -> void:
 	_config.set_value(_IMPORT_SECTION_KEY, _I_ONLY_VISIBLE_LAYERS_KEY, include_only_visible)
 
 
-func get_trim_mode() -> int:
-	return _config.get_value(_IMPORT_SECTION_KEY, _I_TRIM_MODE_KEY, 0)
-
-
-func set_trim_mode(trim_mode: int) -> void:
-	_config.set_value(_IMPORT_SECTION_KEY, _I_TRIM_MODE_KEY, trim_mode)
-
-
 func get_last_custom_name() -> String:
 	return _config.get_value(_IMPORT_SECTION_KEY, _I_CUSTOM_NAME_KEY, "")
 
@@ -149,3 +154,22 @@ func should_not_create_resource() -> bool:
 
 func set_do_not_create_resource(do_no_create: bool) -> void:
 	_config.set_value(_IMPORT_SECTION_KEY, _I_DO_NOT_CREATE_RES_KEY, do_no_create)
+
+
+#######################################################
+# INTERFACE CONFIGS
+######################################################
+func set_icon_arrow_down(icon: Texture) -> void:
+	_icon_arrow_down = icon
+
+
+func get_icon_arrow_down() -> Texture:
+	return _icon_arrow_down
+
+
+func set_icon_arrow_right(icon: Texture) -> void:
+	_icon_arrow_right = icon
+
+
+func get_icon_arrow_right() -> Texture:
+	return _icon_arrow_right

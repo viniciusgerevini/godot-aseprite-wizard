@@ -13,6 +13,7 @@ var _config
 var _file_system: EditorFileSystem
 var _should_check_file_system := false
 
+
 func init(config, editor_file_system: EditorFileSystem = null):
 	_config = config
 	_file_system = editor_file_system
@@ -28,11 +29,54 @@ func _is_loop_config_enabled() -> String:
 	return _config.is_default_animation_loop_enabled()
 
 
-func create_resource(source_file: String, output_folder: String, options = {}):
+func create_animations(sprite: AnimatedSprite, options: Dictionary):
 	if not _aseprite.test_command():
 		return result_code.ERR_ASEPRITE_CMD_NOT_FOUND
 
+	var dir = Directory.new()
+	if not dir.file_exists(options.source):
+		return result_code.ERR_SOURCE_FILE_NOT_FOUND
+
+	if not dir.dir_exists(options.output_folder):
+		return result_code.ERR_OUTPUT_FOLDER_NOT_FOUND
+
+	var result = _create_animations_from_file(sprite, options)
+
+	if result is GDScriptFunctionState:
+		result = yield(result, "completed")
+
+	if result != result_code.SUCCESS:
+		printerr(result_code.get_error_message(result))
+
+
+func _create_animations_from_file(sprite: AnimatedSprite, options: Dictionary):
+	var output
+
+	if options.get("layer", "") == "":
+		output = _aseprite.export_file(options.source, options.output_folder, options)
+	else:
+		output = _aseprite.export_layer(options.source, options.layer, options.output_folder, options)
+
+	if output.empty():
+		return result_code.ERR_ASEPRITE_EXPORT_FAILED
+	yield(_scan_filesystem(), "completed")
+
+	var result = _import(output, sprite)
+
+	if _config.should_remove_source_files():
+		var dir = Directory.new()
+		dir.remove(output.data_file)
+		dir.remove(output.sprite_sheet)
+		yield(_scan_filesystem(), "completed")
+
+	return result
+
+
+func create_resource(source_file: String, output_folder: String, options = {}):
 	var export_mode = options.get('export_mode', FILE_EXPORT_MODE)
+
+	if not _aseprite.test_command():
+		return result_code.ERR_ASEPRITE_CMD_NOT_FOUND
 
 	var dir = Directory.new()
 	if not dir.file_exists(source_file):
@@ -112,7 +156,7 @@ func _get_file_basename(file_path: String) -> String:
 	return file_path.get_file().trim_suffix('.%s' % file_path.get_extension())
 
 
-func _import(data) -> int:
+func _import(data, animated_sprite = null) -> int:
 	var source_file = data.data_file
 	var sprite_sheet = data.sprite_sheet
 	var file = File.new()
@@ -121,12 +165,16 @@ func _import(data) -> int:
 			return err
 	var content =  parse_json(file.get_as_text())
 
-	if not _is_valid_aseprite_spritesheet(content):
+	if not _aseprite.is_valid_spritesheet(content):
 		return result_code.ERR_INVALID_ASEPRITE_SPRITESHEET
 
 	var texture = _parse_texture_path(sprite_sheet)
 
 	var resource = _create_sprite_frames_with_animations(content, texture)
+
+	if is_instance_valid(animated_sprite):
+		animated_sprite.frames = resource
+		return result_code.SUCCESS
 
 	var save_path = "%s.%s" % [source_file.get_basename(), "res"]
 	var code =  ResourceSaver.save(save_path, resource, ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
@@ -135,7 +183,7 @@ func _import(data) -> int:
 
 
 func _create_sprite_frames_with_animations(content, texture):
-	var frames = _get_frames_from_content(content)
+	var frames = _aseprite.get_content_frames(content)
 	var sprite_frames = SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 
@@ -147,10 +195,6 @@ func _create_sprite_frames_with_animations(content, texture):
 		_add_animation_frames(sprite_frames, "default", frames, texture)
 
 	return sprite_frames
-
-
-func _get_frames_from_content(content):
-	return content.frames if typeof(content.frames) == TYPE_ARRAY  else content.frames.values()
 
 
 func _add_animation_frames(sprite_frames, anim_name, frames, texture, direction = 'forward'):
@@ -190,8 +234,10 @@ func _add_animation_frames(sprite_frames, anim_name, frames, texture, direction 
 	sprite_frames.set_animation_loop(animation_name, is_loopable)
 	sprite_frames.set_animation_speed(animation_name, fps)
 
+
 func _calculate_fps(min_duration: int) -> float:
 	return ceil(1000 / min_duration)
+
 
 func _get_min_duration(frames) -> int:
 	var min_duration = 100000
@@ -199,6 +245,7 @@ func _get_min_duration(frames) -> int:
 		if frame.duration < min_duration:
 			min_duration = frame.duration
 	return min_duration
+
 
 func _parse_texture_path(path):
 	if not _should_check_file_system and not ResourceLoader.has_cached(path):
@@ -214,10 +261,6 @@ func _parse_texture_path(path):
 	return ResourceLoader.load(path, 'Image', true)
 
 
-func _is_valid_aseprite_spritesheet(content):
-	return content.has("frames") and content.has("meta") and content.meta.has('image')
-
-
 func _create_atlastexture_from_frame(image, frame_data):
 	var atlas = AtlasTexture.new()
 	var frame = frame_data.frame
@@ -229,3 +272,7 @@ func _create_atlastexture_from_frame(image, frame_data):
 func _scan_filesystem():
 	_file_system.scan()
 	yield(_file_system, "filesystem_changed")
+
+
+func list_layers(file: String, only_visibles = false) -> Array:
+	return _aseprite.list_layers(file, only_visibles)

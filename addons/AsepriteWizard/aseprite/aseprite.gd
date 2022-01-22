@@ -10,13 +10,13 @@ func init(config):
 func export_file(file_name: String, output_folder: String, options: Dictionary) -> Dictionary:
 	var exception_pattern = options.get('exception_pattern', "")
 	var only_visible_layers = options.get('only_visible_layers', false)
-	var output_name = file_name if options.get('output_filename') == "" else options.get('output_filename')
+	var output_name = file_name if options.get('output_filename') == "" else options.get('output_filename', file_name)
 	var basename = _get_file_basename(output_name)
 	var output_dir = output_folder.replace("res://", "./")
 	var data_file = "%s/%s.json" % [output_dir, basename]
 	var sprite_sheet = "%s/%s.png" % [output_dir, basename]
 	var output = []
-	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet, options)
+	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
 
 	if not only_visible_layers:
 		arguments.push_front("--all-layers")
@@ -24,7 +24,6 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 	_add_ignore_layer_arguments(file_name, arguments, exception_pattern)
 
 	var exit_code = _execute(arguments, output)
-
 	if exit_code != 0:
 		printerr('aseprite: failed to export spritesheet')
 		printerr(output)
@@ -40,7 +39,6 @@ func export_layers(file_name: String, output_folder: String, options: Dictionary
 	var exception_pattern = options.get('exception_pattern', "")
 	var only_visible_layers = options.get('only_visible_layers', false)
 	var basename = _get_file_basename(file_name)
-	var output_dir = output_folder.replace("res://", "./")
 	var layers = list_layers(file_name, only_visible_layers)
 	var exception_regex = _compile_regex(exception_pattern)
 
@@ -48,22 +46,22 @@ func export_layers(file_name: String, output_folder: String, options: Dictionary
 
 	for layer in layers:
 		if layer != "" and (not exception_regex or exception_regex.search(layer) == null):
-			output.push_back(_export_layer(file_name, layer, output_dir, options))
+			output.push_back(export_layer(file_name, layer, output_folder, options))
 
 	return output
 
 
-func _export_layer(file_name: String, layer_name: String, output_folder: String, options: Dictionary) -> Dictionary:
+func export_layer(file_name: String, layer_name: String, output_folder: String, options: Dictionary) -> Dictionary:
 	var output_prefix = options.get('output_filename', "")
-	var data_file = "%s/%s%s.json" % [output_folder, output_prefix, layer_name]
-	var sprite_sheet = "%s/%s%s.png" % [output_folder, output_prefix, layer_name]
+	var output_dir = output_folder.replace("res://", "./")
+	var data_file = "%s/%s%s.json" % [output_dir, output_prefix, layer_name]
+	var sprite_sheet = "%s/%s%s.png" % [output_dir, output_prefix, layer_name]
 	var output = []
-	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet, options)
+	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
 	arguments.push_front(layer_name)
 	arguments.push_front("--layer")
 
 	var exit_code = _execute(arguments, output)
-
 	if exit_code != 0:
 		print('aseprite: failed to export layer spritesheet')
 		print(output)
@@ -117,8 +115,8 @@ func list_layers(file_name: String, only_visible = false) -> Array:
 	return output[0].split('\n')
 
 
-func _export_command_common_arguments(source_name, data_path, spritesheet_path, options):
-	var arguments = [
+func _export_command_common_arguments(source_name: String, data_path: String, spritesheet_path: String) -> Array:
+	return [
 		"-b",
 		"--list-tags",
 		"--sheet-pack",
@@ -130,14 +128,6 @@ func _export_command_common_arguments(source_name, data_path, spritesheet_path, 
 		spritesheet_path,
 		source_name
 	]
-
-	if options.get('trim_images', false):
-		arguments.push_front("--trim")
-
-	if options.get('trim_by_grid', false):
-		arguments.push_front('--trim-by-grid')
-	
-	return arguments
 
 
 func _execute(arguments, output):
@@ -166,3 +156,11 @@ func _compile_regex(pattern):
 func test_command():
 	var exit_code = OS.execute(_aseprite_command(), ['--version'], true)
 	return exit_code == 0
+
+
+func is_valid_spritesheet(content):
+	return content.has("frames") and content.has("meta") and content.meta.has('image')
+
+
+func get_content_frames(content):
+	return content.frames if typeof(content.frames) == TYPE_ARRAY  else content.frames.values()
