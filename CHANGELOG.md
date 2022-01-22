@@ -2,7 +2,7 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## 4.0.0 (2022-01-xx)
+## 4.0.0 (2022-01-23)
 
 The highlight in this version is the addition of `AnimationPlayer` support and a simplified flow for `AnimatedSprite`s. It also contains a major code refactor and improvements to the configuration options.
 
