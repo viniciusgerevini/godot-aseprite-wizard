@@ -22,7 +22,7 @@ _Check the screenshots folder for more examples._
   - Adds Aseprite file importer to Godot (check limitations section).
 - AnimationPlayer
   - Adds and removes animation tracks without removing other existing tracks.
-  - You are free to import multiple files to the same AnimationPlayer or import each layer in a file to their own Sprite and AnimationPlayer.
+  - You are free to import multiple files to the same AnimationPlayer or import each layer to their own Sprite and AnimationPlayer.
 
 Aseprite Wizard is only required during development. If you decide to not use it anymore, you can remove the plugin and all animations previously imported should keep working as expected.
 
@@ -104,7 +104,7 @@ Notes:
 
 ### Wizard (bottom dock)
 
-The wizard screen allows you to import files from anywhere in your filesystem. This can be used in cases where you would like to generate SpriteFrames independently and include them in different nodes manually or programmatically.
+The wizard screen allows you to import SpriteFrames resources without attaching them to a scene or node This can be used in cases where you would like to generate SpriteFrames independently and include them in different nodes manually or programmatically.
 Check this video to see the wizard in action: https://www.youtube.com/watch?v=Yeqlce685E0 . This video is quite outdated, but the main idea/features are still the same.
 
 | Field                   | Description |
@@ -196,7 +196,7 @@ If I were to have the new fields persisted without using the "Editor Description
 
 Another possible workaround would be saving temporary or support files, which would add complexity and flakiness to the plugin, and possibly pollute your repository.
 
-The "Editor Description" was the best compromise from the options available. If it bothers you and you don't mind filling the fields up when re-importing, feel free to delete that text after importing.
+The "Editor Description" was the best compromise from the options available. If it bothers you and you don't mind filling the fields up when re-importing, feel free to delete its content after importing.
 
 
 ## Known Issues
@@ -215,7 +215,7 @@ The sprite sheet file (png) used in the resource is created by Aseprite, outside
 
 However, the scan operation is asynchronous and it can't be used in the importer. We implemented a fallback method but, unfortunately, it creates bigger resource files.
 
-Until we find an alternative way, the importer will create bigger files. If you prefer to stick with the wizard flow, but you save your aseprite files inside your project folder, there is a configuration to disable the automatic importer.
+Until we find an alternative way, the importer will create bigger files. To prevent it from generating resources for Aseprite files saved in your project folder, leave it disabled in the configuration screen or add a `.gdignore` file to the folder containing the `*.aseprite` files.
 
 
 ### Big files issue (Image width cannot be greater than 16384px)
@@ -226,7 +226,7 @@ As per Godot's [docs](https://docs.godotengine.org/en/stable/classes/class_image
 
 This plugin exports all animations as a single sprite sheet. If you are using a big canvas size in Aseprite with lots of frames, you may reach this limit.
 
-I recently changed the sprites sheet export to use the `packing` algorithm, which should mitigate this issue, however, it won't solve it entirely.
+Sprite sheets are generated using a `packing` algorithm, which should mitigate this issue, however, it won't solve it entirely.
 
 I might implement an option to split big images in multiple files, however, this will only be possible for AnimatedSprites. In the current implementation, AnimationPlayers won't benefit from it.
 
