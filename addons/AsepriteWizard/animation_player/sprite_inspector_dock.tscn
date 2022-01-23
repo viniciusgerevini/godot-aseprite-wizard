@@ -149,7 +149,7 @@ align = 0
 visible = false
 margin_top = 120.0
 margin_right = 198.0
-margin_bottom = 240.0
+margin_bottom = 268.0
 
 [node name="out_folder" type="HBoxContainer" parent="margin/VBoxContainer/options"]
 margin_right = 198.0
@@ -215,10 +215,31 @@ margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="visible_layers" type="HBoxContainer" parent="margin/VBoxContainer/options"]
+[node name="inner_padding" type="HBoxContainer" parent="margin/VBoxContainer/options"]
 margin_top = 80.0
 margin_right = 198.0
-margin_bottom = 120.0
+margin_bottom = 104.0
+hint_tooltip = "Adds padding inside each sprite in the output sheet. This can help prevent tearing."
+
+[node name="Label" type="Label" parent="margin/VBoxContainer/options/inner_padding"]
+margin_top = 5.0
+margin_right = 115.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Inner padding (px)"
+
+[node name="SpinBox" type="SpinBox" parent="margin/VBoxContainer/options/inner_padding"]
+margin_left = 119.0
+margin_right = 198.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="visible_layers" type="HBoxContainer" parent="margin/VBoxContainer/options"]
+margin_top = 108.0
+margin_right = 198.0
+margin_bottom = 148.0
 hint_tooltip = "If active, layers not visible in the source file won't be included in the final image."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/options/visible_layers"]

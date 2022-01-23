@@ -31,6 +31,7 @@ onready var _out_folder_field = $margin/VBoxContainer/options/out_folder/button
 onready var _out_filename_field = $margin/VBoxContainer/options/out_filename/LineEdit
 onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layers/CheckButton
 onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
+onready var _inner_padding_field = $margin/VBoxContainer/options/inner_padding/SpinBox
 
 func _ready():
 	var cfg = wizard_config.decode(sprite.editor_description)
@@ -171,7 +172,8 @@ func _on_import_pressed():
 		"exception_pattern": _ex_pattern_field.text,
 		"only_visible_layers": _visible_layers_field.pressed,
 		"output_filename": _out_filename_field.text,
-		"layer": _layer
+		"layer": _layer,
+		"inner_padding": _inner_padding_field.get_value()
 	}
 
 	_save_config()

@@ -16,10 +16,14 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 	var data_file = "%s/%s.json" % [output_dir, basename]
 	var sprite_sheet = "%s/%s.png" % [output_dir, basename]
 	var output = []
+	var inner_padding = options.get('inner_padding', 0)
 	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
 
 	if not only_visible_layers:
 		arguments.push_front("--all-layers")
+
+	if inner_padding > 0:
+		arguments = ['--inner-padding', str(inner_padding)] + arguments
 
 	_add_ignore_layer_arguments(file_name, arguments, exception_pattern)
 
