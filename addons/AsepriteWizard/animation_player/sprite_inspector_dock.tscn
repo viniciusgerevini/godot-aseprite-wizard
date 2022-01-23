@@ -235,6 +235,9 @@ margin_right = 198.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
+max_value = 20.0
+rounded = true
+allow_greater = true
 
 [node name="visible_layers" type="HBoxContainer" parent="margin/VBoxContainer/options"]
 margin_top = 108.0
