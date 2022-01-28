@@ -44,6 +44,8 @@ If you are using Windows, a portable version or if the `aseprite` command is not
 
 ## How to use
 
+_Check this video for usage examples:_ https://youtu.be/1W-CCbrzG_0
+
 After activating the plugin, you can find a section called Aseprite in the inspector dock when selecting Sprite and AnimatedSprite nodes. Also, the importer will be enabled allowing Aseprite files to be used seamlessly. In addition to that, you can find the wizard screen on `Project -> Tools -> Aseprite Spritesheet Wizard` menu.
 
 ### AnimationPlayer
@@ -105,7 +107,7 @@ Notes:
 ### Wizard (bottom dock)
 
 The wizard screen allows you to import SpriteFrames resources without attaching them to a scene or node This can be used in cases where you would like to generate SpriteFrames independently and include them in different nodes manually or programmatically.
-Check this video to see the wizard in action: https://www.youtube.com/watch?v=Yeqlce685E0 . This video is quite outdated, but the main idea/features are still the same.
+
 
 | Field                   | Description |
 | ----------------------- | ----------- |
