@@ -236,7 +236,7 @@ func _add_animation_frames(sprite_frames, anim_name, frames, texture, direction 
 
 
 func _calculate_fps(min_duration: int) -> float:
-	return ceil(1000 / min_duration)
+	return ceil(1000.0 / min_duration)
 
 
 func _get_min_duration(frames) -> int:
