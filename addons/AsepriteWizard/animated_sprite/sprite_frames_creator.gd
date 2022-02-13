@@ -182,9 +182,9 @@ func _import(data, animated_sprite = null) -> int:
 	return code
 
 
-func _create_sprite_frames_with_animations(content, texture):
+func _create_sprite_frames_with_animations(content, texture) -> SpriteFrames:
 	var frames = _aseprite.get_content_frames(content)
-	var sprite_frames = SpriteFrames.new()
+	var sprite_frames := SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 
 	if content.meta.has("frameTags") and content.meta.frameTags.size() > 0:
@@ -197,12 +197,15 @@ func _create_sprite_frames_with_animations(content, texture):
 	return sprite_frames
 
 
-func _add_animation_frames(sprite_frames, anim_name, frames, texture, direction = 'forward'):
-	var animation_name = anim_name
+func _add_animation_frames(
+			sprite_frames: SpriteFrames, anim_name: String, frames : Array, texture, direction = 'forward'):
+	
+	var animation_name := anim_name
 	var is_loopable = _is_loop_config_enabled()
 
-	if animation_name.begins_with(_loop_config_prefix()):
-		animation_name = anim_name.substr(_loop_config_prefix().length())
+	var loop_prefix := _loop_config_prefix()
+	if animation_name.begins_with(loop_prefix):
+		animation_name = anim_name.trim_prefix(loop_prefix)
 		is_loopable = not is_loopable
 
 	sprite_frames.add_animation(animation_name)
@@ -214,10 +217,7 @@ func _add_animation_frames(sprite_frames, anim_name, frames, texture, direction 
 		frames.invert()
 
 	for frame in frames:
-		var atlas = _create_atlastexture_from_frame(texture, frame)
-		var number_of_sprites = ceil(frame.duration / min_duration)
-		for _i in range(number_of_sprites):
-			sprite_frames.add_frame(animation_name, atlas)
+		_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration)
 
 	if direction == 'pingpong':
 		frames.remove(frames.size() - 1)
@@ -226,10 +226,7 @@ func _add_animation_frames(sprite_frames, anim_name, frames, texture, direction 
 		frames.invert()
 
 		for frame in frames:
-			var atlas = _create_atlastexture_from_frame(texture, frame)
-			var number_of_sprites = ceil(frame.duration / min_duration)
-			for _i in range(number_of_sprites):
-				sprite_frames.add_frame(animation_name, atlas)
+			_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration)
 
 	sprite_frames.set_animation_loop(animation_name, is_loopable)
 	sprite_frames.set_animation_speed(animation_name, fps)
@@ -261,12 +258,24 @@ func _parse_texture_path(path):
 	return ResourceLoader.load(path, 'Image', true)
 
 
-func _create_atlastexture_from_frame(image, frame_data):
-	var atlas = AtlasTexture.new()
+func _create_atlastexture_from_frame(image, frame_data, sprite_frames: SpriteFrames) -> AtlasTexture:
+	# Prevention of needless duplicates, a great memory optimisation.
+	# It's however exponentially slow.
 	var frame = frame_data.frame
-	atlas.atlas = image
-	atlas.region = Rect2(frame.x, frame.y, frame.w, frame.h)
-	return atlas
+	var region := Rect2(frame.x, frame.y, frame.w, frame.h)
+	for animation_name in sprite_frames.get_animation_names():
+		for index in sprite_frames.get_frame_count(animation_name):
+			var search_frame = sprite_frames.get_frame(animation_name, index)
+
+			if (search_frame is AtlasTexture
+			and search_frame.region == region
+			and search_frame.atlas == image):
+				return search_frame
+	
+	var atlas_texture := AtlasTexture.new()
+	atlas_texture.atlas = image
+	atlas_texture.region = region
+	return atlas_texture
 
 
 func _scan_filesystem():
@@ -276,3 +285,11 @@ func _scan_filesystem():
 
 func list_layers(file: String, only_visibles = false) -> Array:
 	return _aseprite.list_layers(file, only_visibles)
+
+func _add_to_sprite_frames(sprite_frames, animation_name: String, texture, frame: Dictionary, min_duration: int):
+	var atlas : AtlasTexture = _create_atlastexture_from_frame(texture, frame, sprite_frames)
+
+	var number_of_sprites = ceil(frame.duration / min_duration)
+	for _i in range(number_of_sprites):
+		sprite_frames.add_frame(animation_name, atlas)
+
