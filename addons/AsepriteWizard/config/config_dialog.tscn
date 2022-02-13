@@ -87,7 +87,7 @@ text = "Enable Aseprite Importer"
 margin_top = 136.0
 margin_right = 512.0
 margin_bottom = 160.0
-hint_tooltip = "Wizard only: removes *.json and *.png files generated during import."
+hint_tooltip = "removes *.json  files generated during import."
 text = "Remove source files"
 
 [node name="loop_animations" type="CheckBox" parent="MarginContainer/VBoxContainer"]
