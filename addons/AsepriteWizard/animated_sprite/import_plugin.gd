@@ -36,23 +36,26 @@ func get_preset_name(i):
 
 func get_import_options(i):
 	return [
-		{"name": "split_layers", "default_value": false},
+		{"name": "split_layers",           "default_value": false},
 		{"name": "exclude_layers_pattern", "default_value": ''},
-		{"name": "only_visible_layers", "default_value": false},
+		{"name": "only_visible_layers",    "default_value": false},
+		
+		{"name": "sheet_type", "default_value": "Packed", "property_hint": PROPERTY_HINT_ENUM, 
+			"hint_string": get_sheet_type_hint_string()},
 
 		{"name": "sprite_filename_pattern", "default_value": "{basename}.{layer}.{extension}"},
 
 		{"name": "texture_strip/import_texture_strip", "default_value": false},
-		{"name": "texture_strip/filename_pattern", "default_value": "{basename}.{layer}.Strip.{extension}"},
+		{"name": "texture_strip/filename_pattern",     "default_value": "{basename}.{layer}.Strip.{extension}"},
 
-		{"name": "texture_atlas/import_texture_atlas", "default_value": false},
-		{"name": "texture_atlas/filename_pattern", "default_value": "{basename}.{layer}.Atlas.{extension}"},
+		{"name": "texture_atlas/import_texture_atlas",   "default_value": false},
+		{"name": "texture_atlas/filename_pattern",       "default_value": "{basename}.{layer}.Atlas.{extension}"},
 		{"name": "texture_atlas/frame_filename_pattern", "default_value": "{basename}.{layer}.{animation}.{frame}.Atlas.{extension}"},
 
 		{"name": "animated_texture/import_animated_texture", "default_value": false},
-		{"name": "animated_texture/filename_pattern", "default_value": "{basename}.{layer}.{animation}.Texture.{extension}"},
-		{"name": "animated_texture/frame_filename_pattern", "default_value": "{basename}.{layer}.{animation}.{frame}.Texture.{extension}"},
-		]
+		{"name": "animated_texture/filename_pattern",        "default_value": "{basename}.{layer}.{animation}.Texture.{extension}"},
+		{"name": "animated_texture/frame_filename_pattern",  "default_value": "{basename}.{layer}.{animation}.{frame}.Texture.{extension}"},
+	]
 
 
 func get_option_visibility(option, options):
@@ -66,6 +69,12 @@ static func replace_vars(pattern : String, vars : Dictionary):
 		result = result.replace("{%s}" % k, v)
 	return result
 
+static func get_sheet_type_hint_string() -> String:
+	var hint_string := "Packed"
+	for number in [2, 4, 8, 16, 32]:
+		hint_string += ",%s columns" % number
+	hint_string += ",Strip"
+	return hint_string
 
 func import(source_file, save_path, options, platform_variants, gen_files):
 	var absolute_source_file = ProjectSettings.globalize_path(source_file)
@@ -97,11 +106,12 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 		"export_mode": export_mode,
 		"exception_pattern": options['exclude_layers_pattern'],
 		"only_visible_layers": options['only_visible_layers'],
-		"output_filename": ''
+		"output_filename": '',
+		"column_count" : int(options['sheet_type']) if options['sheet_type'] != "Strip" else 128,
 	}
 
 	var exit_code = _sf_creator.create_resource(absolute_source_file, absolute_save_path, aseprite_opts)
-	if exit_code != 0:
+	if exit_code != OK:
 		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(exit_code))
 		return FAILED
 
