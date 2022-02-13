@@ -6,7 +6,10 @@ var _config
 func init(config):
 	_config = config
 
-
+#{
+#	'data_file': file path to the json file
+#	"sprite_sheet": file path to the raw image file
+#}
 func export_file(file_name: String, output_folder: String, options: Dictionary) -> Dictionary:
 	var exception_pattern = options.get('exception_pattern', "")
 	var only_visible_layers = options.get('only_visible_layers', false)
@@ -20,6 +23,8 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 
 	if not only_visible_layers:
 		arguments.push_front("--all-layers")
+
+	_add_sheet_type_arguments(arguments, options)
 
 	_add_ignore_layer_arguments(file_name, arguments, exception_pattern)
 
@@ -60,6 +65,8 @@ func export_layer(file_name: String, layer_name: String, output_folder: String, 
 	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
 	arguments.push_front(layer_name)
 	arguments.push_front("--layer")
+	
+	_add_sheet_type_arguments(arguments, options)
 
 	var exit_code = _execute(arguments, output)
 	if exit_code != 0:
@@ -79,6 +86,15 @@ func _add_ignore_layer_arguments(file_name: String, arguments: Array, exception_
 		for l in layers:
 			arguments.push_front(l)
 			arguments.push_front('--ignore-layer')
+
+func _add_sheet_type_arguments(arguments: Array, options : Dictionary):
+	var column_count : int = options.get("column_count", 0)
+	if column_count > 0:
+		arguments.push_back("--merge-duplicates") # Yes, this is undocumented
+		arguments.push_back("--sheet-columns")
+		arguments.push_back(column_count)
+	else:
+		arguments.push_back("--sheet-pack")
 
 
 func _get_exception_layers(file_name: String, exception_pattern: String) -> Array:
@@ -119,7 +135,6 @@ func _export_command_common_arguments(source_name: String, data_path: String, sp
 	return [
 		"-b",
 		"--list-tags",
-		"--sheet-pack",
 		"--data",
 		data_path,
 		"--format",
