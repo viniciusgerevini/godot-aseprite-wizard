@@ -6,10 +6,12 @@ var _config
 func init(config):
 	_config = config
 
-#{
-#	'data_file': file path to the json file
-#	"sprite_sheet": file path to the raw image file
-#}
+#
+# Output:
+# {
+#   "data_file": file path to the json file
+#   "sprite_sheet": file path to the raw image file
+# }
 func export_file(file_name: String, output_folder: String, options: Dictionary) -> Dictionary:
 	var exception_pattern = options.get('exception_pattern', "")
 	var only_visible_layers = options.get('only_visible_layers', false)

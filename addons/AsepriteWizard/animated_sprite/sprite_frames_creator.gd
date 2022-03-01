@@ -180,6 +180,7 @@ func _import(data, animated_sprite = null) -> int:
 
 
 func _create_sprite_frames_with_animations(content, texture) -> SpriteFrames:
+	var frame_cache = {}
 	var frames = _aseprite.get_content_frames(content)
 	var sprite_frames := SpriteFrames.new()
 	sprite_frames.remove_animation("default")
@@ -187,7 +188,7 @@ func _create_sprite_frames_with_animations(content, texture) -> SpriteFrames:
 	if content.meta.has("frameTags") and content.meta.frameTags.size() > 0:
 		for tag in content.meta.frameTags:
 			var selected_frames = frames.slice(tag.from, tag.to)
-			_add_animation_frames(sprite_frames, tag.name, selected_frames, texture, tag.direction)
+			_add_animation_frames(sprite_frames, tag.name, selected_frames, texture, tag.direction, frame_cache)
 	else:
 		_add_animation_frames(sprite_frames, "default", frames, texture)
 
@@ -195,8 +196,14 @@ func _create_sprite_frames_with_animations(content, texture) -> SpriteFrames:
 
 
 func _add_animation_frames(
-			sprite_frames: SpriteFrames, anim_name: String, frames : Array, texture, direction = 'forward'):
-	
+	sprite_frames: SpriteFrames,
+	anim_name: String,
+	frames : Array,
+	texture,
+	direction = 'forward',
+	frame_cache = {}
+):
+
 	var animation_name := anim_name
 	var is_loopable = _is_loop_config_enabled()
 
@@ -214,7 +221,7 @@ func _add_animation_frames(
 		frames.invert()
 
 	for frame in frames:
-		_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration)
+		_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache)
 
 	if direction == 'pingpong':
 		frames.remove(frames.size() - 1)
@@ -223,7 +230,7 @@ func _add_animation_frames(
 		frames.invert()
 
 		for frame in frames:
-			_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration)
+			_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache)
 
 	sprite_frames.set_animation_loop(animation_name, is_loopable)
 	sprite_frames.set_animation_speed(animation_name, fps)
@@ -255,23 +262,42 @@ func _parse_texture_path(path):
 	return ResourceLoader.load(path, 'Image', true)
 
 
-func _create_atlastexture_from_frame(image, frame_data, sprite_frames: SpriteFrames) -> AtlasTexture:
-	# Prevention of needless duplicates, a great memory optimisation.
-	# It's however exponentially slow.
+func _add_to_sprite_frames(
+	sprite_frames,
+	animation_name: String,
+	texture,
+	frame: Dictionary,
+	min_duration: int,
+	frame_cache: Dictionary
+):
+	var atlas : AtlasTexture = _create_atlastexture_from_frame(texture, frame, sprite_frames, frame_cache)
+
+	var number_of_sprites = ceil(frame.duration / min_duration)
+	for _i in range(number_of_sprites):
+		sprite_frames.add_frame(animation_name, atlas)
+
+
+func _create_atlastexture_from_frame(
+	image,
+	frame_data,
+	sprite_frames: SpriteFrames,
+	frame_cache: Dictionary
+) -> AtlasTexture:
 	var frame = frame_data.frame
 	var region := Rect2(frame.x, frame.y, frame.w, frame.h)
-	for animation_name in sprite_frames.get_animation_names():
-		for index in sprite_frames.get_frame_count(animation_name):
-			var search_frame = sprite_frames.get_frame(animation_name, index)
+	var key := "%s_%s_%s_%s" % [frame.x, frame.y, frame.w, frame.h]
 
-			if (search_frame is AtlasTexture
-			and search_frame.region == region
-			and search_frame.atlas == image):
-				return search_frame
+	var texture = frame_cache.get(key)
 	
+	if texture != null and texture.atlas == image:
+		return texture
+
 	var atlas_texture := AtlasTexture.new()
 	atlas_texture.atlas = image
 	atlas_texture.region = region
+
+	frame_cache[key] = atlas_texture
+
 	return atlas_texture
 
 
@@ -282,11 +308,3 @@ func _scan_filesystem():
 
 func list_layers(file: String, only_visibles = false) -> Array:
 	return _aseprite.list_layers(file, only_visibles)
-
-func _add_to_sprite_frames(sprite_frames, animation_name: String, texture, frame: Dictionary, min_duration: int):
-	var atlas : AtlasTexture = _create_atlastexture_from_frame(texture, frame, sprite_frames)
-
-	var number_of_sprites = ceil(frame.duration / min_duration)
-	for _i in range(number_of_sprites):
-		sprite_frames.add_frame(animation_name, atlas)
-
