@@ -2,6 +2,24 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 4.1.0 (WIP)
+
+### Added
+
+- Added Importer option: Sheet type.
+
+### Changed
+
+- SpriteFrames: reuse same AtlasTexture for frames using same region in Spritesheet. This decrease file size by a few bytes.
+
+### Fixed
+
+- Do not remove spritesheet files when source files are set to be removed as they are used by the SpriteFrames.
+
+
+### Thanks
+
+Thanks to @Mickeon for contributing with the AtlasTexture re-use and import option.
 
 ## 4.0.1 (2022-02-08)
 
