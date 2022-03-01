@@ -2,7 +2,7 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## 4.1.0 (WIP)
+## 4.1.0 (2022-03-02)
 
 ### Added
 
@@ -15,7 +15,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Fixed
 
 - Do not remove spritesheet files when source files are set to be removed as they are used by the SpriteFrames.
-
 
 ### Thanks
 

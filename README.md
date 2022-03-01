@@ -37,7 +37,7 @@ If you are using Windows, a portable version or if the `aseprite` command is not
 | ----------------------- | ----------- |
 | Aseprite Command Path   | Path to the aseprite executable. Default: `aseprite` |
 | Enable Aseprite Importer   | Enable/Disable Aseprite automatic importer. Default: `false` |
-| Remove Source Files   | Remove temporary `*.json` and `*.png` files generated during import. Default: `true` |
+| Remove Source Files   | Remove temporary `*.json` files generated during import. Default: `true` |
 | Loop animations       | Default animation loop configuration. Default: `true` |
 | Loop exception prefix | Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The prefix is removed from the animation name on import (i.e  `_death` > `death`). Default: `_` |
 | Default layer exclusion pattern | Exclude layers with names matching this pattern (regex). This is the default value for new nodes. It can be changed or removed during the import. Default: not set |
