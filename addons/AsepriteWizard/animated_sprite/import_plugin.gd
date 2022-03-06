@@ -1,4 +1,4 @@
-tool
+@tool
 extends EditorImportPlugin
 
 const result_codes = preload("../config/result_codes.gd")
@@ -6,41 +6,46 @@ const result_codes = preload("../config/result_codes.gd")
 var _config = preload("../config/config.gd").new()
 var _sf_creator = preload("sprite_frames_creator.gd").new()
 
-func get_importer_name():
+func _get_importer_name():
 	return "aseprite.wizard.plugin"
 
 
-func get_visible_name():
+func _get_visible_name():
 	return "Aseprite Importer"
 
 
-func get_recognized_extensions():
+func _get_recognized_extensions():
 	return ["aseprite", "ase"]
 
 
-func get_save_extension():
+func _get_save_extension():
 	return "res"
 
 
-func get_resource_type():
+func _get_resource_type():
 	return "SpriteFrames"
 
 
-func get_preset_count():
+func _get_preset_count():
 	return 1
 
 
-func get_preset_name(i):
+func _get_preset_name(i):
 	return "Default"
 
+func _get_priority():
+	return 1.0
 
-func get_import_options(i):
+func _get_import_order():
+	return 0
+
+func _get_import_options(_path, _i):
 	return [
 		{"name": "split_layers",           "default_value": false},
 		{"name": "exclude_layers_pattern", "default_value": ''},
 		{"name": "only_visible_layers",    "default_value": false},
-		
-		{"name": "sheet_type", "default_value": "Packed", "property_hint": PROPERTY_HINT_ENUM, 
+
+		{"name": "sheet_type", "default_value": "Packed", "property_hint": PROPERTY_HINT_ENUM,
 			"hint_string": get_sheet_type_hint_string()},
 
 		{"name": "sprite_filename_pattern", "default_value": "{basename}.{layer}.{extension}"},
@@ -58,7 +63,7 @@ func get_import_options(i):
 	]
 
 
-func get_option_visibility(option, options):
+func _get_option_visibility(path, option_path, options):
 	return true
 
 
@@ -76,13 +81,13 @@ static func get_sheet_type_hint_string() -> String:
 	hint_string += ",Strip"
 	return hint_string
 
-func import(source_file, save_path, options, platform_variants, gen_files):
+func _import(source_file, save_path, options, platform_variants, gen_files):
 	var absolute_source_file = ProjectSettings.globalize_path(source_file)
 	var absolute_save_path = ProjectSettings.globalize_path(save_path)
 
-	var source_path = source_file.substr(0, source_file.find_last('/'))
+	var source_path = source_file.substr(0, source_file.rfind('/'))
 	var source_basename = source_file.substr(source_path.length()+1, -1)
-	source_basename = source_basename.substr(0, source_basename.find_last('.'))
+	source_basename = source_basename.substr(0, source_basename.rfind('.'))
 
 	_config.load_config()
 
@@ -107,10 +112,10 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 		"exception_pattern": options['exclude_layers_pattern'],
 		"only_visible_layers": options['only_visible_layers'],
 		"output_filename": '',
-		"column_count" : int(options['sheet_type']) if options['sheet_type'] != "Strip" else 128,
+		"column_count" : int(options['sheet_type']) if options['sheet_type'] != "Strip" and options['sheet_type'] != "Packed" else 128,
 	}
 
-	var exit_code = _sf_creator.create_resource(absolute_source_file, absolute_save_path, aseprite_opts)
+	var exit_code = await _sf_creator.create_resource(absolute_source_file, absolute_save_path, aseprite_opts)
 	if exit_code != OK:
 		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(exit_code))
 		return FAILED
@@ -204,7 +209,7 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 							var frame_filename = "%s/%s" % [source_path, replace_vars(options["animated_texture/frame_filename_pattern"], replacement_vars)]
 
 							var res = ImageTexture.new()
-							res.create_from_image(single_image, 0)
+							res.create_from_image(single_image)
 							res.flags = atlas_tex.flags
 							ResourceSaver.save(frame_filename, res)
 							res.take_over_path(frame_filename)
@@ -226,7 +231,7 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 				var img : Image = Image.new()
 				img.load("%s/%s" % [save_path, file_name])
 				var res = ImageTexture.new()
-				res.create_from_image(img, 0)
+				res.create_from_image(img)
 				ResourceSaver.save(texture_filename, res)
 
 		file_name = dir.get_next()
