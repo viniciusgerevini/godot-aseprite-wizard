@@ -2,6 +2,16 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 4.1.1 (2022-06-05)
+
+## Changed
+
+- Remove unnecessary files from the distribution zip. This guarantees only the important addons files will be added to your project, as opposed to downloading all the examples/screenshots and project.godot files.
+
+## Thanks
+
+Thanks to Gustavo Maciel (@gumaciel) for contributing with this patch.
+
 ## 4.1.0 (2022-03-02)
 
 ### Added
