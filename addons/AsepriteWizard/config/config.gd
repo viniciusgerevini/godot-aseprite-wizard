@@ -11,6 +11,8 @@ const _LOOP_ENABLED = 'loop_enabled'
 const _LOOP_EXCEPTION_PREFIX = 'loop_config_prefix'
 const _DEFAULT_LOOP_EX_PREFIX = '_'
 const _DEFAULT_EXCLUSION_PATTERN_KEY = 'default_layer_ex_pattern'
+const _IMPORT_PRESET_ENABLED = 'is_import_preset_enabled'
+
 
 # IMPORT CONFIGS
 const _IMPORT_SECTION_KEY = 'file_locations'
@@ -21,6 +23,10 @@ const _I_EXCEPTIONS_KEY = 'exceptions_key'
 const _I_ONLY_VISIBLE_LAYERS_KEY = 'only_visible_layers'
 const _I_CUSTOM_NAME_KEY = 'custom_name'
 const _I_DO_NOT_CREATE_RES_KEY = 'disable_resource_creation'
+
+# PROJECT SETTINGS
+const PIXEL_2D_PRESET_CFG = 'res://addons/AsepriteWizard/config/2d_pixel_preset.cfg'
+const ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET = 'aseprite/import/preset'
 
 # INTERFACE CONFIGS
 var _icon_arrow_down: Texture
@@ -36,6 +42,27 @@ func load_config() -> void:
 
 func save() -> void:
 	_config.save(CONFIG_FILE_PATH)
+
+
+func _create_import_preset_setting() -> void:
+	if ProjectSettings.has_setting(ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET) && (ProjectSettings.get_setting(ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET) as Dictionary).size() > 0:
+		return
+
+	var preset := ConfigFile.new()
+	preset.load(PIXEL_2D_PRESET_CFG)
+
+	var dict = {}
+	for key in preset.get_section_keys("preset"):
+		dict[key] = preset.get_value("preset", key)		
+
+	ProjectSettings.set(ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET, dict)
+	ProjectSettings.add_property_info( {
+		"name": ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET,
+		"type": TYPE_DICTIONARY,
+		"hint_string": "this value is equvivalent to the values stored in Importer Defaults"
+	})
+	ProjectSettings.set_initial_value(ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET, {})
+	ProjectSettings.save()
 
 #######################################################
 # GLOBAL CONFIGS
@@ -95,6 +122,14 @@ func get_default_exclusion_pattern() -> String:
 
 func set_default_exclusion_pattern(pattern: String) -> void:
 	_config.set_value(_CONFIG_SECTION_KEY, _DEFAULT_EXCLUSION_PATTERN_KEY, pattern)
+
+
+func is_import_preset_enabled() -> bool:
+		return _config.get_value(_CONFIG_SECTION_KEY, _IMPORT_PRESET_ENABLED, false)
+	
+	
+func set_import_preset_enabled(is_enabled: bool) -> void:
+		_config.set_value(_CONFIG_SECTION_KEY, _IMPORT_PRESET_ENABLED, is_enabled)
 
 
 #######################################################
