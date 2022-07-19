@@ -28,6 +28,9 @@ const _I_DO_NOT_CREATE_RES_KEY = 'disable_resource_creation'
 const PIXEL_2D_PRESET_CFG = 'res://addons/AsepriteWizard/config/2d_pixel_preset.cfg'
 const ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET = 'aseprite/import/preset'
 
+# HISTORY CONFIGS
+const HISTORY_CONFIG_FILE_PATH = 'user://aseprite_wizard_history.cfg'
+
 # INTERFACE CONFIGS
 var _icon_arrow_down: Texture
 var _icon_arrow_right: Texture
@@ -208,3 +211,21 @@ func set_icon_arrow_right(icon: Texture) -> void:
 
 func get_icon_arrow_right() -> Texture:
 	return _icon_arrow_right
+
+
+func get_import_history() -> Dictionary:
+	# TODO bring HISTORY_CONFIG_FILE_PATH from settings
+	var file_object = File.new()
+	if not file_object.file_exists(HISTORY_CONFIG_FILE_PATH):
+		return { "entries": [] }
+	file_object.open(HISTORY_CONFIG_FILE_PATH, File.READ)
+	var content =  parse_json(file_object.get_as_text())
+	file_object.close()
+	return content
+
+
+func save_import_history(history: Dictionary):
+	var file = File.new()
+	file.open(HISTORY_CONFIG_FILE_PATH, File.WRITE)
+	file.store_line(to_json(history))
+	file.close()

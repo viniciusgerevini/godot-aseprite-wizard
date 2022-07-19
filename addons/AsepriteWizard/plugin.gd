@@ -2,7 +2,7 @@ tool
 extends EditorPlugin
 
 const ConfigDialog = preload('config/config_dialog.tscn')
-const WizardWindow = preload("animated_sprite/ASWizardWindow.tscn")
+const WizardWindow = preload("animated_sprite/ASWizardDockContainer.tscn")
 const ImportPlugin = preload("animated_sprite/import_plugin.gd")
 const AnimatedSpriteInspectorPlugin = preload("animated_sprite/inspector_plugin.gd")
 const SpriteInspectorPlugin = preload("animation_player/inspector_plugin.gd")
@@ -10,7 +10,7 @@ const menu_item_name = "Aseprite Spritesheet Wizard"
 const config_menu_item_name = "Aseprite Wizard Config"
 
 var config = preload("config/config.gd").new()
-var window: PanelContainer
+var window: TabContainer
 var config_window: PopupPanel
 var import_plugin : EditorImportPlugin
 var sprite_inspector_plugin: EditorInspectorPlugin

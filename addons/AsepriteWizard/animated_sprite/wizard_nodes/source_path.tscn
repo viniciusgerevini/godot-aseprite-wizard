@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/AsepriteWizard/animated_sprite/wizard_nodes/source_path.gd" type="Script" id=1]
+
+[node name="source_path" type="LineEdit"]
+margin_top = 34.0
+margin_right = 440.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 200, 0 )
+hint_tooltip = "Output name / prefix: some_name
+Ex. Pattern: $_
+Split: Yes
+Only Visible: No
+No Resource: No"
+size_flags_vertical = 0
+text = "/some/very/long/source/path/to/test/field"
+editable = false
+script = ExtResource( 1 )

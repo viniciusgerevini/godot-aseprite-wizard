@@ -1,8 +1,8 @@
 tool
 extends PanelContainer
 
-signal importer_state_changed
 signal close_requested
+signal import_success(file_settings)
 
 var result_code = preload("../config/result_codes.gd")
 var _sf_creator = preload("./sprite_frames_creator.gd").new()
@@ -14,20 +14,6 @@ var _file_dialog_aseprite: FileDialog
 var _output_folder_dialog: FileDialog
 var _warning_dialog: AcceptDialog
 
-
-func _ready():
-	_file_dialog_aseprite = _create_aseprite_file_selection()
-	_output_folder_dialog = _create_outuput_folder_selection()
-	_warning_dialog = AcceptDialog.new()
-
-	_sf_creator.init(_config, _file_system)
-
-	get_parent().add_child(_file_dialog_aseprite)
-	get_parent().add_child(_output_folder_dialog)
-	get_parent().add_child(_warning_dialog)
-
-	_load_persisted_config()
-
 func _exit_tree():
 	_file_dialog_aseprite.queue_free()
 	_output_folder_dialog.queue_free()
@@ -37,6 +23,17 @@ func _exit_tree():
 func init(config, editor_file_system: EditorFileSystem):
 	_config = config
 	_file_system = editor_file_system
+	_file_dialog_aseprite = _create_aseprite_file_selection()
+	_output_folder_dialog = _create_outuput_folder_selection()
+	_warning_dialog = AcceptDialog.new()
+
+	_sf_creator.init(_config, _file_system)
+
+	get_parent().get_parent().add_child(_file_dialog_aseprite)
+	get_parent().get_parent().add_child(_output_folder_dialog)
+	get_parent().get_parent().add_child(_warning_dialog)
+
+	_load_persisted_config()
 
 
 func _load_persisted_config():
@@ -49,6 +46,16 @@ func _load_persisted_config():
 
 	var output_folder = _config.get_last_output_path()
 	_output_folder_field().text = output_folder if output_folder != "" else "res://"
+
+
+func load_import_config(import_config: Dictionary):
+	_split_mode_field().pressed = import_config.options.export_mode == _sf_creator.LAYERS_EXPORT_MODE
+	_only_visible_layers_field().pressed = import_config.options.only_visible_layers
+	_exception_pattern_field().text = import_config.options.exception_pattern
+	_custom_name_field().text = import_config.options.output_filename
+	_file_location_field().text = import_config.source_file
+	_do_not_create_res_field().pressed = import_config.options.do_not_create_resource
+	_output_folder_field().text = import_config.output_location if import_config.output_location != "" else "res://"
 
 
 func _open_aseprite_file_selection_dialog():
@@ -113,7 +120,16 @@ func _on_next_btn_up():
 	if exit_code != 0:
 		_show_error(exit_code)
 		return
+	emit_signal("import_success", {
+		"source_file": aseprite_file,
+		"output_location": output_location,
+		"options": options,
+	})
 	_show_import_success_message()
+
+
+func trigger_import():
+	_on_next_btn_up()
 
 
 func _on_close_btn_up():
