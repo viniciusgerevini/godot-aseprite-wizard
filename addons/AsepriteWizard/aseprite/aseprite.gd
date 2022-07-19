@@ -181,3 +181,21 @@ func is_valid_spritesheet(content):
 
 func get_content_frames(content):
 	return content.frames if typeof(content.frames) == TYPE_ARRAY  else content.frames.values()
+
+func create_import_file(data: Dictionary) -> void:
+	if !ProjectSettings.has_setting(_config.ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET):
+		push_warning("no import settings found for 'aseprite_texture' in Project Settings")
+		return
+
+	var file_path := "%s.import" % [data.sprite_sheet]
+	var import_file := ConfigFile.new()
+	if import_file.load(file_path) == OK:
+		return
+
+	import_file.set_value("remap", "importer", "texture")
+	import_file.set_value("remap", "type", "StreamTexture")
+	import_file.set_value("deps", "source_file", data.sprite_sheet)
+	var preset: Dictionary = ProjectSettings.get_setting(_config.ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET)
+	for key in preset:
+		import_file.set_value("params", key, preset[key])
+	import_file.save(file_path)

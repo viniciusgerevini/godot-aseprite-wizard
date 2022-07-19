@@ -43,7 +43,7 @@ func _create_animations_from_file(sprite: Sprite, player: AnimationPlayer, optio
 		return result_code.ERR_ASEPRITE_EXPORT_FAILED
 
 	if _config.is_import_preset_enabled():
-		_create_import_file(output)
+		_aseprite.create_import_file(output)
 
 	yield(_scan_filesystem(), "completed")
 
@@ -54,21 +54,6 @@ func _create_animations_from_file(sprite: Sprite, player: AnimationPlayer, optio
 		dir.remove(output.data_file)
 
 	return result
-
-
-func _create_import_file(data: Dictionary) -> void:
-	if !ProjectSettings.has_setting(_config.ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET):
-		push_warning("no import settings found for 'aseprite_texture' in Project Settings")
-		return
-
-	var import_file := ConfigFile.new()
-	import_file.set_value("remap", "importer", "texture")
-	import_file.set_value("remap", "type", "StreamTexture")
-	import_file.set_value("deps", "source_file", data.sprite_sheet)
-	var preset: Dictionary = ProjectSettings.get_setting(_config.ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET)
-	for key in preset:
-		import_file.set_value("params", key, preset[key])
-	import_file.save("%s.import" % [data.sprite_sheet])
 
 
 func _import(sprite: Sprite, player: AnimationPlayer, data: Dictionary):
