@@ -59,6 +59,10 @@ func _create_animations_from_file(sprite: AnimatedSprite, options: Dictionary):
 
 	if output.empty():
 		return result_code.ERR_ASEPRITE_EXPORT_FAILED
+
+	if _config.is_import_preset_enabled():
+		_aseprite.create_import_file(output)
+
 	yield(_scan_filesystem(), "completed")
 
 	var result = _import(output, sprite)
@@ -288,7 +292,7 @@ func _create_atlastexture_from_frame(
 	var key := "%s_%s_%s_%s" % [frame.x, frame.y, frame.w, frame.h]
 
 	var texture = frame_cache.get(key)
-	
+
 	if texture != null and texture.atlas == image:
 		return texture
 
