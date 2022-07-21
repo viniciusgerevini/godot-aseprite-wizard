@@ -30,7 +30,8 @@ const ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET = 'aseprite/import/preset'
 
 # HISTORY CONFIGS
 const DEFAULT_HISTORY_CONFIG_FILE_PATH = 'res://.aseprite_wizard_history'
-const HISTORY_CONFIG_FILE_CFG_KEY = 'aseprite/wizard/history/path'
+const HISTORY_CONFIG_FILE_CFG_KEY = 'aseprite/wizard/history/cache_file_path'
+const HISTORY_SINGLE_ENTRY_KEY = 'aseprite/wizard/history/keep_one_entry_per_source_file'
 
 # INTERFACE CONFIGS
 var _icon_arrow_down: Texture
@@ -217,6 +218,9 @@ func get_icon_arrow_right() -> Texture:
 # WIZARD HISTORY CONFIGS
 ######################################################
 
+func is_single_file_history() -> bool:
+	return ProjectSettings.get(HISTORY_SINGLE_ENTRY_KEY) == true
+
 
 func get_import_history() -> Array:
 	var history = []
@@ -250,7 +254,7 @@ func _get_history_file_path() -> String:
 	return p if p else DEFAULT_HISTORY_CONFIG_FILE_PATH
 
 
-func _initialize_project_cfg(key: String, default_value: String, type: int, hint: int):
+func _initialize_project_cfg(key: String, default_value, type: int, hint: int = PROPERTY_HINT_NONE):
 	if not ProjectSettings.has_setting(key):
 		ProjectSettings.set(key, default_value)
 		ProjectSettings.set_initial_value(key, default_value)
@@ -264,8 +268,10 @@ func _initialize_project_cfg(key: String, default_value: String, type: int, hint
 
 func initialize_project_settings():
 	_initialize_project_cfg(HISTORY_CONFIG_FILE_CFG_KEY, DEFAULT_HISTORY_CONFIG_FILE_PATH, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE)
+	_initialize_project_cfg(HISTORY_SINGLE_ENTRY_KEY, false, TYPE_BOOL)
 
 
 func clear_project_settings():
 	ProjectSettings.clear(HISTORY_CONFIG_FILE_CFG_KEY)
+	ProjectSettings.clear(HISTORY_SINGLE_ENTRY_KEY)
 	ProjectSettings.save()
