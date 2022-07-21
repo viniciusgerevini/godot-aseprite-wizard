@@ -31,6 +31,7 @@ func _on_edit_request(import_cfg: Dictionary):
 	$Import.load_import_config(import_cfg)
 	self.current_tab = 0
 
+
 func _on_import_request(import_cfg: Dictionary):
 	$Import.load_import_config(import_cfg)
 	$Import.trigger_import()

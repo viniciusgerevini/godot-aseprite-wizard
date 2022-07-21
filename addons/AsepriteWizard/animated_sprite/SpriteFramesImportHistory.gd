@@ -10,7 +10,6 @@ const ImportDateField = preload("./wizard_nodes/import_date.tscn")
 const ItemActions = preload("./wizard_nodes/list_actions.tscn")
 
 # TODO option: one entry per file (when importing, if file already exists, remove from list)
-# TODO option: limit history size. (when importing, if history is at limit, remove last item from list)
 
 var _config
 var _history: Dictionary
@@ -135,7 +134,7 @@ func _remove_item(entry_index: int):
 	_history.entries.remove(entry_index)
 
 	# to avoid re-creating the whole nodes list, I just decrement
-	# the index from items newer than excluded one
+	# the index from items newer than the excluded one
 	for index in range(entry_index, _history.entries.size()):
 		var nodes = _history_nodes[_history.entries[index].source_file]
 		for f in nodes:

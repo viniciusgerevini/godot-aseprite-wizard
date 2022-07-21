@@ -26,11 +26,12 @@ func _enter_tree():
 	_setup_sprite_inspector_plugin()
 
 
-func _exit_tree():
+func disable_plugin():
 	_remove_menu_entries()
 	_remove_importer()
 	_remove_wizard_dock()
 	_remove_inspector_plugins()
+	config.clear_project_settings()
 
 
 func _load_config():
@@ -38,6 +39,7 @@ func _load_config():
 	config.load_config()
 	config.set_icon_arrow_down(editor_gui.get_icon("GuiTreeArrowDown", "EditorIcons"))
 	config.set_icon_arrow_right(editor_gui.get_icon("GuiTreeArrowRight", "EditorIcons"))
+	config.initialize_project_settings()
 
 
 func _setup_menu_entries():

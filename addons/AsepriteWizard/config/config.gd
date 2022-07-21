@@ -29,7 +29,8 @@ const PIXEL_2D_PRESET_CFG = 'res://addons/AsepriteWizard/config/2d_pixel_preset.
 const ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET = 'aseprite/import/preset'
 
 # HISTORY CONFIGS
-const HISTORY_CONFIG_FILE_PATH = 'user://aseprite_wizard_history.cfg'
+const DEFAULT_HISTORY_CONFIG_FILE_PATH = 'res://.aseprite_wizard_history'
+const HISTORY_CONFIG_FILE_CFG_KEY = 'aseprite/wizard/history/path'
 
 # INTERFACE CONFIGS
 var _icon_arrow_down: Texture
@@ -212,13 +213,17 @@ func set_icon_arrow_right(icon: Texture) -> void:
 func get_icon_arrow_right() -> Texture:
 	return _icon_arrow_right
 
+#######################################################
+# WIZARD HISTORY CONFIGS
+######################################################
+
 
 func get_import_history() -> Dictionary:
-	# TODO bring HISTORY_CONFIG_FILE_PATH from settings
+	var history_path := _get_history_file_path()
 	var file_object = File.new()
-	if not file_object.file_exists(HISTORY_CONFIG_FILE_PATH):
+	if not file_object.file_exists(history_path):
 		return { "entries": [] }
-	file_object.open(HISTORY_CONFIG_FILE_PATH, File.READ)
+	file_object.open(history_path, File.READ)
 	var content =  parse_json(file_object.get_as_text())
 	file_object.close()
 	return content
@@ -226,6 +231,32 @@ func get_import_history() -> Dictionary:
 
 func save_import_history(history: Dictionary):
 	var file = File.new()
-	file.open(HISTORY_CONFIG_FILE_PATH, File.WRITE)
+	file.open(_get_history_file_path(), File.WRITE)
 	file.store_line(to_json(history))
 	file.close()
+
+
+func _get_history_file_path() -> String:
+	var p = ProjectSettings.get(HISTORY_CONFIG_FILE_CFG_KEY)
+	return p if p else DEFAULT_HISTORY_CONFIG_FILE_PATH
+
+
+func _initialize_project_cfg(key: String, default_value: String, type: int, hint: int):
+	if not ProjectSettings.has_setting(key):
+		ProjectSettings.set(key, default_value)
+		ProjectSettings.set_initial_value(key, default_value)
+		ProjectSettings.add_property_info({
+			"name": key,
+			"type": type,
+			"hint": hint,
+		})
+		ProjectSettings.save()
+
+
+func initialize_project_settings():
+	_initialize_project_cfg(HISTORY_CONFIG_FILE_CFG_KEY, DEFAULT_HISTORY_CONFIG_FILE_PATH, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE)
+
+
+func clear_project_settings():
+	ProjectSettings.clear(HISTORY_CONFIG_FILE_CFG_KEY)
+	ProjectSettings.save()
