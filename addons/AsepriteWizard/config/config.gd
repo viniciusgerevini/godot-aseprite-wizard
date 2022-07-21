@@ -218,21 +218,30 @@ func get_icon_arrow_right() -> Texture:
 ######################################################
 
 
-func get_import_history() -> Dictionary:
+func get_import_history() -> Array:
+	var history = []
 	var history_path := _get_history_file_path()
 	var file_object = File.new()
+
 	if not file_object.file_exists(history_path):
-		return { "entries": [] }
+		return history
+
 	file_object.open(history_path, File.READ)
-	var content =  parse_json(file_object.get_as_text())
-	file_object.close()
-	return content
 
+	while not file_object.eof_reached():
+		var line = file_object.get_line()
+		if line:
+			history.push_back(parse_json(line))
 
-func save_import_history(history: Dictionary):
+	return history
+
+# history is saved and retrieved line-by-line so
+# file becomes version control friendly
+func save_import_history(history: Array):
 	var file = File.new()
 	file.open(_get_history_file_path(), File.WRITE)
-	file.store_line(to_json(history))
+	for entry in history:
+		file.store_line(to_json(entry))
 	file.close()
 
 
