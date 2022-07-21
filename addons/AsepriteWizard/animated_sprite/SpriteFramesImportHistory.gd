@@ -95,7 +95,8 @@ func add_entry(file_settings: Dictionary):
 	if not _history:
 		reload()
 
-	file_settings["import_date"] = OS.get_unix_time()
+	var dt = OS.get_datetime()
+	file_settings["import_date"] = "%04d-%02d-%02d %02d:%02d:%02d" % [dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second]
 
 	if _import_requested_for != -1:
 		_remove_item(_import_requested_for)
