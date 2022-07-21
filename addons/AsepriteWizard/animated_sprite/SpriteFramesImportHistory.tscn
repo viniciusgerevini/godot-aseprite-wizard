@@ -26,53 +26,38 @@ margin_right = 980.0
 margin_bottom = 556.0
 
 [node name="list actions" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-visible = false
 margin_right = 950.0
 margin_bottom = 20.0
 size_flags_vertical = 0
 custom_constants/separation = 10
 alignment = 2
 
-[node name="mode_label" type="Label" parent="MarginContainer/VBoxContainer/list actions"]
-margin_left = 704.0
-margin_top = 3.0
-margin_right = 744.0
-margin_bottom = 17.0
-text = "Mode:"
-
-[node name="mode_options" type="OptionButton" parent="MarginContainer/VBoxContainer/list actions"]
-margin_left = 754.0
-margin_right = 813.0
-margin_bottom = 20.0
-text = "View"
-items = [ "View", null, false, 0, null, "Edit", null, false, 1, null ]
-selected = 0
-
 [node name="divider" type="Label" parent="MarginContainer/VBoxContainer/list actions"]
-margin_left = 823.0
+margin_left = 782.0
 margin_top = 3.0
-margin_right = 823.0
+margin_right = 782.0
 margin_bottom = 17.0
 
 [node name="sort_label" type="Label" parent="MarginContainer/VBoxContainer/list actions"]
-margin_left = 833.0
+margin_left = 792.0
 margin_top = 3.0
-margin_right = 881.0
+margin_right = 840.0
 margin_bottom = 17.0
 text = "Sort by:"
 
 [node name="SortOptions" type="OptionButton" parent="MarginContainer/VBoxContainer/list actions"]
-margin_left = 891.0
+margin_left = 850.0
 margin_right = 950.0
 margin_bottom = 20.0
+rect_min_size = Vector2( 100, 0 )
 text = "Date"
 items = [ "Date", null, false, 0, null, "Path", null, false, 1, null ]
 selected = 0
 
 [node name="loading_warning" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 256.0
+margin_top = 268.0
 margin_right = 950.0
-margin_bottom = 270.0
+margin_bottom = 282.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "Loading..."
@@ -98,7 +83,7 @@ scroll_horizontal_enabled = false
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
 margin_right = 950.0
-margin_bottom = 58.0
+margin_bottom = 14.0
 size_flags_horizontal = 3
 custom_constants/vseparation = 20
 custom_constants/hseparation = 10
@@ -128,3 +113,5 @@ margin_left = 784.0
 margin_right = 950.0
 margin_bottom = 14.0
 text = "Actions"
+
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/list actions/SortOptions" to="." method="_on_SortOptions_item_selected"]
