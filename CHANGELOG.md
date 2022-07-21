@@ -2,6 +2,13 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+
+### Added
+
+- Wizard history tab to track imports made via wizard screen. Options to order by date or path.
+
 ## 4.1.1 (2022-06-05)
 
 ## Changed
