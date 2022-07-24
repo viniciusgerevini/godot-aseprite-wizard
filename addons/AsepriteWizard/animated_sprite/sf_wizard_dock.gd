@@ -90,8 +90,9 @@ func _create_outuput_folder_selection():
 
 
 func _on_aseprite_file_selected(path):
-	_file_location_field().text = path
-	_config.set_last_source_path(path)
+	var localized_path = ProjectSettings.localize_path(path)
+	_file_location_field().text = localized_path
+	_config.set_last_source_path(localized_path)
 
 
 func _on_output_folder_selected(path):
@@ -113,7 +114,10 @@ func _on_next_btn_up():
 		"do_not_create_resource": _do_not_create_res_field().pressed,
 		"remove_source_files_allowed": true
 	}
-	var exit_code = _sf_creator.create_resource(aseprite_file, output_location, options)
+	var exit_code = _sf_creator.create_resource(
+		ProjectSettings.globalize_path(aseprite_file),
+		output_location, options
+	)
 	if exit_code is GDScriptFunctionState:
 		exit_code = yield(exit_code, "completed")
 
