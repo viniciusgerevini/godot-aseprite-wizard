@@ -17,6 +17,10 @@ _global_script_class_icons={
 config/name="AsepriteWizard"
 config/icon="res://icon.png"
 
+[aseprite]
+
+wizard/history/cache_file_path=""
+
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/AsepriteWizard/plugin.cfg" )

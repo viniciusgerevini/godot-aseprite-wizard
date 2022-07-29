@@ -28,6 +28,11 @@ const _I_DO_NOT_CREATE_RES_KEY = 'disable_resource_creation'
 const PIXEL_2D_PRESET_CFG = 'res://addons/AsepriteWizard/config/2d_pixel_preset.cfg'
 const ASEPRITE_PROJECT_SETTINGS_IMPORT_PRESET = 'aseprite/import/preset'
 
+# HISTORY CONFIGS
+const DEFAULT_HISTORY_CONFIG_FILE_PATH = 'res://.aseprite_wizard_history'
+const HISTORY_CONFIG_FILE_CFG_KEY = 'aseprite/wizard/history/cache_file_path'
+const HISTORY_SINGLE_ENTRY_KEY = 'aseprite/wizard/history/keep_one_entry_per_source_file'
+
 # INTERFACE CONFIGS
 var _icon_arrow_down: Texture
 var _icon_arrow_right: Texture
@@ -208,3 +213,65 @@ func set_icon_arrow_right(icon: Texture) -> void:
 
 func get_icon_arrow_right() -> Texture:
 	return _icon_arrow_right
+
+#######################################################
+# WIZARD HISTORY CONFIGS
+######################################################
+
+func is_single_file_history() -> bool:
+	return ProjectSettings.get(HISTORY_SINGLE_ENTRY_KEY) == true
+
+
+func get_import_history() -> Array:
+	var history = []
+	var history_path := _get_history_file_path()
+	var file_object = File.new()
+
+	if not file_object.file_exists(history_path):
+		return history
+
+	file_object.open(history_path, File.READ)
+
+	while not file_object.eof_reached():
+		var line = file_object.get_line()
+		if line:
+			history.push_back(parse_json(line))
+
+	return history
+
+# history is saved and retrieved line-by-line so
+# file becomes version control friendly
+func save_import_history(history: Array):
+	var file = File.new()
+	file.open(_get_history_file_path(), File.WRITE)
+	for entry in history:
+		file.store_line(to_json(entry))
+	file.close()
+
+
+func _get_history_file_path() -> String:
+	var p = ProjectSettings.get(HISTORY_CONFIG_FILE_CFG_KEY)
+	return p if p else DEFAULT_HISTORY_CONFIG_FILE_PATH
+
+
+func _initialize_project_cfg(key: String, default_value, type: int, hint: int = PROPERTY_HINT_NONE):
+	if not ProjectSettings.has_setting(key):
+		ProjectSettings.set(key, default_value)
+		ProjectSettings.set_initial_value(key, default_value)
+		ProjectSettings.add_property_info({
+			"name": key,
+			"type": type,
+			"hint": hint,
+		})
+		ProjectSettings.save()
+
+
+func initialize_project_settings():
+	_initialize_project_cfg(HISTORY_CONFIG_FILE_CFG_KEY, DEFAULT_HISTORY_CONFIG_FILE_PATH, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE)
+	_initialize_project_cfg(HISTORY_SINGLE_ENTRY_KEY, false, TYPE_BOOL)
+
+
+func clear_project_settings():
+	ProjectSettings.clear(HISTORY_CONFIG_FILE_CFG_KEY)
+	ProjectSettings.clear(HISTORY_SINGLE_ENTRY_KEY)
+	ProjectSettings.save()

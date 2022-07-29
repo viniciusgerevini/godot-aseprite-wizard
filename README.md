@@ -42,6 +42,13 @@ If you are using Windows, a portable version or if the `aseprite` command is not
 | Loop exception prefix | Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The prefix is removed from the animation name on import (i.e  `_death` > `death`). Default: `_` |
 | Default layer exclusion pattern | Exclude layers with names matching this pattern (regex). This is the default value for new nodes. It can be changed or removed during the import. Default: not set |
 
+For more configurations check `Project -> Project Settings -> General > Aseprite`.
+
+| Configuration           | Description |
+| ----------------------- | ----------- |
+| Wizard > History > Cache File Path | Path to file where history data is stored. Default: `res://.aseprite_wizard_history` |
+| Wizard > History > Keep One Entry Per Source File | When true, history does not show duplicates. Default: `false` |
+
 ## How to use
 
 _Check this video for usage examples:_ https://youtu.be/1W-CCbrzG_0

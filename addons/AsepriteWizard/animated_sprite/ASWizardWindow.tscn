@@ -9,9 +9,6 @@ rect_min_size = Vector2( 600, 600 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="container" type="MarginContainer" parent="."]
 margin_left = 7.0
