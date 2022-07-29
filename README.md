@@ -46,6 +46,7 @@ For more configurations check `Project -> Project Settings -> General > Aseprite
 
 | Configuration           | Description |
 | ----------------------- | ----------- |
+| Import > Preset | Custom preset properties for texture files imported via this plugin. Default: same as Godot's defaults. |
 | Wizard > History > Cache File Path | Path to file where history data is stored. Default: `res://.aseprite_wizard_history` |
 | Wizard > History > Keep One Entry Per Source File | When true, history does not show duplicates. Default: `false` |
 

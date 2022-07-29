@@ -2,20 +2,24 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## Unreleased
-
+## 4.2.0
 
 ### Added
 
+- Custom texture import preset for files imported via plugin.
 - Wizard history tab to track imports made via wizard screen. Options to order by date or path.
+
+### Thanks
+
+Thanks to @TheOrioli for contributing with the custom preset feature.
 
 ## 4.1.1 (2022-06-05)
 
-## Changed
+### Changed
 
 - Remove unnecessary files from the distribution zip. This guarantees only the important addons files will be added to your project, as opposed to downloading all the examples/screenshots and project.godot files.
 
-## Thanks
+### Thanks
 
 Thanks to Gustavo Maciel (@gumaciel) for contributing with this patch.
 
