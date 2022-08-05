@@ -2,9 +2,8 @@ tool
 extends Reference
 
 # GLOBAL SETTINGS
-const CONFIG_FILE_PATH = 'user://aseprite_wizard.cfg'
 const _CONFIG_SECTION_KEY = 'aseprite'
-const _COMMAND_KEY = 'command'
+const _COMMAND_KEY = 'aseprite/general/command_path'
 
 # PROJECT SETTINGS
 
@@ -39,20 +38,10 @@ const _I_ONLY_VISIBLE_LAYERS_KEY = 'i_only_visible_layers'
 const _I_CUSTOM_NAME_KEY = 'i_custom_name'
 const _I_DO_NOT_CREATE_RES_KEY = 'i_disable_resource_creation'
 
-var _config := ConfigFile.new()
-
 var _editor_settings: EditorSettings
 
 # INTERFACE SETTINGS
 var _plugin_icons: Dictionary
-
-func load_config() -> void:
-	_config = ConfigFile.new()
-	_config.load(CONFIG_FILE_PATH)
-
-
-func save() -> void:
-	_config.save(CONFIG_FILE_PATH)
 
 #######################################################
 # GLOBAL CONFIGS
@@ -63,15 +52,9 @@ func default_command() -> String:
 
 
 func get_command() -> String:
-	var command = _config.get_value(_CONFIG_SECTION_KEY, _COMMAND_KEY, "")
+	var command = _editor_settings.get(_COMMAND_KEY) if _editor_settings.has_setting(_COMMAND_KEY) else ""
 	return command if command != "" else default_command()
 
-
-func set_command(aseprite_command: String) -> void:
-	if aseprite_command == "":
-		_config.set_value(_CONFIG_SECTION_KEY, _COMMAND_KEY, default_command())
-	else:
-		_config.set_value(_CONFIG_SECTION_KEY, _COMMAND_KEY, aseprite_command)
 
 #######################################################
 # PROJECT SETTINGS
@@ -238,6 +221,8 @@ func initialize_project_settings():
 
 	ProjectSettings.save()
 
+	_initialize_editor_cfg(_COMMAND_KEY, default_command(), TYPE_STRING)
+
 
 func clear_project_settings():
 	var _all_settings = [
@@ -290,3 +275,14 @@ func create_import_file(data: Dictionary) -> void:
 	for key in preset:
 		import_file.set_value("params", key, preset[key])
 	import_file.save(file_path)
+
+
+func _initialize_editor_cfg(key: String, default_value, type: int, hint: int = PROPERTY_HINT_NONE):
+	if not _editor_settings.has_setting(key):
+		_editor_settings.set(key, default_value)
+		_editor_settings.set_initial_value(key, default_value, false)
+		_editor_settings.add_property_info({
+			"name": key,
+			"type": type,
+			"hint": hint,
+		})

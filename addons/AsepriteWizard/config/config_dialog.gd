@@ -15,12 +15,6 @@ func init(config):
 	_config = config
 
 
-func _on_save_button_up():
-	_config.set_command(_aseprite_command_field.text)
-	_config.save()
-	self.hide()
-
-
 func _on_close_button_up():
 	self.hide()
 

@@ -40,7 +40,6 @@ func disable_plugin():
 func _load_config():
 	var editor_gui = get_editor_interface().get_base_control()
 	config._editor_settings = get_editor_interface().get_editor_settings()
-	config.load_config()
 	config.set_icons({
 		"collapsed": editor_gui.get_icon("GuiTreeArrowRight", "EditorIcons"),
 		"expanded": editor_gui.get_icon("GuiTreeArrowDown", "EditorIcons"),
@@ -120,9 +119,6 @@ func _open_config_dialog(_ud):
 
 	config_window = ConfigDialog.instance()
 	config_window.init(config)
-	# TODO find a way to identify if importer was enabled when settings is changed
-	# TODO same with preset
-	#	config_window.connect("importer_state_changed", self, "_on_importer_state_changed")
 	get_editor_interface().get_base_control().add_child(config_window)
 	config_window.popup_centered()
 
@@ -132,13 +128,3 @@ func _on_window_closed():
 		remove_control_from_bottom_panel(window)
 		window.queue_free()
 		window = null
-
-
-func _on_importer_state_changed():
-	if _importer_enabled:
-		remove_import_plugin(import_plugin)
-		_importer_enabled = false
-	else:
-		import_plugin = ImportPlugin.new()
-		add_import_plugin(import_plugin)
-		_importer_enabled = true
