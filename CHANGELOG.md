@@ -2,6 +2,23 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Breaking Changes
+
+- Settings are set now via EditorSettings and Project Settings. After migrating, any custom config has to be set again in those places.
+- Some files moved around. Even though this won't break anything, when updating you migth consider deleting the folder to avoid orphan files.
+
+### Changed
+- Moved command configuration to Editor Settings > Aseprite
+- Moved all project related settings to Project Settings > Aseprite
+- Moved wizard dock previous data to editor settings project metadata
+- Standardized filename outliers and reorganized folders
+
+### Thanks
+
+Thanks to @TheOrioli for suggesting the settings changes.
+
 ## 4.2.0
 
 ### Added
