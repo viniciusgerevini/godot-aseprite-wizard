@@ -1,5 +1,5 @@
-tool
-extends Reference
+@tool
+extends RefCounted
 
 # GLOBAL CONFIGS
 const CONFIG_FILE_PATH = 'user://aseprite_wizard.cfg'
@@ -146,7 +146,7 @@ func get_last_custom_name() -> String:
 
 func set_custom_name(custom_name: String) -> void:
 	_config.set_value(_IMPORT_SECTION_KEY, _I_CUSTOM_NAME_KEY, custom_name)
-	
+
 
 func should_not_create_resource() -> bool:
 	return _config.get_value(_IMPORT_SECTION_KEY, _I_DO_NOT_CREATE_RES_KEY, false)

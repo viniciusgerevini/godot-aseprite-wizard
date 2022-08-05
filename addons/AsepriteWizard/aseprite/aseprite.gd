@@ -1,5 +1,5 @@
-tool
-extends Reference
+@tool
+extends RefCounted
 
 var _config
 
@@ -67,7 +67,7 @@ func export_layer(file_name: String, layer_name: String, output_folder: String, 
 	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
 	arguments.push_front(layer_name)
 	arguments.push_front("--layer")
-	
+
 	_add_sheet_type_arguments(arguments, options)
 
 	var exit_code = _execute(arguments, output)
@@ -84,7 +84,7 @@ func export_layer(file_name: String, layer_name: String, output_folder: String, 
 
 func _add_ignore_layer_arguments(file_name: String, arguments: Array, exception_pattern: String):
 	var layers = _get_exception_layers(file_name, exception_pattern)
-	if not layers.empty():
+	if not layers.is_empty():
 		for l in layers:
 			arguments.push_front(l)
 			arguments.push_front('--ignore-layer')
@@ -127,7 +127,7 @@ func list_layers(file_name: String, only_visible = false) -> Array:
 		printerr(output)
 		return []
 
-	if output.empty():
+	if output.is_empty():
 		return output
 
 	return output[0].split('\n')
@@ -148,7 +148,7 @@ func _export_command_common_arguments(source_name: String, data_path: String, sp
 
 
 func _execute(arguments, output):
-	return OS.execute(_aseprite_command(), arguments, true, output, true)
+	return OS.execute(_aseprite_command(), arguments, output, true, true)
 
 
 func _aseprite_command() -> String:
@@ -171,7 +171,7 @@ func _compile_regex(pattern):
 
 
 func test_command():
-	var exit_code = OS.execute(_aseprite_command(), ['--version'], true)
+	var exit_code = OS.execute(_aseprite_command(), ['--version'], [], true)
 	return exit_code == 0
 
 
