@@ -18,7 +18,6 @@ var animated_sprite_inspector_plugin: EditorInspectorPlugin
 
 var _importer_enabled = false
 
-var _plugin_icons
 
 func _enter_tree():
 	_load_config()
@@ -35,16 +34,17 @@ func disable_plugin():
 	_remove_wizard_dock()
 	_remove_inspector_plugins()
 	config.clear_project_settings()
-	_plugin_icons = null
+	config.set_icons({})
 
 
 func _load_config():
 	var editor_gui = get_editor_interface().get_base_control()
+	config._editor_settings = get_editor_interface().get_editor_settings()
 	config.load_config()
-	_plugin_icons = {
+	config.set_icons({
 		"collapsed": editor_gui.get_icon("GuiTreeArrowRight", "EditorIcons"),
 		"expanded": editor_gui.get_icon("GuiTreeArrowDown", "EditorIcons"),
-	}
+	})
 	config.initialize_project_settings()
 
 
@@ -79,7 +79,6 @@ func _remove_importer():
 func _setup_sprite_inspector_plugin():
 	sprite_inspector_plugin = SpriteInspectorPlugin.new()
 	sprite_inspector_plugin.file_system = get_editor_interface().get_resource_filesystem()
-	sprite_inspector_plugin.plugin_icons = _plugin_icons
 	sprite_inspector_plugin.config = config
 	add_inspector_plugin(sprite_inspector_plugin)
 
@@ -87,7 +86,6 @@ func _setup_sprite_inspector_plugin():
 func _setup_animated_sprite_inspector_plugin():
 	animated_sprite_inspector_plugin = AnimatedSpriteInspectorPlugin.new()
 	animated_sprite_inspector_plugin.file_system = get_editor_interface().get_resource_filesystem()
-	animated_sprite_inspector_plugin.plugin_icons = _plugin_icons
 	animated_sprite_inspector_plugin.config = config
 	add_inspector_plugin(animated_sprite_inspector_plugin)
 

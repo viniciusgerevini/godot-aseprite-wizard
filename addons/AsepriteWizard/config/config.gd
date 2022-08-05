@@ -31,17 +31,20 @@ const _HISTORY_SINGLE_ENTRY_KEY = 'aseprite/wizard/history/keep_one_entry_per_so
 const _DEFAULT_HISTORY_CONFIG_FILE_PATH = 'res://.aseprite_wizard_history'
 
 # IMPORT SETTINGS
-const _IMPORT_SECTION_KEY = 'file_locations'
-const _I_LAST_SOURCE_PATH_KEY = 'source'
-const _I_LAST_OUTPUT_DIR_KEY = 'output'
-const _I_SHOULD_SPLIT_LAYERS_KEY = 'split_layers'
-const _I_EXCEPTIONS_KEY = 'exceptions_key'
-const _I_ONLY_VISIBLE_LAYERS_KEY = 'only_visible_layers'
-const _I_CUSTOM_NAME_KEY = 'custom_name'
-const _I_DO_NOT_CREATE_RES_KEY = 'disable_resource_creation'
+const _I_LAST_SOURCE_PATH_KEY = 'i_source'
+const _I_LAST_OUTPUT_DIR_KEY = 'i_output'
+const _I_SHOULD_SPLIT_LAYERS_KEY = 'i_split_layers'
+const _I_EXCEPTIONS_KEY = 'i_exceptions_key'
+const _I_ONLY_VISIBLE_LAYERS_KEY = 'i_only_visible_layers'
+const _I_CUSTOM_NAME_KEY = 'i_custom_name'
+const _I_DO_NOT_CREATE_RES_KEY = 'i_disable_resource_creation'
 
 var _config := ConfigFile.new()
 
+var _editor_settings: EditorSettings
+
+# INTERFACE SETTINGS
+var _plugin_icons: Dictionary
 
 func load_config() -> void:
 	_config = ConfigFile.new()
@@ -151,59 +154,70 @@ func create_import_preset_setting() -> void:
 # IMPORT CONFIGS
 ######################################################
 func get_last_source_path() -> String:
-	return _config.get_value(_IMPORT_SECTION_KEY, _I_LAST_SOURCE_PATH_KEY, "")
+	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_LAST_SOURCE_PATH_KEY, "")
 
 
 func set_last_source_path(source_path: String) -> void:
-	_config.set_value(_IMPORT_SECTION_KEY, _I_LAST_SOURCE_PATH_KEY, source_path)
+	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_LAST_SOURCE_PATH_KEY, source_path)
 
 
 func get_last_output_path() -> String:
-	return _config.get_value(_IMPORT_SECTION_KEY, _I_LAST_OUTPUT_DIR_KEY, "")
+	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_LAST_OUTPUT_DIR_KEY, "")
 
 
 func set_last_output_path(output_path: String) -> void:
-	_config.set_value(_IMPORT_SECTION_KEY, _I_LAST_OUTPUT_DIR_KEY, output_path)
+	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_LAST_OUTPUT_DIR_KEY, output_path)
 
 
 func should_split_layers() -> bool:
-	return _config.get_value(_IMPORT_SECTION_KEY, _I_SHOULD_SPLIT_LAYERS_KEY, false)
+	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_SHOULD_SPLIT_LAYERS_KEY, false)
 
 
 func set_split_layers(should_split: bool) -> void:
-	_config.set_value(_IMPORT_SECTION_KEY, _I_SHOULD_SPLIT_LAYERS_KEY, false)
+	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_SHOULD_SPLIT_LAYERS_KEY, false)
 
 
 func get_exception_pattern() -> String:
-	return _config.get_value(_IMPORT_SECTION_KEY, _I_EXCEPTIONS_KEY, "")
+	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_EXCEPTIONS_KEY, "")
 
 
 func set_exception_pattern(pattern: String) -> void:
-	_config.set_value(_IMPORT_SECTION_KEY, _I_EXCEPTIONS_KEY, pattern)
+	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_EXCEPTIONS_KEY, pattern)
 
 
 func should_include_only_visible_layers() -> bool:
-	return _config.get_value(_IMPORT_SECTION_KEY, _I_ONLY_VISIBLE_LAYERS_KEY, false)
+	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_ONLY_VISIBLE_LAYERS_KEY, false)
 
 
 func set_include_only_visible_layers(include_only_visible: bool) -> void:
-	_config.set_value(_IMPORT_SECTION_KEY, _I_ONLY_VISIBLE_LAYERS_KEY, include_only_visible)
+	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_ONLY_VISIBLE_LAYERS_KEY, include_only_visible)
 
 
 func get_last_custom_name() -> String:
-	return _config.get_value(_IMPORT_SECTION_KEY, _I_CUSTOM_NAME_KEY, "")
+	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_CUSTOM_NAME_KEY, "")
 
 
 func set_custom_name(custom_name: String) -> void:
-	_config.set_value(_IMPORT_SECTION_KEY, _I_CUSTOM_NAME_KEY, custom_name)
-	
+	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_CUSTOM_NAME_KEY, custom_name)
+
 
 func should_not_create_resource() -> bool:
-	return _config.get_value(_IMPORT_SECTION_KEY, _I_DO_NOT_CREATE_RES_KEY, false)
+	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_DO_NOT_CREATE_RES_KEY, false)
 
 
 func set_do_not_create_resource(do_no_create: bool) -> void:
-	_config.set_value(_IMPORT_SECTION_KEY, _I_DO_NOT_CREATE_RES_KEY, do_no_create)
+	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_DO_NOT_CREATE_RES_KEY, do_no_create)
+
+#######################################################
+# INTERFACE SETTINGS
+######################################################
+
+func set_icons(plugin_icons: Dictionary) -> void:
+	_plugin_icons = plugin_icons
+
+
+func get_icon(icon_name: String) -> Texture:
+	return _plugin_icons[icon_name]
 
 
 #######################################################
