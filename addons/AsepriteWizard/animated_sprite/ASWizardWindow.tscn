@@ -55,16 +55,16 @@ margin_bottom = 48.0
 custom_constants/separation = 20
 
 [node name="file_location_path" type="LineEdit" parent="container/options/file_location/HBoxContainer"]
-margin_right = 431.0
+margin_right = 455.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 caret_blink = true
 
 [node name="file_location_btn" type="Button" parent="container/options/file_location/HBoxContainer"]
-margin_left = 451.0
+margin_left = 475.0
 margin_right = 526.0
 margin_bottom = 24.0
-text = "Select file"
+text = "Select"
 
 [node name="output_folder" type="VBoxContainer" parent="container/options"]
 margin_top = 68.0
@@ -86,17 +86,17 @@ margin_bottom = 48.0
 custom_constants/separation = 20
 
 [node name="file_location_path" type="LineEdit" parent="container/options/output_folder/HBoxContainer"]
-margin_right = 431.0
+margin_right = 455.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 text = "res://"
 caret_blink = true
 
 [node name="output_folder_btn" type="Button" parent="container/options/output_folder/HBoxContainer"]
-margin_left = 451.0
+margin_left = 475.0
 margin_right = 526.0
 margin_bottom = 24.0
-text = "Select file"
+text = "Select"
 
 [node name="exclude_pattern" type="VBoxContainer" parent="container/options"]
 margin_top = 136.0
@@ -129,7 +129,7 @@ margin_bottom = 14.0
 hint_tooltip = "Output filename. In case layers are not being merged, this is used as file prefix.
 If not set, source filename is used."
 mouse_filter = 1
-text = "Output file name / prefix"
+text = "Output file name / prefix:"
 
 [node name="pattern" type="LineEdit" parent="container/options/custom_filename"]
 margin_top = 24.0
@@ -153,60 +153,35 @@ text = "Options:"
 margin_top = 24.0
 margin_right = 526.0
 margin_bottom = 48.0
-hint_tooltip = "If selected, one resource will be created for each layer.
-If not selected, layers will be merged and exported as one SpriteSheet."
-
-[node name="label" type="Label" parent="container/options/layer_importing_mode/split_layers"]
-margin_top = 5.0
-margin_right = 250.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 250, 0 )
-mouse_filter = 1
-text = "Split layers in multiple resources"
 
 [node name="field" type="CheckBox" parent="container/options/layer_importing_mode/split_layers"]
-margin_left = 254.0
-margin_right = 301.0
+margin_right = 239.0
 margin_bottom = 24.0
-text = "On"
+hint_tooltip = "If selected, one resource will be created for each layer.
+If not selected, layers will be merged and exported as one SpriteSheet."
+text = "Split layers in multiple resources"
 
 [node name="visible_layers" type="HBoxContainer" parent="container/options/layer_importing_mode"]
 margin_top = 58.0
 margin_right = 526.0
 margin_bottom = 82.0
-hint_tooltip = "If selected, layers not visible in the source file won't be included in the final image."
-
-[node name="label" type="Label" parent="container/options/layer_importing_mode/visible_layers"]
-margin_top = 5.0
-margin_right = 250.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 250, 0 )
-text = "Only include visible layers"
 
 [node name="field" type="CheckBox" parent="container/options/layer_importing_mode/visible_layers"]
-margin_left = 254.0
-margin_right = 301.0
+margin_right = 197.0
 margin_bottom = 24.0
-text = "On"
+hint_tooltip = "If selected, layers not visible in the source file won't be included in the final image."
+text = "Only include visible layers"
 
 [node name="disable_resource_creation" type="HBoxContainer" parent="container/options/layer_importing_mode"]
 margin_top = 92.0
 margin_right = 526.0
 margin_bottom = 116.0
-hint_tooltip = "Does not create SpriteFrames resource. Useful if you are only interested in the .json and .png output from Aseprite."
-
-[node name="label" type="Label" parent="container/options/layer_importing_mode/disable_resource_creation"]
-margin_top = 5.0
-margin_right = 250.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 250, 0 )
-text = "Do not create resource file"
 
 [node name="field" type="CheckBox" parent="container/options/layer_importing_mode/disable_resource_creation"]
-margin_left = 254.0
-margin_right = 301.0
+margin_right = 199.0
 margin_bottom = 24.0
-text = "On"
+hint_tooltip = "Does not create SpriteFrames resource. Useful if you are only interested in the .json and .png output from Aseprite."
+text = "Do not create resource file"
 __meta__ = {
 "_editor_description_": "Only source *.json and *.png files will be created."
 }
