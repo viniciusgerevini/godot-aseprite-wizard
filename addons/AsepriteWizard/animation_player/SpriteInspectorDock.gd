@@ -22,6 +22,9 @@ var _output_folder := ""
 var _out_folder_default := "[Same as scene]"
 var _layer_default := "[all]"
 
+var expanded_icon: Texture
+var collapsed_icon: Texture
+
 onready var _options_field = $margin/VBoxContainer/animation_player/options
 onready var _source_field = $margin/VBoxContainer/source/button
 onready var _layer_field = $margin/VBoxContainer/layer/options
@@ -231,7 +234,7 @@ func _on_options_title_toggled(button_pressed):
 
 func _set_options_visible(is_visible):
 	_options_container.visible = is_visible
-	_options_title.icon = config.get_icon_arrow_down() if is_visible else config.get_icon_arrow_right()
+	_options_title.icon = expanded_icon if is_visible else collapsed_icon
 
 
 func _on_out_folder_pressed():

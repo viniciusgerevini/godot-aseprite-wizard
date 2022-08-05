@@ -1,10 +1,11 @@
 tool
 extends EditorInspectorPlugin
 
-const InspectorDock = preload("animated_sprite_inspector_dock.tscn")
+const InspectorDock = preload("AnimatedSpriteInspectorDock.tscn")
 
 var config
 var file_system: EditorFileSystem
+var plugin_icons: Dictionary
 
 var _sprite: AnimatedSprite
 
@@ -21,5 +22,7 @@ func parse_end():
 	dock.sprite = _sprite
 	dock.config = config
 	dock.file_system = file_system
+	dock.collapsed_icon = plugin_icons.collapsed
+	dock.expanded_icon = plugin_icons.expanded
 	
 	add_custom_control(dock)

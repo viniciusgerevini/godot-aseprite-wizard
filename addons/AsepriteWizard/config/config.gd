@@ -40,10 +40,6 @@ const _I_ONLY_VISIBLE_LAYERS_KEY = 'only_visible_layers'
 const _I_CUSTOM_NAME_KEY = 'custom_name'
 const _I_DO_NOT_CREATE_RES_KEY = 'disable_resource_creation'
 
-# INTERFACE SETTINGS
-var _icon_arrow_down: Texture
-var _icon_arrow_right: Texture
-
 var _config := ConfigFile.new()
 
 
@@ -208,25 +204,6 @@ func should_not_create_resource() -> bool:
 
 func set_do_not_create_resource(do_no_create: bool) -> void:
 	_config.set_value(_IMPORT_SECTION_KEY, _I_DO_NOT_CREATE_RES_KEY, do_no_create)
-
-
-#######################################################
-# INTERFACE CONFIGS
-######################################################
-func set_icon_arrow_down(icon: Texture) -> void:
-	_icon_arrow_down = icon
-
-
-func get_icon_arrow_down() -> Texture:
-	return _icon_arrow_down
-
-
-func set_icon_arrow_right(icon: Texture) -> void:
-	_icon_arrow_right = icon
-
-
-func get_icon_arrow_right() -> Texture:
-	return _icon_arrow_right
 
 
 #######################################################
