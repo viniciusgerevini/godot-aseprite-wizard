@@ -22,6 +22,7 @@ func _enter_tree():
 	_load_config()
 	_setup_menu_entries()
 	_setup_importer()
+	_configure_preset()
 	_setup_animated_sprite_inspector_plugin()
 	_setup_sprite_inspector_plugin()
 
@@ -53,10 +54,15 @@ func _remove_menu_entries():
 
 
 func _setup_importer():
-	if (config.is_importer_enabled()):
+	if config.is_importer_enabled():
 		import_plugin = ImportPlugin.new()
 		add_import_plugin(import_plugin)
 		_importer_enabled = true
+
+
+func _configure_preset():
+	if config.is_import_preset_enabled():
+		config.create_import_preset_setting()
 
 
 func _remove_importer():
@@ -109,7 +115,9 @@ func _open_config_dialog(_ud):
 
 	config_window = ConfigDialog.instance()
 	config_window.init(config)
-	config_window.connect("importer_state_changed", self, "_on_importer_state_changed")
+	# TODO find a way to identify if importer was enabled when settings is changed
+	# TODO same with preset
+	#	config_window.connect("importer_state_changed", self, "_on_importer_state_changed")
 	get_editor_interface().get_base_control().add_child(config_window)
 	config_window.popup_centered()
 
