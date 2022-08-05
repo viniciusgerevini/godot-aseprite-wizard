@@ -1,9 +1,9 @@
 tool
 extends PanelContainer
 
-const wizard_config = preload("../config/wizard_config.gd")
-const result_code = preload("../config/result_codes.gd")
-var sprite_frames_creator = preload("sprite_frames_creator.gd").new()
+const wizard_config = preload("../../config/wizard_config.gd")
+const result_code = preload("../../config/result_codes.gd")
+var sprite_frames_creator = preload("../sprite_frames_creator.gd").new()
 
 var scene: Node
 var sprite: AnimatedSprite

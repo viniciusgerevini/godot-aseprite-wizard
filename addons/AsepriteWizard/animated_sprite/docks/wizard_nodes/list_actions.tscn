@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/wizard_nodes/list_actions.gd" type="Script" id=1]
+[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/wizard_nodes/list_actions.gd" type="Script" id=1]
 
 [node name="actions" type="HBoxContainer"]
 margin_left = 784.0

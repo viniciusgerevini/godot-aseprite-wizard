@@ -4,8 +4,8 @@ extends PanelContainer
 signal close_requested
 signal import_success(file_settings)
 
-var result_code = preload("../config/result_codes.gd")
-var _sf_creator = preload("./sprite_frames_creator.gd").new()
+var result_code = preload("../../config/result_codes.gd")
+var _sf_creator = preload("../sprite_frames_creator.gd").new()
 
 var _config
 var _file_system: EditorFileSystem

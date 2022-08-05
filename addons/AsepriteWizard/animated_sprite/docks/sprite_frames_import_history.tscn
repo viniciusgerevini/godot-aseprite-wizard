@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/SpriteFramesImportHistory.gd" type="Script" id=1]
+[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/sprite_frames_import_history.gd" type="Script" id=1]
 
 [node name="SpriteFramesImportHistory" type="PanelContainer"]
 anchor_right = 1.0

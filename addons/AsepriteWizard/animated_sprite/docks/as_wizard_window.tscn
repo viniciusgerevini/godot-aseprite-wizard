@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/sf_wizard_dock.gd" type="Script" id=1]
+[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/as_wizard_window.gd" type="Script" id=1]
 
 [node name="ASWizardWindow" type="PanelContainer"]
 margin_right = 600.0

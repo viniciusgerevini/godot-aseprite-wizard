@@ -2,7 +2,7 @@ tool
 extends EditorPlugin
 
 const ConfigDialog = preload('config/config_dialog.tscn')
-const WizardWindow = preload("animated_sprite/ASWizardDockContainer.tscn")
+const WizardWindow = preload("animated_sprite/docks/as_wizard_dock_container.tscn")
 const ImportPlugin = preload("animated_sprite/import_plugin.gd")
 const AnimatedSpriteInspectorPlugin = preload("animated_sprite/inspector_plugin.gd")
 const SpriteInspectorPlugin = preload("animation_player/inspector_plugin.gd")
