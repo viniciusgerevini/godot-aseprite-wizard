@@ -1,9 +1,9 @@
 tool
 extends PanelContainer
 
-const wizard_config = preload("../config/wizard_config.gd")
-const result_code = preload("../config/result_codes.gd")
-var sprite_frames_creator = preload("sprite_frames_creator.gd").new()
+const wizard_config = preload("../../config/wizard_config.gd")
+const result_code = preload("../../config/result_codes.gd")
+var sprite_frames_creator = preload("../sprite_frames_creator.gd").new()
 
 var scene: Node
 var sprite: AnimatedSprite
@@ -182,7 +182,8 @@ func _on_options_title_toggled(button_pressed):
 
 func _set_options_visible(is_visible):
 	_options_container.visible = is_visible
-	_options_title.icon = config.get_icon_arrow_down() if is_visible else config.get_icon_arrow_right()
+	_options_title.icon = config.get_icon("expanded") if is_visible else config.get_icon("collapsed")
+
 
 func _on_out_folder_pressed():
 	_output_folder_dialog = _create_output_folder_selection()

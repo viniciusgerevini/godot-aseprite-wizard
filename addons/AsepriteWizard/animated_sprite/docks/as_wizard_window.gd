@@ -4,8 +4,8 @@ extends PanelContainer
 signal close_requested
 signal import_success(file_settings)
 
-var result_code = preload("../config/result_codes.gd")
-var _sf_creator = preload("./sprite_frames_creator.gd").new()
+var result_code = preload("../../config/result_codes.gd")
+var _sf_creator = preload("../sprite_frames_creator.gd").new()
 
 var _config
 var _file_system: EditorFileSystem
@@ -151,7 +151,6 @@ func _save_config():
 	_config.set_custom_name(_custom_name_field().text)
 	_config.set_include_only_visible_layers(_only_visible_layers_field().pressed)
 	_config.set_do_not_create_resource(_do_not_create_res_field().pressed)
-	_config.save()
 
 
 func _show_error(code: int):

@@ -3,7 +3,7 @@ extends TabContainer
 
 signal close_requested
 
-const WizardWindow = preload("./ASWizardWindow.tscn")
+const WizardWindow = preload("./as_wizard_window.tscn")
 
 var _config
 var _file_system: EditorFileSystem

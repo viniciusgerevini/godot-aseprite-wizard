@@ -61,7 +61,7 @@ func _create_animations_from_file(sprite: AnimatedSprite, options: Dictionary):
 		return result_code.ERR_ASEPRITE_EXPORT_FAILED
 
 	if _config.is_import_preset_enabled():
-		_aseprite.create_import_file(output)
+		_config.create_import_file(output)
 
 	yield(_scan_filesystem(), "completed")
 

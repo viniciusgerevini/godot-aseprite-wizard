@@ -31,22 +31,23 @@ Aseprite Wizard is only required during development. If you decide to not use it
 
 Follow Godot [ installing plugins guide ]( https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html).
 
-If you are using Windows, a portable version or if the `aseprite` command is not in your PATH, you need to set the right path on `Project -> Tools -> Aseprite Wizard Config`.
+If you are using Windows, a portable version or if the `aseprite` command is not in your PATH, you need to set the right path on `Editor -> Editor Settings -> Aseprite`.
 
 | Configuration           | Description |
 | ----------------------- | ----------- |
-| Aseprite Command Path   | Path to the aseprite executable. Default: `aseprite` |
-| Enable Aseprite Importer   | Enable/Disable Aseprite automatic importer. Default: `false` |
-| Remove Source Files   | Remove temporary `*.json` files generated during import. Default: `true` |
-| Loop animations       | Default animation loop configuration. Default: `true` |
-| Loop exception prefix | Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The prefix is removed from the animation name on import (i.e  `_death` > `death`). Default: `_` |
-| Default layer exclusion pattern | Exclude layers with names matching this pattern (regex). This is the default value for new nodes. It can be changed or removed during the import. Default: not set |
+| General > Command Path | Path to the aseprite executable. Default: `aseprite` |
 
-For more configurations check `Project -> Project Settings -> General > Aseprite`.
+For project specific configurations check `Project -> Project Settings -> General > Aseprite`.
 
 | Configuration           | Description |
 | ----------------------- | ----------- |
-| Import > Preset | Custom preset properties for texture files imported via this plugin. Default: same as Godot's defaults. |
+| Animation > Layer > Exclusion Pattern | Exclude layers with names matching this pattern (regex). This is the default value for new nodes. It can be changed or removed during the import. Default: not set |
+| Animation > Loop > Enabled | Enables animation loop by default. Default: `true` |
+| Animation > Loop > Exception prefix | Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The prefix is removed from the animation name on import (i.e  `_death` > `death`). Default: `_` |
+| Import > Preset > Enable Custom Preset | Enable Custom preset properties (*requires plugin restart*). Default: `false`. |
+| Import > Preset > Preset | Custom preset properties for texture files imported via this plugin. Default: same as Godot's defaults. |
+| Import > Cleanup > Remove Json File | Remove temporary `*.json` files generated during import. Default: `true` |
+| Import > Import Plugin > Enable Automatic Importer | Enable/Disable Aseprite automatic importer (*requires plugin restart*). Default: `false` |
 | Wizard > History > Cache File Path | Path to file where history data is stored. Default: `res://.aseprite_wizard_history` |
 | Wizard > History > Keep One Entry Per Source File | When true, history does not show duplicates. Default: `false` |
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/animated_sprite_inspector_dock.gd" type="Script" id=1]
+[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/animated_sprite_inspector_dock.gd" type="Script" id=1]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -24,7 +24,6 @@ margin_bottom = 14.0
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
-"_edit_use_anchors_": false,
 "_editor_description_": ""
 }
 

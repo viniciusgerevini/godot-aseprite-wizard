@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/ASWizardWindow.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/ASWizardDockContainer.gd" type="Script" id=2]
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/SpriteFramesImportHistory.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/as_wizard_window.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/as_wizard_dock_container.gd" type="Script" id=2]
+[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/sprite_frames_import_history.tscn" type="PackedScene" id=3]
 
 [node name="AsWizardDockContainer" type="TabContainer"]
 margin_right = 281.0
