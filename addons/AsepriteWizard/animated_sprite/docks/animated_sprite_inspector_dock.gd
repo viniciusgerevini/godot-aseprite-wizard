@@ -51,10 +51,10 @@ func _load_config(cfg):
 	_output_folder = cfg.get("o_folder", "")
 	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
 	_out_filename_field.text = cfg.get("o_name", "")
-	_visible_layers_field.pressed = cfg.get("only_visible", "") == "True"
+	_visible_layers_field.pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
 
-	_set_options_visible(cfg.get("op_exp", "false") == "True")
+	_set_options_visible(cfg.get("op_exp", false))
 
 
 func _load_default_config():

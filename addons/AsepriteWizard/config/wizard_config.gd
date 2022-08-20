@@ -23,7 +23,21 @@ static func decode(string: String):
 	for c in cfg:
 		var parts = c.split(SEPARATOR, 1)
 		if parts.size() == 2:
-			config[parts[0].strip_edges()] = parts[1].strip_edges()
+			var key = parts[0].strip_edges()
+			var value = parts[1].strip_edges()
+			
+			#Convert bool properties
+			if key == "only_visible" or key == "op_exp":
+				match value:
+					"True":
+						config[key] = true
+					"False":
+						config[key] = false
+					_:
+						config[key] = false
+			else:
+				config[key] = value
+				
 	return config
 
 
