@@ -33,7 +33,7 @@ onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layer
 onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
 
 func _ready():
-	var cfg = wizard_config.decode(sprite.editor_description)
+	var cfg = wizard_config.load_config(sprite)
 
 	if cfg == null:
 		_load_default_config()
@@ -181,7 +181,7 @@ func _on_import_pressed():
 
 
 func _save_config():
-	sprite.editor_description = wizard_config.encode({
+	wizard_config.save_config(sprite, {
 		"player": _animation_player_path,
 		"source": _source,
 		"layer": _layer,
