@@ -170,6 +170,7 @@ func _import(data, animated_sprite = null) -> int:
 		return result_code.ERR_INVALID_ASEPRITE_SPRITESHEET
 
 	var texture = _parse_texture_path(sprite_sheet)
+	texture.take_over_path(sprite_sheet)
 
 	var resource = _create_sprite_frames_with_animations(content, texture)
 
