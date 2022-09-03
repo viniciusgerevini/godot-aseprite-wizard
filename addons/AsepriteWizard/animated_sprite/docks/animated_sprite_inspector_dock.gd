@@ -133,7 +133,7 @@ func _on_import_pressed():
 
 
 func _save_config():
-	wizard_config.save_config(sprite, {
+	wizard_config.save_config(sprite, config.is_use_metadata_enabled(), {
 		"source": _source,
 		"layer": _layer,
 		"op_exp": _options_title.pressed,

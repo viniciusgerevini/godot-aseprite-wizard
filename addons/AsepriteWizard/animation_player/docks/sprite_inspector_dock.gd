@@ -181,7 +181,7 @@ func _on_import_pressed():
 
 
 func _save_config():
-	wizard_config.save_config(sprite, {
+	wizard_config.save_config(sprite, config.is_use_metadata_enabled(), {
 		"player": _animation_player_path,
 		"source": _source,
 		"layer": _layer,

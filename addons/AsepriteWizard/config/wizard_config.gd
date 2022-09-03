@@ -57,10 +57,13 @@ static func load_config(node:Node):
 		
 	return decode(node.editor_description)
 	
-static func save_config(node:Node, cfg:Dictionary):
-	node.set_meta(WIZARD_CONFIG_META_NAME, cfg)
-	
-	#Delete config from editor_description
-	var decoded = _decode_base64(node.editor_description)
-	if  _is_wizard_config(decoded):
-		node.editor_description = ""
+static func save_config(node:Node, use_metadata:bool, cfg:Dictionary):
+	if use_metadata:
+		node.set_meta(WIZARD_CONFIG_META_NAME, cfg)
+		
+		#Delete config from editor_description
+		var decoded = _decode_base64(node.editor_description)
+		if  _is_wizard_config(decoded):
+			node.editor_description = ""
+	else:
+		node.editor_description = encode(cfg)

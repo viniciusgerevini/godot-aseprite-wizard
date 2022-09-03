@@ -12,6 +12,7 @@ const _DEFAULT_EXCLUSION_PATTERN_KEY = 'aseprite/animation/layers/exclusion_patt
 const _DEFAULT_LOOP_EX_PREFIX = '_'
 const _LOOP_ENABLED = 'aseprite/animation/loop/enabled'
 const _LOOP_EXCEPTION_PREFIX = 'aseprite/animation/loop/exception_prefix'
+const _USE_METADATA = 'aseprite/animation/storage/use_metadata'
 
 # custom preset
 const _IMPORT_PRESET_ENABLED = 'aseprite/import/preset/enable_custom_preset'
@@ -74,6 +75,9 @@ func is_default_animation_loop_enabled() -> bool:
 
 func get_animation_loop_exception_prefix() -> String:
 	return _get_project_setting(_LOOP_EXCEPTION_PREFIX, _DEFAULT_LOOP_EX_PREFIX)
+	
+func is_use_metadata_enabled() -> bool:
+	return _get_project_setting(_USE_METADATA, false)
 
 
 func get_default_exclusion_pattern() -> String:
@@ -210,6 +214,7 @@ func initialize_project_settings():
 	_initialize_project_cfg(_DEFAULT_EXCLUSION_PATTERN_KEY, "", TYPE_STRING)
 	_initialize_project_cfg(_LOOP_ENABLED, true, TYPE_BOOL)
 	_initialize_project_cfg(_LOOP_EXCEPTION_PREFIX, _DEFAULT_LOOP_EX_PREFIX, TYPE_STRING)
+	_initialize_project_cfg(_USE_METADATA, false, TYPE_BOOL)
 
 	_initialize_project_cfg(_IMPORT_PRESET_ENABLED, false, TYPE_BOOL)
 
@@ -229,6 +234,7 @@ func clear_project_settings():
 		_DEFAULT_EXCLUSION_PATTERN_KEY,
 		_LOOP_ENABLED,
 		_LOOP_EXCEPTION_PREFIX,
+		_USE_METADATA,
 		_IMPORT_PRESET_ENABLED,
 		_IMPORT_PRESET_KEY,
 		_REMOVE_SOURCE_FILES_KEY,
