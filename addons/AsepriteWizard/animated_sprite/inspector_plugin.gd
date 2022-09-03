@@ -5,10 +5,10 @@ const InspectorDock = preload("./docks/animated_sprite_inspector_dock.tscn")
 
 var config
 var file_system: EditorFileSystem
-var _sprite: AnimatedSprite
+var _sprite: Node
 
 func can_handle(object):
-	return object is AnimatedSprite
+	return object is AnimatedSprite || object is AnimatedSprite3D
 
 
 func parse_begin(object):

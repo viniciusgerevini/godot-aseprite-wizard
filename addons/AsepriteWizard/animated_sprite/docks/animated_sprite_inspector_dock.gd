@@ -6,7 +6,7 @@ const result_code = preload("../../config/result_codes.gd")
 var sprite_frames_creator = preload("../sprite_frames_creator.gd").new()
 
 var scene: Node
-var sprite: AnimatedSprite
+var sprite: Node
 
 var config
 var file_system: EditorFileSystem

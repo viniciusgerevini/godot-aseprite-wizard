@@ -12,7 +12,7 @@ func init(config, editor_file_system: EditorFileSystem = null):
 	_aseprite.init(config)
 
 
-func create_animations(sprite: Sprite, player: AnimationPlayer, options: Dictionary):
+func create_animations(sprite: Node, player: AnimationPlayer, options: Dictionary):
 	if not _aseprite.test_command():
 		return result_code.ERR_ASEPRITE_CMD_NOT_FOUND
 
@@ -31,7 +31,7 @@ func create_animations(sprite: Sprite, player: AnimationPlayer, options: Diction
 		printerr(result_code.get_error_message(result))
 
 
-func _create_animations_from_file(sprite: Sprite, player: AnimationPlayer, options: Dictionary):
+func _create_animations_from_file(sprite: Node, player: AnimationPlayer, options: Dictionary):
 	var output
 
 	if options.get("layer", "") == "":
@@ -56,7 +56,7 @@ func _create_animations_from_file(sprite: Sprite, player: AnimationPlayer, optio
 	return result
 
 
-func _import(sprite: Sprite, player: AnimationPlayer, data: Dictionary):
+func _import(sprite: Node, player: AnimationPlayer, data: Dictionary):
 	var source_file = data.data_file
 	var sprite_sheet = data.sprite_sheet
 
@@ -78,7 +78,7 @@ func _import(sprite: Sprite, player: AnimationPlayer, data: Dictionary):
 	return _cleanup_animations(sprite, player, content)
 
 
-func _load_texture(sprite: Sprite, sprite_sheet: String, content: Dictionary):
+func _load_texture(sprite: Node, sprite_sheet: String, content: Dictionary):
 	var texture = ResourceLoader.load(sprite_sheet, 'Image', true)
 	sprite.texture = texture
 
@@ -89,7 +89,7 @@ func _load_texture(sprite: Sprite, sprite_sheet: String, content: Dictionary):
 	sprite.vframes = content.meta.size.h / content.frames[0].sourceSize.h
 
 
-func _configure_animations(sprite: Sprite, player: AnimationPlayer, content: Dictionary):
+func _configure_animations(sprite: Node, player: AnimationPlayer, content: Dictionary):
 	var frames = _aseprite.get_content_frames(content)
 	if content.meta.has("frameTags") and content.meta.frameTags.size() > 0:
 		var result = result_code.SUCCESS
@@ -103,7 +103,7 @@ func _configure_animations(sprite: Sprite, player: AnimationPlayer, content: Dic
 		return _add_animation_frames(sprite, player, "default", frames)
 
 
-func _add_animation_frames(sprite: Sprite, player: AnimationPlayer, anim_name: String, frames: Array, direction = 'forward'):
+func _add_animation_frames(sprite: Node, player: AnimationPlayer, anim_name: String, frames: Array, direction = 'forward'):
 	var animation_name = anim_name
 	var is_loopable = _config.is_default_animation_loop_enabled()
 
@@ -145,13 +145,13 @@ func _add_animation_frames(sprite: Sprite, player: AnimationPlayer, anim_name: S
 	return result_code.SUCCESS
 
 
-func _calculate_frame_index(sprite: Sprite, frame: Dictionary) -> int:
+func _calculate_frame_index(sprite: Node, frame: Dictionary) -> int:
 	var column = floor(frame.frame.x * sprite.hframes / sprite.texture.get_width())
 	var row = floor(frame.frame.y * sprite.vframes / sprite.texture.get_height())
 	return (row * sprite.hframes) + column
 
 
-func _create_frame_track(sprite: Sprite, animation: Animation, track: String):
+func _create_frame_track(sprite: Node, animation: Animation, track: String):
 	var track_index = animation.find_track(track)
 
 	if track_index != -1:
@@ -165,12 +165,12 @@ func _create_frame_track(sprite: Sprite, animation: Animation, track: String):
 	return track_index
 
 
-func _get_frame_track_path(player: AnimationPlayer, sprite: Sprite):
+func _get_frame_track_path(player: AnimationPlayer, sprite: Node):
 	var node_path = player.get_node(player.root_node).get_path_to(sprite)
 	return "%s:frame" % node_path
 
 
-func _cleanup_animations(sprite: Sprite, player: AnimationPlayer, content: Dictionary):
+func _cleanup_animations(sprite: Node, player: AnimationPlayer, content: Dictionary):
 	if not (content.meta.has("frameTags") and content.meta.frameTags.size() > 0):
 		return result_code.SUCCESS
 
