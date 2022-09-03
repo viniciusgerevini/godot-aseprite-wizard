@@ -39,6 +39,9 @@ const _I_ONLY_VISIBLE_LAYERS_KEY = 'i_only_visible_layers'
 const _I_CUSTOM_NAME_KEY = 'i_custom_name'
 const _I_DO_NOT_CREATE_RES_KEY = 'i_disable_resource_creation'
 
+# export
+const _EXPORTER_ENABLE_KEY = 'aseprite/export/export_plugin/enable_export_metadata_removal'
+
 var _editor_settings: EditorSettings
 
 # INTERFACE SETTINGS
@@ -60,10 +63,13 @@ func get_command() -> String:
 #######################################################
 # PROJECT SETTINGS
 ######################################################
-
 func is_importer_enabled() -> bool:
 	return _get_project_setting(_IMPORTER_ENABLE_KEY, false)
-
+	
+	
+func is_exporter_enabled() -> bool:
+	return _get_project_setting(_EXPORTER_ENABLE_KEY, false)
+	
 
 func should_remove_source_files() -> bool:
 	return _get_project_setting(_REMOVE_SOURCE_FILES_KEY, true)
@@ -220,6 +226,8 @@ func initialize_project_settings():
 
 	_initialize_project_cfg(_REMOVE_SOURCE_FILES_KEY, true, TYPE_BOOL)
 	_initialize_project_cfg(_IMPORTER_ENABLE_KEY, false, TYPE_BOOL)
+	
+	_initialize_project_cfg(_EXPORTER_ENABLE_KEY, false, TYPE_BOOL)
 
 	_initialize_project_cfg(_HISTORY_CONFIG_FILE_CFG_KEY, _DEFAULT_HISTORY_CONFIG_FILE_PATH, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE)
 	_initialize_project_cfg(_HISTORY_SINGLE_ENTRY_KEY, false, TYPE_BOOL)
@@ -239,6 +247,7 @@ func clear_project_settings():
 		_IMPORT_PRESET_KEY,
 		_REMOVE_SOURCE_FILES_KEY,
 		_IMPORTER_ENABLE_KEY,
+		_EXPORTER_ENABLE_KEY,
 		_HISTORY_CONFIG_FILE_CFG_KEY,
 		_HISTORY_SINGLE_ENTRY_KEY
 	]
