@@ -40,7 +40,7 @@ const _I_CUSTOM_NAME_KEY = 'i_custom_name'
 const _I_DO_NOT_CREATE_RES_KEY = 'i_disable_resource_creation'
 
 # export
-const _EXPORTER_ENABLE_KEY = 'aseprite/export/export_plugin/enable_export_metadata_removal'
+const _EXPORTER_ENABLE_KEY = 'aseprite/animation/storage/enable_metadata_removal_on_export'
 
 var _editor_settings: EditorSettings
 
