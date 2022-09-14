@@ -9,7 +9,7 @@ _Check the screenshots folder for more examples._
 
 ### Features
 
-- Generate sprite sheet and import animations to AnimationPlayer, AnimatedSprite or SpriteFrames resource.
+- Generate sprite sheet and import animations to AnimationPlayer, AnimatedSprite, AnimatedSprite3D or SpriteFrames resource.
 - Adds Inspector docks for easy import and re-import.
 - Filters out layers you don't want in the final animation, using regex.
 - Supports Aseprite animation direction (forward, reverse, ping-pong).
@@ -193,6 +193,8 @@ Currently, import overwrites previously imported files. Any manual modification 
 ### Blurry images when importing through Wizard Screen
 
 The wizard screen uses Godot's default image loader. To prevent blurry images, disable the filter flag for Textures in the Import dock and set it as the default preset.
+
+Alternatively, you can define a custom preset to be used by the plugin on `Project -> Project Settings -> General -> Aseprite -> Import -> Preset`.
 
 For more info, check: https://docs.godotengine.org/en/3.2/getting_started/workflow/assets/import_process.html
 

@@ -2,6 +2,26 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 5.1.0 (2022-09-14)
+
+### Added
+
+- Added support to `Sprite3D` and `AnimatedSprite3D`.
+
+### Changed
+
+- Add extra tracks to animation player to allow multiple textures in same Sprite node.
+
+### Fixed
+
+- Sanitizing layer and file names to prevent strange whitespace issues.
+- Calling `take_over_path` to notify Godot of new resource and preventing cache issues.
+
+## Thanks
+
+Huge thanks to @TheOrioli who implemented all changes in this version.
+
+
 ## 5.0.0 (2022-08-10)
 
 ### Breaking Changes
