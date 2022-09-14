@@ -59,8 +59,8 @@ func export_layers(file_name: String, output_folder: String, options: Dictionary
 
 
 func export_layer(file_name: String, layer_name: String, output_folder: String, options: Dictionary) -> Dictionary:
-	var output_prefix = options.get('output_filename', "")
-	var output_dir = output_folder.replace("res://", "./")
+	var output_prefix = options.get('output_filename', "").strip_edges()
+	var output_dir = output_folder.replace("res://", "./").strip_edges()
 	var data_file = "%s/%s%s.json" % [output_dir, output_prefix, layer_name]
 	var sprite_sheet = "%s/%s%s.png" % [output_dir, output_prefix, layer_name]
 	var output = []
@@ -129,8 +129,12 @@ func list_layers(file_name: String, only_visible = false) -> Array:
 
 	if output.empty():
 		return output
-
-	return output[0].split('\n')
+	
+	var raw = output[0].split('\n')
+	var sanitized = []
+	for s in raw:
+		sanitized.append(s.strip_edges())
+	return sanitized
 
 
 func _export_command_common_arguments(source_name: String, data_path: String, spritesheet_path: String) -> Array:

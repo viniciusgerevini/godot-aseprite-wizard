@@ -29,7 +29,7 @@ func _is_loop_config_enabled() -> String:
 	return _config.is_default_animation_loop_enabled()
 
 
-func create_animations(sprite: AnimatedSprite, options: Dictionary):
+func create_animations(sprite: Node, options: Dictionary):
 	if not _aseprite.test_command():
 		return result_code.ERR_ASEPRITE_CMD_NOT_FOUND
 
@@ -49,7 +49,7 @@ func create_animations(sprite: AnimatedSprite, options: Dictionary):
 		printerr(result_code.get_error_message(result))
 
 
-func _create_animations_from_file(sprite: AnimatedSprite, options: Dictionary):
+func _create_animations_from_file(sprite: Node, options: Dictionary):
 	var output
 
 	if options.get("layer", "") == "":
@@ -170,6 +170,7 @@ func _import(data, animated_sprite = null) -> int:
 		return result_code.ERR_INVALID_ASEPRITE_SPRITESHEET
 
 	var texture = _parse_texture_path(sprite_sheet)
+	texture.take_over_path(sprite_sheet)
 
 	var resource = _create_sprite_frames_with_animations(content, texture)
 

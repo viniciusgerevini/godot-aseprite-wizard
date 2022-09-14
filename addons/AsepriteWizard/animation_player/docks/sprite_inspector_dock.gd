@@ -6,7 +6,7 @@ const result_code = preload("../../config/result_codes.gd")
 var animation_creator = preload("../animation_creator.gd").new()
 
 var scene: Node
-var sprite: Sprite
+var sprite: Node
 
 var config
 var file_system: EditorFileSystem
