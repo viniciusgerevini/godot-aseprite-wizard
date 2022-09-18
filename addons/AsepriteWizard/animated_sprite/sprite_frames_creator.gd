@@ -176,7 +176,7 @@ func _import(data, animated_sprite = null) -> int:
 		return result_code.SUCCESS
 
 	var save_path = "%s.%s" % [source_file.get_basename(), "res"]
-	var code =  ResourceSaver.save(save_path, resource, ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
+	var code =  ResourceSaver.save(resource, save_path, ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
 	resource.take_over_path(save_path)
 	return code
 

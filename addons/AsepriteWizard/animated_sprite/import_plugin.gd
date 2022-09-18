@@ -147,7 +147,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 					main_sprite_frame_saved = true
 					var resource_path = "%s.res" % save_path;
 					sprite_frames.take_over_path(resource_path)
-					ResourceSaver.save(resource_path, sprite_frames)
+					ResourceSaver.save(sprite_frames, resource_path)
 
 				var sprite_frames : SpriteFrames = ResourceLoader.load("%s/%s" % [save_path, file_name], 'SpriteFrames', true)
 
@@ -156,7 +156,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 					sprite_replacement_vars["extension"] = "res"
 
 					var sprite_filename = "%s/%s" % [source_path, replace_vars(options["sprite_filename_pattern"], sprite_replacement_vars)]
-					ResourceSaver.save(sprite_filename, sprite_frames)
+					ResourceSaver.save(sprite_frames, sprite_filename)
 					sprite_frames.take_over_path(sprite_filename)
 
 				if options["texture_atlas/import_texture_atlas"]:
@@ -177,13 +177,13 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 								atlas_texture = (frame as AtlasTexture).atlas
 
 								var atlas_filename = "%s/%s" % [source_path, replace_vars(options["texture_atlas/filename_pattern"], replacement_vars)]
-								ResourceSaver.save(atlas_filename, atlas_texture)
+								ResourceSaver.save(atlas_texture, atlas_filename)
 								atlas_texture.take_over_path(atlas_filename)
 
 							frame.atlas = atlas_texture
 
 							var frame_filename = "%s/%s" % [source_path, replace_vars(options["texture_atlas/frame_filename_pattern"], replacement_vars)]
-							ResourceSaver.save(frame_filename, frame)
+							ResourceSaver.save(frame, frame_filename)
 							i+=1
 
 				if options["animated_texture/import_animated_texture"]:
@@ -211,7 +211,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 							var res = ImageTexture.new()
 							res.create_from_image(single_image)
 							res.flags = atlas_tex.flags
-							ResourceSaver.save(frame_filename, res)
+							ResourceSaver.save(res, frame_filename)
 							res.take_over_path(frame_filename)
 
 							tex.set_frame_texture(i, res)
@@ -219,7 +219,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 							i+=1
 
 						var texture_filename = "%s/%s" % [source_path, replace_vars(options["animated_texture/filename_pattern"], replacement_vars)]
-						ResourceSaver.save(texture_filename, tex)
+						ResourceSaver.save(tex, texture_filename)
 
 			elif options['texture_strip/import_texture_strip'] and file_name.ends_with(".png"):
 				var replacement_vars = global_replacement_vars.duplicate()
@@ -232,7 +232,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 				img.load("%s/%s" % [save_path, file_name])
 				var res = ImageTexture.new()
 				res.create_from_image(img)
-				ResourceSaver.save(texture_filename, res)
+				ResourceSaver.save(res, texture_filename)
 
 		file_name = dir.get_next()
 	return OK
