@@ -106,9 +106,10 @@ func _add_animation_frames(sprite: Sprite2D, player: AnimationPlayer, anim_name:
 		is_loopable = not is_loopable
 
 	if not player.has_animation(animation_name):
-		player.add_animation(animation_name, Animation.new())
+		player.add_animation_library(animation_name, AnimationLibrary.new())
+		player.get_animation_library(animation_name).add_animation(animation_name, Animation.new())
 
-	var animation = player.get_animation(animation_name)
+	var animation = player.get_animation_library(animation_name).get_animation(animation_name)
 	var track = _get_frame_track_path(player, sprite)
 	var track_index = _create_frame_track(sprite, animation, track)
 
