@@ -31,7 +31,7 @@ onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layer
 onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
 
 func _ready():
-	var cfg = wizard_config.decode(sprite.editor_description)
+	var cfg = wizard_config.load_config(sprite)
 
 	if cfg == null:
 		_load_default_config()
@@ -51,10 +51,10 @@ func _load_config(cfg):
 	_output_folder = cfg.get("o_folder", "")
 	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
 	_out_filename_field.text = cfg.get("o_name", "")
-	_visible_layers_field.pressed = cfg.get("only_visible", "") == "True"
+	_visible_layers_field.pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
 
-	_set_options_visible(cfg.get("op_exp", "false") == "True")
+	_set_options_visible(cfg.get("op_exp", false))
 
 
 func _load_default_config():
@@ -133,7 +133,7 @@ func _on_import_pressed():
 
 
 func _save_config():
-	sprite.editor_description = wizard_config.encode({
+	wizard_config.save_config(sprite, config.is_use_metadata_enabled(), {
 		"source": _source,
 		"layer": _layer,
 		"op_exp": _options_title.pressed,

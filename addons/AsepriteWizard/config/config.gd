@@ -12,6 +12,7 @@ const _DEFAULT_EXCLUSION_PATTERN_KEY = 'aseprite/animation/layers/exclusion_patt
 const _DEFAULT_LOOP_EX_PREFIX = '_'
 const _LOOP_ENABLED = 'aseprite/animation/loop/enabled'
 const _LOOP_EXCEPTION_PREFIX = 'aseprite/animation/loop/exception_prefix'
+const _USE_METADATA = 'aseprite/animation/storage/use_metadata'
 
 # custom preset
 const _IMPORT_PRESET_ENABLED = 'aseprite/import/preset/enable_custom_preset'
@@ -40,6 +41,9 @@ const _I_ONLY_VISIBLE_LAYERS_KEY = 'i_only_visible_layers'
 const _I_CUSTOM_NAME_KEY = 'i_custom_name'
 const _I_DO_NOT_CREATE_RES_KEY = 'i_disable_resource_creation'
 
+# export
+const _EXPORTER_ENABLE_KEY = 'aseprite/animation/storage/enable_metadata_removal_on_export'
+
 var _editor_settings: EditorSettings
 
 # INTERFACE SETTINGS
@@ -61,10 +65,13 @@ func get_command() -> String:
 #######################################################
 # PROJECT SETTINGS
 ######################################################
-
 func is_importer_enabled() -> bool:
 	return _get_project_setting(_IMPORTER_ENABLE_KEY, false)
-
+	
+	
+func is_exporter_enabled() -> bool:
+	return _get_project_setting(_EXPORTER_ENABLE_KEY, false)
+	
 
 func should_remove_source_files() -> bool:
 	return _get_project_setting(_REMOVE_SOURCE_FILES_KEY, true)
@@ -76,6 +83,9 @@ func is_default_animation_loop_enabled() -> bool:
 
 func get_animation_loop_exception_prefix() -> String:
 	return _get_project_setting(_LOOP_EXCEPTION_PREFIX, _DEFAULT_LOOP_EX_PREFIX)
+	
+func is_use_metadata_enabled() -> bool:
+	return _get_project_setting(_USE_METADATA, false)
 
 
 func get_default_exclusion_pattern() -> String:
@@ -215,11 +225,14 @@ func initialize_project_settings():
 	_initialize_project_cfg(_DEFAULT_EXCLUSION_PATTERN_KEY, "", TYPE_STRING)
 	_initialize_project_cfg(_LOOP_ENABLED, true, TYPE_BOOL)
 	_initialize_project_cfg(_LOOP_EXCEPTION_PREFIX, _DEFAULT_LOOP_EX_PREFIX, TYPE_STRING)
+	_initialize_project_cfg(_USE_METADATA, false, TYPE_BOOL)
 
 	_initialize_project_cfg(_IMPORT_PRESET_ENABLED, false, TYPE_BOOL)
 
 	_initialize_project_cfg(_REMOVE_SOURCE_FILES_KEY, true, TYPE_BOOL)
 	_initialize_project_cfg(_IMPORTER_ENABLE_KEY, false, TYPE_BOOL)
+	
+	_initialize_project_cfg(_EXPORTER_ENABLE_KEY, false, TYPE_BOOL)
 
 	_initialize_project_cfg(_HISTORY_CONFIG_FILE_CFG_KEY, _DEFAULT_HISTORY_CONFIG_FILE_PATH, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE)
 	_initialize_project_cfg(_HISTORY_SINGLE_ENTRY_KEY, false, TYPE_BOOL)
@@ -236,10 +249,12 @@ func clear_project_settings():
 		_DEFAULT_EXCLUSION_PATTERN_KEY,
 		_LOOP_ENABLED,
 		_LOOP_EXCEPTION_PREFIX,
+		_USE_METADATA,
 		_IMPORT_PRESET_ENABLED,
 		_IMPORT_PRESET_KEY,
 		_REMOVE_SOURCE_FILES_KEY,
 		_IMPORTER_ENABLE_KEY,
+		_EXPORTER_ENABLE_KEY,
 		_HISTORY_CONFIG_FILE_CFG_KEY,
 		_HISTORY_SINGLE_ENTRY_KEY,
 		_SET_VISIBLE_TRACK_AUTOMATICALLY

@@ -4,6 +4,7 @@ extends EditorPlugin
 const ConfigDialog = preload('config/config_dialog.tscn')
 const WizardWindow = preload("animated_sprite/docks/as_wizard_dock_container.tscn")
 const ImportPlugin = preload("animated_sprite/import_plugin.gd")
+const ExportPlugin = preload("export/metadata_export_plugin.gd")
 const AnimatedSpriteInspectorPlugin = preload("animated_sprite/inspector_plugin.gd")
 const SpriteInspectorPlugin = preload("animation_player/inspector_plugin.gd")
 const menu_item_name = "Aseprite Spritesheet Wizard"
@@ -13,16 +14,19 @@ var config = preload("config/config.gd").new()
 var window: TabContainer
 var config_window: PopupPanel
 var import_plugin : EditorImportPlugin
+var export_plugin : EditorExportPlugin
 var sprite_inspector_plugin: EditorInspectorPlugin
 var animated_sprite_inspector_plugin: EditorInspectorPlugin
 
 var _importer_enabled = false
+var _exporter_enabled = false
 
 
 func _enter_tree():
 	_load_config()
 	_setup_menu_entries()
 	_setup_importer()
+	_setup_exporter()
 	_configure_preset()
 	_setup_animated_sprite_inspector_plugin()
 	_setup_sprite_inspector_plugin()
@@ -31,6 +35,7 @@ func _enter_tree():
 func disable_plugin():
 	_remove_menu_entries()
 	_remove_importer()
+	_remove_exporter()
 	_remove_wizard_dock()
 	_remove_inspector_plugins()
 	config.clear_project_settings()
@@ -73,6 +78,19 @@ func _remove_importer():
 	if _importer_enabled:
 		remove_import_plugin(import_plugin)
 		_importer_enabled = false
+		
+
+func _setup_exporter():
+	if config.is_exporter_enabled():
+		export_plugin = ExportPlugin.new()
+		add_export_plugin(export_plugin)
+		_exporter_enabled = true
+
+
+func _remove_exporter():
+	if _exporter_enabled:
+		remove_export_plugin(export_plugin)
+		_exporter_enabled = false
 
 
 func _setup_sprite_inspector_plugin():

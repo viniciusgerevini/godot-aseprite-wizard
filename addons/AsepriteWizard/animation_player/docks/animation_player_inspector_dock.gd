@@ -40,8 +40,7 @@ onready var _cleanup_hide_unused_nodes =  $margin/VBoxContainer/options/auto_vis
 
 
 func _ready():
-	var cfg = wizard_config.decode(target_node.editor_description)
-
+	var cfg = wizard_config.load_config(target_node)
 	if cfg == null:
 		_load_default_config()
 	else:
@@ -68,15 +67,11 @@ func _load_config(cfg):
 	_output_folder = cfg.get("o_folder", "")
 	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
 	_out_filename_field.text = cfg.get("o_name", "")
-	_visible_layers_field.pressed = cfg.get("only_visible", "") == "True"
+	_visible_layers_field.pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
+	_cleanup_hide_unused_nodes.pressed = cfg.get("set_vis_track", config.is_set_visible_track_automatically_enabled())
 
-	if cfg.has("set_vis_track"):
-		_cleanup_hide_unused_nodes.pressed = cfg.get("set_vis_track", "") == "True"
-	else:
-		_cleanup_hide_unused_nodes.pressed = config.is_set_visible_track_automatically_enabled()
-
-	_set_options_visible(cfg.get("op_exp", "false") == "True")
+	_set_options_visible(cfg.get("op_exp", false))
 
 
 func _load_default_config():
@@ -214,7 +209,7 @@ func _save_config():
 	if _cleanup_hide_unused_nodes.pressed != config.is_set_visible_track_automatically_enabled():
 		cfg["set_vis_track"] = _cleanup_hide_unused_nodes.pressed
 
-	target_node.editor_description = wizard_config.encode(cfg)
+	wizard_config.save_config(target_node, config.is_use_metadata_enabled(), cfg)
 
 
 func _open_source_dialog():
