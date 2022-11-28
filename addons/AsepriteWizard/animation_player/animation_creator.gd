@@ -6,13 +6,14 @@ var _aseprite = preload("../aseprite/aseprite.gd").new()
 var _config
 var _file_system
 
+
 func init(config, editor_file_system: EditorFileSystem = null):
 	_config = config
 	_file_system = editor_file_system
 	_aseprite.init(config)
 
 
-func create_animations(sprite: Node, player: AnimationPlayer, options: Dictionary):
+func create_animations(target_node: Node, player: AnimationPlayer, options: Dictionary):
 	if not _aseprite.test_command():
 		return result_code.ERR_ASEPRITE_CMD_NOT_FOUND
 
@@ -23,7 +24,7 @@ func create_animations(sprite: Node, player: AnimationPlayer, options: Dictionar
 	if not dir.dir_exists(options.output_folder):
 		return result_code.ERR_OUTPUT_FOLDER_NOT_FOUND
 
-	var result = _create_animations_from_file(sprite, player, options)
+	var result = _create_animations_from_file(target_node, player, options)
 	if result is GDScriptFunctionState:
 		result = yield(result, "completed")
 
@@ -31,7 +32,7 @@ func create_animations(sprite: Node, player: AnimationPlayer, options: Dictionar
 		printerr(result_code.get_error_message(result))
 
 
-func _create_animations_from_file(sprite: Node, player: AnimationPlayer, options: Dictionary):
+func _create_animations_from_file(target_node: Node, player: AnimationPlayer, options: Dictionary):
 	var output
 
 	if options.get("layer", "") == "":
@@ -47,7 +48,7 @@ func _create_animations_from_file(sprite: Node, player: AnimationPlayer, options
 
 	yield(_scan_filesystem(), "completed")
 
-	var result = _import(sprite, player, output)
+	var result = _import(target_node, player, output)
 
 	if _config.should_remove_source_files():
 		var dir = Directory.new()
@@ -56,7 +57,7 @@ func _create_animations_from_file(sprite: Node, player: AnimationPlayer, options
 	return result
 
 
-func _import(sprite: Node, player: AnimationPlayer, data: Dictionary):
+func _import(target_node: Node, player: AnimationPlayer, data: Dictionary):
 	var source_file = data.data_file
 	var sprite_sheet = data.sprite_sheet
 
@@ -66,45 +67,41 @@ func _import(sprite: Node, player: AnimationPlayer, data: Dictionary):
 			return err
 
 	var content =  parse_json(file.get_as_text())
-
+	
 	if not _aseprite.is_valid_spritesheet(content):
 		return result_code.ERR_INVALID_ASEPRITE_SPRITESHEET
+	
+	var context = {}
 
-	_load_texture(sprite, sprite_sheet, content)
-	var result = _configure_animations(sprite, player, content)
+	_setup_texture(target_node, sprite_sheet, content, context)
+	var result = _configure_animations(target_node, player, content, context)
 	if result != result_code.SUCCESS:
 		return result
 
-	return _cleanup_animations(sprite, player, content)
+	return _cleanup_animations(target_node, player, content)
+	
 
-
-func _load_texture(sprite: Node, sprite_sheet: String, content: Dictionary):
+func _load_texture(sprite_sheet: String) -> Texture:
 	var texture = ResourceLoader.load(sprite_sheet, 'Image', true)
 	texture.take_over_path(sprite_sheet)
-	sprite.texture = texture
-
-	if content.frames.empty():
-		return
-
-	sprite.hframes = content.meta.size.w / content.frames[0].sourceSize.w
-	sprite.vframes = content.meta.size.h / content.frames[0].sourceSize.h
+	return texture
 
 
-func _configure_animations(sprite: Node, player: AnimationPlayer, content: Dictionary):
+func _configure_animations(target_node: Node, player: AnimationPlayer, content: Dictionary, context: Dictionary):
 	var frames = _aseprite.get_content_frames(content)
 	if content.meta.has("frameTags") and content.meta.frameTags.size() > 0:
 		var result = result_code.SUCCESS
 		for tag in content.meta.frameTags:
 			var selected_frames = frames.slice(tag.from, tag.to)
-			result = _add_animation_frames(sprite, player, tag.name, selected_frames, tag.direction)
+			result = _add_animation_frames(target_node, player, tag.name, selected_frames, context, tag.direction)
 			if result != result_code.SUCCESS:
 				break
 		return result
 	else:
-		return _add_animation_frames(sprite, player, "default", frames)
+		return _add_animation_frames(target_node, player, "default", frames, context)
 
 
-func _add_animation_frames(sprite: Node, player: AnimationPlayer, anim_name: String, frames: Array, direction = 'forward'):
+func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name: String, frames: Array, context: Dictionary, direction = 'forward'):
 	var animation_name = anim_name
 	var is_loopable = _config.is_default_animation_loop_enabled()
 
@@ -116,9 +113,9 @@ func _add_animation_frames(sprite: Node, player: AnimationPlayer, anim_name: Str
 		player.add_animation(animation_name, Animation.new())
 
 	var animation = player.get_animation(animation_name)
-	_create_meta_tracks(sprite, player, animation)
-	var frame_track = _get_property_track_path(player, sprite, "frame")
-	var frame_track_index = _create_track(sprite, animation, frame_track)
+	_create_meta_tracks(target_node, player, animation)
+	var frame_track = _get_property_track_path(player, target_node, _get_frame_property())
+	var frame_track_index = _create_track(target_node, animation, frame_track)
 
 	if direction == 'reverse':
 		frames.invert()
@@ -126,8 +123,8 @@ func _add_animation_frames(sprite: Node, player: AnimationPlayer, anim_name: Str
 	var animation_length = 0
 
 	for frame in frames:
-		var frame_index = _calculate_frame_index(sprite, frame)
-		animation.track_insert_key(frame_track_index, animation_length, frame_index)
+		var frame_key = _get_frame_key(target_node, frame, context)
+		animation.track_insert_key(frame_track_index, animation_length, frame_key)
 		animation_length += frame.duration / 1000
 
 	if direction == 'pingpong':
@@ -137,8 +134,8 @@ func _add_animation_frames(sprite: Node, player: AnimationPlayer, anim_name: Str
 		frames.invert()
 
 		for frame in frames:
-			var frame_index = _calculate_frame_index(sprite, frame)
-			animation.track_insert_key(frame_track_index, animation_length, frame_index)
+			var frame_key = _get_frame_key(target_node, frame, context)
+			animation.track_insert_key(frame_track_index, animation_length, frame_key)
 			animation_length += frame.duration / 1000
 
 	animation.length = animation_length
@@ -147,31 +144,7 @@ func _add_animation_frames(sprite: Node, player: AnimationPlayer, anim_name: Str
 	return result_code.SUCCESS
 
 
-func _create_meta_tracks(sprite: Node, player: AnimationPlayer, animation: Animation):
-	var texture_track = _get_property_track_path(player, sprite, "texture")
-	var texture_track_index = _create_track(sprite, animation, texture_track)
-	animation.track_insert_key(texture_track_index, 0, sprite.texture)
-
-	var hframes_track = _get_property_track_path(player, sprite, "hframes")
-	var hframes_track_index = _create_track(sprite, animation, hframes_track)
-	animation.track_insert_key(hframes_track_index, 0, sprite.hframes)
-
-	var vframes_track = _get_property_track_path(player, sprite, "vframes")
-	var vframes_track_index = _create_track(sprite, animation, vframes_track)
-	animation.track_insert_key(vframes_track_index, 0, sprite.vframes)
-
-	var visible_track = _get_property_track_path(player, sprite, "visible")
-	var visible_track_index = _create_track(sprite, animation, visible_track)
-	animation.track_insert_key(visible_track_index, 0, true)
-
-
-func _calculate_frame_index(sprite: Node, frame: Dictionary) -> int:
-	var column = floor(frame.frame.x * sprite.hframes / sprite.texture.get_width())
-	var row = floor(frame.frame.y * sprite.vframes / sprite.texture.get_height())
-	return (row * sprite.hframes) + column
-
-
-func _create_track(sprite: Node, animation: Animation, track: String):
+func _create_track(target_node: Node, animation: Animation, track: String):
 	var track_index = animation.find_track(track)
 
 	if track_index != -1:
@@ -185,12 +158,12 @@ func _create_track(sprite: Node, animation: Animation, track: String):
 	return track_index
 
 
-func _get_property_track_path(player: AnimationPlayer, sprite: Node, prop: String) -> String:
-		var node_path = player.get_node(player.root_node).get_path_to(sprite)
+func _get_property_track_path(player: AnimationPlayer, target_node: Node, prop: String) -> String:
+		var node_path = player.get_node(player.root_node).get_path_to(target_node)
 		return "%s:%s" % [node_path, prop]
 
 
-func _cleanup_animations(sprite: Node, player: AnimationPlayer, content: Dictionary):
+func _cleanup_animations(target_node: Node, player: AnimationPlayer, content: Dictionary):
 	if not (content.meta.has("frameTags") and content.meta.frameTags.size() > 0):
 		return result_code.SUCCESS
 
@@ -262,3 +235,20 @@ func _remove_properties_from_path(path: NodePath) -> NodePath:
 	var property_path := path.get_concatenated_subnames() as String
 	string_path.erase((string_path).length() - property_path.length() - 1, property_path.length() + 1)
 	return string_path as NodePath
+
+
+func _setup_texture(target_node: Node, sprite_sheet: String, content: Dictionary, context: Dictionary):
+	push_error("_setup_texture not implemented!")
+
+
+func _get_frame_property() -> String:
+	push_error("_get_frame_property not implemented!")
+	return ""
+
+
+func _get_frame_key(target_node: Node, frame: Dictionary, context: Dictionary):
+	push_error("_get_frame_key not implemented!")
+
+
+func _create_meta_tracks(target_node: Node, player: AnimationPlayer, animation: Animation):
+	push_error("_create_meta_tracks not implemented!")

@@ -3,10 +3,15 @@ extends PanelContainer
 
 const wizard_config = preload("../../config/wizard_config.gd")
 const result_code = preload("../../config/result_codes.gd")
-var animation_creator = preload("../animation_creator.gd").new()
+
+const AnimationCreator = preload("../animation_creator.gd")
+const SpriteAnimationCreator = preload("../sprite_animation_creator.gd")
+const TextureRectAnimationCreator = preload("../texture_rect_animation_creator.gd")
+
+var animation_creator: AnimationCreator
 
 var scene: Node
-var sprite: Node
+var target_node: Node
 
 var config
 var file_system: EditorFileSystem
@@ -33,12 +38,17 @@ onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layer
 onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
 
 func _ready():
-	var cfg = wizard_config.decode(sprite.editor_description)
+	var cfg = wizard_config.decode(target_node.editor_description)
 
 	if cfg == null:
 		_load_default_config()
 	else:
 		_load_config(cfg)
+
+	if target_node is Sprite || target_node is Sprite3D:
+		animation_creator = SpriteAnimationCreator.new()
+	if target_node is TextureRect:
+		animation_creator = TextureRectAnimationCreator.new()		
 
 	animation_creator.init(config, file_system)
 
@@ -176,12 +186,12 @@ func _on_import_pressed():
 
 	_save_config()
 
-	animation_creator.create_animations(sprite, root.get_node(_animation_player_path), options)
+	animation_creator.create_animations(target_node, root.get_node(_animation_player_path), options)
 	_importing = false
 
 
 func _save_config():
-	sprite.editor_description = wizard_config.encode({
+	target_node.editor_description = wizard_config.encode({
 		"player": _animation_player_path,
 		"source": _source,
 		"layer": _layer,
