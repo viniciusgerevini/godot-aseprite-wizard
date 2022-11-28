@@ -36,6 +36,8 @@ onready var _out_folder_field = $margin/VBoxContainer/options/out_folder/button
 onready var _out_filename_field = $margin/VBoxContainer/options/out_filename/LineEdit
 onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layers/CheckButton
 onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
+onready var _cleanup_hide_unused_nodes =  $margin/VBoxContainer/options/auto_visible_track/CheckButton
+
 
 func _ready():
 	var cfg = wizard_config.decode(target_node.editor_description)
@@ -69,11 +71,17 @@ func _load_config(cfg):
 	_visible_layers_field.pressed = cfg.get("only_visible", "") == "True"
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
 
+	if cfg.has("set_vis_track"):
+		_cleanup_hide_unused_nodes.pressed = cfg.get("set_vis_track", "") == "True"
+	else:
+		_cleanup_hide_unused_nodes.pressed = config.is_set_visible_track_automatically_enabled()
+
 	_set_options_visible(cfg.get("op_exp", "false") == "True")
 
 
 func _load_default_config():
 	_ex_pattern_field.text = config.get_default_exclusion_pattern()
+	_cleanup_hide_unused_nodes.pressed = config.is_set_visible_track_automatically_enabled()
 	_set_options_visible(false)
 
 
@@ -181,6 +189,7 @@ func _on_import_pressed():
 		"exception_pattern": _ex_pattern_field.text,
 		"only_visible_layers": _visible_layers_field.pressed,
 		"output_filename": _out_filename_field.text,
+		"cleanup_hide_unused_nodes": _cleanup_hide_unused_nodes.pressed,
 		"layer": _layer
 	}
 
@@ -191,7 +200,7 @@ func _on_import_pressed():
 
 
 func _save_config():
-	target_node.editor_description = wizard_config.encode({
+	var cfg := {
 		"player": _animation_player_path,
 		"source": _source,
 		"layer": _layer,
@@ -199,8 +208,13 @@ func _save_config():
 		"o_folder": _output_folder,
 		"o_name": _out_filename_field.text,
 		"only_visible": _visible_layers_field.pressed,
-		"o_ex_p": _ex_pattern_field.text
-	})
+		"o_ex_p": _ex_pattern_field.text,
+	}
+
+	if _cleanup_hide_unused_nodes.pressed != config.is_set_visible_track_automatically_enabled():
+		cfg["set_vis_track"] = _cleanup_hide_unused_nodes.pressed
+
+	target_node.editor_description = wizard_config.encode(cfg)
 
 
 func _open_source_dialog():

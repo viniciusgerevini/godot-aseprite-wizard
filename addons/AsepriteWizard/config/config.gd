@@ -20,6 +20,8 @@ const _PIXEL_2D_PRESET_CFG = 'res://addons/AsepriteWizard/config/2d_pixel_preset
 
 # cleanup
 const _REMOVE_SOURCE_FILES_KEY = 'aseprite/import/cleanup/remove_json_file'
+const _SET_VISIBLE_TRACK_AUTOMATICALLY = 'aseprite/import/cleanup/automatically_hide_sprites_not_in_animation'
+
 
 # automatic importer
 const _IMPORTER_ENABLE_KEY = 'aseprite/import/import_plugin/enable_automatic_importer'
@@ -104,6 +106,9 @@ func get_import_history() -> Array:
 			history.push_back(parse_json(line))
 
 	return history
+
+func is_set_visible_track_automatically_enabled() -> bool:
+	return _get_project_setting(_SET_VISIBLE_TRACK_AUTOMATICALLY, false)
 
 # history is saved and retrieved line-by-line so
 # file becomes version control friendly
@@ -219,6 +224,8 @@ func initialize_project_settings():
 	_initialize_project_cfg(_HISTORY_CONFIG_FILE_CFG_KEY, _DEFAULT_HISTORY_CONFIG_FILE_PATH, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE)
 	_initialize_project_cfg(_HISTORY_SINGLE_ENTRY_KEY, false, TYPE_BOOL)
 
+	_initialize_project_cfg(_SET_VISIBLE_TRACK_AUTOMATICALLY, false, TYPE_BOOL)
+
 	ProjectSettings.save()
 
 	_initialize_editor_cfg(_COMMAND_KEY, default_command(), TYPE_STRING)
@@ -234,7 +241,8 @@ func clear_project_settings():
 		_REMOVE_SOURCE_FILES_KEY,
 		_IMPORTER_ENABLE_KEY,
 		_HISTORY_CONFIG_FILE_CFG_KEY,
-		_HISTORY_SINGLE_ENTRY_KEY
+		_HISTORY_SINGLE_ENTRY_KEY,
+		_SET_VISIBLE_TRACK_AUTOMATICALLY
 	]
 	for key in _all_settings:
 		ProjectSettings.clear(key)

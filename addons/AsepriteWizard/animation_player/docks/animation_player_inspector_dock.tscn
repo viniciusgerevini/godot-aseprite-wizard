@@ -147,25 +147,25 @@ align = 0
 [node name="options" type="VBoxContainer" parent="margin/VBoxContainer"]
 visible = false
 margin_top = 120.0
-margin_right = 198.0
-margin_bottom = 240.0
+margin_right = 209.0
+margin_bottom = 284.0
 
 [node name="out_folder" type="HBoxContainer" parent="margin/VBoxContainer/options"]
-margin_right = 198.0
+margin_right = 209.0
 margin_bottom = 20.0
 hint_tooltip = "Location where the spritesheet file should be saved."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/options/out_folder"]
 margin_top = 3.0
-margin_right = 97.0
+margin_right = 102.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Output folder"
 
 [node name="button" type="Button" parent="margin/VBoxContainer/options/out_folder"]
-margin_left = 101.0
-margin_right = 198.0
+margin_left = 106.0
+margin_right = 209.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
@@ -174,7 +174,7 @@ clip_text = true
 
 [node name="out_filename" type="HBoxContainer" parent="margin/VBoxContainer/options"]
 margin_top = 24.0
-margin_right = 198.0
+margin_right = 209.0
 margin_bottom = 48.0
 hint_tooltip = "Base filename for spritesheet. In case the layer option is used, this works as a prefix to the layer name."
 
@@ -188,35 +188,35 @@ text = "Output file name"
 
 [node name="LineEdit" type="LineEdit" parent="margin/VBoxContainer/options/out_filename"]
 margin_left = 113.0
-margin_right = 198.0
+margin_right = 209.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="ex_pattern" type="HBoxContainer" parent="margin/VBoxContainer/options"]
 margin_top = 52.0
-margin_right = 198.0
+margin_right = 209.0
 margin_bottom = 76.0
 hint_tooltip = "Exclude layers with name matching this pattern (regex)."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/options/ex_pattern"]
 margin_top = 5.0
-margin_right = 99.0
+margin_right = 102.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Exclude pattern"
 
 [node name="LineEdit" type="LineEdit" parent="margin/VBoxContainer/options/ex_pattern"]
-margin_left = 103.0
-margin_right = 198.0
+margin_left = 106.0
+margin_right = 209.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="visible_layers" type="HBoxContainer" parent="margin/VBoxContainer/options"]
 margin_top = 80.0
-margin_right = 198.0
+margin_right = 209.0
 margin_bottom = 120.0
 hint_tooltip = "If active, layers not visible in the source file won't be included in the final image."
 
@@ -230,7 +230,28 @@ text = "Only visible layers"
 
 [node name="CheckButton" type="CheckButton" parent="margin/VBoxContainer/options/visible_layers"]
 margin_left = 122.0
-margin_right = 198.0
+margin_right = 209.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="auto_visible_track" type="HBoxContainer" parent="margin/VBoxContainer/options"]
+margin_top = 124.0
+margin_right = 209.0
+margin_bottom = 164.0
+hint_tooltip = "If active, it will automatically determine unused Sprite and Sprite3D nodes in each animation and hide them."
+
+[node name="Label" type="Label" parent="margin/VBoxContainer/options/auto_visible_track"]
+margin_top = 13.0
+margin_right = 129.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Hide unused sprites"
+
+[node name="CheckButton" type="CheckButton" parent="margin/VBoxContainer/options/auto_visible_track"]
+margin_left = 133.0
+margin_right = 209.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0

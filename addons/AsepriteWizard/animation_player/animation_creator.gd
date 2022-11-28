@@ -48,7 +48,7 @@ func _create_animations_from_file(target_node: Node, player: AnimationPlayer, op
 
 	yield(_scan_filesystem(), "completed")
 
-	var result = _import(target_node, player, output)
+	var result = _import(target_node, player, output, options)
 
 	if _config.should_remove_source_files():
 		var dir = Directory.new()
@@ -57,7 +57,7 @@ func _create_animations_from_file(target_node: Node, player: AnimationPlayer, op
 	return result
 
 
-func _import(target_node: Node, player: AnimationPlayer, data: Dictionary):
+func _import(target_node: Node, player: AnimationPlayer, data: Dictionary, options: Dictionary):
 	var source_file = data.data_file
 	var sprite_sheet = data.sprite_sheet
 
@@ -78,7 +78,7 @@ func _import(target_node: Node, player: AnimationPlayer, data: Dictionary):
 	if result != result_code.SUCCESS:
 		return result
 
-	return _cleanup_animations(target_node, player, content)
+	return _cleanup_animations(target_node, player, content, options)
 	
 
 func _load_texture(sprite_sheet: String) -> Texture:
@@ -163,7 +163,7 @@ func _get_property_track_path(player: AnimationPlayer, target_node: Node, prop: 
 		return "%s:%s" % [node_path, prop]
 
 
-func _cleanup_animations(target_node: Node, player: AnimationPlayer, content: Dictionary):
+func _cleanup_animations(target_node: Node, player: AnimationPlayer, content: Dictionary, options: Dictionary):
 	if not (content.meta.has("frameTags") and content.meta.frameTags.size() > 0):
 		return result_code.SUCCESS
 
@@ -174,6 +174,13 @@ func _cleanup_animations(target_node: Node, player: AnimationPlayer, content: Di
 			a = a.substr(_config.get_animation_loop_exception_prefix().length())
 		tags.push_back(a)
 
+	if options.get("cleanup_hide_unused_nodes", false):
+		_hide_unused_nodes(target_node, player, content)	
+
+	return result_code.SUCCESS
+
+
+func _hide_unused_nodes(target_node: Node, player: AnimationPlayer, content: Dictionary):
 	var root_node := player.get_node(player.root_node)
 	var all_animations := player.get_animation_list()
 	var all_sprite_nodes := []
@@ -214,8 +221,6 @@ func _cleanup_animations(target_node: Node, player: AnimationPlayer, content: Di
 				continue
 			var visible_track_index = _create_track(node, animation, visible_track)
 			animation.track_insert_key(visible_track_index, 0, false)
-
-	return result_code.SUCCESS
 
 
 func _scan_filesystem():
