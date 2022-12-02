@@ -2,6 +2,21 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 6.0.0-4 (2022-12-08)
+
+### Changed
+
+- Port to Godot 4 (beta 7)
+- Refactored sprite frames creator
+- Fixed importer. Now files size are consistent with other methods. No hacky import. Warnings might still appear in console.
+- Removed extra texture importer options.
+
+
+### Thanks
+
+- Thanks to Florian Kaiser (@floriandotorg) for his first 4.1 migration to alpha1.
+- Thanks to Dave (@el-falso) for some fixes for 4.1 to beta 1.
+
 ## 5.2.0 (2022-12-02)
 
 ### Added

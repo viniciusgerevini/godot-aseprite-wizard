@@ -1,23 +1,18 @@
-tool
+@tool
 extends EditorInspectorPlugin
 
-const InspectorDock = preload("./docks/animated_sprite_inspector_dock.tscn")
+const ASInspectorDock = preload("./docks/animated_sprite_inspector_dock.tscn")
 
 var config
 var file_system: EditorFileSystem
-var _sprite: Node
 
-func can_handle(object):
-	return object is AnimatedSprite || object is AnimatedSprite3D
-
-
-func parse_begin(object):
-	_sprite = object
+func _can_handle(object):
+	return object is AnimatedSprite2D || object is AnimatedSprite3D
 
 
-func parse_end():
-	var dock = InspectorDock.instance()
-	dock.sprite = _sprite
+func _parse_end(object):
+	var dock = ASInspectorDock.instantiate()
+	dock.sprite = object
 	dock.config = config
 	dock.file_system = file_system
 	add_custom_control(dock)

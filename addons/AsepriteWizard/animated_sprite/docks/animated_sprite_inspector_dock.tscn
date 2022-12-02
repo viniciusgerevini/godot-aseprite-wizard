@@ -1,226 +1,145 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://vej7yqkbtd5f"]
 
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/animated_sprite_inspector_dock.gd" type="Script" id=1]
-
-[sub_resource type="StyleBoxEmpty" id=1]
-
-[sub_resource type="StyleBoxFlat" id=2]
-content_margin_left = 2.0
-content_margin_right = 2.0
-content_margin_top = 1.0
-content_margin_bottom = 1.0
-bg_color = Color( 0.25098, 0.270588, 0.32549, 1 )
-
-[sub_resource type="StyleBoxFlat" id=3]
-content_margin_left = 1.0
-content_margin_right = 1.0
-content_margin_top = 1.0
-content_margin_bottom = 1.0
-bg_color = Color( 0.2, 0.219608, 0.278431, 1 )
+[ext_resource type="Script" path="res://addons/AsepriteWizard/animated_sprite/docks/animated_sprite_inspector_dock.gd" id="1"]
 
 [node name="animated_sprite_inspector_dock" type="PanelContainer"]
-margin_right = 14.0
-margin_bottom = 14.0
-custom_styles/panel = SubResource( 1 )
-script = ExtResource( 1 )
-__meta__ = {
-"_editor_description_": ""
-}
+offset_right = 14.0
+offset_bottom = 14.0
+script = ExtResource("1")
 
 [node name="margin" type="MarginContainer" parent="."]
-margin_right = 97.0
-margin_bottom = 120.0
-custom_constants/margin_top = 2
-custom_constants/margin_bottom = 2
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="margin"]
-margin_top = 2.0
-margin_right = 97.0
-margin_bottom = 118.0
+layout_mode = 2
 
 [node name="section_title" type="PanelContainer" parent="margin/VBoxContainer"]
-margin_right = 97.0
-margin_bottom = 16.0
+layout_mode = 2
 size_flags_horizontal = 3
-custom_styles/panel = SubResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="title" type="Label" parent="margin/VBoxContainer/section_title"]
-margin_left = 2.0
-margin_top = 1.0
-margin_right = 95.0
-margin_bottom = 15.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Aseprite"
-align = 1
+horizontal_alignment = 1
 
 [node name="source" type="HBoxContainer" parent="margin/VBoxContainer"]
-margin_top = 20.0
-margin_right = 97.0
-margin_bottom = 40.0
-hint_tooltip = "Location of the Aseprite (*.ase, *.aseprite)  source file."
+layout_mode = 2
+tooltip_text = "Location of the Aseprite (*.ase, *.aseprite)  source file."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/source"]
-margin_top = 3.0
-margin_right = 81.0
-margin_bottom = 17.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Aseprite File"
 
 [node name="button" type="Button" parent="margin/VBoxContainer/source"]
-margin_left = 85.0
-margin_right = 97.0
-margin_bottom = 20.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "[empty]"
 clip_text = true
 
 [node name="layer" type="HBoxContainer" parent="margin/VBoxContainer"]
-margin_top = 44.0
-margin_right = 97.0
-margin_bottom = 64.0
-hint_tooltip = "Aseprite layer to be used in the animation. By default all layers are included."
+layout_mode = 2
+tooltip_text = "Aseprite layer to be used in the animation. By default all layers are included."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/layer"]
-margin_top = 3.0
-margin_right = 41.0
-margin_bottom = 17.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Layer"
 
 [node name="options" type="OptionButton" parent="margin/VBoxContainer/layer"]
-margin_left = 45.0
-margin_right = 97.0
-margin_bottom = 20.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-text = "[all]"
-align = 1
+item_count = 1
+selected = 0
+popup/item_0/text = "[all]"
+popup/item_0/id = 0
 
 [node name="options_title" type="PanelContainer" parent="margin/VBoxContainer"]
-margin_top = 68.0
-margin_right = 97.0
-margin_bottom = 92.0
-custom_styles/panel = SubResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
-[node name="options_title" type="ToolButton" parent="margin/VBoxContainer/options_title"]
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 96.0
-margin_bottom = 23.0
-custom_colors/font_color_pressed = Color( 0.8, 0.807843, 0.827451, 1 )
+[node name="options_title" type="Button" parent="margin/VBoxContainer/options_title"]
+layout_mode = 2
 toggle_mode = true
 text = "Options"
-align = 0
 
 [node name="options" type="VBoxContainer" parent="margin/VBoxContainer"]
 visible = false
-margin_top = 120.0
-margin_right = 198.0
-margin_bottom = 240.0
+layout_mode = 2
 
 [node name="out_folder" type="HBoxContainer" parent="margin/VBoxContainer/options"]
-margin_right = 198.0
-margin_bottom = 20.0
-hint_tooltip = "Location where the spritesheet file should be saved."
+layout_mode = 2
+tooltip_text = "Location where the spritesheet file should be saved."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/options/out_folder"]
-margin_top = 3.0
-margin_right = 97.0
-margin_bottom = 17.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Output folder"
 
 [node name="button" type="Button" parent="margin/VBoxContainer/options/out_folder"]
-margin_left = 101.0
-margin_right = 198.0
-margin_bottom = 20.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "[empty]"
 clip_text = true
 
 [node name="out_filename" type="HBoxContainer" parent="margin/VBoxContainer/options"]
-margin_top = 24.0
-margin_right = 198.0
-margin_bottom = 48.0
-hint_tooltip = "Base filename for spritesheet. In case the layer option is used, this works as a prefix to the layer name."
+layout_mode = 2
+tooltip_text = "Base filename for spritesheet. In case the layer option is used, this works as a prefix to the layer name."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/options/out_filename"]
-margin_top = 5.0
-margin_right = 109.0
-margin_bottom = 19.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Output file name"
 
 [node name="LineEdit" type="LineEdit" parent="margin/VBoxContainer/options/out_filename"]
-margin_left = 113.0
-margin_right = 198.0
-margin_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="ex_pattern" type="HBoxContainer" parent="margin/VBoxContainer/options"]
-margin_top = 52.0
-margin_right = 198.0
-margin_bottom = 76.0
-hint_tooltip = "Exclude layers with name matching this pattern (regex)."
+layout_mode = 2
+tooltip_text = "Exclude layers with name matching this pattern (regex)."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/options/ex_pattern"]
-margin_top = 5.0
-margin_right = 99.0
-margin_bottom = 19.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Exclude pattern"
 
 [node name="LineEdit" type="LineEdit" parent="margin/VBoxContainer/options/ex_pattern"]
-margin_left = 103.0
-margin_right = 198.0
-margin_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="visible_layers" type="HBoxContainer" parent="margin/VBoxContainer/options"]
-margin_top = 80.0
-margin_right = 198.0
-margin_bottom = 120.0
-hint_tooltip = "If active, layers not visible in the source file won't be included in the final image."
+layout_mode = 2
+tooltip_text = "If active, layers not visible in the source file won't be included in the final image."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/options/visible_layers"]
-margin_top = 13.0
-margin_right = 118.0
-margin_bottom = 27.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Only visible layers"
 
 [node name="CheckButton" type="CheckButton" parent="margin/VBoxContainer/options/visible_layers"]
-margin_left = 122.0
-margin_right = 198.0
-margin_bottom = 40.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="import" type="Button" parent="margin/VBoxContainer"]
-margin_top = 96.0
-margin_right = 97.0
-margin_bottom = 116.0
+layout_mode = 2
 text = "Import"
 
 [connection signal="pressed" from="margin/VBoxContainer/source/button" to="." method="_on_source_pressed"]
+[connection signal="button_down" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_button_down"]
 [connection signal="item_selected" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_item_selected"]
-[connection signal="pressed" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_pressed"]
 [connection signal="toggled" from="margin/VBoxContainer/options_title/options_title" to="." method="_on_options_title_toggled"]
 [connection signal="pressed" from="margin/VBoxContainer/options/out_folder/button" to="." method="_on_out_folder_pressed"]
 [connection signal="pressed" from="margin/VBoxContainer/import" to="." method="_on_import_pressed"]

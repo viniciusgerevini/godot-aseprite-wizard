@@ -1,4 +1,4 @@
-tool
+@tool
 extends HBoxContainer
 
 signal import_clicked(index)

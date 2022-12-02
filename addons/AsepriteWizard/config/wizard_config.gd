@@ -1,5 +1,5 @@
-tool
-extends Reference
+@tool
+extends RefCounted
 
 const WIZARD_CONFIG_META_NAME = "_aseprite_wizard_config_"
 const WIZARD_CONFIG_MARKER = "aseprite_wizard_config"
@@ -51,12 +51,14 @@ static func _decode_base64(string: String):
 static func _is_wizard_config(cfg) -> bool:
 	return cfg != null and cfg.begins_with(WIZARD_CONFIG_MARKER)
 
+
 static func load_config(node:Node):
 	if node.has_meta(WIZARD_CONFIG_META_NAME):
 		return node.get_meta(WIZARD_CONFIG_META_NAME)
-		
+
 	return decode(node.editor_description)
-	
+
+
 static func save_config(node:Node, use_metadata:bool, cfg:Dictionary):
 	if use_metadata:
 		node.set_meta(WIZARD_CONFIG_META_NAME, cfg)

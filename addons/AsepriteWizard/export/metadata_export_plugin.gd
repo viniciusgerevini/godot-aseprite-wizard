@@ -2,16 +2,16 @@ extends EditorExportPlugin
 
 const wizard_config = preload("../config/wizard_config.gd")
 
-func _export_file(path: String, type: String, features: PoolStringArray) -> void:
+func _export_file(path: String, type: String, features: PackedStringArray) -> void:
 	if type != "PackedScene": return
 
 	var scene : PackedScene =  ResourceLoader.load(path, type, true)
 	var scene_changed := false
-	var root_node := scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	var root_node := scene.instantiate(PackedScene.GEN_EDIT_STATE_INSTANCE)
 	var nodes := [root_node]
 
-	#remove metadata from scene
-	while not nodes.empty():
+	#remove_at metadata from scene
+	while not nodes.is_empty():
 		var node : Node = nodes.pop_front()
 
 		for child in node.get_children():
@@ -32,7 +32,8 @@ func _export_file(path: String, type: String, features: PoolStringArray) -> void
 		add_file(path, content, true)
 
 	root_node.free()
-	
+
+
 func _remove_meta(node:Node, path: String) -> bool:
 	if node.has_meta(wizard_config.WIZARD_CONFIG_META_NAME):
 		node.remove_meta(wizard_config.WIZARD_CONFIG_META_NAME)
@@ -40,19 +41,17 @@ func _remove_meta(node:Node, path: String) -> bool:
 		return true
 		
 	return false
-	
-func _get_scene_content(path:String, scene:PackedScene) -> PoolByteArray:
+
+
+func _get_scene_content(path:String, scene:PackedScene) -> PackedByteArray:
 	var tmp_path = OS.get_cache_dir()  + "tmp_scene." + path.get_extension()
-	ResourceSaver.save(tmp_path, scene)
+	ResourceSaver.save(scene, tmp_path)
 
-	var tmp_file = File.new()
-	tmp_file.open(tmp_path,File.READ)
-	var content : PoolByteArray = tmp_file.get_buffer(tmp_file.get_len())
+	var tmp_file = FileAccess.open(tmp_path, FileAccess.READ)
+	var content : PackedByteArray = tmp_file.get_buffer(tmp_file.get_length())
 	tmp_file.close()
-	
-	var dir = Directory.new()
 
-	if dir.file_exists(tmp_path):
-		dir.remove(tmp_path)
+	if FileAccess.file_exists(tmp_path):
+		DirAccess.remove_absolute(tmp_path)
 
 	return content

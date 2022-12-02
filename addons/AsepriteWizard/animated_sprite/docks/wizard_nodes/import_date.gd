@@ -1,4 +1,4 @@
-tool
+@tool
 extends Label
 
 
@@ -8,5 +8,5 @@ func set_date(timestamp: String):
 
 
 #func _format_date(timestamp: int) -> String:
-#	var dt = OS.get_datetime_from_unix_time(timestamp)
+#	var dt = Time.get_datetime_dict_from_system_from_unix_time(timestamp)
 #	return "%04d-%02d-%02d %02d:%02d:%02d" % [dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second]

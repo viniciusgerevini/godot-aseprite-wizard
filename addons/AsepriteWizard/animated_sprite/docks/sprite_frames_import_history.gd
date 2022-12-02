@@ -1,4 +1,4 @@
-tool
+@tool
 extends PanelContainer
 
 signal request_edit(import_cfg)
@@ -21,9 +21,9 @@ var _is_busy := false
 var _import_requested_for := -1
 var _sort_by = SORT_BY_DATE
 
-onready var grid = $MarginContainer/VBoxContainer/ScrollContainer/GridContainer
-onready var loading_warning = $MarginContainer/VBoxContainer/loading_warning
-onready var no_history_warning = $MarginContainer/VBoxContainer/no_history_warning
+@onready var grid = $MarginContainer/VBoxContainer/ScrollContainer/GridContainer
+@onready var loading_warning = $MarginContainer/VBoxContainer/loading_warning
+@onready var no_history_warning = $MarginContainer/VBoxContainer/no_history_warning
 
 func init(config):
 	_config = config
@@ -40,8 +40,7 @@ func reload():
 		_create_node_list_entry(entry, index)
 
 	loading_warning.hide()
-
-	if _history.empty():
+	if _history.is_empty():
 		no_history_warning.show()
 	else:
 		grid.get_parent().show()
@@ -52,27 +51,23 @@ func _create_node_list_entry(entry: Dictionary, index: int):
 
 
 func _create_nodes(entry: Dictionary, index: int) -> Dictionary:
-	var source_path = SourcePathField.instance()
+	var source_path = SourcePathField.instantiate()
 	source_path.set_entry(entry)
 
-	grid.add_child_below_node(grid.get_child(INITIAL_GRID_INDEX), source_path)
+	grid.get_child(INITIAL_GRID_INDEX).add_sibling(source_path)
 
-	var output_path = OutputPathField.instance()
+	var output_path = OutputPathField.instantiate()
 	output_path.text = entry.output_location
-	grid.add_child_below_node(source_path, output_path)
-
-	var import_date = ImportDateField.instance()
+	source_path.add_sibling(output_path)
+	var import_date = ImportDateField.instantiate()
 	import_date.set_date(entry.import_date)
-	grid.add_child_below_node(output_path, import_date)
-
-	var actions = ItemActions.instance()
+	output_path.add_sibling(import_date)
+	var actions = ItemActions.instantiate()
 	actions.history_index = index
-	grid.add_child_below_node(import_date, actions)
-
-	actions.connect("import_clicked", self, "_on_entry_reimport_clicked")
-	actions.connect("edit_clicked", self, "_on_entry_edit_clicked")
-	actions.connect("removed_clicked", self, "_on_entry_remove_clicked")
-
+	import_date.add_sibling(actions)
+	actions.connect("import_clicked",Callable(self,"_on_entry_reimport_clicked"))
+	actions.connect("edit_clicked",Callable(self,"_on_entry_edit_clicked"))
+	actions.connect("removed_clicked",Callable(self,"_on_entry_remove_clicked"))
 	return {
 		"history_index": index,
 		"timestamp": entry.import_date,
@@ -92,10 +87,10 @@ func _add_to_node_list(entry: Dictionary, node: Dictionary):
 
 
 func add_entry(file_settings: Dictionary):
-	if not _history:
+	if _history == null:
 		reload()
 
-	var dt = OS.get_datetime()
+	var dt = Time.get_datetime_dict_from_system()
 	file_settings["import_date"] = "%04d-%02d-%02d %02d:%02d:%02d" % [dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second]
 
 	if _import_requested_for != -1:
@@ -112,6 +107,7 @@ func add_entry(file_settings: Dictionary):
 		_trigger_sort()
 
 	no_history_warning.hide()
+	loading_warning.hide()
 	grid.get_parent().show()
 	_is_busy = false
 
@@ -138,7 +134,7 @@ func _on_entry_remove_clicked(entry_index: int):
 	_remove_item(entry_index)
 	_config.save_import_history(_history)
 
-	if (_history.empty()):
+	if (_history.is_empty()):
 		grid.get_parent().hide()
 		no_history_warning.show()
 
@@ -188,7 +184,7 @@ func _remove_from_history(entry_index: int):
 				f.history_index -= 1
 				f.actions_node.history_index = f.history_index
 
-	_history.remove(entry_index)
+	_history.remove_at(entry_index)
 
 
 func _free_entry_nodes(entry_history_node: Dictionary):
@@ -207,9 +203,9 @@ func _on_SortOptions_item_selected(index):
 
 func _trigger_sort(sort_type: int = _sort_by):
 	if sort_type == SORT_BY_DATE:
-		_history_nodes_list.sort_custom(self, "_sort_by_date")
+		_history_nodes_list.sort_custom(Callable(self,"_sort_by_date"))
 	else:
-		_history_nodes_list.sort_custom(self, "_sort_by_path")
+		_history_nodes_list.sort_custom(Callable(self,"_sort_by_path"))
 	_reorganise_nodes()
 	_sort_by = sort_type
 

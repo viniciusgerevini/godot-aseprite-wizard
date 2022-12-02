@@ -5,7 +5,7 @@ func _setup_texture(sprite: Node, sprite_sheet: String, content: Dictionary, con
 	var texture = _load_texture(sprite_sheet)
 	sprite.texture = texture
 
-	if content.frames.empty():
+	if content.frames.is_empty():
 		return
 
 	sprite.hframes = content.meta.size.w / content.frames[0].sourceSize.w
