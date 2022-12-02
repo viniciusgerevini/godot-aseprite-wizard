@@ -3,10 +3,15 @@ extends PanelContainer
 
 const wizard_config = preload("../../config/wizard_config.gd")
 const result_code = preload("../../config/result_codes.gd")
-var animation_creator = preload("../animation_creator.gd").new()
+
+const AnimationCreator = preload("../animation_creator.gd")
+const SpriteAnimationCreator = preload("../sprite_animation_creator.gd")
+const TextureRectAnimationCreator = preload("../texture_rect_animation_creator.gd")
+
+var animation_creator: AnimationCreator
 
 var scene: Node
-var sprite: Node
+var target_node: Node
 
 var config
 var file_system: EditorFileSystem
@@ -31,14 +36,20 @@ onready var _out_folder_field = $margin/VBoxContainer/options/out_folder/button
 onready var _out_filename_field = $margin/VBoxContainer/options/out_filename/LineEdit
 onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layers/CheckButton
 onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
+onready var _cleanup_hide_unused_nodes =  $margin/VBoxContainer/options/auto_visible_track/CheckButton
+
 
 func _ready():
-	var cfg = wizard_config.load_config(sprite)
-
+	var cfg = wizard_config.load_config(target_node)
 	if cfg == null:
 		_load_default_config()
 	else:
 		_load_config(cfg)
+
+	if target_node is Sprite || target_node is Sprite3D:
+		animation_creator = SpriteAnimationCreator.new()
+	if target_node is TextureRect:
+		animation_creator = TextureRectAnimationCreator.new()		
 
 	animation_creator.init(config, file_system)
 
@@ -58,12 +69,14 @@ func _load_config(cfg):
 	_out_filename_field.text = cfg.get("o_name", "")
 	_visible_layers_field.pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
+	_cleanup_hide_unused_nodes.pressed = cfg.get("set_vis_track", config.is_set_visible_track_automatically_enabled())
 
 	_set_options_visible(cfg.get("op_exp", false))
 
 
 func _load_default_config():
 	_ex_pattern_field.text = config.get_default_exclusion_pattern()
+	_cleanup_hide_unused_nodes.pressed = config.is_set_visible_track_automatically_enabled()
 	_set_options_visible(false)
 
 
@@ -171,17 +184,18 @@ func _on_import_pressed():
 		"exception_pattern": _ex_pattern_field.text,
 		"only_visible_layers": _visible_layers_field.pressed,
 		"output_filename": _out_filename_field.text,
+		"cleanup_hide_unused_nodes": _cleanup_hide_unused_nodes.pressed,
 		"layer": _layer
 	}
 
 	_save_config()
 
-	animation_creator.create_animations(sprite, root.get_node(_animation_player_path), options)
+	animation_creator.create_animations(target_node, root.get_node(_animation_player_path), options)
 	_importing = false
 
 
 func _save_config():
-	wizard_config.save_config(sprite, config.is_use_metadata_enabled(), {
+	var cfg := {
 		"player": _animation_player_path,
 		"source": _source,
 		"layer": _layer,
@@ -189,8 +203,13 @@ func _save_config():
 		"o_folder": _output_folder,
 		"o_name": _out_filename_field.text,
 		"only_visible": _visible_layers_field.pressed,
-		"o_ex_p": _ex_pattern_field.text
-	})
+		"o_ex_p": _ex_pattern_field.text,
+	}
+
+	if _cleanup_hide_unused_nodes.pressed != config.is_set_visible_track_automatically_enabled():
+		cfg["set_vis_track"] = _cleanup_hide_unused_nodes.pressed
+
+	wizard_config.save_config(target_node, config.is_use_metadata_enabled(), cfg)
 
 
 func _open_source_dialog():
