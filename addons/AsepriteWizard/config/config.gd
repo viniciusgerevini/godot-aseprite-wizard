@@ -70,7 +70,7 @@ func is_importer_enabled() -> bool:
 	
 	
 func is_exporter_enabled() -> bool:
-	return _get_project_setting(_EXPORTER_ENABLE_KEY, false)
+	return _get_project_setting(_EXPORTER_ENABLE_KEY, true)
 	
 
 func should_remove_source_files() -> bool:
@@ -85,7 +85,7 @@ func get_animation_loop_exception_prefix() -> String:
 	return _get_project_setting(_LOOP_EXCEPTION_PREFIX, _DEFAULT_LOOP_EX_PREFIX)
 	
 func is_use_metadata_enabled() -> bool:
-	return _get_project_setting(_USE_METADATA, false)
+	return _get_project_setting(_USE_METADATA, true)
 
 
 func get_default_exclusion_pattern() -> String:
@@ -225,14 +225,14 @@ func initialize_project_settings():
 	_initialize_project_cfg(_DEFAULT_EXCLUSION_PATTERN_KEY, "", TYPE_STRING)
 	_initialize_project_cfg(_LOOP_ENABLED, true, TYPE_BOOL)
 	_initialize_project_cfg(_LOOP_EXCEPTION_PREFIX, _DEFAULT_LOOP_EX_PREFIX, TYPE_STRING)
-	_initialize_project_cfg(_USE_METADATA, false, TYPE_BOOL)
+	_initialize_project_cfg(_USE_METADATA, true, TYPE_BOOL)
 
 	_initialize_project_cfg(_IMPORT_PRESET_ENABLED, false, TYPE_BOOL)
 
 	_initialize_project_cfg(_REMOVE_SOURCE_FILES_KEY, true, TYPE_BOOL)
 	_initialize_project_cfg(_IMPORTER_ENABLE_KEY, false, TYPE_BOOL)
 	
-	_initialize_project_cfg(_EXPORTER_ENABLE_KEY, false, TYPE_BOOL)
+	_initialize_project_cfg(_EXPORTER_ENABLE_KEY, true, TYPE_BOOL)
 
 	_initialize_project_cfg(_HISTORY_CONFIG_FILE_CFG_KEY, _DEFAULT_HISTORY_CONFIG_FILE_PATH, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE)
 	_initialize_project_cfg(_HISTORY_SINGLE_ENTRY_KEY, false, TYPE_BOOL)

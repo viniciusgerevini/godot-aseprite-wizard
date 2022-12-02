@@ -36,7 +36,7 @@ func _export_file(path: String, type: String, features: PoolStringArray) -> void
 func _remove_meta(node:Node, path: String) -> bool:
 	if node.has_meta(wizard_config.WIZARD_CONFIG_META_NAME):
 		node.remove_meta(wizard_config.WIZARD_CONFIG_META_NAME)
-		print("Removed metadata from scene %s" % path)
+		print("Aseprite Wizard: Removed metadata from scene %s" % path)
 		return true
 		
 	return false
