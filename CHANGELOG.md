@@ -2,6 +2,19 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 5.2.0 (2022-12-02)
+
+### Added
+
+- Added support to `TextureRect`
+- Added option to save dock import info to metadata instead of editor description
+- Implemented Visibility Track option for unused nodes
+
+### Thanks
+
+- Thanks to @TheOrioli for implementing the `TextureRect` support and solving the track visibility issue.
+- Thanks to @dfkeenan for finding and implementing a better way to persist inspector dock data.
+
 ## 5.1.0 (2022-09-14)
 
 ### Added
@@ -17,7 +30,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Sanitizing layer and file names to prevent strange whitespace issues.
 - Calling `take_over_path` to notify Godot of new resource and preventing cache issues.
 
-## Thanks
+### Thanks
 
 Huge thanks to @TheOrioli who implemented all changes in this version.
 

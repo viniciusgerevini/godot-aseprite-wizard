@@ -22,7 +22,7 @@ _Check the screenshots folder for more examples._
   - Adds Aseprite file importer to Godot (check limitations section).
 - AnimationPlayer
   - Adds and removes animation tracks without removing other existing tracks.
-  - You are free to import multiple files to the same AnimationPlayer or import each layer to their own Sprite and AnimationPlayer.
+  - You are free to import multiple files to the same AnimationPlayer or import each layer to their own Sprite/TextureRect and AnimationPlayer.
 
 Aseprite Wizard is only required during development. If you decide to not use it anymore, you can remove the plugin and all animations previously imported should keep working as expected.
 
@@ -44,9 +44,12 @@ For project specific configurations check `Project -> Project Settings -> Genera
 | Animation > Layer > Exclusion Pattern | Exclude layers with names matching this pattern (regex). This is the default value for new nodes. It can be changed or removed during the import. Default: not set |
 | Animation > Loop > Enabled | Enables animation loop by default. Default: `true` |
 | Animation > Loop > Exception prefix | Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The prefix is removed from the animation name on import (i.e  `_death` > `death`). Default: `_` |
+| Animation > Storage > Use metadata | Persist dock info in the scene metadata instead of editor description. Default: `true` |
+| Animation > Storage > Enable metadata removal on export | Removes dock metadata from scene when exporting the project. Ensures no local info is shipped with the app. Default: `true` |
 | Import > Preset > Enable Custom Preset | Enable Custom preset properties (*requires plugin restart*). Default: `false`. |
 | Import > Preset > Preset | Custom preset properties for texture files imported via this plugin. Default: same as Godot's defaults. |
 | Import > Cleanup > Remove Json File | Remove temporary `*.json` files generated during import. Default: `true` |
+| Import > Cleanup > Automatically Hide Sprites Not In Animation | Default configuration for AnimationPlayer option to hide Sprites when not in animation. Default: `false` |
 | Import > Import Plugin > Enable Automatic Importer | Enable/Disable Aseprite automatic importer (*requires plugin restart*). Default: `false` |
 | Wizard > History > Cache File Path | Path to file where history data is stored. Default: `res://.aseprite_wizard_history` |
 | Wizard > History > Keep One Entry Per Source File | When true, history does not show duplicates. Default: `false` |
@@ -61,7 +64,7 @@ After activating the plugin, you can find a section called Aseprite in the inspe
 
 Animations can be imported to AnimationPlayers via the Inspector dock.
 
-- First, Create a `Sprite` node in your scene.
+- First, Create a `Sprite` or `TextureRect` node in your scene.
 - With the node selected, look for the "Aseprite" section in the bottom part of the Inspector.
 - Fill up the fields and click import.
 
@@ -75,14 +78,14 @@ Animations can be imported to AnimationPlayers via the Inspector dock.
 | Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
 | Exclude pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
 | Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+| Hide unused sprites | If selected, sprites that are present in the AnimationPlayer will be set as visible=false in any animation they are not part of.|
 
 
 Notes:
 - The generated sprite sheet texture is set to the Sprite node and every tag in the Aseprite file will be inserted as an Animation into the selected AnimationPlayer.
 - If the animation already exists in the AnimationPlayer, all existing tracks are kept. Only the required tracks for the Sprite animation will be changed (`Sprite:frame`).
 - Loop configuration and animation length will be changed according to the Aseprite file.
-- The plugin will never delete an Animation containing other tracks than the ones used by itself (`Sprite:frame`). In case the animation is removed from Aseprite, it will delete the track from the AnimationPlayer and only delete the animation in case there are no other tracks left.
-
+- The plugin will never delete an Animation containing other tracks than the ones used by itself (i.e. `Sprite:frame`). In case the animation is removed from Aseprite, it will delete the track from the AnimationPlayer and only delete the animation in case there are no other tracks left.
 
 ### AnimatedSprite and SpriteFrames
 
@@ -135,7 +138,7 @@ Notes:
 
 ### Importer
 
-__I intend to deprecate this feature in the next major release. It's too buggy and hacky compared to the other flows.__
+__I intend to deprecate this feature in a next major release. It's too buggy and hacky compared to the other flows.__
 
 If you use the importer flow, any `*.ase` or `*.aseprite` file saved in the project will be automatically imported as a `SpriteFrames` resource, which can be used in `AnimatedSprite` nodes. You can change import settings for each file in the Import dock.
 This feature needs to be enabled via Aseprite Wizard Configuration screen.
@@ -189,31 +192,25 @@ Both the default configuration and the exception prefix can be changed in the co
 
 Currently, import overwrites previously imported files. Any manual modification in the previous resource file will be lost.
 
-
 ### Blurry images when importing through Wizard Screen
 
-The wizard screen uses Godot's default image loader. To prevent blurry images, disable the filter flag for Textures in the Import dock and set it as the default preset.
+The wizard screen and docks uses Godot's default image loader. To prevent blurry images, disable the filter flag for Textures in the Import dock and set it as the default preset.
 
 Alternatively, you can define a custom preset to be used by the plugin on `Project -> Project Settings -> General -> Aseprite -> Import -> Preset`.
 
 For more info, check: https://docs.godotengine.org/en/3.2/getting_started/workflow/assets/import_process.html
 
-
 ### What is the gibberish in the node's "Editor Description"
 
-If you are using the Sprite or AnimatedSprite Inspector dock flow, you may have noticed some "gibberish" text in the Editor Description field.
+If you imported animations via the inspector dock before version v5.2.0, you may find some "gibberish" text in the Editor Description field. This is a base64 encoded config for the options you selected for that node. It is not required for the animation to work, however, it does improve the development flow, as you won't need to fill all information up again when re-importing your animations.
 
-This is a base64 encoded config for the options you selected for that node. This is not required for the animation to work, however, it does improve the development flow, as you won't need to fill all information up again when re-importing your animations.
+From v5.2.0, this information is stored in the scene metadata and shouldn't be visible anymore. Any previously imported animation will still have the Editor Description info, but it will be moved to the metadata when re-imported again.
 
-If I were to have the new fields persisted without using the "Editor Description", I'd have to create custom nodes extending the Sprite/AnimatedSprite nodes, which goes against my intention to keep this plugin a dev dependency only.
+You can disable the new behaviour at `Project > Project Settings > General > Animation > Storage > Use metadata`.
 
-Another possible workaround would be saving temporary or support files, which would add complexity and flakiness to the plugin, and possibly pollute your repository.
-
-The "Editor Description" was the best compromise from the options available. If it bothers you and you don't mind filling the fields up when re-importing, feel free to delete its content after importing.
-
+As you can select files from anywhere in your system, there is an export plugin to prevent your local path metadata to be shipped with the game. In case you suspect this is conflicting with other plugins (or if you think you don't need it) you can disable it at `Project > Project Settings > General > Animation > Storage > Enable metadata removal on export`.
 
 ## Known Issues
-
 
 ### SpriteFrames dock showing outdated resource
 
@@ -241,8 +238,7 @@ This plugin exports all animations as a single sprite sheet. If you are using a 
 
 Sprite sheets are generated using a `packing` algorithm, which should mitigate this issue, however, it won't solve it entirely.
 
-I might implement an option to split big images in multiple files, however, this will only be possible for AnimatedSprites. In the current implementation, AnimationPlayers won't benefit from it.
-
+You can workaround the issue by using an `AnimationPlayer` and splitting your animations in multiple Aseprite files. By enabling the `Hide unused sprites` option, you can import multiple files to different sprites in the same animation player and only the active one will be visible.
 
 ## Contact
 
