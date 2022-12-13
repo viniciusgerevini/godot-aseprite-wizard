@@ -262,11 +262,11 @@ margin_right = 187.0
 margin_bottom = 140.0
 text = "Import"
 
+[connection signal="button_down" from="margin/VBoxContainer/animation_player/options" to="." method="_on_options_button_down"]
 [connection signal="item_selected" from="margin/VBoxContainer/animation_player/options" to="." method="_on_options_item_selected"]
-[connection signal="pressed" from="margin/VBoxContainer/animation_player/options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="margin/VBoxContainer/source/button" to="." method="_on_source_pressed"]
+[connection signal="button_down" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_button_down"]
 [connection signal="item_selected" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_item_selected"]
-[connection signal="pressed" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_pressed"]
 [connection signal="toggled" from="margin/VBoxContainer/options_title/options_title" to="." method="_on_options_title_toggled"]
 [connection signal="pressed" from="margin/VBoxContainer/options/out_folder/button" to="." method="_on_out_folder_pressed"]
 [connection signal="pressed" from="margin/VBoxContainer/import" to="." method="_on_import_pressed"]

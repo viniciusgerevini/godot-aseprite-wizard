@@ -96,7 +96,7 @@ func _set_layer(layer):
 	_layer_field.add_item(_layer)
 
 
-func _on_options_pressed():
+func _on_options_button_down():
 	var animation_players = []
 	var root = get_tree().get_edited_scene_root()
 	_find_animation_players(root, root, animation_players)
@@ -129,7 +129,8 @@ func _on_options_item_selected(index):
 	_save_config()
 
 
-func _on_layer_pressed():
+
+func _on_layer_button_down():
 	if _source == "":
 		_show_message("Please. Select source file first.")
 		return
@@ -273,3 +274,4 @@ func _on_output_folder_selected(path):
 	_output_folder = path
 	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
 	_output_folder_dialog.queue_free()
+

@@ -27,3 +27,11 @@ static func get_error_message(code: int):
 			return "no valid layers found"
 		_:
 			return "import failed with code %d" % code
+
+
+static func error(error_code: int):
+	return { "code": error_code, "content": null, "is_ok": false }
+
+
+static func result(result):
+	return { "code": SUCCESS, "content": result, "is_ok": true }

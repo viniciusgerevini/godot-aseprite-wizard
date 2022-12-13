@@ -73,7 +73,7 @@ func _set_layer(layer):
 	_layer_field.add_item(_layer)
 
 
-func _on_layer_pressed():
+func _on_layer_button_down():
 	if _source == "":
 		_show_message("Please. Select source file first.")
 		return
@@ -205,3 +205,4 @@ func _on_output_folder_selected(path):
 	_output_folder = path
 	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
 	_output_folder_dialog.queue_free()
+
