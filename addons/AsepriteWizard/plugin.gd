@@ -65,6 +65,8 @@ func _remove_menu_entries():
 func _setup_importer():
 	if config.is_importer_enabled():
 		import_plugin = ImportPlugin.new()
+		import_plugin.file_system = get_editor_interface().get_resource_filesystem()
+		import_plugin.config = config
 		add_import_plugin(import_plugin)
 		_importer_enabled = true
 

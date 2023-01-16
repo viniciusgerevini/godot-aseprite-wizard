@@ -138,16 +138,9 @@ Notes:
 
 ### Importer
 
-__I intend to deprecate this feature in a next major release. It's too buggy and hacky compared to the other flows.__
-
 If you use the importer flow, any `*.ase` or `*.aseprite` file saved in the project will be automatically imported as a `SpriteFrames` resource, which can be used in `AnimatedSprite` nodes. You can change import settings for each file in the Import dock.
-This feature needs to be enabled via Aseprite Wizard Configuration screen.
 
-Notes:
-- The importer flow is kind o hacky and buggy. 
-- Files generated through the automatic importer can be significantly larger than those generated via other methods.
-- The importer does a bad job at refreshing Godot Editor cache. You might see resources outdated in the editor, but running the project will show the newest version.
-
+This feature needs to be enabled in the project settings. Requires editor restart.
 
 ### Options
 
@@ -157,16 +150,6 @@ Notes:
 | Exclude layers matching pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
 | Split layers in multiple resources: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with the same base name as the source. |
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
-| Sprite filename pattern | Defines output filename. Default value: `{basename}.{layer}.{extension}` |
-| Import texture strip | Creates image strip (png) per sprite/layer. Default value: `false` |
-| Texture Strip Filename Pattern | Name for image strip file. Default value: `{basename}.{layer}.Strip.{extension}` |
-| Import Texture Atlas | Creates AtlasTexture per animation, along with textures for each animation frame. Default value: false |
-| Texture Atlas Filename Pattern | Name for AtlasTexture files. Default value: `{basename}.{layer}.Atlas.{extension}` |
-| Texture Atlas Frame Filename Pattern | Name for AtlasTexture frames files. Default value: `{basename}.{layer}.{animation}.{frame}.Atlas.{extension}` |
-| Import Animated Texture | Creates one AnimatedTexture for each animation. Default value: `false` |
-| Animated Texture Filename Pattern | Name for Animated Texture files. Default value: `{basename}.{layer}.{animation}.Texture.{extension}` |
-| Animated Texture Frame Filename Pattern | Name for Animated Texture frames files. Default value: `{basename}.{layer}.{animation}.{frame}.Texture.{extension}` |
-
 
 ## F.A.Q. and limitations
 
@@ -217,16 +200,6 @@ As you can select files from anywhere in your system, there is an export plugin 
 Godot is using the cached resource. Open another SpriteFrame and then re-open the affected one. You should see the newest version.
 
 This issue will only show outdated resources in the editor. When running the project you will always see the newest changes.
-
-
-### Files imported by the importer are bigger than the ones imported using the Wizard.
-
-The sprite sheet file (png) used in the resource is created by Aseprite, outside Godot Editor. Because of that, the plugin needs to trigger a file system scan to import this file.
-
-However, the scan operation is asynchronous and it can't be used in the importer. We implemented a fallback method but, unfortunately, it creates bigger resource files.
-
-Until we find an alternative way, the importer will create bigger files. To prevent it from generating resources for Aseprite files saved in your project folder, leave it disabled in the configuration screen or add a `.gdignore` file to the folder containing the `*.aseprite` files.
-
 
 ### Big files issue (Image width cannot be greater than 16384px)
 

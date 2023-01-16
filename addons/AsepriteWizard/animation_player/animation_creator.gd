@@ -167,17 +167,37 @@ func _cleanup_animations(target_node: Node, player: AnimationPlayer, content: Di
 	if not (content.meta.has("frameTags") and content.meta.frameTags.size() > 0):
 		return result_code.SUCCESS
 
-	var tags = ["RESET"]
-	for t in content.meta.frameTags:
-		var a = t.name
-		if a.begins_with(_config.get_animation_loop_exception_prefix()):
-			a = a.substr(_config.get_animation_loop_exception_prefix().length())
-		tags.push_back(a)
+	_remove_unused_animations(content, player)
 
 	if options.get("cleanup_hide_unused_nodes", false):
-		_hide_unused_nodes(target_node, player, content)	
+		_hide_unused_nodes(target_node, player, content)
 
 	return result_code.SUCCESS
+
+
+func _remove_unused_animations(content: Dictionary, player: AnimationPlayer):
+	pass # FIXME it's not removing unused animations anymore. Sample impl bellow
+#	var tags = ["RESET"]
+#	for t in content.meta.frameTags:
+#		var a = t.name
+#		if a.begins_with(_config.get_animation_loop_exception_prefix()):
+#			a = a.substr(_config.get_animation_loop_exception_prefix().length())
+#		tags.push_back(a)
+
+#   var track = _get_frame_track_path(player, sprite)
+#	for a in player.get_animation_list():
+#		if tags.has(a):
+#			continue
+#
+#		var animation = player.get_animation(a)
+#		if animation.get_track_count() != 1:
+#			var t = animation.find_track(track)
+#			if t != -1:
+#				animation.remove_track(t)
+#			continue
+#
+#		if animation.find_track(track) != -1:
+#			player.remove_animation(a)
 
 
 func _hide_unused_nodes(target_node: Node, player: AnimationPlayer, content: Dictionary):

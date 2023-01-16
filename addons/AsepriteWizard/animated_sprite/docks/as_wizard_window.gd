@@ -112,11 +112,12 @@ func _on_next_btn_up():
 		"only_visible_layers": _only_visible_layers_field().pressed,
 		"output_filename": _custom_name_field().text,
 		"do_not_create_resource": _do_not_create_res_field().pressed,
-		"remove_source_files_allowed": true
+		"remove_source_files_allowed": true,
+		"output_folder": output_location,
 	}
-	var exit_code = _sf_creator.create_resource(
+	var exit_code = _sf_creator.create_and_save_resources(
 		ProjectSettings.globalize_path(aseprite_file),
-		output_location, options
+		options
 	)
 	if exit_code is GDScriptFunctionState:
 		exit_code = yield(exit_code, "completed")

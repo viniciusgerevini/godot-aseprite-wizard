@@ -2,6 +2,22 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Breaking Changes
+
+Godot importer (Automatic resource importer) does not provide texture options animore (extra AtlasTextures, Spritesheets, etc). This was removed to reduce complexity and make the fix
+straight forward. I might re-introduce them as separated importers in the future upon request.
+
+### Changed
+
+- `sprite_frames_creator.gd` refactor
+- Removed extra automatic importer texture options
+
+### Fixed
+
+- Fixed automatic importer file size issue. You might still see some errors in the Output console, but files should be imported correctly with the right file size.
+
 ## 5.2.0 (2022-12-02)
 
 ### Added
