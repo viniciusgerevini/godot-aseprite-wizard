@@ -17,6 +17,11 @@ straight forward. I might re-introduce them as separated importers in the future
 ### Fixed
 
 - Fixed automatic importer file size issue. You might still see some errors in the Output console, but files should be imported correctly with the right file size.
+- Incorrect null check that would always return default value for ProjectSettings with value set to false.
+
+### Thanks
+
+- Thanks to @poohcom1  for config null check fix.
 
 ## 5.2.0 (2022-12-02)
 
