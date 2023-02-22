@@ -278,7 +278,7 @@ func _initialize_project_cfg(key: String, default_value, type: int, hint: int = 
 
 func _get_project_setting(key: String, default_value):
 	var p = ProjectSettings.get(key)
-	return p if p else default_value
+	return p if p != null else default_value
 
 
 func create_import_file(data: Dictionary) -> void:
