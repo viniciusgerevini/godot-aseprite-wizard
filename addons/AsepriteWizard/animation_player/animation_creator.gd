@@ -82,7 +82,7 @@ func _import(target_node: Node, player: AnimationPlayer, data: Dictionary, optio
 	
 
 func _load_texture(sprite_sheet: String) -> Texture2D:
-	var texture = ResourceLoader.load(sprite_sheet, 'Image', true)
+	var texture = ResourceLoader.load(sprite_sheet, 'Image', ResourceLoader.CACHE_MODE_IGNORE)
 	texture.take_over_path(sprite_sheet)
 	return texture
 
