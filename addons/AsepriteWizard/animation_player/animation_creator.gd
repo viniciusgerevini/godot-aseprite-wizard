@@ -107,16 +107,36 @@ func _configure_animations(target_node: Node, player: AnimationPlayer, content: 
 
 func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name: String, frames: Array, context: Dictionary, direction = 'forward'):
 	var animation_name = anim_name
+	var library_name = _DEFAULT_ANIMATION_LIBRARY
 	var is_loopable = _config.is_default_animation_loop_enabled()
 
+	var anim_tokens := anim_name.split("/")
+
+	if anim_tokens.size() > 2:
+		push_error("Invalid animation name: %s" % animation_name)
+		return
+	elif anim_tokens.size() == 2:
+		library_name = anim_tokens[0]
+		animation_name = anim_tokens[1]
+
+	# Create library if doesn't exist
+	if library_name != _DEFAULT_ANIMATION_LIBRARY and not player.has_animation_library(library_name):
+		player.add_animation_library(library_name, AnimationLibrary.new())
+
+	# Check loop
 	if animation_name.begins_with(_config.get_animation_loop_exception_prefix()):
 		animation_name = anim_name.substr(_config.get_animation_loop_exception_prefix().length())
 		is_loopable = not is_loopable
 
-	if not player.has_animation(animation_name):
-		player.get_animation_library(_DEFAULT_ANIMATION_LIBRARY).add_animation(animation_name, Animation.new())
+	# Add library
+`	if not player.get_animation_library(library_name).has_animation(animation_name):
+		player.get_animation_library(library_name).add_animation(animation_name, Animation.new())
 
-	var animation = player.get_animation(animation_name)
+	var full_name = (
+		animation_name if library_name == "" else "%s/%s" % [library_name, animation_name]
+	)
+
+	var animation = player.get_animation(full_name)
 	_create_meta_tracks(target_node, player, animation)
 	var frame_track = _get_property_track_path(player, target_node, _get_frame_property())
 	var frame_track_index = _create_track(target_node, animation, frame_track)
@@ -148,6 +168,13 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 	animation.loop_mode = Animation.LOOP_LINEAR if is_loopable else Animation.LOOP_NONE
 
 	return result_code.SUCCESS
+
+
+const _INVALID_TOKENS := ["/", ":", ",", "["]
+
+
+func _validate_animation_name(name: String) -> bool:
+	return not _INVALID_TOKENS.any(func(token: String): return token in name)
 
 
 func _create_track(target_node: Node, animation: Animation, track: String):
