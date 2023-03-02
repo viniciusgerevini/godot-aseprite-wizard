@@ -17,3 +17,4 @@ mono_crash.*.json
 .directory
 *~
 .aseprite_wizard_history
+.godot
