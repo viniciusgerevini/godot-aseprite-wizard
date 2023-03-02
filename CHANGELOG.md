@@ -2,6 +2,17 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 6.0.1-4 (2023-03-02)
+
+### Fixed
+
+- Incorrect null check that would always return default value for ProjectSettings with value set to false.
+- Fix ResourceLoader.load cache parameter.
+
+### Thanks
+
+- Thanks to @poohcom1 for config null check fix.
+
 ## 6.0.0-4 (2022-12-08)
 
 ### Changed
