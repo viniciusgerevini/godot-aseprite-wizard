@@ -2,6 +2,8 @@
 
 Godot plugin to help import Aseprite animations to AnimationPlayers, AnimatedSprites 2D/3D and SpriteFrames.
 
+_This branch supports Godot 4. For Godot 3 docs and code check the [main](https://github.com/viniciusgerevini/godot-aseprite-wizard/) branch. You can find more details about the differences between Godot 3 and Godot 4 on issue https://github.com/viniciusgerevini/godot-aseprite-wizard/issues/70._
+
 <img align="center" src="./screenshots/comparison.png" />
 <img align="center" src="./screenshots/animation_dock.gif" />
 
