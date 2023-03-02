@@ -5,7 +5,7 @@ const wizard_config = preload("../config/wizard_config.gd")
 func _export_file(path: String, type: String, features: PackedStringArray) -> void:
 	if type != "PackedScene": return
 
-	var scene : PackedScene =  ResourceLoader.load(path, type, true)
+	var scene : PackedScene =  ResourceLoader.load(path, type, ResourceLoader.CACHE_MODE_IGNORE)
 	var scene_changed := false
 	var root_node := scene.instantiate(PackedScene.GEN_EDIT_STATE_INSTANCE)
 	var nodes := [root_node]
