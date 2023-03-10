@@ -118,6 +118,10 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 	elif anim_tokens.size() == 2:
 		library_name = anim_tokens[0]
 		animation_name = anim_tokens[1]
+		
+	if not _validate_animation_name(animation_name):
+		push_error("Invalid animation name: %s" % animation_name)
+		return
 
 	# Create library if doesn't exist
 	if library_name != _DEFAULT_ANIMATION_LIBRARY and not player.has_animation_library(library_name):
@@ -129,7 +133,7 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 		is_loopable = not is_loopable
 
 	# Add library
-`	if not player.get_animation_library(library_name).has_animation(animation_name):
+	if not player.get_animation_library(library_name).has_animation(animation_name):
 		player.get_animation_library(library_name).add_animation(animation_name, Animation.new())
 
 	var full_name = (
