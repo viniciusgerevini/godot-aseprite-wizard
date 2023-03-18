@@ -2,6 +2,16 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 6.0.1 (2023-03-18)
+
+### Fixed
+
+- Use the standardized functions `ProjectSettings.globalize_path` and `ProjectSettings.localize_path` to get absolute and local paths respectively. This has the side effect of using an absolute file path when passing arguments to aseprite which seems to work around an issue in v1.3-beta21 with not handling relative paths on the CLI.
+
+### Thanks
+
+- Thanks to @jthacker for implementing the path translation changes.
+
 ## 6.0.0 (2023-03-02)
 
 ### Breaking Changes
