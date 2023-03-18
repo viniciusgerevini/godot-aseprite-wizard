@@ -17,7 +17,7 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 	var only_visible_layers = options.get('only_visible_layers', false)
 	var output_name = file_name if options.get('output_filename') == "" else options.get('output_filename', file_name)
 	var basename = _get_file_basename(output_name)
-	var output_dir = output_folder.replace("res://", "./")
+	var output_dir = ProjectSettings.globalize_path(output_folder)
 	var data_file = "%s/%s.json" % [output_dir, basename]
 	var sprite_sheet = "%s/%s.png" % [output_dir, basename]
 	var output = []
@@ -37,8 +37,8 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 		return {}
 
 	return {
-		'data_file': data_file.replace("./", "res://"),
-		"sprite_sheet": sprite_sheet.replace("./", "res://")
+		'data_file': ProjectSettings.localize_path(data_file),
+		"sprite_sheet": ProjectSettings.localize_path(sprite_sheet)
 	}
 
 
@@ -77,8 +77,8 @@ func export_layer(file_name: String, layer_name: String, output_folder: String, 
 		return {}
 
 	return {
-		'data_file': data_file.replace("./", "res://"),
-		"sprite_sheet": sprite_sheet.replace("./", "res://")
+		'data_file': ProjectSettings.localize_path(data_file),
+		"sprite_sheet": ProjectSettings.localize_path(sprite_sheet)
 	}
 
 
