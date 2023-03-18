@@ -72,7 +72,11 @@ func _import(target_node: Node, player: AnimationPlayer, data: Dictionary, optio
 	
 	var context = {}
 
-	target_node.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	if target_node is CanvasItem:
+		target_node.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	else:
+		target_node.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+
 	_setup_texture(target_node, sprite_sheet, content, context)
 	var result = _configure_animations(target_node, player, content, context)
 	if result != result_code.SUCCESS:
