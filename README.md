@@ -2,7 +2,7 @@
 
 Godot plugin to help import Aseprite animations to AnimationPlayers, AnimatedSprites 2D/3D and SpriteFrames.
 
-_This branch supports Godot 4. For Godot 3 docs and code check the [main](https://github.com/viniciusgerevini/godot-aseprite-wizard/) branch. You can find more details about the differences between Godot 3 and Godot 4 on issue https://github.com/viniciusgerevini/godot-aseprite-wizard/issues/70._
+_This branch supports Godot 4. For Godot 3 docs and code check the [godot_3](https://github.com/viniciusgerevini/godot-aseprite-wizard/tree/godot_3) branch. You can find more details about the differences between Godot 3 and Godot 4 on issue https://github.com/viniciusgerevini/godot-aseprite-wizard/issues/70._
 
 <img align="center" src="./screenshots/comparison.png" />
 <img align="center" src="./screenshots/animation_dock.gif" />
@@ -25,6 +25,7 @@ _Check the screenshots folder for more examples._
 - AnimationPlayer
   - Adds and removes animation tracks without removing other existing tracks.
   - You are free to import multiple files to the same AnimationPlayer or import each layer to their own Sprite/TextureRect and AnimationPlayer.
+  - Supports animation libraries.
 
 Aseprite Wizard is only required during development. If you decide to not use it anymore, you can remove the plugin and all animations previously imported should keep working as expected.
 
@@ -88,11 +89,11 @@ Notes:
 - If the animation already exists in the AnimationPlayer, all existing tracks are kept. Only the required tracks for the Sprite animation will be changed (`Sprite:frame`).
 - Loop configuration and animation length will be changed according to the Aseprite file.
 - The plugin will never delete an Animation containing other tracks than the ones used by itself (i.e. `Sprite:frame`). In case the animation is removed from Aseprite, it will delete the track from the AnimationPlayer and only delete the animation in case there are no other tracks left.
+- Animations are added to the global animation library by default. To define a library name, use the `library_name/animation_name` pattern on your Aseprite tags.
 
 ### AnimatedSprite and SpriteFrames
 
 There are a few different ways to import animations to be used in AnimatedSprites. All of them create a SpriteFrames resource with everything configured.
-
 
 #### via Inspector dock
 
