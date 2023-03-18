@@ -63,7 +63,11 @@ func _create_animations_from_file(animated_sprite: Node, options: Dictionary) ->
 		return sprite_frames_result.code
 
 	animated_sprite.frames = sprite_frames_result.content
-	animated_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+
+	if animated_sprite is CanvasItem:
+		animated_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	else:
+		animated_sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 
 	if _config.should_remove_source_files():
 		DirAccess.remove_absolute(output.content.data_file)
