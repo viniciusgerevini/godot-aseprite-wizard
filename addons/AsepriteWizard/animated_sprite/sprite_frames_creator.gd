@@ -71,6 +71,7 @@ func _create_animations_from_file(animated_sprite: Node, options: Dictionary) ->
 
 	if _config.should_remove_source_files():
 		DirAccess.remove_absolute(output.content.data_file)
+		await _scan_filesystem()
 
 	return result_code.SUCCESS
 
@@ -115,7 +116,7 @@ func create_resources(source_file: String, options = {}) -> Dictionary:
 	if not result.is_ok:
 		return result
 
-	var should_remove_source = options.get("remove_source_files_allowed", false) and _config.should_remove_source_files()	
+	var should_remove_source = _config.should_remove_source_files()	
 
 	if should_remove_source:
 		_remove_source_files(result.content)
@@ -146,7 +147,7 @@ func _create_aseprite_output_files(source_file: String, options: Dictionary):
 
 
 func _create_sprite_frames_from_source(source_files: Array, options: Dictionary) -> Dictionary:
-	var should_remove_source = options.get("remove_source_files_allowed", false) and _config.should_remove_source_files()
+	var should_remove_source = _config.should_remove_source_files()
 
 	var resources = []
 

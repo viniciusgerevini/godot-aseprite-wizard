@@ -113,7 +113,6 @@ func _on_next_btn_up():
 		"only_visible_layers": _only_visible_layers_field().button_pressed,
 		"output_filename": _custom_name_field().text,
 		"do_not_create_resource": _do_not_create_res_field().button_pressed,
-		"remove_source_files_allowed": true,
 		"output_folder": output_location,
 	}
 	var exit_code = await _sf_creator.create_and_save_resources(
