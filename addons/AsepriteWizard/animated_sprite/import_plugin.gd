@@ -86,7 +86,7 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 		"column_count" : int(options['sheet_type']) if options['sheet_type'] != "Strip" else 128,
 		"output_folder": source_path,
 	}
-	
+
 	var resources = _sf_creator.create_resources(absolute_source_file, aseprite_opts)
 
 	if resources is GDScriptFunctionState:
