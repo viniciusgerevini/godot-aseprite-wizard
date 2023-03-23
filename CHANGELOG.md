@@ -2,6 +2,19 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 6.1.1 (2023-03-22)
+
+### Fixed
+
+- Make auto-importer use default exclusion pattern from ProjectSettings.
+- Fix *.json file clean up. Only wizard was removing source files.
+- Fix issue where in some machines the animation inspector dock source dialog didn't open in the current source folder.
+
+### Thanks
+
+- Thanks @saint11 for finding and reporting the auto-importer related issues.
+- Thanks @poohcom1 for fixing the inspector dock issue.
+
 ## 6.1.0 (2023-03-18)
 
 ### Added
