@@ -2,6 +2,17 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 6.0.2 (2023-03-22)
+
+### Fixed
+
+- Make auto-importer use default exclusion pattern from ProjectSettings.
+- Fix *.json file clean up. Only wizard was removing source files.
+
+### Thanks
+
+- Thanks @saint11 for finding and reporting these issues.
+
 ## 6.0.1 (2023-03-18)
 
 ### Fixed
