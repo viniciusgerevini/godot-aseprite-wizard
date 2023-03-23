@@ -51,6 +51,7 @@ func _create_animations_from_file(target_node: Node, player: AnimationPlayer, op
 
 	if _config.should_remove_source_files():
 		DirAccess.remove_absolute(output.data_file)
+		await _scan_filesystem()
 
 	return result
 

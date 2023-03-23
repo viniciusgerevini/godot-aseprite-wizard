@@ -46,7 +46,7 @@ func _get_import_order():
 func _get_import_options(_path, _i):
 	return [
 		{"name": "split_layers",           "default_value": false},
-		{"name": "exclude_layers_pattern", "default_value": ''},
+		{"name": "exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
 		{"name": "only_visible_layers",    "default_value": false},
 		{
 			"name": "sheet_type",
