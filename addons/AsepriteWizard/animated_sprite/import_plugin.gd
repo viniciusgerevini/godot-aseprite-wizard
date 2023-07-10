@@ -40,7 +40,7 @@ func get_import_options(i):
 		{"name": "split_layers",           "default_value": false},
 		{"name": "exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
 		{"name": "only_visible_layers",    "default_value": false},
-		
+
 		{
 			"name": "sheet_type",
 			"default_value": "Packed",

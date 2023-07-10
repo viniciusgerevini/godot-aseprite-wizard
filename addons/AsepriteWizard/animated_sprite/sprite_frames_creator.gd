@@ -29,13 +29,13 @@ func _initial_checks(source: String, options: Dictionary) -> int:
 
 	if not dir.dir_exists(options.output_folder):
 		return result_code.ERR_OUTPUT_FOLDER_NOT_FOUND
-	
+
 	return result_code.SUCCESS
 
 
 func create_animations(sprite: Node, options: Dictionary) -> void:
 	var input_check = _initial_checks(options.source, options)
-	
+
 	if input_check != result_code.SUCCESS:
 		printerr(result_code.get_error_message(input_check))
 		return
@@ -51,7 +51,7 @@ func create_animations(sprite: Node, options: Dictionary) -> void:
 
 func _create_animations_from_file(animated_sprite: Node, options: Dictionary) -> int:
 	var output = _export_aseprite_file(options)
-	
+
 	if not output.is_ok:
 		return output.code
 
@@ -114,7 +114,7 @@ func create_resources(source_file: String, options = {}) -> Dictionary:
 	if not result.is_ok:
 		return result
 
-	var should_remove_source = _config.should_remove_source_files()	
+	var should_remove_source = _config.should_remove_source_files()
 
 	if should_remove_source:
 		_remove_source_files(result.content)
@@ -232,7 +232,7 @@ func _create_sprite_frames_with_animations(content, texture) -> SpriteFrames:
 	if content.meta.has("frameTags") and content.meta.frameTags.size() > 0:
 		for tag in content.meta.frameTags:
 			var selected_frames = frames.slice(tag.from, tag.to)
-			_add_animation_frames(sprite_frames, tag.name, selected_frames, texture, tag.direction, frame_cache)
+			_add_animation_frames(sprite_frames, tag.name, selected_frames, texture, tag.direction, int(tag.get("repeat", -1)), frame_cache)
 	else:
 		_add_animation_frames(sprite_frames, "default", frames, texture)
 
@@ -242,9 +242,10 @@ func _create_sprite_frames_with_animations(content, texture) -> SpriteFrames:
 func _add_animation_frames(
 	sprite_frames: SpriteFrames,
 	anim_name: String,
-	frames : Array,
+	frames: Array,
 	texture,
 	direction = 'forward',
+	repeat = -1,
 	frame_cache = {}
 ):
 
@@ -264,17 +265,26 @@ func _add_animation_frames(
 	if direction == 'reverse':
 		frames.invert()
 
-	for frame in frames:
-		_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache)
+	var repetition = 1
 
-	if direction == 'pingpong':
-		frames.remove(frames.size() - 1)
-		if is_loopable:
-			frames.remove(0)
-		frames.invert()
+	if repeat != -1:
+		is_loopable = false
+		repetition = repeat
 
+
+	for i in range(repetition):
 		for frame in frames:
 			_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache)
+
+		if direction == 'pingpong':
+			var working_frames = frames.duplicate()
+			working_frames.remove(frames.size() - 1)
+			if is_loopable or (repetition > 1 and i < repetition - 1):
+				working_frames.remove(0)
+			working_frames.invert()
+
+			for frame in working_frames:
+				_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache)
 
 	sprite_frames.set_animation_loop(animation_name, is_loopable)
 	sprite_frames.set_animation_speed(animation_name, fps)

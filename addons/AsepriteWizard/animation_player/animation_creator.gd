@@ -67,10 +67,10 @@ func _import(target_node: Node, player: AnimationPlayer, data: Dictionary, optio
 			return err
 
 	var content =  parse_json(file.get_as_text())
-	
+
 	if not _aseprite.is_valid_spritesheet(content):
 		return result_code.ERR_INVALID_ASEPRITE_SPRITESHEET
-	
+
 	var context = {}
 
 	_setup_texture(target_node, sprite_sheet, content, context)
@@ -79,7 +79,7 @@ func _import(target_node: Node, player: AnimationPlayer, data: Dictionary, optio
 		return result
 
 	return _cleanup_animations(target_node, player, content, options)
-	
+
 
 func _load_texture(sprite_sheet: String) -> Texture:
 	var texture = ResourceLoader.load(sprite_sheet, 'Image', true)
@@ -93,7 +93,7 @@ func _configure_animations(target_node: Node, player: AnimationPlayer, content: 
 		var result = result_code.SUCCESS
 		for tag in content.meta.frameTags:
 			var selected_frames = frames.slice(tag.from, tag.to)
-			result = _add_animation_frames(target_node, player, tag.name, selected_frames, context, tag.direction)
+			result = _add_animation_frames(target_node, player, tag.name, selected_frames, context, tag.direction, int(tag.get("repeat", -1)))
 			if result != result_code.SUCCESS:
 				break
 		return result
@@ -101,7 +101,7 @@ func _configure_animations(target_node: Node, player: AnimationPlayer, content: 
 		return _add_animation_frames(target_node, player, "default", frames, context)
 
 
-func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name: String, frames: Array, context: Dictionary, direction = 'forward'):
+func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name: String, frames: Array, context: Dictionary, direction = 'forward', repeat = -1):
 	var animation_name = anim_name
 	var is_loopable = _config.is_default_animation_loop_enabled()
 
@@ -121,22 +121,29 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 		frames.invert()
 
 	var animation_length = 0
+	var repetition = 1
 
-	for frame in frames:
-		var frame_key = _get_frame_key(target_node, frame, context)
-		animation.track_insert_key(frame_track_index, animation_length, frame_key)
-		animation_length += frame.duration / 1000
+	if repeat != -1:
+		is_loopable = false
+		repetition = repeat
 
-	if direction == 'pingpong':
-		frames.remove(frames.size() - 1)
-		if is_loopable:
-			frames.remove(0)
-		frames.invert()
-
+	for i in range(repetition):
 		for frame in frames:
 			var frame_key = _get_frame_key(target_node, frame, context)
 			animation.track_insert_key(frame_track_index, animation_length, frame_key)
 			animation_length += frame.duration / 1000
+
+		if direction == 'pingpong':
+			var working_frames = frames.duplicate()
+			working_frames.remove(working_frames.size() - 1)
+			if is_loopable or (repetition > 1 and i < repetition - 1):
+				working_frames.remove(0)
+			working_frames.invert()
+
+			for frame in working_frames:
+				var frame_key = _get_frame_key(target_node, frame, context)
+				animation.track_insert_key(frame_track_index, animation_length, frame_key)
+				animation_length += frame.duration / 1000
 
 	animation.length = animation_length
 	animation.loop = is_loopable
