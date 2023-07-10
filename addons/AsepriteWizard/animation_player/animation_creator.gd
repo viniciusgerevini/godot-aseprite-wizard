@@ -102,7 +102,7 @@ func _configure_animations(target_node: Node, player: AnimationPlayer, content: 
 		var result = result_code.SUCCESS
 		for tag in content.meta.frameTags:
 			var selected_frames = frames.slice(tag.from, tag.to + 1)
-			result = _add_animation_frames(target_node, player, tag.name, selected_frames, context, tag.direction)
+			result = _add_animation_frames(target_node, player, tag.name, selected_frames, context, tag.direction, int(tag.get("repeat", -1)))
 			if result != result_code.SUCCESS:
 				break
 		return result
@@ -110,7 +110,7 @@ func _configure_animations(target_node: Node, player: AnimationPlayer, content: 
 		return _add_animation_frames(target_node, player, "default", frames, context)
 
 
-func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name: String, frames: Array, context: Dictionary, direction = 'forward'):
+func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name: String, frames: Array, context: Dictionary, direction = 'forward', repeat = -1):
 	var animation_name = anim_name
 	var library_name = _DEFAULT_ANIMATION_LIBRARY
 	var is_loopable = _config.is_default_animation_loop_enabled()
@@ -155,26 +155,34 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 
 	var animation_length = 0
 
-	for frame in frames:
-		var frame_key = _get_frame_key(target_node, frame, context)
-		animation.track_insert_key(frame_track_index, animation_length, frame_key)
-		animation_length += frame.duration / 1000
+	var repetition = 1
 
-	# Godot 4 has an Animation.LOOP_PINGPONG mode, however it does not
-	# behave like in Aseprite, so I'm keeping the custom implementation
-	if direction == 'pingpong':
-		frames.remove_at(frames.size() - 1)
-		if is_loopable:
-			frames.remove_at(0)
-		frames.reverse()
+	if repeat != -1:
+		is_loopable = false
+		repetition = repeat
 
+	for _i in range(repetition):
 		for frame in frames:
 			var frame_key = _get_frame_key(target_node, frame, context)
 			animation.track_insert_key(frame_track_index, animation_length, frame_key)
 			animation_length += frame.duration / 1000
 
-	animation.length = animation_length
-	animation.loop_mode = Animation.LOOP_LINEAR if is_loopable else Animation.LOOP_NONE
+		# Godot 4 has an Animation.LOOP_PINGPONG mode, however it does not
+		# behave like in Aseprite, so I'm keeping the custom implementation
+		if direction == 'pingpong':
+			var working_frames = frames.duplicate()
+			working_frames.remove_at(working_frames.size() - 1)
+			if is_loopable:
+				working_frames.remove_at(0)
+			working_frames.reverse()
+
+			for frame in working_frames:
+				var frame_key = _get_frame_key(target_node, frame, context)
+				animation.track_insert_key(frame_track_index, animation_length, frame_key)
+				animation_length += frame.duration / 1000
+
+		animation.length = animation_length
+		animation.loop_mode = Animation.LOOP_LINEAR if is_loopable else Animation.LOOP_NONE
 
 	return result_code.SUCCESS
 
