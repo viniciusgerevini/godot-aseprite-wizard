@@ -15,7 +15,7 @@ _Check the screenshots folder for more examples._
 - Adds Inspector docks for easy import and re-import.
 - Filters out layers you don't want in the final animation, using regex.
 - Supports Aseprite animation direction (forward, reverse, ping-pong).
-- Supports loopable and non-loopable animations.
+- Supports loopable and non-loopable animations via Aseprite repeat or tags.
 - Separates each Aseprite Tag into animations. In case no tags are defined, imports everything as default animation.
 - AnimatedSprite
   - Creates SpriteFrames with Atlas Texture to be used in AnimatedSprites.
@@ -168,7 +168,9 @@ The plugin uses `aseprite` as the default command. In case your system uses a di
 
 ### Non-looping animations
 
-Aseprite does not have the concept of loop / single run animations, as in Godot. Because of that, looping is handled via a configured convention.
+From Aseprite 1.3 you can control loops by setting the `repeat` property under `Tag properties` in Aseprite. There's no extra steps required in the plugin.
+
+Older versions have no option for loops so this plugin handles that via a configured convention.
 
 By default, all animations are imported with loop = true. Any animation starting with `_` (the exception prefix), will be imported with loop = false.
 
