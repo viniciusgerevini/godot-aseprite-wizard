@@ -2,6 +2,18 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Added
+
+- Aseprite repeat tag support. From Aseprite 1.3 there is an option to set how many times an animation should be repeated.
+    - If not set, the animation will loop by default or follow whatever behaviour is set via the loop configuration from project settings.
+    - If set, the plugin will repeat the animation n times and stop, like in Aseprite. This means you can disable looping by set repeat 1.
+
+### Thanks
+
+- Thanks to @chunhaqiushif for the repeat feature request.
+
 ## 6.0.2 (2023-03-22)
 
 ### Fixed
