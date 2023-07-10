@@ -117,7 +117,7 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 	var frame_track = _get_property_track_path(player, target_node, _get_frame_property())
 	var frame_track_index = _create_track(target_node, animation, frame_track)
 
-	if direction == 'reverse':
+	if direction == "reverse" or direction == "pingpong_reverse":
 		frames.invert()
 
 	var animation_length = 0
@@ -133,7 +133,7 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 			animation.track_insert_key(frame_track_index, animation_length, frame_key)
 			animation_length += frame.duration / 1000
 
-		if direction == 'pingpong':
+		if direction.begins_with("pingpong"):
 			var working_frames = frames.duplicate()
 			working_frames.remove(working_frames.size() - 1)
 			if is_loopable or (repetition > 1 and i < repetition - 1):

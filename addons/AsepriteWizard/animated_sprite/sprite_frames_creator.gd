@@ -262,7 +262,7 @@ func _add_animation_frames(
 	var min_duration = _get_min_duration(frames)
 	var fps = _calculate_fps(min_duration)
 
-	if direction == 'reverse':
+	if direction == "reverse" or direction == "pingpong_reverse":
 		frames.invert()
 
 	var repetition = 1
@@ -276,7 +276,7 @@ func _add_animation_frames(
 		for frame in frames:
 			_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache)
 
-		if direction == 'pingpong':
+		if direction.begins_with("pingpong"):
 			var working_frames = frames.duplicate()
 			working_frames.remove(frames.size() - 1)
 			if is_loopable or (repetition > 1 and i < repetition - 1):
