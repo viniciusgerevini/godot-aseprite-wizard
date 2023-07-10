@@ -74,21 +74,22 @@ Animations can be imported to AnimationPlayers via the Inspector dock.
 
 | Field                   | Description |
 | ----------------------- | ----------- |
-| Aseprite File: | (\*.aseprite or \*.ase) source file. |
-| Animation Player: |AnimationPlayer node where animations should be added to.|
-| Layer: | Aseprite layer to be used in the animation. By default, all layers are included. |
-| Output folder: | Folder to save the sprite sheet (png) file. Default: same as scene |
+| Aseprite File | (\*.aseprite or \*.ase) source file. |
+| Animation Player |AnimationPlayer node where animations should be added to.|
+| Layer | Aseprite layer to be used in the animation. By default, all layers are included. |
+| Output folder | Folder to save the sprite sheet (png) file. Default: same as scene |
 | Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
-| Exclude pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
+| Exclude pattern | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
+| Keep manual animation length | When this is active the animation length won't be adjusted if other properties were added and the resulting imported animation is shorter. Default: false. |
 | Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Hide unused sprites | If selected, sprites that are present in the AnimationPlayer will be set as visible=false in any animation they are not part of.|
 
 
 Notes:
 - The generated sprite sheet texture is set to the Sprite node and every tag in the Aseprite file will be inserted as an Animation into the selected AnimationPlayer.
-- If the animation already exists in the AnimationPlayer, all existing tracks are kept. Only the required tracks for the Sprite animation will be changed (`Sprite:frame`).
-- Loop configuration and animation length will be changed according to the Aseprite file.
-- The plugin will never delete an Animation containing other tracks than the ones used by itself (i.e. `Sprite:frame`). In case the animation is removed from Aseprite, it will delete the track from the AnimationPlayer and only delete the animation in case there are no other tracks left.
+- If the animation already exists in the AnimationPlayer, all existing tracks are kept. Only the required tracks for the Sprite animation will be changed.
+- Loop configuration and animation length will be changed according to the Aseprite file. If you wish to keep a manually configured animation length, set the `Keep manual animation length` option.
+- The plugin will never delete an Animation containing other tracks than the ones used by itself. In case the animation is removed from Aseprite, it will delete the track from the AnimationPlayer and only delete the animation in case there are no other tracks left.
 - Animations are added to the global animation library by default. To define a library name, use the `library_name/animation_name` pattern on your Aseprite tags.
 
 ### AnimatedSprite and SpriteFrames

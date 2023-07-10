@@ -10,10 +10,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     - If not set, the animation will loop by default or follow whatever behaviour is set via the loop configuration from project settings.
     - If set, the plugin will repeat the animation n times and stop, like in Aseprite. This means you can disable looping by set repeat 1.
 - Support to ping-pong reverse animation direction.
+- Add option to keep animation length on import. Useful for when you have other properties manually defined in the animation and you want to keep its adjusted length.
+
 
 ### Thanks
 
 - Thanks to @chunhaqiushif for the repeat feature request.
+- Thanks to @Silvanuz for the "keep animation length" feature request.
 
 
 ## 6.1.1 (2023-03-22)

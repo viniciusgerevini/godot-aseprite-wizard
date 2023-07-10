@@ -79,7 +79,7 @@ func _import(target_node: Node, player: AnimationPlayer, data: Dictionary, optio
 		target_node.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 
 	_setup_texture(target_node, sprite_sheet, content, context)
-	var result = _configure_animations(target_node, player, content, context)
+	var result = _configure_animations(target_node, player, content, context, options.keep_anim_length)
 	if result != result_code.SUCCESS:
 		return result
 
@@ -92,7 +92,7 @@ func _load_texture(sprite_sheet: String) -> Texture2D:
 	return texture
 
 
-func _configure_animations(target_node: Node, player: AnimationPlayer, content: Dictionary, context: Dictionary):
+func _configure_animations(target_node: Node, player: AnimationPlayer, content: Dictionary, context: Dictionary, keep_anim_length: bool):
 	var frames = _aseprite.get_content_frames(content)
 
 	if not player.has_animation_library(_DEFAULT_ANIMATION_LIBRARY):
@@ -102,15 +102,15 @@ func _configure_animations(target_node: Node, player: AnimationPlayer, content: 
 		var result = result_code.SUCCESS
 		for tag in content.meta.frameTags:
 			var selected_frames = frames.slice(tag.from, tag.to + 1)
-			result = _add_animation_frames(target_node, player, tag.name, selected_frames, context, tag.direction, int(tag.get("repeat", -1)))
+			result = _add_animation_frames(target_node, player, tag.name, selected_frames, context, keep_anim_length, tag.direction, int(tag.get("repeat", -1)))
 			if result != result_code.SUCCESS:
 				break
 		return result
 	else:
-		return _add_animation_frames(target_node, player, "default", frames, context)
+		return _add_animation_frames(target_node, player, "default", frames, context, keep_anim_length)
 
 
-func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name: String, frames: Array, context: Dictionary, direction = 'forward', repeat = -1):
+func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name: String, frames: Array, context: Dictionary, keep_anim_length: bool, direction = 'forward', repeat = -1):
 	var animation_name = anim_name
 	var library_name = _DEFAULT_ANIMATION_LIBRARY
 	var is_loopable = _config.is_default_animation_loop_enabled()
@@ -181,7 +181,12 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 				animation.track_insert_key(frame_track_index, animation_length, frame_key)
 				animation_length += frame.duration / 1000
 
-	animation.length = animation_length
+	# if keep_anim_length is enabled only adjust length if
+	# - there aren't other tracks besides metas and frame
+	# - the current animation is shorter than new one
+	if not keep_anim_length or (animation.get_track_count() == (_get_meta_prop_names().size() + 1) or animation.length < animation_length):
+		animation.length = animation_length
+
 	animation.loop_mode = Animation.LOOP_LINEAR if is_loopable else Animation.LOOP_NONE
 
 	return result_code.SUCCESS
@@ -313,6 +318,13 @@ func _remove_properties_from_path(path: NodePath) -> NodePath:
 	return string_path as NodePath
 
 
+func _create_meta_tracks(target_node: Node, player: AnimationPlayer, animation: Animation):
+	for prop in _get_meta_prop_names():
+		var track = _get_property_track_path(player, target_node, prop)
+		var track_index = _create_track(target_node, animation, track)
+		animation.track_insert_key(track_index, 0, true if prop == "visible" else target_node.get(prop))
+
+
 func _setup_texture(target_node: Node, sprite_sheet: String, content: Dictionary, context: Dictionary):
 	push_error("_setup_texture not implemented!")
 
@@ -326,5 +338,5 @@ func _get_frame_key(target_node: Node, frame: Dictionary, context: Dictionary):
 	push_error("_get_frame_key not implemented!")
 
 
-func _create_meta_tracks(target_node: Node, player: AnimationPlayer, animation: Animation):
-	push_error("_create_meta_tracks not implemented!")
+func _get_meta_prop_names():
+	push_error("_get_meta_prop_names not implemented!")
