@@ -14,7 +14,7 @@ _Check the screenshots folder for more examples._
 - Generate sprite sheet and import animations to AnimationPlayer, AnimatedSprite2D, AnimatedSprite3D or SpriteFrames resource.
 - Adds Inspector docks for easy import and re-import.
 - Filters out layers you don't want in the final animation, using regex.
-- Supports Aseprite animation direction (forward, reverse, ping-pong).
+- Supports Aseprite animation direction (forward, reverse, ping-pong, ping-pong-reverse).
 - Supports loopable and non-loopable animations via Aseprite repeat or tags.
 - Separates each Aseprite Tag into animations. In case no tags are defined, imports everything as default animation.
 - AnimatedSprite
