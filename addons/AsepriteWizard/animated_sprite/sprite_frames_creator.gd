@@ -272,14 +272,14 @@ func _add_animation_frames(
 		is_loopable = false
 		repetition = repeat
 
-	for _i in range(repetition):
+	for i in range(repetition):
 		for frame in frames:
 			_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache)
 
 		if direction == 'pingpong':
 			var working_frames = frames.duplicate()
 			working_frames.remove_at(working_frames.size() - 1)
-			if is_loopable:
+			if is_loopable or (repetition > 1 and i < repetition - 1):
 				working_frames.remove_at(0)
 			working_frames.reverse()
 

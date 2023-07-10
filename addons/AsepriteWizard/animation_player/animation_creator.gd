@@ -161,7 +161,7 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 		is_loopable = false
 		repetition = repeat
 
-	for _i in range(repetition):
+	for i in range(repetition):
 		for frame in frames:
 			var frame_key = _get_frame_key(target_node, frame, context)
 			animation.track_insert_key(frame_track_index, animation_length, frame_key)
@@ -172,7 +172,7 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 		if direction == 'pingpong':
 			var working_frames = frames.duplicate()
 			working_frames.remove_at(working_frames.size() - 1)
-			if is_loopable:
+			if is_loopable or (repetition > 1 and i < repetition - 1):
 				working_frames.remove_at(0)
 			working_frames.reverse()
 
