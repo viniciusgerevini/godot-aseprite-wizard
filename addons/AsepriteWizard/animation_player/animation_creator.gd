@@ -181,8 +181,8 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 				animation.track_insert_key(frame_track_index, animation_length, frame_key)
 				animation_length += frame.duration / 1000
 
-		animation.length = animation_length
-		animation.loop_mode = Animation.LOOP_LINEAR if is_loopable else Animation.LOOP_NONE
+	animation.length = animation_length
+	animation.loop_mode = Animation.LOOP_LINEAR if is_loopable else Animation.LOOP_NONE
 
 	return result_code.SUCCESS
 

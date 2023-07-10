@@ -286,8 +286,8 @@ func _add_animation_frames(
 			for frame in working_frames:
 				_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache)
 
-		sprite_frames.set_animation_loop(animation_name, is_loopable)
-		sprite_frames.set_animation_speed(animation_name, fps)
+	sprite_frames.set_animation_loop(animation_name, is_loopable)
+	sprite_frames.set_animation_speed(animation_name, fps)
 
 
 func _calculate_fps(min_duration: int) -> float:
