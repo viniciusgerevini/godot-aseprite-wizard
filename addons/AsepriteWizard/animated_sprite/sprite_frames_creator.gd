@@ -315,10 +315,8 @@ func _add_to_sprite_frames(
 	frame_cache: Dictionary
 ):
 	var atlas : AtlasTexture = _create_atlastexture_from_frame(texture, frame, sprite_frames, frame_cache)
-
-	var number_of_sprites = ceil(frame.duration / min_duration)
-	for _i in range(number_of_sprites):
-		sprite_frames.add_frame(animation_name, atlas)
+	var duration = frame.duration / min_duration
+	sprite_frames.add_frame(animation_name, atlas, duration)
 
 
 func _create_atlastexture_from_frame(
