@@ -11,17 +11,17 @@ _Check the screenshots folder for more examples._
 
 ### Features
 
-- Generate sprite sheet and import animations to AnimationPlayer, AnimatedSprite2D, AnimatedSprite3D or SpriteFrames resource.
-- Adds Inspector docks for easy import and re-import.
-- Filters out layers you don't want in the final animation, using regex.
-- Supports Aseprite animation direction (forward, reverse, ping-pong, ping-pong-reverse).
+- Import animations to AnimationPlayer, AnimatedSprite2D, AnimatedSprite3D or SpriteFrames resource.
+- Godot importer and inspector docks for easy import and re-import.
+- Filters out layers you don't want in the final animation using regex.
+- Supports Aseprite animation directions (forward, reverse, ping-pong, ping-pong reverse).
 - Supports loopable and non-loopable animations via Aseprite repeat or tags.
 - Separates each Aseprite Tag into animations. In case no tags are defined, imports everything as default animation.
 - AnimatedSprite
   - Creates SpriteFrames with Atlas Texture to be used in AnimatedSprites.
-  - Converts Aseprite frame duration (defined in milliseconds) to Godot's animation FPS. This way you can create your animation with the right timing in Aseprite, and it should work the same way in Godot.
-  - Choose to export the Aseprite file as a single SpriteFrames resource, or separate each layer in different resources.
-  - Adds Aseprite file importer to Godot (check limitations section).
+  - Converts Aseprite frame duration (defined in milliseconds) to Godot's animation FPS. This way you can create your animation with the right timing in Aseprite and it should work the same way in Godot.
+  - Choose to export the Aseprite file as a single SpriteFrames resource or separate each layer in different resources.
+  - Adds Aseprite file importer to Godot.
 - AnimationPlayer
   - Adds and removes animation tracks without removing other existing tracks.
   - You are free to import multiple files to the same AnimationPlayer or import each layer to their own Sprite/TextureRect and AnimationPlayer.
