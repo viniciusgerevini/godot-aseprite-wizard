@@ -12,6 +12,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Support to ping-pong reverse animation direction.
 - Add option to keep animation length on import. Useful for when you have other properties manually defined in the animation and you want to keep its adjusted length.
 
+### Changed
+
+- In SpriteFrames, for frames with longer duration, use the frame duration option introduced in Godot 4 instead of duplicating the frame.
 
 ### Thanks
 
