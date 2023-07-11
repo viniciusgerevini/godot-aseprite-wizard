@@ -4,6 +4,9 @@ Godot plugin to help import Aseprite animations to AnimationPlayers, AnimatedSpr
 
 _This branch supports Godot 3. For Godot 4 docs and code check the [godot_4](https://github.com/viniciusgerevini/godot-aseprite-wizard/tree/godot_4) branch. You can find more details about the differences between Godot 3 and Godot 4 on issue https://github.com/viniciusgerevini/godot-aseprite-wizard/issues/70._
 
+__This Godot 3 version is in maintenance mode. It will only receive hotfixes, but no new features.__
+
+
 <img align="center" src="./screenshots/comparison.png" />
 <img align="center" src="./screenshots/animation_dock.gif" />
 

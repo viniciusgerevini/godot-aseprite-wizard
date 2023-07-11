@@ -2,7 +2,10 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## Unreleased
+## 6.1.0 (2023-07-10)
+
+This is the last release for Godot 3 with new features. From now on this plugin enters maintenance mode and will only receive bugfixes.
+I might still merge smaller, easy to port features, but the focus now is the version for Godot 4.
 
 ### Added
 
