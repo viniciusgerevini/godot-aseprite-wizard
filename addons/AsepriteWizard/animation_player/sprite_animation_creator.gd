@@ -1,5 +1,7 @@
 extends "animation_creator.gd"
 
+func _get_meta_prop_names():
+	return [ "texture", "hframes", "vframes", "visible" ]
 
 func _setup_texture(sprite: Node, sprite_sheet: String, content: Dictionary, context: Dictionary):
 	var texture = _load_texture(sprite_sheet)
@@ -16,24 +18,6 @@ func _get_frame_property() -> String:
 	return "frame"
 
 
-func _create_meta_tracks(sprite: Node, player: AnimationPlayer, animation: Animation):
-	var texture_track = _get_property_track_path(player, sprite, "texture")
-	var texture_track_index = _create_track(sprite, animation, texture_track)
-	animation.track_insert_key(texture_track_index, 0, sprite.texture)
-
-	var hframes_track = _get_property_track_path(player, sprite, "hframes")
-	var hframes_track_index = _create_track(sprite, animation, hframes_track)
-	animation.track_insert_key(hframes_track_index, 0, sprite.hframes)
-
-	var vframes_track = _get_property_track_path(player, sprite, "vframes")
-	var vframes_track_index = _create_track(sprite, animation, vframes_track)
-	animation.track_insert_key(vframes_track_index, 0, sprite.vframes)
-
-	var visible_track = _get_property_track_path(player, sprite, "visible")
-	var visible_track_index = _create_track(sprite, animation, visible_track)
-	animation.track_insert_key(visible_track_index, 0, true)
-
-	
 func _get_frame_key(sprite:  Node, frame: Dictionary, context: Dictionary):
 	return _calculate_frame_index(sprite,frame)
 

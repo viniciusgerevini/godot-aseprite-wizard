@@ -37,6 +37,7 @@ var _layer_default := "[all]"
 @onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layers/CheckButton
 @onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
 @onready var _cleanup_hide_unused_nodes =  $margin/VBoxContainer/options/auto_visible_track/CheckButton
+@onready var _keep_length =  $margin/VBoxContainer/options/keep_length/CheckButton
 
 
 func _ready():
@@ -72,6 +73,7 @@ func _load_config(cfg):
 	_visible_layers_field.button_pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
 	_cleanup_hide_unused_nodes.button_pressed = cfg.get("set_vis_track", config.is_set_visible_track_automatically_enabled())
+	_keep_length.button_pressed = cfg.get("keep_anim_length", false)
 
 	_set_options_visible(cfg.get("op_exp", false))
 
@@ -189,6 +191,7 @@ func _on_import_pressed():
 		"output_folder": _output_folder if _output_folder != "" else root.scene_file_path.get_base_dir(),
 		"exception_pattern": _ex_pattern_field.text,
 		"only_visible_layers": _visible_layers_field.button_pressed,
+		"keep_anim_length": _keep_length.button_pressed,
 		"output_filename": _out_filename_field.text,
 		"cleanup_hide_unused_nodes": _cleanup_hide_unused_nodes.button_pressed,
 		"layer": _layer
@@ -210,6 +213,7 @@ func _save_config():
 		"o_name": _out_filename_field.text,
 		"only_visible": _visible_layers_field.button_pressed,
 		"o_ex_p": _ex_pattern_field.text,
+		"keep_anim_length": _keep_length.button_pressed,
 	}
 
 	if _cleanup_hide_unused_nodes.button_pressed != config.is_set_visible_track_automatically_enabled():

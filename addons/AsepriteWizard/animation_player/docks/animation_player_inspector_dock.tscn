@@ -137,6 +137,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
+[node name="keep_length" type="HBoxContainer" parent="margin/VBoxContainer/options"]
+layout_mode = 2
+tooltip_text = "When this is active the animation length won't be adjusted if other properties were added and the resulting imported animation is shorter."
+
+[node name="Label" type="Label" parent="margin/VBoxContainer/options/keep_length"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Keep manual animation length"
+
+[node name="CheckButton" type="CheckButton" parent="margin/VBoxContainer/options/keep_length"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
 [node name="visible_layers" type="HBoxContainer" parent="margin/VBoxContainer/options"]
 layout_mode = 2
 tooltip_text = "If active, layers not visible in the source file won't be included in the final image."
