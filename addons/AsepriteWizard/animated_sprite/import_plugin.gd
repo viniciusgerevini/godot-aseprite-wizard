@@ -31,6 +31,10 @@ func get_preset_count():
 	return 1
 
 
+func get_priority():
+	return 2.0 if config.get_default_importer() == config.IMPORTER_SPRITEFRAMES_NAME else 1.0
+
+
 func get_preset_name(i):
 	return "Default"
 
