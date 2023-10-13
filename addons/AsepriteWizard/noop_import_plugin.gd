@@ -2,7 +2,7 @@
 extends EditorImportPlugin
 
 ##
-## No-op importer to allow files to be seen and 
+## No-op importer to allow files to be seen and
 ## managed, but without triggering a real import
 ##
 

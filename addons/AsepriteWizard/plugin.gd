@@ -68,7 +68,7 @@ func _setup_importer():
 	sprite_frames_import_plugin.file_system = get_editor_interface().get_resource_filesystem()
 	sprite_frames_import_plugin.config = config
 	add_import_plugin(sprite_frames_import_plugin)
-	
+
 	noop_import_plugin = NoopImportPlugin.new()
 	noop_import_plugin.config = config
 	add_import_plugin(noop_import_plugin)

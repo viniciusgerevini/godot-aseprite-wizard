@@ -2,6 +2,22 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Added
+
+- New "No Import" importer. This allows managing Aseprite files in the filesystem dock without importing them as assets.
+- Default importer configuration in Project Settings.
+
+### Fixed
+
+- In ProjectSettings, default options were not hinted after any value was selected.
+- Fixed minor warnings related to ProjectSettings.
+
+### Removed
+
+- Removed the option to enable auto-importer. A default "No import" is enabled by default with the option to change it via ProjectSettings. For backwards compatibility the default option will be "SpriteFrames" in case the importer configuration was enabled.
+
 ## 6.2.0 (2023-07-10)
 
 ### Added
