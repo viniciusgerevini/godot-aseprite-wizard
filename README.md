@@ -48,13 +48,13 @@ For project specific configurations check `Project -> Project Settings -> Genera
 | Animation > Layer > Exclusion Pattern | Exclude layers with names matching this pattern (regex). This is the default value for new nodes. It can be changed or removed during the import. Default: not set |
 | Animation > Loop > Enabled | Enables animation loop by default. Default: `true` |
 | Animation > Loop > Exception prefix | Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The prefix is removed from the animation name on import (i.e  `_death` > `death`). Default: `_` |
-| Animation > Storage > Use metadata | Persist dock info in the scene metadata instead of editor description. Default: `true` |
+| Animation > Storage > Use metadata | (_deprecated_) Persist dock info in the scene metadata instead of editor description. Default: `true` |
 | Animation > Storage > Enable metadata removal on export | Removes dock metadata from scene when exporting the project. Ensures no local info is shipped with the app. Default: `true` |
 | Import > Preset > Enable Custom Preset | Enable Custom preset properties (*requires plugin restart*). Default: `false`. |
 | Import > Preset > Preset | Custom preset properties for texture files imported via this plugin. Default: same as Godot's defaults. |
 | Import > Cleanup > Remove Json File | Remove temporary `*.json` files generated during import. Default: `true` |
 | Import > Cleanup > Automatically Hide Sprites Not In Animation | Default configuration for AnimationPlayer option to hide Sprites when not in animation. Default: `false` |
-| Import > Import Plugin > Enable Automatic Importer | Enable/Disable Aseprite automatic importer (*requires plugin restart*). Default: `false` |
+| Import > Import Plugin > Default Automatic Importer | Which importer to use by default for aseprite files. Options: `No Import`, `SpriteFrames`. Default: `No Import` |
 | Wizard > History > Cache File Path | Path to file where history data is stored. Default: `res://.aseprite_wizard_history` |
 | Wizard > History > Keep One Entry Per Source File | When true, history does not show duplicates. Default: `false` |
 
@@ -144,9 +144,10 @@ Notes:
 
 If you use the importer flow, any `*.ase` or `*.aseprite` file saved in the project will be automatically imported as a `SpriteFrames` resource, which can be used in `AnimatedSprite` nodes. You can change import settings for each file in the Import dock.
 
-This feature needs to be enabled in the project settings. Requires editor restart.
+By default, the automatic importer won´t generate any file. You can change the default importer behaviour via Project Settings.
 
-### Options
+
+### SpriteFrames importer Options
 
 | Field                   | Description |
 | ----------------------- | ----------- |
@@ -195,7 +196,7 @@ If you imported animations via the inspector dock before version v5.2.0, you may
 
 From v5.2.0, this information is stored in the scene metadata and shouldn't be visible anymore. Any previously imported animation will still have the Editor Description info, but it will be moved to the metadata when re-imported again.
 
-You can disable the new behaviour at `Project > Project Settings > General > Animation > Storage > Use metadata`.
+You can disable the new behaviour at `Project > Project Settings > General > Animation > Storage > Use metadata`. _Keep in mind this will be deprecated in a next major version._
 
 As you can select files from anywhere in your system, there is an export plugin to prevent your local path metadata to be shipped with the game. In case you suspect this is conflicting with other plugins (or if you think you don't need it) you can disable it at `Project > Project Settings > General > Animation > Storage > Enable metadata removal on export`.
 
@@ -221,6 +222,8 @@ You can workaround the issue by using an `AnimationPlayer` and splitting your an
 
 ## Contact
 
-Thanks for the constant feedback and suggestions. If you are facing problems with the plugin or have suggestions/questions, please open an issue in this repo or send me a message via [Twitter](https://twitter.com/vini_gerevini) or e-mail.
+Thanks for the constant feedback and suggestions. If you are facing problems with the plugin or have suggestions/questions, please open an issue in this repo.
 
 If you like game dev related content and want to support me, consider subscribing to my [Youtube channel](http://youtube.com/c/ThisIsVini).
+
+heck my [website](https://thisisvini.com) for more contact options.
