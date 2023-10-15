@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - New "No Import" importer. This allows managing Aseprite files in the filesystem dock without importing them as assets.
 - Default importer configuration in Project Settings.
 
+### Changed
+
+- Metadata cleanup on export does not print info message anymore. That was too noisy.
+
 ### Fixed
 
 - In ProjectSettings, default options were not hinted after any value was selected.
