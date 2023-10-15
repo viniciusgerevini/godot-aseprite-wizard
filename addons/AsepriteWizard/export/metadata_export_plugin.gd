@@ -17,7 +17,7 @@ func _export_file(path: String, type: String, features: PackedStringArray) -> vo
 		for child in node.get_children():
 			nodes.push_back(child)
 
-		if _remove_meta(node, path):
+		if _remove_meta(node):
 			scene_changed = true
 
 	#save scene if changed
@@ -28,18 +28,17 @@ func _export_file(path: String, type: String, features: PackedStringArray) -> vo
 			return
 
 		var content := _get_scene_content(path, filtered_scene)
-		
+
 		add_file(path, content, true)
 
 	root_node.free()
 
 
-func _remove_meta(node:Node, path: String) -> bool:
+func _remove_meta(node:Node) -> bool:
 	if node.has_meta(wizard_config.WIZARD_CONFIG_META_NAME):
 		node.remove_meta(wizard_config.WIZARD_CONFIG_META_NAME)
-		print("Aseprite Wizard: Removed metadata from scene %s" % path)
 		return true
-		
+
 	return false
 
 
