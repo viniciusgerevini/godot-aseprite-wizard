@@ -8,6 +8,8 @@ var _sf_creator = preload("sprite_frames_creator.gd").new()
 var file_system: EditorFileSystem
 
 func _get_importer_name():
+	# ideally this should be called aseprite_wizard.plugin.spriteframes
+	# but I'm keeping it like this until next major release to avoid breaking changes
 	return "aseprite_wizard.plugin"
 
 
@@ -36,7 +38,7 @@ func _get_preset_name(i):
 
 
 func _get_priority():
-	return 1.0
+	return 2.0 if config.get_default_importer() == config.IMPORTER_SPRITEFRAMES_NAME else 1.0
 
 
 func _get_import_order():

@@ -26,6 +26,10 @@ const _SET_VISIBLE_TRACK_AUTOMATICALLY = 'aseprite/import/cleanup/automatically_
 
 # automatic importer
 const _IMPORTER_ENABLE_KEY = 'aseprite/import/import_plugin/enable_automatic_importer'
+const _DEFAULT_IMPORTER_KEY = 'aseprite/import/import_plugin/default_automatic_importer'
+
+const IMPORTER_SPRITEFRAMES_NAME = "SpriteFrames"
+const IMPORTER_NOOP_NAME = "No Import"
 
 # wizard history
 const _HISTORY_CONFIG_FILE_CFG_KEY = 'aseprite/wizard/history/cache_file_path'
@@ -65,13 +69,19 @@ func is_command_or_control_pressed() -> String:
 #######################################################
 # PROJECT SETTINGS
 ######################################################
+
+# remove this config in the next major version
 func is_importer_enabled() -> bool:
 	return _get_project_setting(_IMPORTER_ENABLE_KEY, false)
-	
-	
+
+
+func get_default_importer() -> String:
+	return _get_project_setting(_DEFAULT_IMPORTER_KEY, IMPORTER_SPRITEFRAMES_NAME if is_importer_enabled() else IMPORTER_NOOP_NAME)
+
+
 func is_exporter_enabled() -> bool:
 	return _get_project_setting(_EXPORTER_ENABLE_KEY, true)
-	
+
 
 func should_remove_source_files() -> bool:
 	return _get_project_setting(_REMOVE_SOURCE_FILES_KEY, true)
@@ -83,7 +93,7 @@ func is_default_animation_loop_enabled() -> bool:
 
 func get_animation_loop_exception_prefix() -> String:
 	return _get_project_setting(_LOOP_EXCEPTION_PREFIX, _DEFAULT_LOOP_EX_PREFIX)
-	
+
 func is_use_metadata_enabled() -> bool:
 	return _get_project_setting(_USE_METADATA, true)
 
@@ -231,8 +241,14 @@ func initialize_project_settings():
 	_initialize_project_cfg(_IMPORT_PRESET_ENABLED, false, TYPE_BOOL)
 
 	_initialize_project_cfg(_REMOVE_SOURCE_FILES_KEY, true, TYPE_BOOL)
-	_initialize_project_cfg(_IMPORTER_ENABLE_KEY, false, TYPE_BOOL)
-	
+	_initialize_project_cfg(
+		_DEFAULT_IMPORTER_KEY,
+		IMPORTER_NOOP_NAME if is_importer_enabled() else IMPORTER_SPRITEFRAMES_NAME,
+		TYPE_STRING,
+		PROPERTY_HINT_ENUM,
+		"%s,%s" % [IMPORTER_NOOP_NAME, IMPORTER_SPRITEFRAMES_NAME]
+	)
+
 	_initialize_project_cfg(_EXPORTER_ENABLE_KEY, true, TYPE_BOOL)
 
 	_initialize_project_cfg(_HISTORY_CONFIG_FILE_CFG_KEY, _DEFAULT_HISTORY_CONFIG_FILE_PATH, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE)
@@ -254,7 +270,7 @@ func clear_project_settings():
 		_IMPORT_PRESET_ENABLED,
 		_IMPORT_PRESET_KEY,
 		_REMOVE_SOURCE_FILES_KEY,
-		_IMPORTER_ENABLE_KEY,
+		_DEFAULT_IMPORTER_KEY,
 		_EXPORTER_ENABLE_KEY,
 		_HISTORY_CONFIG_FILE_CFG_KEY,
 		_HISTORY_SINGLE_ENTRY_KEY,
@@ -265,18 +281,22 @@ func clear_project_settings():
 	ProjectSettings.save()
 
 
-func _initialize_project_cfg(key: String, default_value, type: int, hint: int = PROPERTY_HINT_NONE):
+func _initialize_project_cfg(key: String, default_value, type: int, hint: int = PROPERTY_HINT_NONE, hint_string = null):
 	if not ProjectSettings.has_setting(key):
 		ProjectSettings.set(key, default_value)
-		ProjectSettings.set_initial_value(key, default_value)
-		ProjectSettings.add_property_info({
-			"name": key,
-			"type": type,
-			"hint": hint,
-		})
+	ProjectSettings.set_initial_value(key, default_value)
+	ProjectSettings.add_property_info({
+		"name": key,
+		"type": type,
+		"hint": hint,
+		"hint_string": hint_string,
+	})
 
 
 func _get_project_setting(key: String, default_value):
+	if not ProjectSettings.has_setting(key):
+		return default_value
+
 	var p = ProjectSettings.get(key)
 	return p if p != null else default_value
 
@@ -303,9 +323,9 @@ func create_import_file(data: Dictionary) -> void:
 func _initialize_editor_cfg(key: String, default_value, type: int, hint: int = PROPERTY_HINT_NONE):
 	if not _editor_settings.has_setting(key):
 		_editor_settings.set(key, default_value)
-		_editor_settings.set_initial_value(key, default_value, false)
-		_editor_settings.add_property_info({
-			"name": key,
-			"type": type,
-			"hint": hint,
-		})
+	_editor_settings.set_initial_value(key, default_value, false)
+	_editor_settings.add_property_info({
+		"name": key,
+		"type": type,
+		"hint": hint,
+	})

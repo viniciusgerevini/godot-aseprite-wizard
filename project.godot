@@ -16,9 +16,7 @@ config/icon="res://icon.png"
 
 [aseprite]
 
-wizard/history/cache_file_path=""
-animation/layers/exclusion_pattern="_$"
-import/import_plugin/enable_automatic_importer=true
+import/import_plugin/default_automatic_importer="No Import"
 
 [editor_plugins]
 
