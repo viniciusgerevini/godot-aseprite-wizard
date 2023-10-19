@@ -191,6 +191,7 @@ func get_content_frames(content):
 ## Exports tileset layers
 ##
 ## Return (dictionary):
+##      data_file: path to aseprite generated JSON file
 ##      sprite_sheet: localized path to spritesheet file
 func export_tileset_texture(file_name: String, output_folder: String, options: Dictionary) -> Dictionary:
 	var exception_pattern = options.get('exception_pattern', "")

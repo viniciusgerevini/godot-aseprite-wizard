@@ -1,6 +1,21 @@
 @tool
 extends "../base_sprite_resource_creator.gd"
 
+##
+## Generate a spritesheet with all tilesets in the file
+##
+## Options:
+##    exception_pattern (string)
+##    only_visible_layers (boolean)
+##    output_filename (string)
+##    output_folder (string)
+##
+## Return:
+##  Dictionary
+##     sprite_sheet: sprite sheet path
+##     data_file:  json file path
+##     data: content of aseprite json file
+##
 func generate_aseprite_spritesheet(source_file: String, options = {}) -> Dictionary:
 	var check = _initial_checks(source_file, options)
 
