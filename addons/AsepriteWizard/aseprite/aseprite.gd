@@ -67,7 +67,7 @@ func export_layer(file_name: String, layer_name: String, output_folder: String, 
 	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
 	arguments.push_front(layer_name)
 	arguments.push_front("--layer")
-	
+
 	_add_sheet_type_arguments(arguments, options)
 
 	var exit_code = _execute(arguments, output)
@@ -129,7 +129,7 @@ func list_layers(file_name: String, only_visible = false) -> Array:
 
 	if output.is_empty():
 		return output
-	
+
 	var raw = output[0].split('\n')
 	var sanitized = []
 	for s in raw:

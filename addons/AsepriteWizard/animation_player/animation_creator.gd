@@ -67,10 +67,10 @@ func _import(target_node: Node, player: AnimationPlayer, data: Dictionary, optio
 	var test_json_conv = JSON.new()
 	test_json_conv.parse(file.get_as_text())
 	var content =  test_json_conv.get_data()
-	
+
 	if not _aseprite.is_valid_spritesheet(content):
 		return result_code.ERR_INVALID_ASEPRITE_SPRITESHEET
-	
+
 	var context = {}
 
 	if target_node is CanvasItem:
@@ -84,7 +84,7 @@ func _import(target_node: Node, player: AnimationPlayer, data: Dictionary, optio
 		return result
 
 	return _cleanup_animations(target_node, player, content, options)
-	
+
 
 func _load_texture(sprite_sheet: String) -> Texture2D:
 	var texture = ResourceLoader.load(sprite_sheet, 'Image', ResourceLoader.CACHE_MODE_IGNORE)
@@ -123,7 +123,7 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 	elif anim_tokens.size() == 2:
 		library_name = anim_tokens[0]
 		animation_name = anim_tokens[1]
-		
+
 	if not _validate_animation_name(animation_name):
 		push_error("Invalid animation name: %s" % animation_name)
 		return
@@ -266,7 +266,7 @@ func _hide_unused_nodes(target_node: Node, player: AnimationPlayer, content: Dic
 
 		for track_idx in animation.get_track_count():
 			var raw_path := animation.track_get_path(track_idx)
-			
+
 			if raw_path.get_subname(0) == "visible":
 				continue
 
