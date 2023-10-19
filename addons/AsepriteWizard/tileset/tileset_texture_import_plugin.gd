@@ -91,7 +91,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var texture: CompressedTexture2D = ResourceLoader.load(sprite_sheet, "CompressedTexture2D", ResourceLoader.CACHE_MODE_REPLACE)
 	var resource = AtlasTexture.new()
 	resource.atlas = texture
-	resource.region = Rect2(0, 0, result.content.data.meta.size.w, result.content.data.meta.size.h)
+	resource.region = Rect2(0, 0, result.content.data_content.meta.size.w, result.content.data_content.meta.size.h)
 
 	var resource_path = "%s.res" % save_path
 	var exit_code = ResourceSaver.save(resource, resource_path)

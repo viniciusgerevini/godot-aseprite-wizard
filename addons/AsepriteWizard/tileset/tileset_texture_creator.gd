@@ -14,26 +14,22 @@ extends "../base_sprite_resource_creator.gd"
 ##  Dictionary
 ##     sprite_sheet: sprite sheet path
 ##     data_file:  json file path
-##     data: content of aseprite json file
+##     data_content: content of aseprite json file
 ##
 func generate_aseprite_spritesheet(source_file: String, options = {}) -> Dictionary:
-	var check = _initial_checks(source_file, options)
+	var output = _aseprite_file_exporter.generate_tileset_files(source_file, options)
 
-	if check != result_code.SUCCESS:
-		printerr(result_code.get_error_message(check))
-		return result_code.error(check)
+	if not output.is_ok:
+		printerr(result_code.get_error_message(output.code))
+		return result_code.error(output.code)
 
-	var output = _aseprite.export_tileset_texture(source_file, options.output_folder, options)
-
-	if output.is_empty():
-		printerr(result_code.get_error_message(result_code.ERR_ASEPRITE_EXPORT_FAILED))
-		return result_code.error(check)
-
-	var data = _load_json_content(output.data_file)
+	var data = _aseprite_file_exporter.load_json_content(output.data_file)
 
 	if not data.is_ok:
 		return data
 
-	output.data = data.content
-
-	return result_code.result(output)
+	return result_code.result({
+		"sprite_sheet": output.sprite_sheet,
+		"data_file": output.data_file,
+		"data_content": data.content
+	})
