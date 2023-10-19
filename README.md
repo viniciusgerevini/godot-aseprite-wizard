@@ -11,13 +11,19 @@ _Check the screenshots folder for more examples._
 
 ### Features
 
-- Import animations to AnimationPlayer, AnimatedSprite2D, AnimatedSprite3D or SpriteFrames resource.
 - Godot importer and inspector docks for easy import and re-import.
-- Filters out layers you don't want in the final animation using regex.
+- Adds automatic importers:
+    - Aseprite SpriteFrames: Use aseprite files as SpriteFrames resources.
+    - Aseprite Tileset Texture: Use aseprite files with tilemap layers as AtlasTexture which can be added directly to Godot's tileset creator.
+- Inspector docks to manually import animations to:
+    - AnimationPlayer (Sprite2D, Sprite3D and TextureRect).
+    - AnimatedSprite2D/3D.
+    - As standalone SpritesFrames resource.
 - Supports Aseprite animation directions (forward, reverse, ping-pong, ping-pong reverse).
 - Supports loopable and non-loopable animations via Aseprite repeat or tags.
 - Separates each Aseprite Tag into animations. In case no tags are defined, imports everything as default animation.
-- AnimatedSprite
+- Filters out layers you don't want in the final animation using regex.
+- For AnimatedSprite
   - Creates SpriteFrames with Atlas Texture to be used in AnimatedSprites.
   - Converts Aseprite frame duration (defined in milliseconds) to Godot's animation FPS. This way you can create your animation with the right timing in Aseprite and it should work the same way in Godot.
   - Choose to export the Aseprite file as a single SpriteFrames resource or separate each layer in different resources.
@@ -53,7 +59,7 @@ For project specific configurations check `Project -> Project Settings -> Genera
 | Import > Preset > Preset | Custom preset properties for texture files imported via this plugin. Default: same as Godot's defaults. |
 | Import > Cleanup > Remove Json File | Remove temporary `*.json` files generated during import. Default: `true` |
 | Import > Cleanup > Automatically Hide Sprites Not In Animation | Default configuration for AnimationPlayer option to hide Sprites when not in animation. Default: `false` |
-| Import > Import Plugin > Default Automatic Importer | Which importer to use by default for aseprite files. Options: `No Import`, `SpriteFrames`. Default: `No Import` |
+| Import > Import Plugin > Default Automatic Importer | Which importer to use by default for aseprite files. Options: `No Import`, `SpriteFrames`, `Tileset Texture`. Default: `No Import` |
 | Wizard > History > Cache File Path | Path to file where history data is stored. Default: `res://.aseprite_wizard_history` |
 | Wizard > History > Keep One Entry Per Source File | When true, history does not show duplicates. Default: `false` |
 
@@ -61,7 +67,11 @@ For project specific configurations check `Project -> Project Settings -> Genera
 
 _Check this video for usage examples:_ https://youtu.be/1W-CCbrzG_0
 
-After activating the plugin, you can find a section called Aseprite in the inspector dock when selecting Sprite and AnimatedSprite nodes. Also, the importer will be enabled allowing Aseprite files to be used seamlessly. In addition to that, you can find the wizard screen on `Project -> Tools -> Aseprite Spritesheet Wizard` menu.
+After activating the plugin, there are three different ways you can use it:
+
+1. Using the automatic importers: Any file saved in the project will be automatically converted to the chosen resource. By default, the importer does not import anything. You can change the behaviour per file or choose the default importer via Project Settings.
+1. Using the inspector docks: There will be a section called Aseprite in the inspector dock when selecting Sprite, TextureRect and AnimatedSprite nodes.
+1. Using the wizard dock: You can open the wizard dock via `Project -> Tools -> Aseprite Spritesheet Wizard` menu. In this dock you can generate standalone SpriteFrames files from anywhere in your system.
 
 ### AnimationPlayer
 
@@ -120,7 +130,7 @@ Notes:
 - As opposed to the AnimationPlayer flow, a new SpriteFrames resource is generated on every import. This means any manual change will be lost after re-import.
 
 
-### Wizard (bottom dock)
+#### Wizard (bottom dock)
 
 The wizard screen allows you to import SpriteFrames resources without attaching them to a scene or node This can be used in cases where you would like to generate SpriteFrames independently and include them in different nodes manually or programmatically.
 
@@ -140,13 +150,13 @@ Notes:
 - Overwrites any manual change done to previously imported resources.
 
 
-### Importer
+#### Importer
 
 If you use the importer flow, any `*.ase` or `*.aseprite` file saved in the project will be automatically imported as a `SpriteFrames` resource, which can be used in `AnimatedSprite` nodes. You can change import settings for each file in the Import dock.
 
 By default, the automatic importer won´t generate any file. You can change the default importer behaviour via Project Settings.
 
-### SpriteFrames importer Options
+SpriteFrames importer Options:
 
 | Field                   | Description |
 | ----------------------- | ----------- |
@@ -154,6 +164,21 @@ By default, the automatic importer won´t generate any file. You can change the 
 | Exclude layers matching pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
 | Split layers in multiple resources: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with the same base name as the source. |
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+
+
+### Tilesets
+
+Aseprite 1.3 added [Tilemap support](https://www.aseprite.org/docs/tilemap/). You can create special layers which can then be exported as tilesets. Aseprite Wizard has an automatic importer which allows using asprite files directly in the Tileset editor in Godot.
+
+You can select the "Aseprite Tileset Texture Importer" in the Import dock. You can also set it as the default importer via ProjectSettings.
+
+Tileset importer options:
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Exclude layers pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
+| Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+
 
 ## F.A.Q. and limitations
 

@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - New "No Import" importer. This allows managing Aseprite files in the filesystem dock without importing them as assets.
 - Default importer configuration in Project Settings.
+- Tileset automatic importer. With this importer you can use any aseprite file directly in the Tileset editor.
 
 ### Changed
 

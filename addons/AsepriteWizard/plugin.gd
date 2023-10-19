@@ -5,6 +5,7 @@ const ConfigDialog = preload('config/config_dialog.tscn')
 const WizardWindow = preload("animated_sprite/docks/as_wizard_dock_container.tscn")
 const SpriteFramesImportPlugin = preload("animated_sprite/import_plugin.gd")
 const NoopImportPlugin = preload("noop_import_plugin.gd")
+const TilesetTextureImportPlugin = preload("tileset/tileset_texture_import_plugin.gd")
 const ExportPlugin = preload("export/metadata_export_plugin.gd")
 const AnimatedSpriteInspectorPlugin = preload("animated_sprite/inspector_plugin.gd")
 const SpriteInspectorPlugin = preload("animation_player/inspector_plugin.gd")
@@ -16,6 +17,7 @@ var window: TabContainer
 var config_window: PopupPanel
 var sprite_frames_import_plugin : EditorImportPlugin
 var noop_import_plugin : EditorImportPlugin
+var tileset_texture_import_plugin : EditorImportPlugin
 var export_plugin : EditorExportPlugin
 var sprite_inspector_plugin: EditorInspectorPlugin
 var animated_sprite_inspector_plugin: EditorInspectorPlugin
@@ -73,6 +75,11 @@ func _setup_importer():
 	noop_import_plugin.config = config
 	add_import_plugin(noop_import_plugin)
 
+	tileset_texture_import_plugin = TilesetTextureImportPlugin.new()
+	tileset_texture_import_plugin.file_system = get_editor_interface().get_resource_filesystem()
+	tileset_texture_import_plugin.config = config
+	add_import_plugin(tileset_texture_import_plugin)
+
 
 func _configure_preset():
 	if config.is_import_preset_enabled():
@@ -82,6 +89,7 @@ func _configure_preset():
 func _remove_importer():
 	remove_import_plugin(sprite_frames_import_plugin)
 	remove_import_plugin(noop_import_plugin)
+	remove_import_plugin(tileset_texture_import_plugin)
 
 
 func _setup_exporter():

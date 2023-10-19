@@ -1,42 +1,15 @@
 @tool
-extends RefCounted
-
-var result_code = preload("../config/result_codes.gd")
-var _aseprite = preload("../aseprite/aseprite.gd").new()
+extends "../base_sprite_resource_creator.gd"
 
 enum {
 	FILE_EXPORT_MODE,
 	LAYERS_EXPORT_MODE
 }
 
-var _config
-var _file_system: EditorFileSystem
-var _should_check_file_system := false
-
-
-func init(config, editor_file_system: EditorFileSystem = null):
-	_config = config
-	_file_system = editor_file_system
-	_should_check_file_system = _file_system != null
-	_aseprite.init(config)
-
-
-func _initial_checks(source: String, options: Dictionary) -> int:
-	if not _aseprite.test_command():
-		return result_code.ERR_ASEPRITE_CMD_NOT_FOUND
-
-	if not FileAccess.file_exists(source):
-		return result_code.ERR_SOURCE_FILE_NOT_FOUND
-
-	if not DirAccess.dir_exists_absolute(options.output_folder):
-		return result_code.ERR_OUTPUT_FOLDER_NOT_FOUND
-	
-	return result_code.SUCCESS
-
 
 func create_animations(sprite: Node, options: Dictionary) -> void:
 	var input_check = _initial_checks(options.source, options)
-	
+
 	if input_check != result_code.SUCCESS:
 		printerr(result_code.get_error_message(input_check))
 		return
@@ -116,7 +89,7 @@ func create_resources(source_file: String, options = {}) -> Dictionary:
 	if not result.is_ok:
 		return result
 
-	var should_remove_source = _config.should_remove_source_files()	
+	var should_remove_source = _config.should_remove_source_files()
 
 	if should_remove_source:
 		_remove_source_files(result.content)
@@ -195,21 +168,6 @@ func _load_aseprite_resources(aseprite_data: Dictionary):
 	})
 
 
-func _load_json_content(source_file: String) -> Dictionary:
-	var file = FileAccess.open(source_file, FileAccess.READ)
-	if file == null:
-		return result_code.error(file.get_open_error())
-	var test_json_conv = JSON.new()
-	test_json_conv.parse(file.get_as_text())
-
-	var content = test_json_conv.get_data()
-
-	if not _aseprite.is_valid_spritesheet(content):
-		return result_code.error(result_code.ERR_INVALID_ASEPRITE_SPRITESHEET)
-
-	return result_code.result(content)
-
-
 func _save_resources(resources: Array) -> int:
 	for resource in resources:
 		var code = _save_resource(resource.resource, resource.data_file)
@@ -267,7 +225,7 @@ func _add_animation_frames(
 		frames.reverse()
 
 	var repetition = 1
-	
+
 	if repeat != -1:
 		is_loopable = false
 		repetition = repeat
