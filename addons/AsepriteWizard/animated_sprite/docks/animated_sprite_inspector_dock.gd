@@ -142,7 +142,7 @@ func _on_import_pressed():
 	file_system.scan()
 	await file_system.filesystem_changed
 
-	await sprite_frames_creator.create_animations(sprite, aseprite_output.content)
+	sprite_frames_creator.create_animations(sprite, aseprite_output.content)
 	_importing = false
 
 	if config.should_remove_source_files():

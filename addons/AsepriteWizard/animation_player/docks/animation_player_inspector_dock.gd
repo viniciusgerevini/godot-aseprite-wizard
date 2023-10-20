@@ -3,6 +3,7 @@ extends PanelContainer
 
 const wizard_config = preload("../../config/wizard_config.gd")
 const result_code = preload("../../config/result_codes.gd")
+var _aseprite_file_exporter = preload("../../aseprite/file_exporter.gd").new()
 
 const AnimationCreator = preload("../animation_creator.gd")
 const SpriteAnimationCreator = preload("../sprite_animation_creator.gd")
@@ -50,9 +51,10 @@ func _ready():
 	if target_node is Sprite2D || target_node is Sprite3D:
 		animation_creator = SpriteAnimationCreator.new()
 	if target_node is TextureRect:
-		animation_creator = TextureRectAnimationCreator.new()		
+		animation_creator = TextureRectAnimationCreator.new()
 
-	animation_creator.init(config, file_system)
+	animation_creator.init(config)
+	_aseprite_file_exporter.init(config)
 
 
 func _load_config(cfg):
@@ -186,21 +188,39 @@ func _on_import_pressed():
 		_importing = false
 		return
 
+	var source_path = ProjectSettings.globalize_path(_source)
 	var options = {
-		"source": ProjectSettings.globalize_path(_source),
 		"output_folder": _output_folder if _output_folder != "" else root.scene_file_path.get_base_dir(),
 		"exception_pattern": _ex_pattern_field.text,
 		"only_visible_layers": _visible_layers_field.button_pressed,
-		"keep_anim_length": _keep_length.button_pressed,
 		"output_filename": _out_filename_field.text,
-		"cleanup_hide_unused_nodes": _cleanup_hide_unused_nodes.button_pressed,
 		"layer": _layer
 	}
 
 	_save_config()
 
-	await animation_creator.create_animations(target_node, root.get_node(_animation_player_path), options)
+	var aseprite_output = _aseprite_file_exporter.generate_aseprite_file(source_path, options)
+
+	if not aseprite_output.is_ok:
+		var error = result_code.get_error_message(aseprite_output.code)
+		printerr(error)
+		_show_message(error)
+		return
+
+	file_system.scan()
+	await file_system.filesystem_changed
+
+	var anim_options = {
+		"keep_anim_length": _keep_length.button_pressed,
+		"cleanup_hide_unused_nodes": _cleanup_hide_unused_nodes.button_pressed,
+	}
+
+	animation_creator.create_animations(target_node, root.get_node(_animation_player_path), aseprite_output.content, anim_options)
 	_importing = false
+
+	if config.should_remove_source_files():
+		DirAccess.remove_absolute(aseprite_output.content.data_file)
+		file_system.call_deferred("scan")
 
 
 func _save_config():
