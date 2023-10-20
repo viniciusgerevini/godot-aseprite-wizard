@@ -6,34 +6,15 @@ enum {
 	LAYERS_EXPORT_MODE
 }
 
-
-func create_animations(sprite: Node, options: Dictionary) -> void:
-	var input_check = _initial_checks(options.source, options)
-
-	if input_check != result_code.SUCCESS:
-		printerr(result_code.get_error_message(input_check))
-		return
-
-	var result = await _create_animations_from_file(sprite, options)
-
-	if result != result_code.SUCCESS:
-		printerr(result_code.get_error_message(result))
-
-
-func _create_animations_from_file(animated_sprite: Node, options: Dictionary) -> int:
-	var output = _export_aseprite_file(options)
-
-	if not output.is_ok:
-		return output.code
-
-	if _config.is_import_preset_enabled():
-		_config.create_import_file(output.content)
-
-	await _scan_filesystem()
-
-	var sprite_frames_result = _create_sprite_frames(output.content)
+###
+### Create SpriteFrames from aseprite files and insert
+### them to the animated_sprite node
+###
+func create_animations(animated_sprite: Node, aseprite_files: Dictionary) -> void:
+	var sprite_frames_result = _create_sprite_frames(aseprite_files)
 	if not sprite_frames_result.is_ok:
-		return sprite_frames_result.code
+		printerr(result_code.get_error_message(sprite_frames_result.code))
+		return
 
 	animated_sprite.frames = sprite_frames_result.content
 
@@ -42,86 +23,16 @@ func _create_animations_from_file(animated_sprite: Node, options: Dictionary) ->
 	else:
 		animated_sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 
-	if _config.should_remove_source_files():
-		DirAccess.remove_absolute(output.content.data_file)
-		await _scan_filesystem()
 
-	return result_code.SUCCESS
-
-
-func _export_aseprite_file(options: Dictionary) -> Dictionary:
-	var output
-
-	if options.get("layer", "") == "":
-		output = _aseprite.export_file(options.source, options.output_folder, options)
-	else:
-		output = _aseprite.export_layer(options.source, options.layer, options.output_folder, options)
-
-	if output.is_empty():
-		return result_code.error(result_code.ERR_ASEPRITE_EXPORT_FAILED)
-
-	return result_code.result(output)
-
-
-func create_and_save_resources(source_file: String, options: Dictionary) -> int:
-	var resources = await create_resources(source_file, options)
+func create_and_save_resources(source_files: Array) -> int:
+	var resources = create_resources(source_files)
 	if resources.is_ok:
 		return _save_resources(resources.content)
 
 	return resources.code
 
 
-func create_resources(source_file: String, options = {}) -> Dictionary:
-	var input_check = _initial_checks(source_file, options)
-
-	if input_check != result_code.SUCCESS:
-		return result_code.error(input_check)
-
-	var output = _create_aseprite_output_files(source_file, options)
-
-	if not output.is_ok:
-		return output
-
-	await _scan_filesystem()
-
-	var result = await _create_sprite_frames_from_source(output.content, options)
-
-	if not result.is_ok:
-		return result
-
-	var should_remove_source = _config.should_remove_source_files()
-
-	if should_remove_source:
-		_remove_source_files(result.content)
-
-	return result
-
-
-func _remove_source_files(source_files: Array):
-	for s in source_files:
-		DirAccess.remove_absolute(s.data_file)
-
-	await _scan_filesystem()
-
-
-func _create_aseprite_output_files(source_file: String, options: Dictionary):
-	match options.get('export_mode', FILE_EXPORT_MODE):
-		FILE_EXPORT_MODE:
-			return result_code.result(
-				[_aseprite.export_file(source_file, options.output_folder, options)]
-			)
-		LAYERS_EXPORT_MODE:
-			var output = _aseprite.export_layers(source_file, options.output_folder, options)
-			if output.is_empty():
-				return result_code.error(result_code.ERR_NO_VALID_LAYERS_FOUND)
-			return result_code.result(output)
-		_:
-			return result_code.error(result_code.ERR_UNKNOWN_EXPORT_MODE)
-
-
-func _create_sprite_frames_from_source(source_files: Array, options: Dictionary) -> Dictionary:
-	var should_remove_source = _config.should_remove_source_files()
-
+func create_resources(source_files: Array) -> Dictionary:
 	var resources = []
 
 	for o in source_files:
@@ -155,12 +66,12 @@ func _create_sprite_frames(data) -> Dictionary:
 
 
 func _load_aseprite_resources(aseprite_data: Dictionary):
-	var content_result = _load_json_content(aseprite_data.data_file)
+	var content_result = _aseprite_file_exporter.load_json_content(aseprite_data.data_file)
 
 	if not content_result.is_ok:
 		return content_result
 
-	var texture = _parse_texture_path(aseprite_data.sprite_sheet)
+	var texture = _load_texture(aseprite_data.sprite_sheet)
 
 	return result_code.result({
 		"metadata": content_result.content,
@@ -209,9 +120,9 @@ func _add_animation_frames(
 	frame_cache = {}
 ):
 	var animation_name := anim_name
-	var is_loopable = _is_loop_config_enabled()
+	var is_loopable = _config.is_default_animation_loop_enabled()
 
-	var loop_prefix := _loop_config_prefix()
+	var loop_prefix = _config.get_animation_loop_exception_prefix()
 	if animation_name.begins_with(loop_prefix):
 		animation_name = anim_name.trim_prefix(loop_prefix)
 		is_loopable = not is_loopable
@@ -260,8 +171,8 @@ func _get_min_duration(frames) -> int:
 	return min_duration
 
 
-func _parse_texture_path(path):
-	return ResourceLoader.load(path, 'Image', ResourceLoader.CACHE_MODE_REPLACE)
+func _load_texture(path) -> CompressedTexture2D:
+	return ResourceLoader.load(path, "CompressedTexture2D", ResourceLoader.CACHE_MODE_REPLACE)
 
 
 func _add_to_sprite_frames(
@@ -301,22 +212,9 @@ func _create_atlastexture_from_frame(
 	return atlas_texture
 
 
-func _scan_filesystem():
-	_file_system.scan()
-	await _file_system.filesystem_changed
-
-
 func list_layers(file: String, only_visibles = false) -> Array:
 	return _aseprite.list_layers(file, only_visibles)
 
 
 func _get_file_basename(file_path: String) -> String:
 	return file_path.get_file().trim_suffix('.%s' % file_path.get_extension())
-
-
-func _loop_config_prefix() -> String:
-	return _config.get_animation_loop_exception_prefix()
-
-
-func _is_loop_config_enabled() -> bool:
-	return _config.is_default_animation_loop_enabled()

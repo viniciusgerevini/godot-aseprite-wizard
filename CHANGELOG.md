@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Changed
 
 - Metadata cleanup on export does not print info message anymore. That was too noisy.
+- Refactor importers to avoid file scans solving annoying warnings
 
 ### Fixed
 
@@ -22,6 +23,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Removed
 
 - Removed the option to enable auto-importer. A default "No import" is enabled by default with the option to change it via ProjectSettings. For backwards compatibility the default option will be "SpriteFrames" in case the importer configuration was enabled.
+- Removed preset configuration. This was implemented mostly to workaround pixel art filters. Now this config lives in the node instead of the resource.
 
 ## 6.2.0 (2023-07-10)
 

@@ -1,75 +1,24 @@
-extends RefCounted
-
-var result_code = preload("../config/result_codes.gd")
-var _aseprite = preload("../aseprite/aseprite.gd").new()
-
-var _config
-var _file_system
+@tool
+extends "../base_sprite_resource_creator.gd"
 
 var _DEFAULT_ANIMATION_LIBRARY = "" # GLOBAL
 
-
-func init(config, editor_file_system: EditorFileSystem = null):
-	_config = config
-	_file_system = editor_file_system
-	_aseprite.init(config)
-
-
-func create_animations(target_node: Node, player: AnimationPlayer, options: Dictionary):
-	if not _aseprite.test_command():
-		return result_code.ERR_ASEPRITE_CMD_NOT_FOUND
-
-	if not FileAccess.file_exists(options.source):
-		return result_code.ERR_SOURCE_FILE_NOT_FOUND
-
-	if not DirAccess.dir_exists_absolute(options.output_folder):
-		return result_code.ERR_OUTPUT_FOLDER_NOT_FOUND
-
-	var result = await _create_animations_from_file(target_node, player, options)
+func create_animations(target_node: Node, player: AnimationPlayer,  aseprite_files: Dictionary, options: Dictionary):
+	var result = _import(target_node, player, aseprite_files, options)
 
 	if result != result_code.SUCCESS:
 		printerr(result_code.get_error_message(result))
 
 
-func _create_animations_from_file(target_node: Node, player: AnimationPlayer, options: Dictionary):
-	var output
+func _import(target_node: Node, player: AnimationPlayer, aseprite_files: Dictionary, options: Dictionary):
+	var source_file = aseprite_files.data_file
+	var sprite_sheet = aseprite_files.sprite_sheet
+	var data = _aseprite_file_exporter.load_json_content(source_file)
 
-	if options.get("layer", "") == "":
-		output = _aseprite.export_file(options.source, options.output_folder, options)
-	else:
-		output = _aseprite.export_layer(options.source, options.layer, options.output_folder, options)
+	if not data.is_ok:
+		return data.code
 
-	if output.is_empty():
-		return result_code.ERR_ASEPRITE_EXPORT_FAILED
-
-	if _config.is_import_preset_enabled():
-		_config.create_import_file(output)
-
-	await _scan_filesystem()
-
-	var result = _import(target_node, player, output, options)
-
-	if _config.should_remove_source_files():
-		DirAccess.remove_absolute(output.data_file)
-		await _scan_filesystem()
-
-	return result
-
-
-func _import(target_node: Node, player: AnimationPlayer, data: Dictionary, options: Dictionary):
-	var source_file = data.data_file
-	var sprite_sheet = data.sprite_sheet
-
-	var file = FileAccess.open(source_file, FileAccess.READ)
-	if file == null:
-		return file.get_open_error()
-
-	var test_json_conv = JSON.new()
-	test_json_conv.parse(file.get_as_text())
-	var content =  test_json_conv.get_data()
-
-	if not _aseprite.is_valid_spritesheet(content):
-		return result_code.ERR_INVALID_ASEPRITE_SPRITESHEET
+	var content = data.content
 
 	var context = {}
 
@@ -296,11 +245,6 @@ func _hide_unused_nodes(target_node: Node, player: AnimationPlayer, content: Dic
 				continue
 			var visible_track_index = _create_track(node, animation, visible_track)
 			animation.track_insert_key(visible_track_index, 0, false)
-
-
-func _scan_filesystem():
-	_file_system.scan()
-	await _file_system.filesystem_changed
 
 
 func list_layers(file: String, only_visibles = false) -> Array:

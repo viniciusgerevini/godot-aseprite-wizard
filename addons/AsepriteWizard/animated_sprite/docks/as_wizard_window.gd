@@ -5,6 +5,7 @@ signal close_requested
 signal import_success(file_settings)
 
 var result_code = preload("../../config/result_codes.gd")
+var _aseprite_file_exporter = preload("../../aseprite/file_exporter.gd").new()
 var _sf_creator = preload("../sprite_frames_creator.gd").new()
 
 var _config
@@ -28,7 +29,8 @@ func init(config, editor_file_system: EditorFileSystem):
 	_warning_dialog = AcceptDialog.new()
 	_warning_dialog.exclusive = false
 
-	_sf_creator.init(_config, _file_system)
+	_sf_creator.init(_config)
+	_aseprite_file_exporter.init(config)
 
 	get_parent().get_parent().add_child(_file_dialog_aseprite)
 	get_parent().get_parent().add_child(_output_folder_dialog)
@@ -50,7 +52,7 @@ func _load_persisted_config():
 
 
 func load_import_config(import_config: Dictionary):
-	_split_mode_field().button_pressed = import_config.options.export_mode == _sf_creator.LAYERS_EXPORT_MODE
+	_split_mode_field().button_pressed = import_config.options.export_mode == _aseprite_file_exporter.LAYERS_EXPORT_MODE
 	_only_visible_layers_field().button_pressed = import_config.options.only_visible_layers
 	_exception_pattern_field().text = import_config.options.exception_pattern
 	_custom_name_field().text = import_config.options.output_filename
@@ -106,7 +108,7 @@ func _on_next_btn_up():
 	var output_location = _output_folder_field().text
 	var split_layers = _split_mode_field().button_pressed
 
-	var export_mode = _sf_creator.LAYERS_EXPORT_MODE if split_layers else _sf_creator.FILE_EXPORT_MODE
+	var export_mode = _aseprite_file_exporter.LAYERS_EXPORT_MODE if split_layers else _aseprite_file_exporter.FILE_EXPORT_MODE
 	var options = {
 		"export_mode": export_mode,
 		"exception_pattern": _exception_pattern_field().text,
@@ -115,19 +117,34 @@ func _on_next_btn_up():
 		"do_not_create_resource": _do_not_create_res_field().button_pressed,
 		"output_folder": output_location,
 	}
-	var exit_code = await _sf_creator.create_and_save_resources(
+
+	var aseprite_output = _aseprite_file_exporter.generate_aseprite_files(
 		ProjectSettings.globalize_path(aseprite_file),
 		options
 	)
 
+	if not aseprite_output.is_ok:
+		_show_error(aseprite_output.code)
+		return
+
+	_file_system.scan()
+	await _file_system.filesystem_changed
+
+	var exit_code = _sf_creator.create_and_save_resources(aseprite_output.content)
+
+	if _config.should_remove_source_files():
+		_remove_source_files(aseprite_output.content)
+
 	if exit_code != OK:
 		_show_error(exit_code)
 		return
+
 	emit_signal("import_success", {
 		"source_file": aseprite_file,
 		"output_location": output_location,
 		"options": options,
 	})
+
 	_show_import_success_message()
 
 
@@ -193,3 +210,10 @@ func _custom_name_field() -> LineEdit:
 
 func _do_not_create_res_field() -> CheckBox:
 	return $container/options/layer_importing_mode/disable_resource_creation/field as CheckBox
+
+
+func _remove_source_files(source_files: Array):
+	for s in source_files:
+		DirAccess.remove_absolute(s.data_file)
+
+	_file_system.call_deferred("scan")
