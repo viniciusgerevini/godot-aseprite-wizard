@@ -30,7 +30,6 @@ func _enter_tree():
 	_setup_menu_entries()
 	_setup_importer()
 	_setup_exporter()
-	_configure_preset()
 	_setup_animated_sprite_inspector_plugin()
 	_setup_sprite_inspector_plugin()
 
@@ -79,11 +78,6 @@ func _setup_importer():
 	tileset_texture_import_plugin.file_system = get_editor_interface().get_resource_filesystem()
 	tileset_texture_import_plugin.config = config
 	add_import_plugin(tileset_texture_import_plugin)
-
-
-func _configure_preset():
-	if config.is_import_preset_enabled():
-		config.create_import_preset_setting()
 
 
 func _remove_importer():
