@@ -11,8 +11,8 @@ var _sf_creator = preload("../sprite_frames_creator.gd").new()
 var _config
 var _file_system: EditorFileSystem
 
-var _file_dialog_aseprite: FileDialog
-var _output_folder_dialog: FileDialog
+var _file_dialog_aseprite: EditorFileDialog
+var _output_folder_dialog: EditorFileDialog
 var _warning_dialog: AcceptDialog
 
 func _exit_tree():
@@ -76,18 +76,18 @@ func _open_output_folder_selection_dialog():
 
 
 func _create_aseprite_file_selection():
-	var file_dialog = FileDialog.new()
-	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
+	var file_dialog = EditorFileDialog.new()
+	file_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
+	file_dialog.access = EditorFileDialog.ACCESS_FILESYSTEM
 	file_dialog.connect("file_selected", _on_aseprite_file_selected)
 	file_dialog.set_filters(PackedStringArray(["*.ase","*.aseprite"]))
 	return file_dialog
 
 
 func _create_outuput_folder_selection():
-	var file_dialog = FileDialog.new()
-	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
-	file_dialog.access = FileDialog.ACCESS_RESOURCES
+	var file_dialog = EditorFileDialog.new()
+	file_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_DIR
+	file_dialog.access = EditorFileDialog.ACCESS_RESOURCES
 	file_dialog.connect("dir_selected", _on_output_folder_selected)
 	return file_dialog
 
