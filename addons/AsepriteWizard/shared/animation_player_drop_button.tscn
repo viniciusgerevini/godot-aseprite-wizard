@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://x1f1t87m582u"]
+
+[ext_resource type="Script" path="res://addons/AsepriteWizard/shared/animation_player_drop_button.gd" id="1_tfmxw"]
+
+[node name="options" type="OptionButton"]
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+item_count = 1
+selected = 0
+popup/item_0/text = "[empty]"
+popup/item_0/id = 0
+script = ExtResource("1_tfmxw")

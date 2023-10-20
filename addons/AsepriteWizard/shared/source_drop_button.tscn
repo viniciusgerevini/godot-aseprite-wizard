@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dj1uo3blocr8e"]
+
+[ext_resource type="Script" path="res://addons/AsepriteWizard/shared/source_drop_button.gd" id="1_smfgi"]
+
+[node name="source_drop_button" type="Button"]
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "[empty]"
+clip_text = true
+script = ExtResource("1_smfgi")

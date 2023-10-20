@@ -69,8 +69,7 @@ func _load_config(cfg):
 		_layer_field.clear()
 		_set_layer(cfg.layer)
 
-	_output_folder = cfg.get("o_folder", "")
-	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
+	_set_out_folder(cfg.get("o_folder", ""))
 	_out_filename_field.text = cfg.get("o_name", "")
 	_visible_layers_field.button_pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
@@ -300,6 +299,33 @@ func _create_output_folder_selection():
 
 
 func _on_output_folder_selected(path):
+	_set_out_folder(path)
+	_output_folder_dialog.queue_free()
+
+
+func _on_source_aseprite_file_dropped(path):
+	_set_source(path)
+	_save_config()
+
+
+func _on_animation_player_node_dropped(node_path):
+	var node = get_node(node_path)
+	var root = get_tree().get_edited_scene_root()
+
+	_animation_player_path = root.get_path_to(node)
+
+	for i in range(_options_field.get_item_count()):
+		if _options_field.get_item_text(i) == _animation_player_path:
+			_options_field.select(i)
+			break
+	_save_config()
+
+
+func _on_out_dir_dropped(path):
+	_set_out_folder(path)
+
+
+func _set_out_folder(path):
 	_output_folder = path
 	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
-	_output_folder_dialog.queue_free()
+	_out_folder_field.tooltip_text = _out_folder_field.text
