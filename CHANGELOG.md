@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - New "No Import" importer. This allows managing Aseprite files in the filesystem dock without importing them as assets.
 - Default importer configuration in Project Settings.
 - Tileset automatic importer. With this importer you can use any aseprite file directly in the Tileset editor.
+- Drag-and-drop support to dock fields:
+    - source file: can drop ase and aseprite from FileSystem dock
+    - Animation Player: can drop AnimationPlayer nodes from Scene dock
+    - Output folder: can drop directories from FileSystem dock
 
 ### Changed
 
@@ -20,6 +24,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - In ProjectSettings, default options were not hinted after any value was selected.
 - Fixed minor warnings related to ProjectSettings.
+- Animated sprites source field didn´t open dialogue in current folder
 
 ### Removed
 
@@ -29,7 +34,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Thanks
 
-- Thanks @poohcom1 for for the EditorFileDialog tip
+- Thanks @russmatney for the drag-and-drop implementation
+- Thanks @poohcom1 for the EditorFileDialog tip
 
 
 ## 6.2.0 (2023-07-10)
