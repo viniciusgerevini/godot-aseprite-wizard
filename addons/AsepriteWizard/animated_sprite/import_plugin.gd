@@ -103,7 +103,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		file_system.update_file(sf.sprite_sheet)
 		append_import_external_resource(sf.sprite_sheet)
 
-	var resources = _sf_creator.create_resources(source_files)
+	var resources = _sf_creator.create_resources(source_files.content)
 
 	if not resources.is_ok:
 		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(resources.code))
