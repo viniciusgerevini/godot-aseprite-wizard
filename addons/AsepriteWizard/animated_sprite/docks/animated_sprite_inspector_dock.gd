@@ -51,8 +51,7 @@ func _load_config(cfg):
 		_layer_field.clear()
 		_set_layer(cfg.layer)
 
-	_output_folder = cfg.get("o_folder", "")
-	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
+	_set_out_folder(cfg.get("o_folder", ""))
 	_out_filename_field.text = cfg.get("o_name", "")
 	_visible_layers_field.button_pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
@@ -166,7 +165,7 @@ func _open_source_dialog():
 	_file_dialog_aseprite = _create_aseprite_file_selection()
 	get_parent().add_child(_file_dialog_aseprite)
 	if _source != "":
-		_file_dialog_aseprite.current_dir = _source.get_base_dir()
+		_file_dialog_aseprite.current_dir = ProjectSettings.globalize_path(_source.get_base_dir())
 	_file_dialog_aseprite.popup_centered_ratio()
 
 
@@ -220,6 +219,20 @@ func _create_output_folder_selection():
 
 
 func _on_output_folder_selected(path):
+	_set_out_folder(path)
+	_output_folder_dialog.queue_free()
+
+
+func _on_source_aseprite_file_dropped(path):
+	_set_source(path)
+	_save_config()
+
+
+func _on_out_dir_dropped(path):
+	_set_out_folder(path)
+
+
+func _set_out_folder(path):
 	_output_folder = path
 	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
-	_output_folder_dialog.queue_free()
+	_out_folder_field.tooltip_text = _out_folder_field.text
