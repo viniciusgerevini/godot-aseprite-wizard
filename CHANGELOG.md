@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Metadata cleanup on export does not print info message anymore. That was too noisy.
 - Refactor importers to avoid file scans solving annoying warnings
+- Use EditorFileDialog instead of FileDialog in the docks
 
 ### Fixed
 
@@ -24,6 +25,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Removed the option to enable auto-importer. A default "No import" is enabled by default with the option to change it via ProjectSettings. For backwards compatibility the default option will be "SpriteFrames" in case the importer configuration was enabled.
 - Removed preset configuration. This was implemented mostly to workaround pixel art filters. Now this config lives in the node instead of the resource.
+
+
+### Thanks
+
+- Thanks @poohcom1 for for the EditorFileDialog tip
+
 
 ## 6.2.0 (2023-07-10)
 

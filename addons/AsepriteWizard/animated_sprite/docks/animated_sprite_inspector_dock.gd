@@ -14,8 +14,8 @@ var file_system: EditorFileSystem
 
 var _layer: String = ""
 var _source: String = ""
-var _file_dialog_aseprite: FileDialog
-var _output_folder_dialog: FileDialog
+var _file_dialog_aseprite: EditorFileDialog
+var _output_folder_dialog: EditorFileDialog
 var _importing := false
 
 var _output_folder := ""
@@ -171,9 +171,9 @@ func _open_source_dialog():
 
 
 func _create_aseprite_file_selection():
-	var file_dialog = FileDialog.new()
-	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
+	var file_dialog = EditorFileDialog.new()
+	file_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
+	file_dialog.access = EditorFileDialog.ACCESS_FILESYSTEM
 	file_dialog.connect("file_selected",Callable(self,"_on_aseprite_file_selected"))
 	file_dialog.set_filters(PackedStringArray(["*.ase","*.aseprite"]))
 	return file_dialog
@@ -212,9 +212,9 @@ func _on_out_folder_pressed():
 
 
 func _create_output_folder_selection():
-	var file_dialog = FileDialog.new()
-	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
-	file_dialog.access = FileDialog.ACCESS_RESOURCES
+	var file_dialog = EditorFileDialog.new()
+	file_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_DIR
+	file_dialog.access = EditorFileDialog.ACCESS_RESOURCES
 	file_dialog.connect("dir_selected",Callable(self,"_on_output_folder_selected"))
 	return file_dialog
 
