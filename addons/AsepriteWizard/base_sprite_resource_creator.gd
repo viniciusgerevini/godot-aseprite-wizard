@@ -15,4 +15,4 @@ func init(config, editor_file_system: EditorFileSystem = null):
 	_config = config
 	_file_system = editor_file_system
 	_aseprite.init(config)
-	_aseprite_file_exporter.init(_aseprite)
+	_aseprite_file_exporter.init(config)

@@ -2,19 +2,18 @@
 extends RefCounted
 
 var result_code = preload("../config/result_codes.gd")
-var _aseprite
+var _aseprite = preload("aseprite.gd").new()
 
 enum {
 	FILE_EXPORT_MODE,
 	LAYERS_EXPORT_MODE
 }
 
-func init(aseprite):
-	_aseprite = aseprite
+func init(config):
+	_aseprite.init(config)
 
 ##
 ## Generate Aseprite spritesheet and data files for source.
-## Can return output for each line.
 ##
 ## Options:
 ##    output_folder (string)
@@ -37,7 +36,10 @@ func generate_aseprite_files(source_file: String, options: Dictionary):
 
 	match options.get('export_mode', FILE_EXPORT_MODE):
 		FILE_EXPORT_MODE:
-			return result_code.result(_aseprite.export_file(source_file, options.output_folder, options))
+			var output = _aseprite.export_file(source_file, options.output_folder, options)
+			if output.is_empty():
+				return result_code.error(result_code.ERR_ASEPRITE_EXPORT_FAILED)
+			return result_code.result([output])
 		LAYERS_EXPORT_MODE:
 			var output = _aseprite.export_layers(source_file, options.output_folder, options)
 			if output.is_empty():
@@ -51,7 +53,6 @@ func generate_aseprite_files(source_file: String, options: Dictionary):
 ## Generate Aseprite spritesheet and data file for source.
 ##
 ## Options:
-##    source (string)
 ##    output_folder (string)
 ##    output_filename (string, optional)
 ##    layer (string, optional)
@@ -64,8 +65,8 @@ func generate_aseprite_files(source_file: String, options: Dictionary):
 ##     sprite_sheet: sprite sheet path
 ##     data_file:  json file path
 ##
-func generate_aseprite_file(options: Dictionary) -> Dictionary:
-	var check = _initial_checks(options.source, options)
+func generate_aseprite_file(source_file: String, options: Dictionary) -> Dictionary:
+	var check = _initial_checks(source_file, options)
 
 	if check != result_code.SUCCESS:
 		return result_code.error(check)
@@ -73,9 +74,9 @@ func generate_aseprite_file(options: Dictionary) -> Dictionary:
 	var output
 
 	if options.get("layer", "") == "":
-		output = _aseprite.export_file(options.source, options.output_folder, options)
+		output = _aseprite.export_file(source_file, options.output_folder, options)
 	else:
-		output = _aseprite.export_layer(options.source, options.layer, options.output_folder, options)
+		output = _aseprite.export_layer(source_file, options.layer, options.output_folder, options)
 
 	if output.is_empty():
 		return result_code.error(result_code.ERR_ASEPRITE_EXPORT_FAILED)

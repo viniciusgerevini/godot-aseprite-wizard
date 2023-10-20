@@ -3,6 +3,7 @@ extends PanelContainer
 
 const wizard_config = preload("../../config/wizard_config.gd")
 const result_code = preload("../../config/result_codes.gd")
+var _aseprite_file_exporter = preload("../../aseprite/file_exporter.gd").new()
 var sprite_frames_creator = preload("../sprite_frames_creator.gd").new()
 
 var scene: Node
@@ -38,7 +39,8 @@ func _ready():
 	else:
 		_load_config(cfg)
 
-	sprite_frames_creator.init(config, file_system)
+	sprite_frames_creator.init(config)
+	_aseprite_file_exporter.init(config)
 
 
 func _load_config(cfg):
@@ -118,8 +120,8 @@ func _on_import_pressed():
 		_importing = false
 		return
 
+	var source_path = ProjectSettings.globalize_path(_source)
 	var options = {
-		"source": ProjectSettings.globalize_path(_source),
 		"output_folder": _output_folder if _output_folder != "" else root.scene_file_path.get_base_dir(),
 		"exception_pattern": _ex_pattern_field.text,
 		"only_visible_layers": _visible_layers_field.button_pressed,
@@ -129,8 +131,23 @@ func _on_import_pressed():
 
 	_save_config()
 
-	await sprite_frames_creator.create_animations(sprite, options)
+	var aseprite_output = _aseprite_file_exporter.generate_aseprite_file(source_path, options)
+
+	if not aseprite_output.is_ok:
+		var error = result_code.get_error_message(aseprite_output.code)
+		printerr(error)
+		_show_message(error)
+		return
+
+	file_system.scan()
+	await file_system.filesystem_changed
+
+	await sprite_frames_creator.create_animations(sprite, aseprite_output.content)
 	_importing = false
+
+	if config.should_remove_source_files():
+		DirAccess.remove_absolute(aseprite_output.content.data_file)
+		file_system.call_deferred("scan")
 
 
 func _save_config():
