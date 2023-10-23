@@ -26,7 +26,7 @@ static func decode(string: String):
 		if parts.size() == 2:
 			var key = parts[0].strip_edges()
 			var value = parts[1].strip_edges()
-			
+
 			#Convert bool properties
 			if key == "only_visible" or key == "op_exp":
 				match value:
@@ -38,7 +38,7 @@ static func decode(string: String):
 						config[key] = false
 			else:
 				config[key] = value
-				
+
 	return config
 
 
@@ -62,7 +62,7 @@ static func load_config(node:Node):
 static func save_config(node:Node, use_metadata:bool, cfg:Dictionary):
 	if use_metadata:
 		node.set_meta(WIZARD_CONFIG_META_NAME, cfg)
-		
+
 		#Delete config from editor_description
 		var decoded = _decode_base64(node.editor_description)
 		if  _is_wizard_config(decoded):
