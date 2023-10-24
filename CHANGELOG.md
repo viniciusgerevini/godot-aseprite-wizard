@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Metadata cleanup on export does not print info message anymore. That was too noisy.
 - Refactor importers to avoid file scans solving annoying warnings
 - Use EditorFileDialog instead of FileDialog in the docks
+- New icon
 
 ### Fixed
 
@@ -36,6 +37,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Thanks @russmatney for the drag-and-drop implementation
 - Thanks @poohcom1 for the EditorFileDialog tip
+- Thanks @mayamcdougall for the icon draft and inspiration
 
 
 ## 6.2.0 (2023-07-10)
