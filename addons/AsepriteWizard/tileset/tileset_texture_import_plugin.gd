@@ -85,6 +85,12 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var sprite_sheet = result.content.sprite_sheet
 	var data = result.content.data
 
+	if ResourceLoader.exists(sprite_sheet):
+		file_system.scan()
+	else:
+		file_system.update_file(sprite_sheet)
+		append_import_external_resource(sprite_sheet)
+
 	var texture: CompressedTexture2D = ResourceLoader.load(sprite_sheet, "CompressedTexture2D", ResourceLoader.CACHE_MODE_REPLACE)
 
 	return _save_resource(texture, save_path, result.content.data_file, data.meta.size)
@@ -97,9 +103,6 @@ func _generate_texture(absolute_source_file: String, options: Dictionary) -> Dic
 		return result
 
 	var sprite_sheet = result.content.sprite_sheet
-
-	file_system.update_file(sprite_sheet)
-	append_import_external_resource(sprite_sheet)
 
 	var data_result = _aseprite_file_exporter.load_json_content(result.content.data_file)
 

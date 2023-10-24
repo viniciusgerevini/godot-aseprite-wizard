@@ -220,7 +220,7 @@ func initialize_project_settings():
 	_initialize_project_cfg(_REMOVE_SOURCE_FILES_KEY, true, TYPE_BOOL)
 	_initialize_project_cfg(
 		_DEFAULT_IMPORTER_KEY,
-		IMPORTER_NOOP_NAME if is_importer_enabled() else IMPORTER_SPRITEFRAMES_NAME,
+		IMPORTER_SPRITEFRAMES_NAME if is_importer_enabled() else IMPORTER_NOOP_NAME,
 		TYPE_STRING,
 		PROPERTY_HINT_ENUM,
 		"%s,%s,%s" % [IMPORTER_NOOP_NAME, IMPORTER_SPRITEFRAMES_NAME, TILESET_TEXTURE_NAME]

@@ -10,7 +10,7 @@ var file_system: EditorFileSystem
 
 func _get_importer_name():
 	# ideally this should be called aseprite_wizard.plugin.spriteframes
-	# but I'm keeping it like this until next major release to avoid breaking changes
+	# but I'm keeping it like this to avoid unnecessary breaking changes
 	return "aseprite_wizard.plugin"
 
 
@@ -99,11 +99,20 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(source_files.code))
 		return FAILED
 
-	for sf in source_files.content:
-		file_system.update_file(sf.sprite_sheet)
-		append_import_external_resource(sf.sprite_sheet)
 
-	var resources = _sf_creator.create_resources(source_files)
+	var should_trigger_scan = false
+
+	for sf in source_files.content:
+		if sf.is_first_import:
+			file_system.update_file(sf.sprite_sheet)
+			append_import_external_resource(sf.sprite_sheet)
+		else:
+			should_trigger_scan = true
+
+	if should_trigger_scan:
+		file_system.scan()
+
+	var resources = _sf_creator.create_resources(source_files.content)
 
 	if not resources.is_ok:
 		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(resources.code))
