@@ -48,8 +48,7 @@ func _load_config(cfg):
 	if cfg.get("layer", "") != "":
 		_set_layer(cfg.layer)
 
-	_output_folder = cfg.get("o_folder", "")
-	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
+	_set_out_folder(cfg.get("o_folder", ""))
 	_out_filename_field.text = cfg.get("o_name", "")
 	_visible_layers_field.pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
@@ -202,7 +201,20 @@ func _create_output_folder_selection():
 
 
 func _on_output_folder_selected(path):
-	_output_folder = path
-	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
+	_set_out_folder(path)
 	_output_folder_dialog.queue_free()
 
+
+func _on_source_aseprite_file_dropped(path):
+	_set_source(path)
+	_save_config()
+
+
+func _on_out_dir_dropped(path):
+	_set_out_folder(path)
+
+
+func _set_out_folder(path):
+	_output_folder = path
+	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
+	_out_folder_field.hint_tooltip = _out_folder_field.text

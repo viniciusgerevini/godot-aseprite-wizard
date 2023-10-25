@@ -49,7 +49,7 @@ func _ready():
 	if target_node is Sprite || target_node is Sprite3D:
 		animation_creator = SpriteAnimationCreator.new()
 	if target_node is TextureRect:
-		animation_creator = TextureRectAnimationCreator.new()		
+		animation_creator = TextureRectAnimationCreator.new()
 
 	animation_creator.init(config, file_system)
 
@@ -64,8 +64,7 @@ func _load_config(cfg):
 	if cfg.get("layer", "") != "":
 		_set_layer(cfg.layer)
 
-	_output_folder = cfg.get("o_folder", "")
-	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
+	_set_out_folder(cfg.get("o_folder", ""))
 	_out_filename_field.text = cfg.get("o_name", "")
 	_visible_layers_field.pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
@@ -217,7 +216,7 @@ func _open_source_dialog():
 	_file_dialog_aseprite = _create_aseprite_file_selection()
 	get_parent().add_child(_file_dialog_aseprite)
 	if _source != "":
-		_file_dialog_aseprite.current_dir = _source.get_base_dir()
+		_file_dialog_aseprite.current_dir = ProjectSettings.globalize_path(_source.get_base_dir())
 	_file_dialog_aseprite.popup_centered_ratio()
 
 
@@ -271,7 +270,33 @@ func _create_output_folder_selection():
 
 
 func _on_output_folder_selected(path):
-	_output_folder = path
-	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
+	_set_out_folder(path)
 	_output_folder_dialog.queue_free()
 
+
+func _on_source_aseprite_file_dropped(path):
+	_set_source(path)
+	_save_config()
+
+
+func _on_animation_player_node_dropped(node_path):
+	var node = get_node(node_path)
+	var root = get_tree().get_edited_scene_root()
+
+	_animation_player_path = root.get_path_to(node)
+
+	for i in range(_options_field.get_item_count()):
+		if _options_field.get_item_text(i) == _animation_player_path:
+			_options_field.select(i)
+			break
+	_save_config()
+
+
+func _on_out_dir_dropped(path):
+	_set_out_folder(path)
+
+
+func _set_out_folder(path):
+	_output_folder = path
+	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
+	_out_folder_field.hint_tooltip = _out_folder_field.text
