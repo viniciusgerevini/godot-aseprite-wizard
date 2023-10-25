@@ -18,6 +18,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - In ProjectSettings, default options were not hinted after any value was selected.
 - Fixed minor warnings related to ProjectSettings.
 
+### Thanks
+
+- Thanks @mayamcdougall for the icon draft and inspiration
+
 ### Removed
 
 - Removed the option to enable auto-importer. A default "No import" is enabled by default with the option to change it via ProjectSettings. For backwards compatibility the default option will be "SpriteFrames" in case the importer configuration was enabled.

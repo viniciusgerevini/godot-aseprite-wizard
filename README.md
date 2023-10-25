@@ -1,5 +1,7 @@
 # Godot Aseprite Wizard
 
+<p align="center"><img src="icon.png" alt="Aseprite Wizard Logo"/></p>
+
 Godot plugin to help import Aseprite animations to AnimationPlayers, AnimatedSprites and SpriteFrames.
 
 _This branch supports Godot 3. For Godot 4 docs and code check the [godot_4](https://github.com/viniciusgerevini/godot-aseprite-wizard/tree/godot_4) branch. You can find more details about the differences between Godot 3 and Godot 4 on issue https://github.com/viniciusgerevini/godot-aseprite-wizard/issues/70._
