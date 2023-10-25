@@ -148,7 +148,7 @@ func _open_source_dialog():
 	_file_dialog_aseprite = _create_aseprite_file_selection()
 	get_parent().add_child(_file_dialog_aseprite)
 	if _source != "":
-		_file_dialog_aseprite.current_dir = _source.get_base_dir()
+		_file_dialog_aseprite.current_dir = ProjectSettings.globalize_path(_source.get_base_dir())
 	_file_dialog_aseprite.popup_centered_ratio()
 
 
