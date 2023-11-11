@@ -83,7 +83,7 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 
 	# Check loop
 	if animation_name.begins_with(_config.get_animation_loop_exception_prefix()):
-		animation_name = anim_name.substr(_config.get_animation_loop_exception_prefix().length())
+		animation_name = animation_name.substr(_config.get_animation_loop_exception_prefix().length())
 		is_loopable = not is_loopable
 
 	# Add library
