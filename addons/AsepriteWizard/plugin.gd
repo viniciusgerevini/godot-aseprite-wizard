@@ -1,14 +1,18 @@
 @tool
 extends EditorPlugin
 
-const ConfigDialog = preload('config/config_dialog.tscn')
-const WizardWindow = preload("animated_sprite/docks/as_wizard_dock_container.tscn")
-const SpriteFramesImportPlugin = preload("animated_sprite/import_plugin.gd")
-const NoopImportPlugin = preload("noop_import_plugin.gd")
-const TilesetTextureImportPlugin = preload("tileset/tileset_texture_import_plugin.gd")
+# importers
+const NoopImportPlugin = preload("importers/noop_import_plugin.gd")
+const SpriteFramesImportPlugin = preload("importers/sprite_frames_import_plugin.gd")
+const TilesetTextureImportPlugin = preload("importers/tileset_texture_import_plugin.gd")
+# export
 const ExportPlugin = preload("export/metadata_export_plugin.gd")
-const AnimatedSpriteInspectorPlugin = preload("animated_sprite/inspector_plugin.gd")
-const SpriteInspectorPlugin = preload("animation_player/inspector_plugin.gd")
+# interface
+const ConfigDialog = preload('config/config_dialog.tscn')
+const WizardWindow = preload("interface/docks/wizard/as_wizard_dock_container.tscn")
+const AnimatedSpriteInspectorPlugin = preload("interface/docks/animated_sprite/inspector_plugin.gd")
+const SpriteInspectorPlugin = preload("interface/docks/sprite/inspector_plugin.gd")
+
 const menu_item_name = "Aseprite Spritesheet Wizard"
 const config_menu_item_name = "Aseprite Wizard Config"
 

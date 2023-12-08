@@ -1,13 +1,13 @@
 @tool
 extends PanelContainer
 
-const wizard_config = preload("../../config/wizard_config.gd")
-const result_code = preload("../../config/result_codes.gd")
-var _aseprite_file_exporter = preload("../../aseprite/file_exporter.gd").new()
+const wizard_config = preload("../../../config/wizard_config.gd")
+const result_code = preload("../../../config/result_codes.gd")
+var _aseprite_file_exporter = preload("../../../aseprite/file_exporter.gd").new()
 
-const AnimationCreator = preload("../animation_creator.gd")
-const SpriteAnimationCreator = preload("../sprite_animation_creator.gd")
-const TextureRectAnimationCreator = preload("../texture_rect_animation_creator.gd")
+const AnimationCreator = preload("../../../creators/animation_player/animation_creator.gd")
+const SpriteAnimationCreator = preload("../../../creators/animation_player/sprite_animation_creator.gd")
+const TextureRectAnimationCreator = preload("../../../creators/animation_player/texture_rect_animation_creator.gd")
 
 var animation_creator: AnimationCreator
 

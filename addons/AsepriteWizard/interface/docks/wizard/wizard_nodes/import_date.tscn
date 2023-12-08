@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/wizard_nodes/import_date.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/import_date.gd" id="1"]
 
 [node name="import_date" type="Label"]
 offset_left = 660.0
