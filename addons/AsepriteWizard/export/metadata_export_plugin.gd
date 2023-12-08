@@ -2,6 +2,10 @@ extends EditorExportPlugin
 
 const wizard_config = preload("../config/wizard_config.gd")
 
+func _get_name():
+	return "aseprite_wizard_metadata_export_plugin"
+
+
 func _export_file(path: String, type: String, features: PackedStringArray) -> void:
 	if type != "PackedScene": return
 
