@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://x1f1t87m582u"]
 
-[ext_resource type="Script" path="res://addons/AsepriteWizard/shared/animation_player_drop_button.gd" id="1_tfmxw"]
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/shared/animation_player_drop_button.gd" id="1_tfmxw"]
 
 [node name="options" type="OptionButton"]
 size_flags_horizontal = 3

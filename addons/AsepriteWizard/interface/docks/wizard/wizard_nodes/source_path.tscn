@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/wizard_nodes/source_path.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/source_path.gd" id="1"]
 
 [node name="source_path" type="LineEdit"]
 offset_top = 34.0

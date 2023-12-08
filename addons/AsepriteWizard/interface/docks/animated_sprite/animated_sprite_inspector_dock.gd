@@ -1,10 +1,10 @@
 @tool
 extends PanelContainer
 
-const wizard_config = preload("../../config/wizard_config.gd")
-const result_code = preload("../../config/result_codes.gd")
-var _aseprite_file_exporter = preload("../../aseprite/file_exporter.gd").new()
-var sprite_frames_creator = preload("../sprite_frames_creator.gd").new()
+const wizard_config = preload("../../../config/wizard_config.gd")
+const result_code = preload("../../../config/result_codes.gd")
+var _aseprite_file_exporter = preload("../../../aseprite/file_exporter.gd").new()
+var sprite_frames_creator = preload("../../../creators/sprite_frames/sprite_frames_creator.gd").new()
 
 var scene: Node
 var sprite: Node

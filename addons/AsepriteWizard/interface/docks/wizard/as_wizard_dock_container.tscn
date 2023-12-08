@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3]
 
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/as_wizard_window.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/as_wizard_dock_container.gd" type="Script" id=2]
-[ext_resource path="res://addons/AsepriteWizard/animated_sprite/docks/sprite_frames_import_history.tscn" type="PackedScene" id=3]
+[ext_resource type="PackedScene" uid="uid://c5dwobjd34w3p" path="res://addons/AsepriteWizard/interface/docks/wizard/as_wizard_window.tscn" id="1"]
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/wizard/as_wizard_dock_container.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://cyoin5ncul0fm" path="res://addons/AsepriteWizard/interface/docks/wizard/sprite_frames_import_history.tscn" id="3"]
 
 [node name="AsWizardDockContainer" type="TabContainer"]
 offset_right = 281.0

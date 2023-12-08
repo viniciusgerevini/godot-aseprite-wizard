@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cwvgnm3o7eed2"]
 
-[ext_resource type="Script" path="res://addons/AsepriteWizard/shared/dir_drop_button.gd" id="1_7uqph"]
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/shared/dir_drop_button.gd" id="1_7uqph"]
 
 [node name="button" type="Button"]
 size_flags_horizontal = 3

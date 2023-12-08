@@ -1,7 +1,7 @@
 @tool
 extends EditorInspectorPlugin
 
-const ASInspectorDock = preload("./docks/animated_sprite_inspector_dock.tscn")
+const ASInspectorDock = preload("./animated_sprite_inspector_dock.tscn")
 
 var config
 var file_system: EditorFileSystem

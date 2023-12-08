@@ -5,7 +5,7 @@ const result_codes = preload("../config/result_codes.gd")
 
 var config
 var _aseprite_file_exporter = preload("../aseprite/file_exporter.gd").new()
-var _sf_creator = preload("sprite_frames_creator.gd").new()
+var _sf_creator = preload("../creators/sprite_frames/sprite_frames_creator.gd").new()
 var file_system: EditorFileSystem
 
 func _get_importer_name():
