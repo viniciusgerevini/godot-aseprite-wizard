@@ -26,6 +26,28 @@ size_flags_horizontal = 3
 text = "Aseprite"
 horizontal_alignment = 1
 
+[node name="modes" type="HBoxContainer" parent="margin/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Import mode.
+Animation mode (default): set spritesheet as texture and imports animations to the selected AnimationPlayer.
+Image mode: Import only first frame and set as texture."
+
+[node name="Label" type="Label" parent="margin/VBoxContainer/modes"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Mode"
+
+[node name="options" type="OptionButton" parent="margin/VBoxContainer/modes"]
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 2
+selected = 0
+popup/item_0/text = "Animation"
+popup/item_0/id = 0
+popup/item_1/text = "Image"
+popup/item_1/id = 1
+
 [node name="animation_player" type="HBoxContainer" parent="margin/VBoxContainer"]
 layout_mode = 2
 tooltip_text = "AnimationPlayer  node where animations should be added to."
@@ -175,6 +197,7 @@ size_flags_stretch_ratio = 2.0
 layout_mode = 2
 text = "Import"
 
+[connection signal="item_selected" from="margin/VBoxContainer/modes/options" to="." method="_on_modes_item_selected"]
 [connection signal="button_down" from="margin/VBoxContainer/animation_player/options" to="." method="_on_options_button_down"]
 [connection signal="item_selected" from="margin/VBoxContainer/animation_player/options" to="." method="_on_options_item_selected"]
 [connection signal="node_dropped" from="margin/VBoxContainer/animation_player/options" to="." method="_on_animation_player_node_dropped"]
