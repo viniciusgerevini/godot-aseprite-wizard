@@ -15,12 +15,13 @@ _Check the screenshots folder for more examples._
 
 - Godot importer and inspector docks for easy import and re-import.
 - Adds automatic importers:
-    - Aseprite SpriteFrames: Use aseprite files as SpriteFrames resources.
-    - Aseprite Tileset Texture: Use aseprite files with tilemap layers as AtlasTexture which can be added directly to Godot's tileset creator.
+	- Aseprite SpriteFrames: Use aseprite files as SpriteFrames resources.
+	- Aseprite Texture: Use aseprite files as static images (only first frame is imported)
+	- Aseprite Tileset Texture: Use aseprite files with tilemap layers as AtlasTexture which can be added directly to Godot's tileset creator.
 - Inspector docks to manually import animations to:
-    - AnimationPlayer (Sprite2D, Sprite3D and TextureRect).
-    - AnimatedSprite2D/3D.
-    - As standalone SpritesFrames resource.
+	- AnimationPlayer (Sprite2D, Sprite3D and TextureRect).
+	- AnimatedSprite2D/3D.
+	- As standalone SpritesFrames resource.
 - Supports Aseprite animation directions (forward, reverse, ping-pong, ping-pong reverse).
 - Supports loopable and non-loopable animations via Aseprite repeat or tags.
 - Separates each Aseprite Tag into animations. In case no tags are defined, imports everything as default animation.
@@ -36,7 +37,6 @@ _Check the screenshots folder for more examples._
   - Supports animation libraries.
 
 Aseprite Wizard is only required during development. If you decide to not use it anymore, you can remove the plugin and all animations previously imported should keep working as expected.
-
 
 ## Installation and Configuration
 
@@ -59,7 +59,7 @@ For project specific configurations check `Project -> Project Settings -> Genera
 | Animation > Storage > Enable metadata removal on export | Removes dock metadata from scene when exporting the project. Ensures no local info is shipped with the app. Default: `true` |
 | Import > Cleanup > Remove Json File | Remove temporary `*.json` files generated during import. Default: `true` |
 | Import > Cleanup > Automatically Hide Sprites Not In Animation | Default configuration for AnimationPlayer option to hide Sprites when not in animation. Default: `false` |
-| Import > Import Plugin > Default Automatic Importer | Which importer to use by default for aseprite files. Options: `No Import`, `SpriteFrames`, `Tileset Texture`. Default: `No Import` |
+| Import > Import Plugin > Default Automatic Importer | Which importer to use by default for aseprite files. Options: `No Import`, `SpriteFrames`, `Static Texture`, `Tileset Texture`. Default: `No Import` |
 | Wizard > History > Cache File Path | Path to file where history data is stored. Default: `res://.aseprite_wizard_history` |
 | Wizard > History > Keep One Entry Per Source File | When true, history does not show duplicates. Default: `false` |
 
@@ -179,6 +179,31 @@ Tileset importer options:
 | Exclude layers pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 
+### Static image (AtlasTexture)
+
+You can import your Aseprite file as a static image (first frame only, no animations) via the inspector dock or automatic importer.
+
+For the inspector dock, after selecting a `Sprite` or `TextureRect` node, in the Aseprite section you can select "mode" as "Image".
+
+Dock options:
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Aseprite File | (\*.aseprite or \*.ase) source file. |
+| Layer | Aseprite layer to be used in the animation. By default, all layers are included. |
+| Output folder | Folder to save the sprite sheet (png) file. Default: same as scene |
+| Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
+| Exclude pattern | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
+| Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+
+You can also use Aseprite files directly as static images. For that you need to select the "Aseprite Texture" importer in the Import dock. You can also set it as the default importer via ProjectSettings.
+
+Texture importer options:
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Exclude layers pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
+| Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 
 ## F.A.Q. and limitations
 
@@ -213,7 +238,7 @@ If you imported animations via the inspector dock before version v5.2.0, you may
 From v5.2.0, this information is stored in the scene metadata and shouldn't be visible anymore. Any previously imported animation will still have the Editor Description info, but it will be moved to the metadata when re-imported again.
 
 You can disable the new behaviour at `Project > Project Settings > General > Animation > Storage > Use metadata`. _Keep in mind this will be deprecated in a next major version._
- 
+
 As you can select files from anywhere in your system, there is an export plugin to prevent your local path metadata to be shipped with the game. In case you suspect this is conflicting with other plugins (or if you think you don't need it) you can disable it at `Project > Project Settings > General > Animation > Storage > Enable metadata removal on export`.
 
 ## Known Issues

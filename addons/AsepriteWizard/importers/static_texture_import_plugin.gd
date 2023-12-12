@@ -2,8 +2,8 @@
 extends EditorImportPlugin
 
 ##
-## Tileset texture importer.
-## Imports Aseprite tileset layers as an AtlasTexture
+## Static texture importer.
+## Imports first frame from Aseprite file as texture
 ##
 
 const result_codes = preload("../config/result_codes.gd")
@@ -14,11 +14,11 @@ var file_system: EditorFileSystem
 
 
 func _get_importer_name():
-	return "aseprite_wizard.plugin.tileset-texture"
+	return "aseprite_wizard.plugin.static-texture"
 
 
 func _get_visible_name():
-	return "Aseprite Tileset Texture"
+	return "Aseprite Texture"
 
 
 func _get_recognized_extensions():
@@ -42,7 +42,7 @@ func _get_preset_name(i):
 
 
 func _get_priority():
-	return 2.0 if config.get_default_importer() == config.IMPORTER_TILESET_TEXTURE_NAME else 0.9
+	return 2.0 if config.get_default_importer() == config.IMPORTER_STATIC_TEXTURE_NAME else 0.8
 
 
 func _get_import_order():
@@ -74,6 +74,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"only_visible_layers": options['only_visible_layers'],
 		"output_filename": '',
 		"output_folder": source_path,
+		"first_frame_only": true,
 	}
 
 	var result = _generate_texture(absolute_source_file, aseprite_opts)
@@ -97,7 +98,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 
 
 func _generate_texture(absolute_source_file: String, options: Dictionary) -> Dictionary:
-	var result = _aseprite_file_exporter.generate_tileset_files(absolute_source_file, options)
+	var result = _aseprite_file_exporter.generate_aseprite_file(absolute_source_file, options)
 
 	if not result.is_ok:
 		return result

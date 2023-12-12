@@ -26,7 +26,8 @@ const _DEFAULT_IMPORTER_KEY = 'aseprite/import/import_plugin/default_automatic_i
 
 const IMPORTER_SPRITEFRAMES_NAME = "SpriteFrames"
 const IMPORTER_NOOP_NAME = "No Import"
-const TILESET_TEXTURE_NAME = "Tileset Texture"
+const IMPORTER_TILESET_TEXTURE_NAME = "Tileset Texture"
+const IMPORTER_STATIC_TEXTURE_NAME = "Static Texture"
 
 # wizard history
 const _HISTORY_CONFIG_FILE_CFG_KEY = 'aseprite/wizard/history/cache_file_path'
@@ -223,7 +224,7 @@ func initialize_project_settings():
 		IMPORTER_SPRITEFRAMES_NAME if is_importer_enabled() else IMPORTER_NOOP_NAME,
 		TYPE_STRING,
 		PROPERTY_HINT_ENUM,
-		"%s,%s,%s" % [IMPORTER_NOOP_NAME, IMPORTER_SPRITEFRAMES_NAME, TILESET_TEXTURE_NAME]
+		"%s,%s,%s,%s" % [IMPORTER_NOOP_NAME, IMPORTER_SPRITEFRAMES_NAME, IMPORTER_TILESET_TEXTURE_NAME, IMPORTER_STATIC_TEXTURE_NAME]
 	)
 
 	_initialize_project_cfg(_EXPORTER_ENABLE_KEY, true, TYPE_BOOL)
