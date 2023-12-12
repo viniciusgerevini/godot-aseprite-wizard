@@ -46,7 +46,9 @@ var _layer_default := "[all]"
 @onready var _out_filename_field = $margin/VBoxContainer/options/out_filename/LineEdit
 @onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layers/CheckButton
 @onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
+@onready var _cleanup_hide_unused_nodes_container =  $margin/VBoxContainer/options/auto_visible_track
 @onready var _cleanup_hide_unused_nodes =  $margin/VBoxContainer/options/auto_visible_track/CheckButton
+@onready var _keep_length_container =  $margin/VBoxContainer/options/keep_length
 @onready var _keep_length =  $margin/VBoxContainer/options/keep_length/CheckButton
 
 
@@ -126,8 +128,12 @@ func _handle_import_mode():
 	match _import_mode:
 		ImportMode.ANIMATION:
 			_animation_player_container.show()
+			_keep_length_container.show()
+			_cleanup_hide_unused_nodes_container.show()
 		ImportMode.IMAGE:
 			_animation_player_container.hide()
+			_keep_length_container.hide()
+			_cleanup_hide_unused_nodes_container.hide()
 
 
 func _on_options_button_down():
