@@ -2,6 +2,29 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 7.1.0 (2023-12-13)
+
+### Added
+
+- Added "mode" to Sprite and TextureRect inspect dock. This allows importing Aseprite files as Animations (as it is today) or Images (static texture).
+- Added Aseprite Texture importer, which allows using Aseprite files as static images directly.
+
+### Changed
+
+- No external changes, but this version includes a major refactor organising files and folders.
+
+### Fixed
+
+- Using a prefix for a loop exception breaks when the animation is in a library.
+- Added missing `_get_name` override in EditorExportPlugin.
+
+
+### Thanks
+
+- Thanks @poohcom1 for the prefix fix.
+- Thanks @JustusPan for  the EditorExportPlugin fix.
+- Thanks @jefvel for the static image import feature request.
+
 ## 7.0.0 (2023-10-24)
 
 ### Breaking changes
