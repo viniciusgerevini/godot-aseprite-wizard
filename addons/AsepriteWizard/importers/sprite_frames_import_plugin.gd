@@ -15,7 +15,7 @@ func _get_importer_name():
 
 
 func _get_visible_name():
-	return "Aseprite SpriteFrames Importer"
+	return "Aseprite SpriteFrames"
 
 
 func _get_recognized_extensions():

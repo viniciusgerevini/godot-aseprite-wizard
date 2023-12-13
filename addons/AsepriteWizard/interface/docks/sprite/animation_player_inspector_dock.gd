@@ -9,6 +9,11 @@ const AnimationCreator = preload("../../../creators/animation_player/animation_c
 const SpriteAnimationCreator = preload("../../../creators/animation_player/sprite_animation_creator.gd")
 const TextureRectAnimationCreator = preload("../../../creators/animation_player/texture_rect_animation_creator.gd")
 
+enum ImportMode {
+	ANIMATION = 0,
+	IMAGE = 1
+}
+
 var animation_creator: AnimationCreator
 
 var scene: Node
@@ -16,6 +21,8 @@ var target_node: Node
 
 var config
 var file_system: EditorFileSystem
+
+var _import_mode = -1
 
 var _layer: String = ""
 var _source: String = ""
@@ -28,7 +35,9 @@ var _output_folder := ""
 var _out_folder_default := "[Same as scene]"
 var _layer_default := "[all]"
 
+@onready var _import_mode_options_field = $margin/VBoxContainer/modes/options
 @onready var _options_field = $margin/VBoxContainer/animation_player/options
+@onready var _animation_player_container = $margin/VBoxContainer/animation_player
 @onready var _source_field = $margin/VBoxContainer/source/button
 @onready var _layer_field = $margin/VBoxContainer/layer/options
 @onready var _options_title = $margin/VBoxContainer/options_title/options_title
@@ -37,7 +46,9 @@ var _layer_default := "[all]"
 @onready var _out_filename_field = $margin/VBoxContainer/options/out_filename/LineEdit
 @onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layers/CheckButton
 @onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
+@onready var _cleanup_hide_unused_nodes_container =  $margin/VBoxContainer/options/auto_visible_track
 @onready var _cleanup_hide_unused_nodes =  $margin/VBoxContainer/options/auto_visible_track/CheckButton
+@onready var _keep_length_container =  $margin/VBoxContainer/options/keep_length
 @onready var _keep_length =  $margin/VBoxContainer/options/keep_length/CheckButton
 
 
@@ -78,6 +89,8 @@ func _load_config(cfg):
 
 	_set_options_visible(cfg.get("op_exp", false))
 
+	_set_import_mode(int(cfg.get("i_mode", 0)))
+
 
 func _load_default_config():
 	_ex_pattern_field.text = config.get_default_exclusion_pattern()
@@ -99,6 +112,28 @@ func _set_animation_player(player):
 func _set_layer(layer):
 	_layer = layer
 	_layer_field.add_item(_layer)
+
+
+func _set_import_mode(import_mode):
+	if _import_mode == import_mode:
+		return
+
+	_import_mode = import_mode
+	var index = _import_mode_options_field.get_item_index(import_mode)
+	_import_mode_options_field.select(index)
+	_handle_import_mode()
+
+
+func _handle_import_mode():
+	match _import_mode:
+		ImportMode.ANIMATION:
+			_animation_player_container.show()
+			_keep_length_container.show()
+			_cleanup_hide_unused_nodes_container.show()
+		ImportMode.IMAGE:
+			_animation_player_container.hide()
+			_keep_length_container.hide()
+			_cleanup_hide_unused_nodes_container.hide()
 
 
 func _on_options_button_down():
@@ -144,18 +179,7 @@ func _on_layer_button_down():
 		return
 
 	var layers = animation_creator.list_layers(ProjectSettings.globalize_path(_source))
-	var current = 0
-	_layer_field.clear()
-	_layer_field.add_item("[all]")
-
-	for l in layers:
-		if l == "":
-			continue
-
-		_layer_field.add_item(l)
-		if l == _layer:
-			current = _layer_field.get_item_count() - 1
-	_layer_field.select(current)
+	_populate_options_field(_layer_field, layers, _layer)
 
 
 func _on_layer_item_selected(index):
@@ -175,6 +199,17 @@ func _on_import_pressed():
 		return
 	_importing = true
 
+	if _import_mode == ImportMode.IMAGE:
+		_import_static()
+		return
+
+	_import_for_animation_player()
+
+##
+## Import aseprite animations to target AnimationPlayer and set
+## spritesheet as the node's texture
+##
+func _import_for_animation_player():
 	var root = get_tree().get_edited_scene_root()
 
 	if _animation_player_path == "" or not root.has_node(_animation_player_path):
@@ -188,22 +223,15 @@ func _on_import_pressed():
 		return
 
 	var source_path = ProjectSettings.globalize_path(_source)
-	var options = {
-		"output_folder": _output_folder if _output_folder != "" else root.scene_file_path.get_base_dir(),
-		"exception_pattern": _ex_pattern_field.text,
-		"only_visible_layers": _visible_layers_field.button_pressed,
-		"output_filename": _out_filename_field.text,
-		"layer": _layer
-	}
+
+	var options = _get_import_options(root.scene_file_path.get_base_dir())
 
 	_save_config()
 
 	var aseprite_output = _aseprite_file_exporter.generate_aseprite_file(source_path, options)
 
 	if not aseprite_output.is_ok:
-		var error = result_code.get_error_message(aseprite_output.code)
-		printerr(error)
-		_show_message(error)
+		_notify_aseprite_error(aseprite_output.code)
 		return
 
 	file_system.scan()
@@ -217,13 +245,48 @@ func _on_import_pressed():
 	animation_creator.create_animations(target_node, root.get_node(_animation_player_path), aseprite_output.content, anim_options)
 	_importing = false
 
-	if config.should_remove_source_files():
-		DirAccess.remove_absolute(aseprite_output.content.data_file)
-		file_system.call_deferred("scan")
+	_handle_cleanup(aseprite_output.content)
+
+##
+## Import first frame from aseprite file as node texture
+##
+func _import_static():
+	if _source == "":
+		_show_message("Aseprite file not selected")
+		_importing = false
+		return
+
+	var source_path = ProjectSettings.globalize_path(_source)
+	var root = get_tree().get_edited_scene_root()
+
+	var options = _get_import_options(root.scene_file_path.get_base_dir())
+	options["first_frame_only"] = true
+
+	_save_config()
+
+	var aseprite_output = _aseprite_file_exporter.generate_aseprite_file(source_path, options)
+
+	if not aseprite_output.is_ok:
+		_notify_aseprite_error(aseprite_output.code)
+		return
+
+	file_system.scan()
+	await file_system.filesystem_changed
+
+	var sprite_sheet = aseprite_output.content.sprite_sheet
+	target_node.texture = ResourceLoader.load(sprite_sheet)
+	_importing = false
+
+	_adjust_target_node_texture_filter()
+	_handle_cleanup(aseprite_output.content)
 
 
+##
+## Save current import options to node metadata
+##
 func _save_config():
 	var cfg := {
+		"i_mode": _import_mode,
 		"player": _animation_player_path,
 		"source": _source,
 		"layer": _layer,
@@ -329,3 +392,54 @@ func _set_out_folder(path):
 	_output_folder = path
 	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
 	_out_folder_field.tooltip_text = _out_folder_field.text
+
+
+func _on_modes_item_selected(index):
+	var id = _import_mode_options_field.get_item_id(index)
+	_import_mode = id
+	_handle_import_mode()
+
+
+## Helper method to populate field with values
+func _populate_options_field(field: OptionButton, values: Array, current_name: String):
+	var current = 0
+	field.clear()
+	field.add_item("[all]")
+
+	for v in values:
+		if v == "":
+			continue
+
+		field.add_item(v)
+		if v == current_name:
+			current = field.get_item_count() - 1
+	field.select(current)
+
+
+func _handle_cleanup(aseprite_content):
+	if config.should_remove_source_files():
+		DirAccess.remove_absolute(aseprite_content.data_file)
+		file_system.call_deferred("scan")
+
+
+func _notify_aseprite_error(aseprite_error_code):
+	var error = result_code.get_error_message(aseprite_error_code)
+	printerr(error)
+	_show_message(error)
+
+
+func _adjust_target_node_texture_filter():
+	if target_node is CanvasItem:
+		target_node.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	else:
+		target_node.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+
+
+func _get_import_options(default_folder: String):
+	return {
+		"output_folder": _output_folder if _output_folder != "" else default_folder,
+		"exception_pattern": _ex_pattern_field.text,
+		"only_visible_layers": _visible_layers_field.button_pressed,
+		"output_filename": _out_filename_field.text,
+		"layer": _layer
+	}

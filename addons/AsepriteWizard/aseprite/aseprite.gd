@@ -16,6 +16,7 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 	var exception_pattern = options.get('exception_pattern', "")
 	var only_visible_layers = options.get('only_visible_layers', false)
 	var output_name = file_name if options.get('output_filename') == "" else options.get('output_filename', file_name)
+	var first_frame_only = options.get("first_frame_only", false)
 	var basename = _get_file_basename(output_name)
 	var output_dir = ProjectSettings.globalize_path(output_folder)
 	var data_file = "%s/%s.json" % [output_dir, basename]
@@ -25,6 +26,10 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 
 	if not only_visible_layers:
 		arguments.push_front("--all-layers")
+
+	if first_frame_only:
+		arguments.push_front("'[0, 0]'")
+		arguments.push_front("--frame-range")
 
 	_add_sheet_type_arguments(arguments, options)
 
@@ -67,10 +72,15 @@ func export_layer(file_name: String, layer_name: String, output_folder: String, 
 	var output_dir = output_folder.replace("res://", "./").strip_edges()
 	var data_file = "%s/%s%s.json" % [output_dir, output_prefix, layer_name]
 	var sprite_sheet = "%s/%s%s.png" % [output_dir, output_prefix, layer_name]
+	var first_frame_only = options.get("first_frame_only", false)
 	var output = []
 	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
 	arguments.push_front(layer_name)
 	arguments.push_front("--layer")
+
+	if first_frame_only:
+		arguments.push_front("'[0, 0]'")
+		arguments.push_front("--frame-range")
 
 	_add_sheet_type_arguments(arguments, options)
 
