@@ -1,7 +1,7 @@
 tool
 extends EditorInspectorPlugin
 
-const InspectorDock = preload("./docks/animated_sprite_inspector_dock.tscn")
+const AsepriteInspectorDock = preload("./docks/animated_sprite_inspector_dock.tscn")
 
 var config
 var file_system: EditorFileSystem
@@ -16,7 +16,7 @@ func parse_begin(object):
 
 
 func parse_end():
-	var dock = InspectorDock.instance()
+	var dock = AsepriteInspectorDock.instance()
 	dock.sprite = _sprite
 	dock.config = config
 	dock.file_system = file_system
