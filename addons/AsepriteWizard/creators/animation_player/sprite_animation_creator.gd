@@ -3,6 +3,7 @@ extends "animation_creator.gd"
 func _get_meta_prop_names():
 	return [ "visible" ]
 
+
 func _setup_texture(sprite: Node, sprite_sheet: String, content: Dictionary, context: Dictionary):
 	var texture = _load_texture(sprite_sheet)
 	sprite.texture = texture

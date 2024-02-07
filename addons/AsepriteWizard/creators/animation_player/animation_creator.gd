@@ -241,7 +241,7 @@ func _hide_unused_nodes(target_node: Node, player: AnimationPlayer, content: Dic
 			if sprite_nodes.has(node):
 				continue
 			var visible_track = _get_property_track_path(player, node, "visible")
-			if animation.find_track(visible_track) != -1:
+			if animation.find_track(visible_track, Animation.TYPE_VALUE) != -1:
 				continue
 			var visible_track_index = _create_track(node, animation, visible_track)
 			animation.track_insert_key(visible_track_index, 0, false)
