@@ -113,6 +113,7 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 		player.add_animation(animation_name, Animation.new())
 
 	var animation = player.get_animation(animation_name)
+	_cleanup_meta_tracks(target_node, player, animation)
 	_create_meta_tracks(target_node, player, animation)
 	var frame_track = _get_property_track_path(player, target_node, _get_frame_property())
 	var frame_track_index = _create_track(target_node, animation, frame_track)
@@ -284,3 +285,11 @@ func _get_frame_key(target_node: Node, frame: Dictionary, context: Dictionary):
 
 func _create_meta_tracks(target_node: Node, player: AnimationPlayer, animation: Animation):
 	push_error("_create_meta_tracks not implemented!")
+
+
+func _cleanup_meta_tracks(target_node: Node, player: AnimationPlayer, animation: Animation):
+	for track_key in ["texture", "hframes", "vframes"]:
+		var track = _get_property_track_path(player, target_node, track_key)
+		var track_index = animation.find_track(track)
+		if track_index != -1:
+			animation.remove_track(track_index)
