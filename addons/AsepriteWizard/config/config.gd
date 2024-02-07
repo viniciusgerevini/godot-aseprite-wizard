@@ -9,6 +9,7 @@ const _COMMAND_KEY = 'aseprite/general/command_path'
 
 # animation import defaults
 const _DEFAULT_EXCLUSION_PATTERN_KEY = 'aseprite/animation/layers/exclusion_pattern'
+const _DEFAULT_ONLY_VISIBLE_LAYERS = 'aseprite/animation/layers/only_include_visible_layers_by_default'
 const _DEFAULT_LOOP_EX_PREFIX = '_'
 const _LOOP_ENABLED = 'aseprite/animation/loop/enabled'
 const _LOOP_EXCEPTION_PREFIX = 'aseprite/animation/loop/exception_prefix'
@@ -98,6 +99,10 @@ func is_use_metadata_enabled() -> bool:
 
 func get_default_exclusion_pattern() -> String:
 	return _get_project_setting(_DEFAULT_EXCLUSION_PATTERN_KEY, "")
+
+
+func should_include_only_visible_layers_by_default() -> bool:
+	return _get_project_setting(_DEFAULT_ONLY_VISIBLE_LAYERS, false)
 
 
 func is_single_file_history() -> bool:
@@ -214,6 +219,7 @@ func get_icon(icon_name: String) -> Texture2D:
 ######################################################
 func initialize_project_settings():
 	_initialize_project_cfg(_DEFAULT_EXCLUSION_PATTERN_KEY, "", TYPE_STRING)
+	_initialize_project_cfg(_DEFAULT_ONLY_VISIBLE_LAYERS, false, TYPE_BOOL)
 	_initialize_project_cfg(_LOOP_ENABLED, true, TYPE_BOOL)
 	_initialize_project_cfg(_LOOP_EXCEPTION_PREFIX, _DEFAULT_LOOP_EX_PREFIX, TYPE_STRING)
 	_initialize_project_cfg(_USE_METADATA, true, TYPE_BOOL)
@@ -250,7 +256,8 @@ func clear_project_settings():
 		_EXPORTER_ENABLE_KEY,
 		_HISTORY_CONFIG_FILE_CFG_KEY,
 		_HISTORY_SINGLE_ENTRY_KEY,
-		_SET_VISIBLE_TRACK_AUTOMATICALLY
+		_SET_VISIBLE_TRACK_AUTOMATICALLY,
+		_DEFAULT_ONLY_VISIBLE_LAYERS,
 	]
 	for key in _all_settings:
 		ProjectSettings.clear(key)

@@ -94,6 +94,7 @@ func _load_config(cfg):
 
 func _load_default_config():
 	_ex_pattern_field.text = config.get_default_exclusion_pattern()
+	_visible_layers_field.button_pressed = config.should_include_only_visible_layers_by_default()
 	_cleanup_hide_unused_nodes.button_pressed = config.is_set_visible_track_automatically_enabled()
 	_set_options_visible(false)
 
