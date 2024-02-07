@@ -130,7 +130,10 @@ func _on_next_btn_up():
 	_file_system.scan()
 	await _file_system.filesystem_changed
 
-	var exit_code = _sf_creator.create_and_save_resources(aseprite_output.content)
+	var exit_code = OK
+	
+	if !options.get("do_not_create_resource", false):
+		exit_code = _sf_creator.create_and_save_resources(aseprite_output.content)
 
 	if _config.should_remove_source_files():
 		_remove_source_files(aseprite_output.content)
