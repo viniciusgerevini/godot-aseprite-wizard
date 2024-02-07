@@ -2,12 +2,28 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Added
+
+- Default config for "include only visible layers".
+
+### Fixed
+
+- "Do not create source" in wizard dock was not being applied (@mpewsey)
+
+### Thanks
+
+- Thanks @jefvel for default visible layers feature request.
+- Thanks @mpewsey for finding and fixing the "create resource" config bug.
+
 ## 7.1.0 (2023-12-13)
 
 ### Added
 
 - Added "mode" to Sprite and TextureRect inspect dock. This allows importing Aseprite files as Animations (as it is today) or Images (static texture).
 - Added Aseprite Texture importer, which allows using Aseprite files as static images directly.
+- Default config for "include only visible layers".
 
 ### Changed
 
