@@ -4,9 +4,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
-## Changed
+### Added
+
+- Default config for "include only visible layers".
+
+### Changed
 
 - Changed docks internal import variable name to prevent shadowing native class that will be introduced on Godot 3.6.
+
+
+### Thanks
+
+- Thanks @dannygaray60 for reporting the upcoming 3.6 breaking change.
+- Thanks @jefvel for default visible layers feature request.
 
 ## 6.2.0 (2023-10-24)
 
