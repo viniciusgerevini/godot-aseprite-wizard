@@ -2,7 +2,7 @@ extends "animation_creator.gd"
 
 
 func _get_meta_prop_names():
-	return [ "texture", "visible" ]
+	return [ "visible" ]
 
 
 func _setup_texture(target_node: Node, sprite_sheet: String, content: Dictionary, context: Dictionary):

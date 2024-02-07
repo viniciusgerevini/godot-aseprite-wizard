@@ -263,10 +263,19 @@ func _remove_properties_from_path(path: NodePath) -> NodePath:
 
 
 func _create_meta_tracks(target_node: Node, player: AnimationPlayer, animation: Animation):
+	_cleanup_meta_tracks(target_node, player, animation)
 	for prop in _get_meta_prop_names():
 		var track = _get_property_track_path(player, target_node, prop)
 		var track_index = _create_track(target_node, animation, track)
 		animation.track_insert_key(track_index, 0, true if prop == "visible" else target_node.get(prop))
+
+
+func _cleanup_meta_tracks(target_node: Node, player: AnimationPlayer, animation: Animation):
+	for track_key in ["texture", "hframes", "vframes"]:
+		var track = _get_property_track_path(player, target_node, track_key)
+		var track_index = animation.find_track(track, Animation.TYPE_VALUE)
+		if track_index != -1:
+			animation.remove_track(track_index)
 
 
 func _setup_texture(target_node: Node, sprite_sheet: String, content: Dictionary, context: Dictionary):
