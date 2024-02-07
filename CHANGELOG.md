@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Default config for "include only visible layers".
 
+### Changed
+
+- Does not include extra tracks in AnimationPlayer.
+
 ### Fixed
 
 - "Do not create source" in wizard dock was not being applied (@mpewsey)
@@ -16,6 +20,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Thanks @jefvel for default visible layers feature request.
 - Thanks @mpewsey for finding and fixing the "create resource" config bug.
+- Thanks @feelingsonice for raising the extra tags discussion.
 
 ## 7.1.0 (2023-12-13)
 

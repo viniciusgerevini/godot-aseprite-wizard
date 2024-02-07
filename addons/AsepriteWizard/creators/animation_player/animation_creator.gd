@@ -241,7 +241,7 @@ func _hide_unused_nodes(target_node: Node, player: AnimationPlayer, content: Dic
 			if sprite_nodes.has(node):
 				continue
 			var visible_track = _get_property_track_path(player, node, "visible")
-			if animation.find_track(visible_track) != -1:
+			if animation.find_track(visible_track, Animation.TYPE_VALUE) != -1:
 				continue
 			var visible_track_index = _create_track(node, animation, visible_track)
 			animation.track_insert_key(visible_track_index, 0, false)
@@ -263,10 +263,19 @@ func _remove_properties_from_path(path: NodePath) -> NodePath:
 
 
 func _create_meta_tracks(target_node: Node, player: AnimationPlayer, animation: Animation):
+	_cleanup_meta_tracks(target_node, player, animation)
 	for prop in _get_meta_prop_names():
 		var track = _get_property_track_path(player, target_node, prop)
 		var track_index = _create_track(target_node, animation, track)
 		animation.track_insert_key(track_index, 0, true if prop == "visible" else target_node.get(prop))
+
+
+func _cleanup_meta_tracks(target_node: Node, player: AnimationPlayer, animation: Animation):
+	for track_key in ["texture", "hframes", "vframes"]:
+		var track = _get_property_track_path(player, target_node, track_key)
+		var track_index = animation.find_track(track, Animation.TYPE_VALUE)
+		if track_index != -1:
+			animation.remove_track(track_index)
 
 
 func _setup_texture(target_node: Node, sprite_sheet: String, content: Dictionary, context: Dictionary):
