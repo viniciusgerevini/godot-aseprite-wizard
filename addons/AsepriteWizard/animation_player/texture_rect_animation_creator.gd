@@ -14,10 +14,6 @@ func _get_frame_key(target_node: Node, frame: Dictionary, context: Dictionary):
 
 
 func _create_meta_tracks(target_node: Node, player: AnimationPlayer, animation: Animation):
-	var texture_track = _get_property_track_path(player, target_node, "texture")
-	var texture_track_index = _create_track(target_node, animation, texture_track)
-	animation.track_insert_key(texture_track_index, 0, target_node.texture)
-
 	var visible_track = _get_property_track_path(player, target_node, "visible")
 	var visible_track_index = _create_track(target_node, animation, visible_track)
 	animation.track_insert_key(visible_track_index, 0, true)

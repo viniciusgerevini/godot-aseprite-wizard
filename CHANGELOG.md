@@ -11,12 +11,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Changed
 
 - Changed docks internal import variable name to prevent shadowing native class that will be introduced on Godot 3.6.
-
+- Does not include extra tracks in AnimationPlayer.
 
 ### Thanks
 
 - Thanks @dannygaray60 for reporting the upcoming 3.6 breaking change.
 - Thanks @jefvel for default visible layers feature request.
+- Thanks @feelingsonice for raising the extra tags discussion.
 
 ## 6.2.0 (2023-10-24)
 
