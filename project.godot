@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [aseprite]
 
 animation/layers/exclusion_pattern="_$"
+import/cleanup/remove_json_file=false
 
 [editor_plugins]
 
