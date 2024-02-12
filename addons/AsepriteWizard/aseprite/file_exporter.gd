@@ -60,7 +60,6 @@ func generate_aseprite_files(source_file: String, options: Dictionary):
 ##    only_visible_layers (boolean, optional)
 ##
 ## Return:
-##  Array
 ##    Dictionary
 ##     sprite_sheet: sprite sheet path
 ##     data_file:  json file path
