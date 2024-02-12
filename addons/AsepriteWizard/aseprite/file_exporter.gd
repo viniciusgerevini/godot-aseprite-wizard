@@ -135,7 +135,7 @@ func _initial_checks(source: String, options: Dictionary) -> int:
 func load_json_content(source_file: String) -> Dictionary:
 	var file = FileAccess.open(source_file, FileAccess.READ)
 	if file == null:
-		return result_code.error(file.get_open_error())
+		return result_code.error(FileAccess.get_open_error())
 	var test_json_conv = JSON.new()
 	test_json_conv.parse(file.get_as_text())
 
