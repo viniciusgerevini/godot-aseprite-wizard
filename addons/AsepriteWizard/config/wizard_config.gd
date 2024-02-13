@@ -3,6 +3,7 @@ extends RefCounted
 
 const WIZARD_CONFIG_META_NAME = "_aseprite_wizard_config_"
 const WIZARD_CONFIG_MARKER = "aseprite_wizard_config"
+const WIZARD_INTERFACE_CONFIG_META_NAME = "_aseprite_wizard_interface_config_"
 const SEPARATOR = "|="
 
 static func encode(object: Dictionary):
@@ -69,3 +70,13 @@ static func save_config(node:Node, use_metadata:bool, cfg:Dictionary):
 			node.editor_description = ""
 	else:
 		node.editor_description = encode(cfg)
+
+
+static func load_interface_config(node: Node, default: Dictionary = {}) -> Dictionary:
+	if node.has_meta(WIZARD_INTERFACE_CONFIG_META_NAME):
+		return node.get_meta(WIZARD_INTERFACE_CONFIG_META_NAME)
+	return default
+
+
+static func save_interface_config(node:Node, cfg:Dictionary) -> void:
+	node.set_meta(WIZARD_INTERFACE_CONFIG_META_NAME, cfg)

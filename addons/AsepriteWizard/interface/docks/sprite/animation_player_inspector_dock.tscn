@@ -16,13 +16,27 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="margin"]
 layout_mode = 2
 
+[node name="title" type="Button" parent="margin/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+button_mask = 0
+text = "Aseprite"
+
 [node name="section_title" type="PanelContainer" parent="margin/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="title" type="Label" parent="margin/VBoxContainer/section_title"]
+[node name="HBoxContainer" type="HBoxContainer" parent="margin/VBoxContainer/section_title"]
 layout_mode = 2
-size_flags_horizontal = 3
+alignment = 1
+
+[node name="icon" type="TextureRect" parent="margin/VBoxContainer/section_title/HBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+
+[node name="title" type="Label" parent="margin/VBoxContainer/section_title/HBoxContainer"]
+layout_mode = 2
 text = "Aseprite"
 horizontal_alignment = 1
 
@@ -41,6 +55,7 @@ text = "Mode"
 [node name="options" type="OptionButton" parent="margin/VBoxContainer/modes"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
 item_count = 2
 selected = 0
 popup/item_0/text = "Animation"
@@ -74,17 +89,40 @@ text = "Aseprite File"
 [node name="button" parent="margin/VBoxContainer/source" instance=ExtResource("2_pj0v0")]
 layout_mode = 2
 
-[node name="layer" type="HBoxContainer" parent="margin/VBoxContainer"]
+[node name="extra" type="MarginContainer" parent="margin/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="sections" type="VBoxContainer" parent="margin/VBoxContainer/extra"]
+layout_mode = 2
+
+[node name="layers" type="VBoxContainer" parent="margin/VBoxContainer/extra/sections"]
+layout_mode = 2
+
+[node name="section_header" type="Button" parent="margin/VBoxContainer/extra/sections/layers"]
+layout_mode = 2
+focus_mode = 0
+text = "Layers"
+alignment = 0
+
+[node name="section_content" type="MarginContainer" parent="margin/VBoxContainer/extra/sections/layers"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="content" type="VBoxContainer" parent="margin/VBoxContainer/extra/sections/layers/section_content"]
+layout_mode = 2
+
+[node name="layer" type="HBoxContainer" parent="margin/VBoxContainer/extra/sections/layers/section_content/content"]
 layout_mode = 2
 tooltip_text = "Aseprite layer to be used in the animation. By default all layers are included."
 
-[node name="Label" type="Label" parent="margin/VBoxContainer/layer"]
+[node name="Label" type="Label" parent="margin/VBoxContainer/extra/sections/layers/section_content/content/layer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Layer"
 
-[node name="options" type="OptionButton" parent="margin/VBoxContainer/layer"]
+[node name="options" type="OptionButton" parent="margin/VBoxContainer/extra/sections/layers/section_content/content/layer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
@@ -93,17 +131,64 @@ selected = 0
 popup/item_0/text = "[all]"
 popup/item_0/id = 0
 
-[node name="slice" type="HBoxContainer" parent="margin/VBoxContainer"]
+[node name="ex_pattern" type="HBoxContainer" parent="margin/VBoxContainer/extra/sections/layers/section_content/content"]
+layout_mode = 2
+tooltip_text = "Exclude layers with name matching this pattern (regex)."
+
+[node name="Label" type="Label" parent="margin/VBoxContainer/extra/sections/layers/section_content/content/ex_pattern"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Exclude Pattern"
+
+[node name="LineEdit" type="LineEdit" parent="margin/VBoxContainer/extra/sections/layers/section_content/content/ex_pattern"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="visible_layers" type="HBoxContainer" parent="margin/VBoxContainer/extra/sections/layers/section_content/content"]
+layout_mode = 2
+tooltip_text = "If active, layers not visible in the source file won't be included in the final image."
+
+[node name="Label" type="Label" parent="margin/VBoxContainer/extra/sections/layers/section_content/content/visible_layers"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Only Visible Layers"
+
+[node name="CheckBox" type="CheckBox" parent="margin/VBoxContainer/extra/sections/layers/section_content/content/visible_layers"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "On"
+
+[node name="slices" type="VBoxContainer" parent="margin/VBoxContainer/extra/sections"]
+layout_mode = 2
+
+[node name="section_header" type="Button" parent="margin/VBoxContainer/extra/sections/slices"]
+layout_mode = 2
+focus_mode = 0
+text = "Slices"
+alignment = 0
+
+[node name="section_content" type="MarginContainer" parent="margin/VBoxContainer/extra/sections/slices"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="content" type="VBoxContainer" parent="margin/VBoxContainer/extra/sections/slices/section_content"]
+layout_mode = 2
+
+[node name="slice" type="HBoxContainer" parent="margin/VBoxContainer/extra/sections/slices/section_content/content"]
 layout_mode = 2
 tooltip_text = "Aseprite slice to be used in the animation. By default, the whole file is included."
 
-[node name="Label" type="Label" parent="margin/VBoxContainer/slice"]
+[node name="Label" type="Label" parent="margin/VBoxContainer/extra/sections/slices/section_content/content/slice"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Slice"
 
-[node name="options" type="OptionButton" parent="margin/VBoxContainer/slice"]
+[node name="options" type="OptionButton" parent="margin/VBoxContainer/extra/sections/slices/section_content/content/slice"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
@@ -112,102 +197,94 @@ selected = 0
 popup/item_0/text = "[all]"
 popup/item_0/id = 0
 
-[node name="options_title" type="PanelContainer" parent="margin/VBoxContainer"]
+[node name="animation" type="VBoxContainer" parent="margin/VBoxContainer/extra/sections"]
 layout_mode = 2
 
-[node name="options_title" type="Button" parent="margin/VBoxContainer/options_title"]
+[node name="section_header" type="Button" parent="margin/VBoxContainer/extra/sections/animation"]
 layout_mode = 2
-toggle_mode = true
-text = "Options"
+focus_mode = 0
+text = "Animation"
+alignment = 0
 
-[node name="options" type="VBoxContainer" parent="margin/VBoxContainer"]
-visible = false
+[node name="section_content" type="MarginContainer" parent="margin/VBoxContainer/extra/sections/animation"]
 layout_mode = 2
+theme_override_constants/margin_left = 10
 
-[node name="out_folder" type="HBoxContainer" parent="margin/VBoxContainer/options"]
-layout_mode = 2
-tooltip_text = "Location where the spritesheet file should be saved."
-
-[node name="Label" type="Label" parent="margin/VBoxContainer/options/out_folder"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-text = "Output folder"
-
-[node name="button" parent="margin/VBoxContainer/options/out_folder" instance=ExtResource("4_jb8bn")]
+[node name="content" type="VBoxContainer" parent="margin/VBoxContainer/extra/sections/animation/section_content"]
 layout_mode = 2
 
-[node name="out_filename" type="HBoxContainer" parent="margin/VBoxContainer/options"]
-layout_mode = 2
-tooltip_text = "Base filename for spritesheet. In case the layer option is used, this works as a prefix to the layer name."
-
-[node name="Label" type="Label" parent="margin/VBoxContainer/options/out_filename"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-text = "Output file name"
-
-[node name="LineEdit" type="LineEdit" parent="margin/VBoxContainer/options/out_filename"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-
-[node name="ex_pattern" type="HBoxContainer" parent="margin/VBoxContainer/options"]
-layout_mode = 2
-tooltip_text = "Exclude layers with name matching this pattern (regex)."
-
-[node name="Label" type="Label" parent="margin/VBoxContainer/options/ex_pattern"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-text = "Exclude pattern"
-
-[node name="LineEdit" type="LineEdit" parent="margin/VBoxContainer/options/ex_pattern"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-
-[node name="keep_length" type="HBoxContainer" parent="margin/VBoxContainer/options"]
+[node name="keep_length" type="HBoxContainer" parent="margin/VBoxContainer/extra/sections/animation/section_content/content"]
 layout_mode = 2
 tooltip_text = "When this is active the animation length won't be adjusted if other properties were added and the resulting imported animation is shorter."
 
-[node name="Label" type="Label" parent="margin/VBoxContainer/options/keep_length"]
+[node name="Label" type="Label" parent="margin/VBoxContainer/extra/sections/animation/section_content/content/keep_length"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-text = "Keep manual animation length"
+text = "Keep Manual Animation Length"
 
-[node name="CheckButton" type="CheckButton" parent="margin/VBoxContainer/options/keep_length"]
+[node name="CheckBox" type="CheckBox" parent="margin/VBoxContainer/extra/sections/animation/section_content/content/keep_length"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
+text = "On"
 
-[node name="visible_layers" type="HBoxContainer" parent="margin/VBoxContainer/options"]
-layout_mode = 2
-tooltip_text = "If active, layers not visible in the source file won't be included in the final image."
-
-[node name="Label" type="Label" parent="margin/VBoxContainer/options/visible_layers"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-text = "Only visible layers"
-
-[node name="CheckButton" type="CheckButton" parent="margin/VBoxContainer/options/visible_layers"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-
-[node name="auto_visible_track" type="HBoxContainer" parent="margin/VBoxContainer/options"]
+[node name="auto_visible_track" type="HBoxContainer" parent="margin/VBoxContainer/extra/sections/animation/section_content/content"]
 layout_mode = 2
 tooltip_text = "If active, it will automatically determine unused Sprite2D and Sprite3D nodes in each animation and hide them."
 
-[node name="Label" type="Label" parent="margin/VBoxContainer/options/auto_visible_track"]
+[node name="Label" type="Label" parent="margin/VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-text = "Hide unused sprites"
+text = "Hide Unused Sprites"
 
-[node name="CheckButton" type="CheckButton" parent="margin/VBoxContainer/options/auto_visible_track"]
+[node name="CheckBox" type="CheckBox" parent="margin/VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "On"
+
+[node name="output" type="VBoxContainer" parent="margin/VBoxContainer/extra/sections"]
+layout_mode = 2
+
+[node name="section_header" type="Button" parent="margin/VBoxContainer/extra/sections/output"]
+layout_mode = 2
+focus_mode = 0
+text = "Output"
+alignment = 0
+
+[node name="section_content" type="MarginContainer" parent="margin/VBoxContainer/extra/sections/output"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="content" type="VBoxContainer" parent="margin/VBoxContainer/extra/sections/output/section_content"]
+layout_mode = 2
+
+[node name="out_folder" type="HBoxContainer" parent="margin/VBoxContainer/extra/sections/output/section_content/content"]
+layout_mode = 2
+tooltip_text = "Location where the spritesheet file should be saved."
+
+[node name="Label" type="Label" parent="margin/VBoxContainer/extra/sections/output/section_content/content/out_folder"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Output Folder"
+
+[node name="button" parent="margin/VBoxContainer/extra/sections/output/section_content/content/out_folder" instance=ExtResource("4_jb8bn")]
+layout_mode = 2
+
+[node name="out_filename" type="HBoxContainer" parent="margin/VBoxContainer/extra/sections/output/section_content/content"]
+layout_mode = 2
+tooltip_text = "Base filename for spritesheet. In case the layer option is used, this works as a prefix to the layer name."
+
+[node name="Label" type="Label" parent="margin/VBoxContainer/extra/sections/output/section_content/content/out_filename"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Output File Name"
+
+[node name="LineEdit" type="LineEdit" parent="margin/VBoxContainer/extra/sections/output/section_content/content/out_filename"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
@@ -222,11 +299,14 @@ text = "Import"
 [connection signal="node_dropped" from="margin/VBoxContainer/animation_player/options" to="." method="_on_animation_player_node_dropped"]
 [connection signal="aseprite_file_dropped" from="margin/VBoxContainer/source/button" to="." method="_on_source_aseprite_file_dropped"]
 [connection signal="pressed" from="margin/VBoxContainer/source/button" to="." method="_on_source_pressed"]
-[connection signal="button_down" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_button_down"]
-[connection signal="item_selected" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_item_selected"]
-[connection signal="button_down" from="margin/VBoxContainer/slice/options" to="." method="_on_slice_button_down"]
-[connection signal="item_selected" from="margin/VBoxContainer/slice/options" to="." method="_on_slice_item_selected"]
-[connection signal="toggled" from="margin/VBoxContainer/options_title/options_title" to="." method="_on_options_title_toggled"]
-[connection signal="dir_dropped" from="margin/VBoxContainer/options/out_folder/button" to="." method="_on_out_dir_dropped"]
-[connection signal="pressed" from="margin/VBoxContainer/options/out_folder/button" to="." method="_on_out_folder_pressed"]
+[connection signal="button_down" from="margin/VBoxContainer/extra/sections/layers/section_header" to="." method="_on_layer_header_button_down"]
+[connection signal="button_down" from="margin/VBoxContainer/extra/sections/layers/section_content/content/layer/options" to="." method="_on_layer_button_down"]
+[connection signal="item_selected" from="margin/VBoxContainer/extra/sections/layers/section_content/content/layer/options" to="." method="_on_layer_item_selected"]
+[connection signal="button_down" from="margin/VBoxContainer/extra/sections/slices/section_header" to="." method="_on_slice_header_button_down"]
+[connection signal="button_down" from="margin/VBoxContainer/extra/sections/slices/section_content/content/slice/options" to="." method="_on_slice_button_down"]
+[connection signal="item_selected" from="margin/VBoxContainer/extra/sections/slices/section_content/content/slice/options" to="." method="_on_slice_item_selected"]
+[connection signal="button_down" from="margin/VBoxContainer/extra/sections/animation/section_header" to="." method="_on_animation_header_button_down"]
+[connection signal="button_down" from="margin/VBoxContainer/extra/sections/output/section_header" to="." method="_on_output_header_button_down"]
+[connection signal="dir_dropped" from="margin/VBoxContainer/extra/sections/output/section_content/content/out_folder/button" to="." method="_on_out_dir_dropped"]
+[connection signal="pressed" from="margin/VBoxContainer/extra/sections/output/section_content/content/out_folder/button" to="." method="_on_out_folder_pressed"]
 [connection signal="pressed" from="margin/VBoxContainer/import" to="." method="_on_import_pressed"]

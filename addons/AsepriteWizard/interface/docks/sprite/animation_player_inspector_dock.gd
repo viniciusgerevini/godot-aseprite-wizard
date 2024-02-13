@@ -38,25 +38,52 @@ var _output_folder := ""
 var _out_folder_default := "[Same as scene]"
 var _layer_default := "[all]"
 
+@onready var _section_title: Button = $margin/VBoxContainer/title
+# general
 @onready var _import_mode_options_field = $margin/VBoxContainer/modes/options
-@onready var _options_field = $margin/VBoxContainer/animation_player/options
+@onready var _animation_player_field = $margin/VBoxContainer/animation_player/options
 @onready var _animation_player_container = $margin/VBoxContainer/animation_player
 @onready var _source_field = $margin/VBoxContainer/source/button
-@onready var _layer_field = $margin/VBoxContainer/layer/options
-@onready var _slice_field = $margin/VBoxContainer/slice/options
-@onready var _options_title = $margin/VBoxContainer/options_title/options_title
-@onready var _options_container = $margin/VBoxContainer/options
-@onready var _out_folder_field = $margin/VBoxContainer/options/out_folder/button
-@onready var _out_filename_field = $margin/VBoxContainer/options/out_filename/LineEdit
-@onready var _visible_layers_field =  $margin/VBoxContainer/options/visible_layers/CheckButton
-@onready var _ex_pattern_field = $margin/VBoxContainer/options/ex_pattern/LineEdit
-@onready var _cleanup_hide_unused_nodes_container =  $margin/VBoxContainer/options/auto_visible_track
-@onready var _cleanup_hide_unused_nodes =  $margin/VBoxContainer/options/auto_visible_track/CheckButton
-@onready var _keep_length_container =  $margin/VBoxContainer/options/keep_length
-@onready var _keep_length =  $margin/VBoxContainer/options/keep_length/CheckButton
+# layers
+@onready var _layer_section_header = $margin/VBoxContainer/extra/sections/layers/section_header
+@onready var _layer_section_container = $margin/VBoxContainer/extra/sections/layers/section_content
+@onready var _layer_field = $margin/VBoxContainer/extra/sections/layers/section_content/content/layer/options
+@onready var _visible_layers_field =  $margin/VBoxContainer/extra/sections/layers/section_content/content/visible_layers/CheckBox
+@onready var _ex_pattern_field = $margin/VBoxContainer/extra/sections/layers/section_content/content/ex_pattern/LineEdit
+# slice
+@onready var _slice_section_header = $margin/VBoxContainer/extra/sections/slices/section_header
+@onready var _slice_section_container = $margin/VBoxContainer/extra/sections/slices/section_content
+@onready var _slice_field = $margin/VBoxContainer/extra/sections/slices/section_content/content/slice/options
+# animation
+@onready var _animation_section = $margin/VBoxContainer/extra/sections/animation
+@onready var _animation_section_header = $margin/VBoxContainer/extra/sections/animation/section_header
+@onready var _animation_section_container = $margin/VBoxContainer/extra/sections/animation/section_content
+@onready var _cleanup_hide_unused_nodes_container =  $margin/VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track
+@onready var _cleanup_hide_unused_nodes =  $margin/VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track/CheckBox
+@onready var _keep_length_container =  $margin/VBoxContainer/extra/sections/animation/section_content/content/keep_length
+@onready var _keep_length =  $margin/VBoxContainer/extra/sections/animation/section_content/content/keep_length/CheckBox
+# output
+@onready var _output_section_header = $margin/VBoxContainer/extra/sections/output/section_header
+@onready var _output_section_container = $margin/VBoxContainer/extra/sections/output/section_content
+@onready var _out_folder_field = $margin/VBoxContainer/extra/sections/output/section_content/content/out_folder/button
+@onready var _out_filename_field = $margin/VBoxContainer/extra/sections/output/section_content/content/out_filename/LineEdit
 
+var _interface_section_state
+const INTERFACE_SECTION_KEY_LAYER = "layer_section"
+const INTERFACE_SECTION_KEY_SLICE = "slice_section"
+const INTERFACE_SECTION_KEY_ANIMATION = "animation_section"
+const INTERFACE_SECTION_KEY_OUTPUT = "output_section"
+
+
+@onready var _expandable_sections = {
+	INTERFACE_SECTION_KEY_LAYER: { "header": _layer_section_header, "content": _layer_section_container},
+	INTERFACE_SECTION_KEY_SLICE: { "header": _slice_section_header, "content": _slice_section_container},
+	INTERFACE_SECTION_KEY_ANIMATION: { "header": _animation_section_header, "content": _animation_section_container},
+	INTERFACE_SECTION_KEY_OUTPUT: { "header": _output_section_header, "content": _output_section_container},
+}
 
 func _ready():
+	_setup_interface()
 	var cfg = wizard_config.load_config(target_node)
 	if cfg == null:
 		_load_default_config()
@@ -75,12 +102,22 @@ func _ready():
 	static_texture_creator.init(config)
 
 
+func _setup_interface():
+	var cfg = wizard_config.load_interface_config(target_node)
+	_interface_section_state = cfg
+
+	_section_title.add_theme_stylebox_override("normal", _section_title.get_theme_stylebox("hover"))
+
+	for key in _expandable_sections:
+		_adjust_section_visibility(key)
+
+
 func _load_config(cfg):
 	if cfg.has("source"):
 		_set_source(cfg.source)
 
 	if cfg.has("player"):
-		_options_field.clear()
+		_animation_player_field.clear()
 		_set_animation_player(cfg.player)
 
 	if cfg.get("layer", "") != "":
@@ -98,8 +135,6 @@ func _load_config(cfg):
 	_cleanup_hide_unused_nodes.button_pressed = cfg.get("set_vis_track", config.is_set_visible_track_automatically_enabled())
 	_keep_length.button_pressed = cfg.get("keep_anim_length", false)
 
-	_set_options_visible(cfg.get("op_exp", false))
-
 	_set_import_mode(int(cfg.get("i_mode", 0)))
 
 
@@ -107,7 +142,7 @@ func _load_default_config():
 	_ex_pattern_field.text = config.get_default_exclusion_pattern()
 	_visible_layers_field.button_pressed = config.should_include_only_visible_layers_by_default()
 	_cleanup_hide_unused_nodes.button_pressed = config.is_set_visible_track_automatically_enabled()
-	_set_options_visible(false)
+	#_set_options_visible(false)
 
 
 func _set_source(source):
@@ -118,7 +153,7 @@ func _set_source(source):
 
 func _set_animation_player(player):
 	_animation_player_path = player
-	_options_field.add_item(_animation_player_path)
+	_animation_player_field.add_item(_animation_player_path)
 
 
 func _set_layer(layer):
@@ -140,12 +175,10 @@ func _handle_import_mode():
 	match _import_mode:
 		ImportMode.ANIMATION:
 			_animation_player_container.show()
-			_keep_length_container.show()
-			_cleanup_hide_unused_nodes_container.show()
+			_animation_section.show()
 		ImportMode.IMAGE:
 			_animation_player_container.hide()
-			_keep_length_container.hide()
-			_cleanup_hide_unused_nodes_container.hide()
+			_animation_section.hide()
 
 
 func _on_options_button_down():
@@ -158,15 +191,15 @@ func _refresh_animation_players():
 	_find_animation_players(root, root, animation_players)
 
 	var current = 0
-	_options_field.clear()
-	_options_field.add_item("[empty]")
+	_animation_player_field.clear()
+	_animation_player_field.add_item("[empty]")
 
 	for ap in animation_players:
-		_options_field.add_item(ap)
+		_animation_player_field.add_item(ap)
 		if ap.get_concatenated_names() == _animation_player_path:
-			current = _options_field.get_item_count() - 1
+			current = _animation_player_field.get_item_count() - 1
 
-	_options_field.select(current)
+	_animation_player_field.select(current)
 
 
 func _find_animation_players(root: Node, node: Node, players: Array):
@@ -181,7 +214,7 @@ func _on_options_item_selected(index):
 	if index == 0:
 		_animation_player_path = ""
 		return
-	_animation_player_path = _options_field.get_item_text(index)
+	_animation_player_path = _animation_player_field.get_item_text(index)
 	_save_config()
 
 
@@ -337,7 +370,7 @@ func _save_config():
 		"source": _source,
 		"layer": _layer,
 		"slice": _slice,
-		"op_exp": _options_title.button_pressed,
+		#"op_exp": _options_title.button_pressed,
 		"o_folder": _output_folder,
 		"o_name": _out_filename_field.text,
 		"only_visible": _visible_layers_field.button_pressed,
@@ -382,16 +415,6 @@ func _show_message(message: String):
 	_warning_dialog.connect("popup_hide",Callable(_warning_dialog,"queue_free"))
 
 
-func _on_options_title_toggled(button_pressed):
-	_set_options_visible(button_pressed)
-	_save_config()
-
-
-func _set_options_visible(is_visible):
-	_options_container.visible = is_visible
-	_options_title.icon = config.get_icon("expanded") if is_visible else config.get_icon("collapsed")
-
-
 func _on_out_folder_pressed():
 	_output_folder_dialog = _create_output_folder_selection()
 	get_parent().add_child(_output_folder_dialog)
@@ -424,9 +447,9 @@ func _on_animation_player_node_dropped(node_path):
 
 	_animation_player_path = root.get_path_to(node)
 
-	for i in range(_options_field.get_item_count()):
-		if _options_field.get_item_text(i) == _animation_player_path:
-			_options_field.select(i)
+	for i in range(_animation_player_field.get_item_count()):
+		if _animation_player_field.get_item_text(i) == _animation_player_path:
+			_animation_player_field.select(i)
 			break
 	_save_config()
 
@@ -483,3 +506,37 @@ func _get_import_options(default_folder: String):
 		"output_filename": _out_filename_field.text,
 		"layer": _layer
 	}
+
+
+func _adjust_icon(section: Button, is_visible: bool = true) -> void:
+	var icon_name = "GuiTreeArrowDown" if is_visible else "GuiTreeArrowRight"
+	section.icon = get_theme_icon(icon_name, "EditorIcons")
+
+
+func _on_layer_header_button_down():
+	_toggle_section_visibility(INTERFACE_SECTION_KEY_LAYER)
+
+
+func _on_slice_header_button_down():
+	_toggle_section_visibility(INTERFACE_SECTION_KEY_SLICE)
+
+
+func _on_animation_header_button_down():
+	_toggle_section_visibility(INTERFACE_SECTION_KEY_ANIMATION)
+
+
+func _on_output_header_button_down():
+	_toggle_section_visibility(INTERFACE_SECTION_KEY_OUTPUT)
+
+
+func _toggle_section_visibility(key: String) -> void:
+	_interface_section_state[key] = not _interface_section_state.get(key, false)
+	_adjust_section_visibility(key)
+	wizard_config.save_interface_config(target_node, _interface_section_state)
+
+
+func _adjust_section_visibility(key: String) -> void:
+	var section = _expandable_sections[key]
+	var is_visible = _interface_section_state.get(key, false)
+	_adjust_icon(section.header, is_visible)
+	section.content.visible = is_visible
