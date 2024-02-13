@@ -81,6 +81,7 @@ Animations can be imported to AnimationPlayers via the Inspector dock.
 | Aseprite File: | (\*.aseprite or \*.ase) source file. |
 | Animation Player: |AnimationPlayer node where animations should be added to.|
 | Layer: | Aseprite layer to be used in the animation. By default, all layers are included. |
+| Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
 | Output folder: | Folder to save the sprite sheet (png) file. Default: same as scene |
 | Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
 | Exclude pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
@@ -112,6 +113,7 @@ This is very similar to the AnimationPlayer option.
 | Aseprite File: | (\*.aseprite or \*.ase) source file. |
 | Animation Player: |AnimationPlayer node where animations should be added to.|
 | Layer: | Aseprite layer to be used in the animation. By default, all layers are included. |
+| Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
 | Output folder: | Folder to save the sprite sheet (png) file. Default: same as scene |
 | Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
 | Exclude pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
