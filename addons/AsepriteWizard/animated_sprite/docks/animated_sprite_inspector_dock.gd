@@ -12,6 +12,7 @@ var config
 var file_system: EditorFileSystem
 
 var _layer: String = ""
+var _slice: String = ""
 var _source: String = ""
 var _file_dialog_aseprite: FileDialog
 var _output_folder_dialog: FileDialog
@@ -23,6 +24,7 @@ var _layer_default := "[all]"
 
 onready var _source_field = $margin/VBoxContainer/source/button
 onready var _layer_field = $margin/VBoxContainer/layer/options
+onready var _slice_field = $margin/VBoxContainer/slice/options
 onready var _options_title = $margin/VBoxContainer/options_title/options_title
 onready var _options_container = $margin/VBoxContainer/options
 onready var _out_folder_field = $margin/VBoxContainer/options/out_folder/button
@@ -47,6 +49,9 @@ func _load_config(cfg):
 
 	if cfg.get("layer", "") != "":
 		_set_layer(cfg.layer)
+
+	if cfg.get("slice", "") != "":
+		_set_layer(cfg.slice)
 
 	_set_out_folder(cfg.get("o_folder", ""))
 	_out_filename_field.text = cfg.get("o_name", "")
@@ -73,9 +78,14 @@ func _set_layer(layer):
 	_layer_field.add_item(_layer)
 
 
+func _set_slice(slice):
+	_slice = slice
+	_slice_field.add_item(_slice)
+
+
 func _on_layer_button_down():
 	if _source == "":
-		_show_message("Please. Select source file first.")
+		_show_message("Please, select source file first.")
 		return
 
 	var layers = sprite_frames_creator.list_layers(ProjectSettings.globalize_path(_source))
@@ -101,6 +111,34 @@ func _on_layer_item_selected(index):
 	_save_config()
 
 
+func _on_slice_button_down():
+	if _source == "":
+		_show_message("Please, select source file first.")
+		return
+
+	var slices = sprite_frames_creator.list_slices(ProjectSettings.globalize_path(_source))
+	var current = 0
+	_slice_field.clear()
+	_slice_field.add_item("[all]")
+
+	for l in slices:
+		if l == "":
+			continue
+
+		_slice_field.add_item(l)
+		if l == _slice:
+			current = _slice_field.get_item_count() - 1
+	_slice_field.select(current)
+
+
+func _on_slice_item_selected(index):
+	if index == 0:
+		_slice = ""
+		return
+	_slice = _slice_field.get_item_text(index)
+	_save_config()
+
+
 func _on_source_pressed():
 	_open_source_dialog()
 
@@ -123,7 +161,8 @@ func _on_import_pressed():
 		"exception_pattern": _ex_pattern_field.text,
 		"only_visible_layers": _visible_layers_field.pressed,
 		"output_filename": _out_filename_field.text,
-		"layer": _layer
+		"layer": _layer,
+		"slice": _slice,
 	}
 
 	_save_config()
@@ -136,6 +175,7 @@ func _save_config():
 	wizard_config.save_config(sprite, config.is_use_metadata_enabled(), {
 		"source": _source,
 		"layer": _layer,
+		"slice": _slice,
 		"op_exp": _options_title.pressed,
 		"o_folder": _output_folder,
 		"o_name": _out_filename_field.text,

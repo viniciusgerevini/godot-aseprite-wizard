@@ -60,7 +60,7 @@ func _create_animations_from_file(animated_sprite: Node, options: Dictionary) ->
 
 	yield(_scan_filesystem(), "completed")
 
-	var sprite_frames_result = _create_sprite_frames(output.content)
+	var sprite_frames_result = _create_sprite_frames(output.content, options)
 	if not sprite_frames_result.is_ok:
 		return sprite_frames_result.code
 
@@ -154,7 +154,7 @@ func _create_sprite_frames_from_source(source_files: Array, options: Dictionary)
 		if o.empty():
 			return result_code.error(result_code.ERR_ASEPRITE_EXPORT_FAILED)
 
-		var resource = _create_sprite_frames(o)
+		var resource = _create_sprite_frames(o, options)
 
 		if not resource.is_ok:
 			return resource
@@ -167,7 +167,7 @@ func _create_sprite_frames_from_source(source_files: Array, options: Dictionary)
 	return result_code.result(resources)
 
 
-func _create_sprite_frames(data) -> Dictionary:
+func _create_sprite_frames(data, options) -> Dictionary:
 	var aseprite_resources = _load_aseprite_resources(data)
 	if not aseprite_resources.is_ok:
 		return aseprite_resources
@@ -175,7 +175,8 @@ func _create_sprite_frames(data) -> Dictionary:
 	return result_code.result(
 		_create_sprite_frames_with_animations(
 			aseprite_resources.content.metadata,
-			aseprite_resources.content.texture
+			aseprite_resources.content.texture,
+			options
 		)
 	)
 
@@ -223,18 +224,23 @@ func _save_resource(resource, source_path: String) -> int:
 	return code
 
 
-func _create_sprite_frames_with_animations(content, texture) -> SpriteFrames:
+func _create_sprite_frames_with_animations(content, texture, options) -> SpriteFrames:
 	var frame_cache = {}
 	var frames = _aseprite.get_content_frames(content)
 	var sprite_frames := SpriteFrames.new()
 	sprite_frames.remove_animation("default")
 
+	var frame_rect = null
+
+	if options.get("slice", "") != "":
+		frame_rect = _aseprite.get_slice_rect(content, options.slice)
+
 	if content.meta.has("frameTags") and content.meta.frameTags.size() > 0:
 		for tag in content.meta.frameTags:
 			var selected_frames = frames.slice(tag.from, tag.to)
-			_add_animation_frames(sprite_frames, tag.name, selected_frames, texture, tag.direction, int(tag.get("repeat", -1)), frame_cache)
+			_add_animation_frames(sprite_frames, tag.name, selected_frames, texture, frame_rect, tag.direction, int(tag.get("repeat", -1)), frame_cache)
 	else:
-		_add_animation_frames(sprite_frames, "default", frames, texture)
+		_add_animation_frames(sprite_frames, "default", frames, texture, frame_rect)
 
 	return sprite_frames
 
@@ -244,6 +250,7 @@ func _add_animation_frames(
 	anim_name: String,
 	frames: Array,
 	texture,
+	frame_rect,
 	direction = 'forward',
 	repeat = -1,
 	frame_cache = {}
@@ -274,7 +281,7 @@ func _add_animation_frames(
 
 	for i in range(repetition):
 		for frame in frames:
-			_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache)
+			_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache, frame_rect)
 
 		if direction.begins_with("pingpong"):
 			var working_frames = frames.duplicate()
@@ -284,7 +291,7 @@ func _add_animation_frames(
 			working_frames.invert()
 
 			for frame in working_frames:
-				_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache)
+				_add_to_sprite_frames(sprite_frames, animation_name, texture, frame, min_duration, frame_cache, frame_rect)
 
 	sprite_frames.set_animation_loop(animation_name, is_loopable)
 	sprite_frames.set_animation_speed(animation_name, fps)
@@ -312,9 +319,10 @@ func _add_to_sprite_frames(
 	texture,
 	frame: Dictionary,
 	min_duration: int,
-	frame_cache: Dictionary
+	frame_cache: Dictionary,
+	frame_rect
 ):
-	var atlas : AtlasTexture = _create_atlastexture_from_frame(texture, frame, sprite_frames, frame_cache)
+	var atlas : AtlasTexture = _create_atlastexture_from_frame(texture, frame, sprite_frames, frame_cache, frame_rect)
 
 	var number_of_sprites = ceil(frame.duration / min_duration)
 	for _i in range(number_of_sprites):
@@ -325,10 +333,18 @@ func _create_atlastexture_from_frame(
 	image,
 	frame_data,
 	sprite_frames: SpriteFrames,
-	frame_cache: Dictionary
+	frame_cache: Dictionary,
+	frame_rect
 ) -> AtlasTexture:
 	var frame = frame_data.frame
 	var region := Rect2(frame.x, frame.y, frame.w, frame.h)
+
+	if frame_rect != null:
+		region.position.x += frame_rect.position.x
+		region.position.y += frame_rect.position.y
+		region.size.x = frame_rect.size.x
+		region.size.y = frame_rect.size.y
+
 	var key := "%s_%s_%s_%s" % [frame.x, frame.y, frame.w, frame.h]
 
 	var texture = frame_cache.get(key)
@@ -352,6 +368,10 @@ func _scan_filesystem():
 
 func list_layers(file: String, only_visibles = false) -> Array:
 	return _aseprite.list_layers(file, only_visibles)
+
+
+func list_slices(file: String) -> Array:
+	return _aseprite.list_slices(file)
 
 
 func _get_file_basename(file_path: String) -> String:
