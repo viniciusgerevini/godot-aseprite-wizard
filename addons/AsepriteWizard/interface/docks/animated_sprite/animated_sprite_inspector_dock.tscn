@@ -59,7 +59,7 @@ popup/item_0/id = 0
 
 [node name="slice" type="HBoxContainer" parent="margin/VBoxContainer"]
 layout_mode = 2
-tooltip_text = "Aseprite layer to be used in the animation. By default all layers are included."
+tooltip_text = "Aseprite slice to be used in the animation. By default, the whole file is included."
 
 [node name="Label" type="Label" parent="margin/VBoxContainer/slice"]
 layout_mode = 2
