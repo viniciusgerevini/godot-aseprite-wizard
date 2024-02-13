@@ -32,14 +32,14 @@ __meta__ = {
 
 [node name="margin" type="MarginContainer" parent="."]
 margin_right = 138.0
-margin_bottom = 144.0
+margin_bottom = 168.0
 custom_constants/margin_top = 2
 custom_constants/margin_bottom = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="margin"]
 margin_top = 2.0
 margin_right = 138.0
-margin_bottom = 142.0
+margin_bottom = 166.0
 
 [node name="section_title" type="PanelContainer" parent="margin/VBoxContainer"]
 margin_right = 138.0
@@ -116,10 +116,33 @@ size_flags_stretch_ratio = 2.0
 text = "[all]"
 align = 1
 
-[node name="options_title" type="PanelContainer" parent="margin/VBoxContainer"]
+[node name="slice" type="HBoxContainer" parent="margin/VBoxContainer"]
 margin_top = 92.0
 margin_right = 138.0
-margin_bottom = 116.0
+margin_bottom = 112.0
+hint_tooltip = "Aseprite slice to be used in the animation. By default uses the whole file."
+
+[node name="Label" type="Label" parent="margin/VBoxContainer/slice"]
+margin_top = 3.0
+margin_right = 67.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Slice"
+
+[node name="options" type="OptionButton" parent="margin/VBoxContainer/slice"]
+margin_left = 71.0
+margin_right = 138.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "[all]"
+align = 1
+
+[node name="options_title" type="PanelContainer" parent="margin/VBoxContainer"]
+margin_top = 116.0
+margin_right = 138.0
+margin_bottom = 140.0
 custom_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -241,9 +264,9 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="import" type="Button" parent="margin/VBoxContainer"]
-margin_top = 120.0
+margin_top = 144.0
 margin_right = 138.0
-margin_bottom = 140.0
+margin_bottom = 164.0
 text = "Import"
 
 [connection signal="button_down" from="margin/VBoxContainer/animation_player/options" to="." method="_on_options_button_down"]
@@ -253,6 +276,8 @@ text = "Import"
 [connection signal="pressed" from="margin/VBoxContainer/source/button" to="." method="_on_source_pressed"]
 [connection signal="button_down" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_button_down"]
 [connection signal="item_selected" from="margin/VBoxContainer/layer/options" to="." method="_on_layer_item_selected"]
+[connection signal="button_down" from="margin/VBoxContainer/slice/options" to="." method="_on_slice_button_down"]
+[connection signal="item_selected" from="margin/VBoxContainer/slice/options" to="." method="_on_slice_item_selected"]
 [connection signal="toggled" from="margin/VBoxContainer/options_title/options_title" to="." method="_on_options_title_toggled"]
 [connection signal="dir_dropped" from="margin/VBoxContainer/options/out_folder/button" to="." method="_on_out_dir_dropped"]
 [connection signal="pressed" from="margin/VBoxContainer/options/out_folder/button" to="." method="_on_out_folder_pressed"]
