@@ -8,6 +8,7 @@ var _aseprite_file_exporter = preload("../../../aseprite/file_exporter.gd").new(
 const AnimationCreator = preload("../../../creators/animation_player/animation_creator.gd")
 const SpriteAnimationCreator = preload("../../../creators/animation_player/sprite_animation_creator.gd")
 const TextureRectAnimationCreator = preload("../../../creators/animation_player/texture_rect_animation_creator.gd")
+const StaticTextureCreator = preload("../../../creators/static_texture/texture_creator.gd")
 
 enum ImportMode {
 	ANIMATION = 0,
@@ -15,6 +16,7 @@ enum ImportMode {
 }
 
 var animation_creator: AnimationCreator
+var static_texture_creator: StaticTextureCreator
 
 var scene: Node
 var target_node: Node
@@ -25,6 +27,7 @@ var file_system: EditorFileSystem
 var _import_mode = -1
 
 var _layer: String = ""
+var _slice: String = ""
 var _source: String = ""
 var _animation_player_path: String
 var _file_dialog_aseprite: EditorFileDialog
@@ -40,6 +43,7 @@ var _layer_default := "[all]"
 @onready var _animation_player_container = $margin/VBoxContainer/animation_player
 @onready var _source_field = $margin/VBoxContainer/source/button
 @onready var _layer_field = $margin/VBoxContainer/layer/options
+@onready var _slice_field = $margin/VBoxContainer/slice/options
 @onready var _options_title = $margin/VBoxContainer/options_title/options_title
 @onready var _options_container = $margin/VBoxContainer/options
 @onready var _out_folder_field = $margin/VBoxContainer/options/out_folder/button
@@ -64,8 +68,11 @@ func _ready():
 	if target_node is TextureRect:
 		animation_creator = TextureRectAnimationCreator.new()
 
+	static_texture_creator = StaticTextureCreator.new()
+
 	animation_creator.init(config)
 	_aseprite_file_exporter.init(config)
+	static_texture_creator.init(config)
 
 
 func _load_config(cfg):
@@ -79,6 +86,10 @@ func _load_config(cfg):
 	if cfg.get("layer", "") != "":
 		_layer_field.clear()
 		_set_layer(cfg.layer)
+
+	if cfg.get("slice", "") != "":
+		_slice_field.clear()
+		_set_slice(cfg.slice)
 
 	_set_out_folder(cfg.get("o_folder", ""))
 	_out_filename_field.text = cfg.get("o_name", "")
@@ -191,6 +202,40 @@ func _on_layer_item_selected(index):
 	_save_config()
 
 
+func _set_slice(slice):
+	_slice = slice
+	_slice_field.add_item(_slice)
+
+
+func _on_slice_item_selected(index):
+	if index == 0:
+		_slice = ""
+		return
+	_slice = _slice_field.get_item_text(index)
+	_save_config()
+
+
+func _on_slice_button_down():
+	if _source == "":
+		_show_message("Please, select source file first.")
+		return
+
+	var slices = animation_creator.list_slices(ProjectSettings.globalize_path(_source))
+	var current = 0
+	_slice_field.clear()
+	_slice_field.add_item(_layer_default)
+
+	for s in slices:
+		if s == "":
+			continue
+
+		_slice_field.add_item(s)
+		if s == _slice:
+			current = _slice_field.get_item_count() - 1
+	_slice_field.select(current)
+
+
+
 func _on_source_pressed():
 	_open_source_dialog()
 
@@ -241,6 +286,7 @@ func _import_for_animation_player():
 	var anim_options = {
 		"keep_anim_length": _keep_length.button_pressed,
 		"cleanup_hide_unused_nodes": _cleanup_hide_unused_nodes.button_pressed,
+		"slice": _slice,
 	}
 
 	animation_creator.create_animations(target_node, root.get_node(_animation_player_path), aseprite_output.content, anim_options)
@@ -274,11 +320,10 @@ func _import_static():
 	file_system.scan()
 	await file_system.filesystem_changed
 
-	var sprite_sheet = aseprite_output.content.sprite_sheet
-	target_node.texture = ResourceLoader.load(sprite_sheet)
-	_importing = false
+	static_texture_creator.load_texture(target_node, aseprite_output.content, { "slice": _slice })
 
-	_adjust_target_node_texture_filter()
+
+	_importing = false
 	_handle_cleanup(aseprite_output.content)
 
 
@@ -291,6 +336,7 @@ func _save_config():
 		"player": _animation_player_path,
 		"source": _source,
 		"layer": _layer,
+		"slice": _slice,
 		"op_exp": _options_title.button_pressed,
 		"o_folder": _output_folder,
 		"o_name": _out_filename_field.text,
@@ -427,13 +473,6 @@ func _notify_aseprite_error(aseprite_error_code):
 	var error = result_code.get_error_message(aseprite_error_code)
 	printerr(error)
 	_show_message(error)
-
-
-func _adjust_target_node_texture_filter():
-	if target_node is CanvasItem:
-		target_node.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	else:
-		target_node.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 
 
 func _get_import_options(default_folder: String):
