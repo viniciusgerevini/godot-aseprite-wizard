@@ -1,0 +1,320 @@
+[gd_scene load_steps=7 format=3 uid="uid://uxm7b02wry10"]
+
+[ext_resource type="PackedScene" uid="uid://x1f1t87m582u" path="res://addons/AsepriteWizard/interface/shared/animation_player_drop_button.tscn" id="1_gh7xg"]
+[ext_resource type="PackedScene" uid="uid://dj1uo3blocr8e" path="res://addons/AsepriteWizard/interface/shared/source_drop_button.tscn" id="1_y4qrm"]
+[ext_resource type="PackedScene" uid="uid://cwvgnm3o7eed2" path="res://addons/AsepriteWizard/interface/shared/dir_drop_button.tscn" id="2_pypqg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ptlkd"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.225, 0.225, 0.225, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="Image" id="Image_dv8o3"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_qqpl1"]
+image = SubResource("Image_dv8o3")
+
+[node name="dock_fields" type="MarginContainer"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="title" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_ptlkd")
+button_mask = 0
+text = "Aseprite"
+
+[node name="section_title" type="PanelContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/section_title"]
+layout_mode = 2
+alignment = 1
+
+[node name="icon" type="TextureRect" parent="VBoxContainer/section_title/HBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+
+[node name="title" type="Label" parent="VBoxContainer/section_title/HBoxContainer"]
+layout_mode = 2
+text = "Aseprite"
+horizontal_alignment = 1
+
+[node name="modes" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Import mode.
+Animation mode (default): set spritesheet as texture and imports animations to the selected AnimationPlayer.
+Image mode: Import only first frame and set as texture."
+
+[node name="Label" type="Label" parent="VBoxContainer/modes"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Mode"
+
+[node name="options" type="OptionButton" parent="VBoxContainer/modes"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+item_count = 2
+selected = 0
+popup/item_0/text = "Animation"
+popup/item_0/id = 0
+popup/item_1/text = "Image"
+popup/item_1/id = 1
+
+[node name="animation_player" type="HBoxContainer" parent="VBoxContainer" groups=["aw_animation_player_only"]]
+layout_mode = 2
+tooltip_text = "AnimationPlayer  node where animations should be added to."
+
+[node name="Label" type="Label" parent="VBoxContainer/animation_player"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "AnimationPlayer"
+
+[node name="options" parent="VBoxContainer/animation_player" instance=ExtResource("1_gh7xg")]
+layout_mode = 2
+
+[node name="source" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Location of the Aseprite (*.ase, *.aseprite)  source file."
+
+[node name="Label" type="Label" parent="VBoxContainer/source"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Aseprite File"
+
+[node name="button" parent="VBoxContainer/source" instance=ExtResource("1_y4qrm")]
+layout_mode = 2
+
+[node name="extra" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="sections" type="VBoxContainer" parent="VBoxContainer/extra"]
+layout_mode = 2
+
+[node name="layers" type="VBoxContainer" parent="VBoxContainer/extra/sections"]
+layout_mode = 2
+
+[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/layers"]
+layout_mode = 2
+focus_mode = 0
+text = "Layers"
+icon = SubResource("ImageTexture_qqpl1")
+alignment = 0
+
+[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/layers"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content"]
+layout_mode = 2
+
+[node name="layer" type="HBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content/content"]
+layout_mode = 2
+tooltip_text = "Aseprite layer to be used in the animation. By default all layers are included."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/layers/section_content/content/layer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Layer"
+
+[node name="options" type="OptionButton" parent="VBoxContainer/extra/sections/layers/section_content/content/layer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+item_count = 1
+selected = 0
+popup/item_0/text = "[all]"
+popup/item_0/id = 0
+
+[node name="ex_pattern" type="HBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content/content"]
+layout_mode = 2
+tooltip_text = "Exclude layers with name matching this pattern (regex)."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/layers/section_content/content/ex_pattern"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Exclude Pattern"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/extra/sections/layers/section_content/content/ex_pattern"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="visible_layers" type="HBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content/content"]
+layout_mode = 2
+tooltip_text = "If active, layers not visible in the source file won't be included in the final image."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/layers/section_content/content/visible_layers"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Only Visible Layers"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/layers/section_content/content/visible_layers"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "On"
+
+[node name="slices" type="VBoxContainer" parent="VBoxContainer/extra/sections"]
+layout_mode = 2
+
+[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/slices"]
+layout_mode = 2
+focus_mode = 0
+text = "Slices"
+icon = SubResource("ImageTexture_qqpl1")
+alignment = 0
+
+[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/slices"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/slices/section_content"]
+layout_mode = 2
+
+[node name="slice" type="HBoxContainer" parent="VBoxContainer/extra/sections/slices/section_content/content"]
+layout_mode = 2
+tooltip_text = "Aseprite slice to be used in the animation. By default, the whole file is included."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/slices/section_content/content/slice"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Slice"
+
+[node name="options" type="OptionButton" parent="VBoxContainer/extra/sections/slices/section_content/content/slice"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+item_count = 1
+selected = 0
+popup/item_0/text = "[all]"
+popup/item_0/id = 0
+
+[node name="animation" type="VBoxContainer" parent="VBoxContainer/extra/sections" groups=["aw_animation_player_only"]]
+layout_mode = 2
+
+[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/animation"]
+layout_mode = 2
+focus_mode = 0
+text = "Animation"
+icon = SubResource("ImageTexture_qqpl1")
+alignment = 0
+
+[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/animation"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content"]
+layout_mode = 2
+
+[node name="keep_length" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content"]
+layout_mode = 2
+tooltip_text = "When this is active the animation length won't be adjusted if other properties were added and the resulting imported animation is shorter."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/keep_length"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Keep Manual Animation Length"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation/section_content/content/keep_length"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "On"
+
+[node name="auto_visible_track" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content"]
+layout_mode = 2
+tooltip_text = "If active, it will automatically determine unused Sprite2D and Sprite3D nodes in each animation and hide them."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Hide Unused Sprites"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "On"
+
+[node name="output" type="VBoxContainer" parent="VBoxContainer/extra/sections"]
+layout_mode = 2
+
+[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/output"]
+layout_mode = 2
+focus_mode = 0
+text = "Output"
+icon = SubResource("ImageTexture_qqpl1")
+alignment = 0
+
+[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/output"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/output/section_content"]
+layout_mode = 2
+
+[node name="out_folder" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content"]
+layout_mode = 2
+tooltip_text = "Location where the spritesheet file should be saved."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/out_folder"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Output Folder"
+
+[node name="button" parent="VBoxContainer/extra/sections/output/section_content/content/out_folder" instance=ExtResource("2_pypqg")]
+layout_mode = 2
+
+[node name="out_filename" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content"]
+layout_mode = 2
+tooltip_text = "Base filename for spritesheet. In case the layer option is used, this works as a prefix to the layer name."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/out_filename"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Output File Name"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/extra/sections/output/section_content/content/out_filename"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="import" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Import"
