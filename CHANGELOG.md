@@ -4,9 +4,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
-## Added
+### Added
 
 - Slice support.
+
+### Changed
+
+- Interface refactor. Better looking. Re-organised properties. Docks with sections.
+- Refactored docks to re-use as much as they can.
 
 ## 7.2.0 (2024-02-07)
 
