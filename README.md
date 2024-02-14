@@ -245,7 +245,7 @@ Currently, import overwrites previously imported files. Any manual modification 
 
 ### Metadata cleanup on export
 
-The options you select in the inspector dock are stored in the scene as metadata metadata. As you can select files from anywhere in your system, there is an export plugin to prevent your local path metadata to be shipped with the game. In case you suspect this is conflicting with other plugins (or if you think you don't need it) you can disable it at `Project > Project Settings > General > Animation > Storage > Enable Metadata Removal On Export`.
+The options you select in the inspector dock are stored in the scene as metadata. As you can select files from anywhere in your system, there is an export plugin to prevent your local path metadata to be shipped with the game. In case you suspect this is conflicting with other plugins (or if you think you don't need it) you can disable it at `Project > Project Settings > General > Animation > Storage > Enable Metadata Removal On Export`.
 
 ## Known Issues
 
