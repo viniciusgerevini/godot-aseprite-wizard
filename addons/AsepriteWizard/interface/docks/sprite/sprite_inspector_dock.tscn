@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://biyshalfalqqw"]
+
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/sprite/sprite_inspector_dock.gd" id="1_ku6wj"]
+[ext_resource type="PackedScene" uid="uid://uxm7b02wry10" path="res://addons/AsepriteWizard/interface/docks/dock_fields.tscn" id="2_wkqx4"]
+
+[node name="sprite_inspector_dock" type="PanelContainer"]
+offset_right = 14.0
+offset_bottom = 14.0
+script = ExtResource("1_ku6wj")
+
+[node name="dock_fields" parent="." instance=ExtResource("2_wkqx4")]
+layout_mode = 2

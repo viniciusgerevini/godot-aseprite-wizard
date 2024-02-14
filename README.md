@@ -7,7 +7,6 @@ Godot plugin to help import Aseprite animations to AnimationPlayers, AnimatedSpr
 _This branch supports Godot 4. For Godot 3 docs and code check the [godot_3](https://github.com/viniciusgerevini/godot-aseprite-wizard/tree/godot_3) branch. You can find more details about the differences between Godot 3 and Godot 4 on issue https://github.com/viniciusgerevini/godot-aseprite-wizard/issues/70._
 
 <img align="center" src="./screenshots/comparison.png" />
-<img align="center" src="./screenshots/animation_dock.gif" />
 
 _Check the screenshots folder for more examples._
 
@@ -26,6 +25,7 @@ _Check the screenshots folder for more examples._
 - Supports loopable and non-loopable animations via Aseprite repeat or tags.
 - Separates each Aseprite Tag into animations. In case no tags are defined, imports everything as default animation.
 - Filters out layers you don't want in the final animation using regex.
+- Supports slices. Import only a region from your file.
 - For AnimatedSprite
   - Creates SpriteFrames with Atlas Texture to be used in AnimatedSprites.
   - Converts Aseprite frame duration (defined in milliseconds) to Godot's animation FPS. This way you can create your animation with the right timing in Aseprite and it should work the same way in Godot.
@@ -82,19 +82,21 @@ Animations can be imported to AnimationPlayers via the Inspector dock.
 - With the node selected, look for the "Aseprite" section in the bottom part of the Inspector.
 - Fill up the fields and click import.
 
+![Sprite inspector dock screenshot](./screenshots/sprite_animation_dock_expanded.png)
+
 
 | Field                   | Description |
 | ----------------------- | ----------- |
 | Aseprite File | (\*.aseprite or \*.ase) source file. |
 | Animation Player |AnimationPlayer node where animations should be added to.|
 | Layer | Aseprite layer to be used in the animation. By default, all layers are included. |
+| Exclude pattern | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
+| Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
+| Keep manual animation length | When this is active the animation length won't be adjusted if other properties were added and the resulting imported animation is shorter. Default: false. |
+| Hide unused sprites | If selected, sprites that are present in the AnimationPlayer will be set as visible=false in any animation they are not part of.|
 | Output folder | Folder to save the sprite sheet (png) file. Default: same as scene |
 | Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
-| Exclude pattern | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
-| Keep manual animation length | When this is active the animation length won't be adjusted if other properties were added and the resulting imported animation is shorter. Default: false. |
-| Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
-| Hide unused sprites | If selected, sprites that are present in the AnimationPlayer will be set as visible=false in any animation they are not part of.|
 
 
 Notes:
@@ -116,16 +118,17 @@ This is very similar to the AnimationPlayer option.
 - With the node selected, look for the "Aseprite" section in the bottom part of the Inspector.
 - Fill up the fields and click import.
 
+![AnimatedSprite inspector dock screenshot](./screenshots/animated_sprite_dock_expanded.png)
+
 | Field                   | Description |
 | ----------------------- | ----------- |
 | Aseprite File: | (\*.aseprite or \*.ase) source file. |
-| Animation Player: |AnimationPlayer node where animations should be added to.|
 | Layer: | Aseprite layer to be used in the animation. By default, all layers are included. |
+| Exclude pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
+| Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
 | Output folder: | Folder to save the sprite sheet (png) file. Default: same as scene |
 | Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
-| Exclude pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
-| Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 
 
 Notes:
@@ -159,6 +162,9 @@ If you use the importer flow, any `*.ase` or `*.aseprite` file saved in the proj
 
 By default, the automatic importer won´t generate any file. You can change the default importer behaviour via Project Settings.
 
+
+![Importer screenshot](./screenshots/importers.png)
+
 SpriteFrames importer Options:
 
 | Field                   | Description |
@@ -188,17 +194,19 @@ You can import your Aseprite file as a static image (first frame only, no animat
 
 For the inspector dock, after selecting a `Sprite` or `TextureRect` node, in the Aseprite section you can select "mode" as "Image".
 
+![Static image inspector dock screenshot](./screenshots/static_sprite_dock_expanded.png)
+
 Dock options:
 
 | Field                   | Description |
 | ----------------------- | ----------- |
 | Aseprite File | (\*.aseprite or \*.ase) source file. |
 | Layer | Aseprite layer to be used in the animation. By default, all layers are included. |
+| Exclude pattern | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
+| Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
 | Output folder | Folder to save the sprite sheet (png) file. Default: same as scene |
 | Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
-| Exclude pattern | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
-| Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 
 You can also use Aseprite files directly as static images. For that you need to select the "Aseprite Texture" importer in the Import dock. You can also set it as the default importer via ProjectSettings.
 
@@ -235,23 +243,11 @@ Both the default configuration and the exception prefix can be changed in the co
 
 Currently, import overwrites previously imported files. Any manual modification in the previous resource file will be lost.
 
-### What is the gibberish in the node's "Editor Description"
+### Metadata cleanup on export
 
-If you imported animations via the inspector dock before version v5.2.0, you may find some "gibberish" text in the Editor Description field. This is a base64 encoded config for the options you selected for that node. It is not required for the animation to work, however, it does improve the development flow, as you won't need to fill all information up again when re-importing your animations.
-
-From v5.2.0, this information is stored in the scene metadata and shouldn't be visible anymore. Any previously imported animation will still have the Editor Description info, but it will be moved to the metadata when re-imported again.
-
-You can disable the new behaviour at `Project > Project Settings > General > Animation > Storage > Use metadata`. _Keep in mind this will be deprecated in a next major version._
-
-As you can select files from anywhere in your system, there is an export plugin to prevent your local path metadata to be shipped with the game. In case you suspect this is conflicting with other plugins (or if you think you don't need it) you can disable it at `Project > Project Settings > General > Animation > Storage > Enable metadata removal on export`.
+The options you select in the inspector dock are stored in the scene as metadata metadata. As you can select files from anywhere in your system, there is an export plugin to prevent your local path metadata to be shipped with the game. In case you suspect this is conflicting with other plugins (or if you think you don't need it) you can disable it at `Project > Project Settings > General > Animation > Storage > Enable Metadata Removal On Export`.
 
 ## Known Issues
-
-### SpriteFrames dock showing outdated resource
-
-Godot is using the cached resource. Open another SpriteFrame and then re-open the affected one. You should see the newest version.
-
-This issue will only show outdated resources in the editor. When running the project you will always see the newest changes.
 
 ### Big files issue (Image width cannot be greater than 16384px)
 

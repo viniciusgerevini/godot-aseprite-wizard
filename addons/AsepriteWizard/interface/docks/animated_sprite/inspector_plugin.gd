@@ -12,7 +12,7 @@ func _can_handle(object):
 
 func _parse_end(object):
 	var dock = ASInspectorDock.instantiate()
-	dock.sprite = object
+	dock.target_node = object
 	dock.config = config
 	dock.file_system = file_system
 	add_custom_control(dock)
