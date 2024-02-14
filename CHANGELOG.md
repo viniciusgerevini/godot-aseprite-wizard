@@ -2,7 +2,7 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## Unreleased
+## 7.3.0 (2024-02-13)
 
 ### Added
 
@@ -11,7 +11,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Changed
 
 - Interface refactor. Better looking. Re-organised properties. Docks with sections.
-- Refactored docks to re-use as much as they can.
+- Refactored docks to re-use code.
+
+### Fixed
+
+- Null issue when retrieving error after failing to open file (@patoui)
+
+### Thanks
+
+- Thanks @patoui for fixing the open file issue.
 
 ## 7.2.0 (2024-02-07)
 
