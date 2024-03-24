@@ -14,7 +14,7 @@ const ERR_INVALID_ASEPRITE_SPRITESHEET = 7
 static func get_error_message(code: int):
 	match code:
 		ERR_ASEPRITE_CMD_NOT_FOUND:
-			return "Aseprite command failed. Please, check if the right command is in your PATH or configured through \"Project > Tools > Aseprite Wizard Config\"."
+			return "Aseprite command failed. Please, check if the right command is in your PATH or configured through \"Editor > Editor Settings > Aseprite > General > Command Path\"."
 		ERR_SOURCE_FILE_NOT_FOUND:
 			return "source file does not exist"
 		ERR_OUTPUT_FOLDER_NOT_FOUND:
