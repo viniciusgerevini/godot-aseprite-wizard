@@ -12,15 +12,19 @@ const ExportPlugin = preload("export/metadata_export_plugin.gd")
 # interface
 const ConfigDialog = preload('config/config_dialog.tscn')
 const WizardWindow = preload("interface/docks/wizard/as_wizard_dock_container.tscn")
+const AsepriteDockImportsWindow = preload('interface/modals/aseprite_dock_imports_modal.tscn')
 const AnimatedSpriteInspectorPlugin = preload("interface/docks/animated_sprite/inspector_plugin.gd")
 const SpriteInspectorPlugin = preload("interface/docks/sprite/inspector_plugin.gd")
 
-const menu_item_name = "Aseprite Spritesheet Wizard"
-const config_menu_item_name = "Aseprite Wizard Config"
+const tool_menu_name = "Aseprite Wizard"
+const menu_item_name = "Toggle Spritesheet Wizard Dock"
+const config_menu_item_name = "Config..."
+const import_menu_item_name = "Imports..."
 
 var config = preload("config/config.gd").new()
 var window: TabContainer
 var config_window: PopupPanel
+var imports_list_window: Window
 var export_plugin : EditorExportPlugin
 var sprite_inspector_plugin: EditorInspectorPlugin
 var animated_sprite_inspector_plugin: EditorInspectorPlugin
@@ -55,13 +59,16 @@ func _load_config():
 
 
 func _setup_menu_entries():
-	add_tool_menu_item(menu_item_name, _open_window)
-	add_tool_menu_item(config_menu_item_name, _open_config_dialog)
+	var submenu = PopupMenu.new()
+	add_tool_submenu_item(tool_menu_name, submenu)
+	submenu.add_item(menu_item_name)
+	submenu.add_item(import_menu_item_name)
+	submenu.add_item(config_menu_item_name)
+	submenu.index_pressed.connect(_on_tool_menu_pressed)
 
 
 func _remove_menu_entries():
-	remove_tool_menu_item(menu_item_name)
-	remove_tool_menu_item(config_menu_item_name)
+	remove_tool_menu_item(tool_menu_name)
 
 
 func _setup_importer():
@@ -145,8 +152,28 @@ func _open_config_dialog():
 	config_window.popup_centered()
 
 
+func _open_import_list_dialog():
+	if is_instance_valid(imports_list_window):
+		imports_list_window.queue_free()
+
+	imports_list_window = AsepriteDockImportsWindow.instantiate()
+	#imports_list_window.init(config)
+	get_editor_interface().get_base_control().add_child(imports_list_window)
+	imports_list_window.popup_centered_ratio(0.5)
+
+
 func _on_window_closed():
 	if window:
 		remove_control_from_bottom_panel(window)
 		window.queue_free()
 		window = null
+
+
+func _on_tool_menu_pressed(index):
+	match index:
+		0: # wizard dock
+			_open_window()
+		1: # imports
+			_open_import_list_dialog()
+		2: # config
+			_open_config_dialog()
