@@ -61,7 +61,6 @@ var _selection_count = 0
 var _current_buttons_container
 var _resources_to_process
 
-# TODO filter
 
 func _ready():
 	_set_empty_details_state()
@@ -410,3 +409,28 @@ func _set_empty_details_state():
 	_nothing_container.show()
 	_single_item_container.hide()
 	_multiple_items_container.hide()
+
+
+func _on_tree_filter_change_finished(text: String):
+	var tree_root: TreeItem = _resource_tree.get_root()
+
+	if text == "":
+		tree_root.call_recursive("set", "visible", true)
+		return
+	tree_root.call_recursive("set", "visible", false)
+
+	_make_matching_children_visible(tree_root, text.to_lower())
+
+func _make_matching_children_visible(tree_root: TreeItem, text: String) -> void:
+	for c in tree_root.get_children():
+		if c.get_text(0).to_lower().contains(text):
+			c.visible = true
+			_ensure_parent_visible(c)
+		_make_matching_children_visible(c, text)
+
+
+func _ensure_parent_visible(tree_item: TreeItem) -> void:
+	var node_parent = tree_item.get_parent()
+	if node_parent != null and not node_parent.visible:
+		node_parent.visible = true
+		_ensure_parent_visible(node_parent)
