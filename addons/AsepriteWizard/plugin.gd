@@ -45,16 +45,12 @@ func _disable_plugin():
 	_remove_wizard_dock()
 	_remove_inspector_plugins()
 	config.clear_project_settings()
-	config.set_icons({})
 
 
 func _load_config():
 	var editor_gui = get_editor_interface().get_base_control()
 	config._editor_settings = get_editor_interface().get_editor_settings()
-	config.set_icons({
-		"collapsed": editor_gui.get_theme_icon("GuiTreeArrowRight", "EditorIcons"),
-		"expanded": editor_gui.get_theme_icon("GuiTreeArrowDown", "EditorIcons"),
-	})
+
 	config.initialize_project_settings()
 
 
