@@ -12,14 +12,14 @@ const ExportPlugin = preload("export/metadata_export_plugin.gd")
 # interface
 const ConfigDialog = preload('config/config_dialog.tscn')
 const WizardWindow = preload("interface/docks/wizard/as_wizard_dock_container.tscn")
-const AsepriteDockImportsWindow = preload('interface/modals/aseprite_dock_imports_modal.tscn')
+const AsepriteDockImportsWindow = preload('interface/imports_manager/aseprite_imports_manager.tscn')
 const AnimatedSpriteInspectorPlugin = preload("interface/docks/animated_sprite/inspector_plugin.gd")
 const SpriteInspectorPlugin = preload("interface/docks/sprite/inspector_plugin.gd")
 
 const tool_menu_name = "Aseprite Wizard"
-const menu_item_name = "Toggle Spritesheet Wizard Dock"
+const menu_item_name = "Open Spritesheet Wizard Dock"
 const config_menu_item_name = "Config..."
-const import_menu_item_name = "Imports..."
+const import_menu_item_name = "Imports Manager..."
 
 var config = preload("config/config.gd").new()
 var window: TabContainer

@@ -1,42 +1,42 @@
 @tool
-extends Window
+extends Panel
 
 const wizard_config = preload("../../config/wizard_config.gd")
 
 var _import_helper = preload("./import_helper.gd").new()
 
-@onready var _resource_tree = $Panel/MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/Tree
-@onready var _details = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer
+@onready var _resource_tree = $MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/Tree
+@onready var _details = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer
 
-@onready var _nothing_container = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/nothing
-@onready var _single_item_container = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item
-@onready var _multiple_items_container = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items
+@onready var _nothing_container = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/nothing
+@onready var _single_item_container = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item
+@onready var _multiple_items_container = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items
 
-@onready var _name = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/name_value
-@onready var _type = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/type_value
-@onready var _path = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/path_value
+@onready var _name = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/name_value
+@onready var _type = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/type_value
+@onready var _path = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/path_value
 
-@onready var _source = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/source_file_value
-@onready var _layer = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/layer_value
-@onready var _slice = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/slice_value
-@onready var _o_name = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/o_name_value
+@onready var _source = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/source_file_value
+@onready var _layer = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/layer_value
+@onready var _slice = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/slice_value
+@onready var _o_name = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/o_name_value
 
-@onready var _source_label = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/source_file_label
-@onready var _layer_label = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/layer_label
-@onready var _slice_label = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/slice_label
-@onready var _o_name_label = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/o_name_label
+@onready var _source_label = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/source_file_label
+@onready var _layer_label = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/layer_label
+@onready var _slice_label = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/slice_label
+@onready var _o_name_label = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/o_name_label
 
-@onready var _resource_buttons = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/resource_buttons
-@onready var _dir_buttons = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/dir_buttons
-@onready var _file_buttons = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/scene_buttons
+@onready var _resource_buttons = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/resource_buttons
+@onready var _dir_buttons = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/dir_buttons
+@onready var _file_buttons = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/scene_buttons
 
-@onready var _multiple_import_message = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items/multiple
-@onready var _multiple_import_button = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items/buttons/import_selected
+@onready var _multiple_import_message = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items/multiple
+@onready var _multiple_import_button = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items/buttons/import_selected
 
-@onready var _confirmation_warning_container = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning
-@onready var _confirmation_warning_message = $Panel/MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning/MarginContainer/warning_message
+@onready var _confirmation_warning_container = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning
+@onready var _confirmation_warning_message = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning/MarginContainer/warning_message
 
-@onready var _tree_buttons = $Panel/MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons
+@onready var _tree_buttons = $MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons
 
 @onready var _option_fields = [
 	_source,
@@ -61,11 +61,10 @@ var _selection_count = 0
 var _current_buttons_container
 var _resources_to_process
 
+# TODO filter
 
 func _ready():
-	_nothing_container.show()
-	_single_item_container.hide()
-	_multiple_items_container.hide()
+	_set_empty_details_state()
 
 	var file_tree = _get_file_tree("res://")
 	_setup_tree(file_tree)
@@ -131,10 +130,6 @@ func _add_items_to_tree(root: TreeItem, children: Array):
 
 			"resource":
 				item.set_icon(0, get_theme_icon(node.node_type, "EditorIcons"))
-
-
-func _on_close_requested():
-	self.queue_free()
 
 
 func _get_aseprite_metadata(file_path: String) -> Array:
@@ -394,3 +389,24 @@ func _on_collapse_all_pressed():
 	var tree_root: TreeItem = _resource_tree.get_root()
 	tree_root.set_collapsed_recursive(true)
 	tree_root.collapsed = false
+
+
+func _on_refresh_tree_pressed():
+	_set_empty_details_state()
+
+	_confirmation_warning_container.hide()
+	_resources_to_process = null
+	if _current_buttons_container != null:
+		_current_buttons_container.show()
+		_current_buttons_container = null
+
+	_selection_count = 0
+	_resource_tree.clear()
+	var file_tree = _get_file_tree("res://")
+	_setup_tree(file_tree)
+
+
+func _set_empty_details_state():
+	_nothing_container.show()
+	_single_item_container.hide()
+	_multiple_items_container.hide()
