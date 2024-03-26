@@ -67,7 +67,6 @@ func _ready():
 
 	var file_tree = _get_file_tree("res://")
 	_setup_tree(file_tree)
-	_configure_buttons()
 
 
 func _get_file_tree(base_path: String, dir_name: String = "") -> Dictionary:
@@ -264,30 +263,6 @@ func _hide_option_fields() -> void:
 func _show_option_fields() -> void:
 	for o in _option_fields:
 		o.show()
-
-
-func _configure_buttons():
-	var sb = Button.new()
-	var style = sb.get_theme_stylebox("normal")
-	var color = style.get_bg_color().darkened(0.1)
-	var new_style = StyleBoxFlat.new()
-	new_style.set_bg_color(color)
-	new_style.set_content_margin_all(2)
-
-	for c in _dir_buttons.get_children():
-		c.add_theme_stylebox_override("normal", new_style)
-	for c in _resource_buttons.get_children():
-		c.add_theme_stylebox_override("normal", new_style)
-	for c in _file_buttons.get_children():
-		c.add_theme_stylebox_override("normal", new_style)
-
-	_multiple_import_button.add_theme_stylebox_override("normal", new_style)
-
-	for c in _confirmation_warning_container.get_node("buttons").get_children():
-		c.add_theme_stylebox_override("normal", new_style)
-
-	for c in _tree_buttons.get_children():
-		c.add_theme_stylebox_override("normal", new_style)
 
 
 func _on_import_pressed():

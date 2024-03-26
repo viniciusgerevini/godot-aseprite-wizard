@@ -13,6 +13,8 @@ const ExportPlugin = preload("export/metadata_export_plugin.gd")
 const ConfigDialog = preload('config/config_dialog.tscn')
 const WizardWindow = preload("interface/docks/wizard/as_wizard_dock_container.tscn")
 const AsepriteDockImportsWindow = preload('interface/imports_manager/aseprite_imports_manager.tscn')
+const ImportsManagerPanels = preload('interface/imports_manager/import_panels.tscn')
+
 const AnimatedSpriteInspectorPlugin = preload("interface/docks/animated_sprite/inspector_plugin.gd")
 const SpriteInspectorPlugin = preload("interface/docks/sprite/inspector_plugin.gd")
 
@@ -25,6 +27,7 @@ var config = preload("config/config.gd").new()
 var window: TabContainer
 var config_window: PopupPanel
 var imports_list_window: Window
+var imports_list_panel: MarginContainer
 var export_plugin : EditorExportPlugin
 var sprite_inspector_plugin: EditorInspectorPlugin
 var animated_sprite_inspector_plugin: EditorInspectorPlugin
@@ -32,6 +35,8 @@ var animated_sprite_inspector_plugin: EditorInspectorPlugin
 var _exporter_enabled = false
 
 var _importers = []
+
+var _is_import_list_docked = false
 
 func _enter_tree():
 	_load_config()
@@ -156,10 +161,16 @@ func _open_import_list_dialog():
 	if is_instance_valid(imports_list_window):
 		imports_list_window.queue_free()
 
-	imports_list_window = AsepriteDockImportsWindow.instantiate()
-	#imports_list_window.init(config)
-	get_editor_interface().get_base_control().add_child(imports_list_window)
-	imports_list_window.popup_centered_ratio(0.5)
+	if is_instance_valid(imports_list_panel):
+		if _is_import_list_docked:
+			remove_control_from_bottom_panel(imports_list_panel)
+			_is_import_list_docked = false
+		imports_list_panel.queue_free()
+		imports_list_panel = null
+
+	imports_list_panel = ImportsManagerPanels.instantiate()
+	imports_list_panel.dock_requested.connect(_on_import_list_dock_requested)
+	_create_imports_manager_window(imports_list_panel)
 
 
 func _on_window_closed():
@@ -177,3 +188,28 @@ func _on_tool_menu_pressed(index):
 			_open_import_list_dialog()
 		2: # config
 			_open_config_dialog()
+
+
+func _on_import_list_dock_requested():
+	if _is_import_list_docked:
+		remove_control_from_bottom_panel(imports_list_panel)
+		_is_import_list_docked = false
+		_create_imports_manager_window(imports_list_panel)
+		imports_list_panel.show()
+		imports_list_panel.anchors_preset = Control.PRESET_FULL_RECT
+		imports_list_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		imports_list_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		return
+
+	_is_import_list_docked = true
+	imports_list_window.remove_child(imports_list_panel)
+	imports_list_window.queue_free()
+	add_control_to_bottom_panel(imports_list_panel, "Aseprite Imports Manager")
+	make_bottom_panel_item_visible(imports_list_panel)
+
+
+func _create_imports_manager_window(panel: MarginContainer):
+	imports_list_window = AsepriteDockImportsWindow.instantiate()
+	imports_list_window.add_child(panel)
+	get_editor_interface().get_base_control().add_child(imports_list_window)
+	imports_list_window.popup_centered_ratio(0.5)

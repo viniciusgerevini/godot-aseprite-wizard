@@ -3,12 +3,7 @@
 [ext_resource type="Script" path="res://addons/AsepriteWizard/interface/imports_manager/dock_imports_panel.gd" id="1_1xyeb"]
 [ext_resource type="Script" path="res://addons/AsepriteWizard/interface/imports_manager/tree_filter_field.gd" id="2_4k0wf"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ns3t5"]
-content_margin_left = 2.0
-content_margin_top = 2.0
-content_margin_right = 2.0
-content_margin_bottom = 2.0
-bg_color = Color(0.09, 0.09, 0.09, 0.6)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_edrvq"]
 
 [node name="dock_imports" type="Panel"]
 custom_minimum_size = Vector2(600, 400)
@@ -19,6 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_edrvq")
 script = ExtResource("1_1xyeb")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -60,19 +56,16 @@ script = ExtResource("2_4k0wf")
 [node name="expand_all" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Expand All"
 
 [node name="collapse_all" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Collapse All"
 
 [node name="refresh_tree" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Refresh Tree"
 
 [node name="Tree" type="Tree" parent="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
@@ -207,13 +200,11 @@ layout_mode = 2
 [node name="import" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/resource_buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Re-Import"
 
 [node name="open_scene" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/resource_buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Open Scene"
 
 [node name="scene_buttons" type="HFlowContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item"]
@@ -223,13 +214,11 @@ layout_mode = 2
 [node name="import_all" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/scene_buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Re-Import all"
 
 [node name="open_scene" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/scene_buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Open Scene"
 
 [node name="dir_buttons" type="HFlowContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item"]
@@ -239,13 +228,11 @@ layout_mode = 2
 [node name="import_all" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/dir_buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Re-Import all"
 
 [node name="show_dir_in_fs" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/dir_buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Show In FileSystem"
 
 [node name="multiple_items" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer"]
@@ -266,7 +253,6 @@ layout_mode = 2
 [node name="import_selected" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items/buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Re-Import all"
 
 [node name="confirmation_warning" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer"]
@@ -291,13 +277,11 @@ layout_mode = 2
 [node name="confirm" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning/buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Confirm"
 
 [node name="cancel" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning/buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_ns3t5")
 text = "Cancel"
 
 [connection signal="change_finished" from="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons/tree_filter" to="." method="_on_tree_filter_change_finished"]
