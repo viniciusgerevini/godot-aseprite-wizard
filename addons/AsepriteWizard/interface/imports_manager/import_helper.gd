@@ -62,7 +62,7 @@ func _animation_import(node: Node, root_node: Node, resource_config: Dictionary)
 		printerr("Node config missing information.")
 		return
 
-	if resource_config.meta.i_mode == 0:
+	if resource_config.meta.get("i_mode", 0) == 0:
 		await _import_to_animation_player(node, root_node, resource_config)
 	else:
 		await _import_static(node, resource_config)
