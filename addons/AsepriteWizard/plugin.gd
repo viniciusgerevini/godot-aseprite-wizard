@@ -199,9 +199,11 @@ func _on_import_list_dock_requested():
 		imports_list_panel.anchors_preset = Control.PRESET_FULL_RECT
 		imports_list_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		imports_list_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		imports_list_panel.set_as_floating()
 		return
 
 	_is_import_list_docked = true
+	imports_list_panel.set_as_docked()
 	imports_list_window.remove_child(imports_list_panel)
 	imports_list_window.queue_free()
 	add_control_to_bottom_panel(imports_list_panel, "Aseprite Imports Manager")
