@@ -47,10 +47,7 @@ const _I_DO_NOT_CREATE_RES_KEY = 'i_disable_resource_creation'
 # export
 const _EXPORTER_ENABLE_KEY = 'aseprite/animation/storage/enable_metadata_removal_on_export'
 
-var _editor_settings: EditorSettings
-
-# INTERFACE SETTINGS
-var _plugin_icons: Dictionary
+var _editor_settings: EditorSettings = EditorInterface.get_editor_settings()
 
 #######################################################
 # GLOBAL CONFIGS
@@ -201,17 +198,6 @@ func should_not_create_resource() -> bool:
 
 func set_do_not_create_resource(do_no_create: bool) -> void:
 	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_DO_NOT_CREATE_RES_KEY, do_no_create)
-
-#######################################################
-# INTERFACE SETTINGS
-######################################################
-
-func set_icons(plugin_icons: Dictionary) -> void:
-	_plugin_icons = plugin_icons
-
-
-func get_icon(icon_name: String) -> Texture2D:
-	return _plugin_icons[icon_name]
 
 
 #######################################################
