@@ -12,6 +12,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Aseprite Wizard menus are now grouped under `Project -> Tools -> Aseprite Wizard`.
 
+### Fixed
+
+- Fixed crash on quitting Godot in MacOS.
+
+### Thanks
+
+- Thanks @sandord for fixing outdated PATH instruction message.
+- Thanks @tanuki-billie for reporting the MacOS exit crash.
+
 ## 7.3.0 (2024-02-13)
 
 ### Added

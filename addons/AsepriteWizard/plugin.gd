@@ -47,6 +47,10 @@ func _enter_tree():
 	_setup_sprite_inspector_plugin()
 
 
+func _exit_tree():
+	_disable_plugin()
+
+
 func _disable_plugin():
 	_remove_menu_entries()
 	_remove_importer()
