@@ -38,6 +38,8 @@ var _import_helper = preload("./import_helper.gd").new()
 
 @onready var _tree_buttons = $MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons
 
+@onready var _source_change_warning = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/source_changed_warning
+
 @onready var _option_fields = [
 	_source,
 	_layer,
@@ -61,12 +63,33 @@ var _selection_count = 0
 var _current_buttons_container
 var _resources_to_process
 
+var _should_save_in = 0
 
 func _ready():
 	_set_empty_details_state()
+	_configure_source_warning()
 
 	var file_tree = _get_file_tree("res://")
 	_setup_tree(file_tree)
+
+
+# Unfortunately godot throws some nasty warnings when trying to save after
+# multiple import operations. I implemented this late save as a workaround
+func _process(delta):
+	if _should_save_in > 0:
+		_should_save_in -= delta
+		if _should_save_in <= 0:
+			_should_save_in = 0
+			_save_all_scenes()
+
+
+func _configure_source_warning():
+	var sb = _source_change_warning.get_theme_stylebox("panel")
+	var color = EditorInterface.get_editor_settings().get_setting("interface/theme/accent_color")
+	color.a = 0.2
+	sb.bg_color = color
+	_source_change_warning.get_node("MarginContainer/HBoxContainer/Icon").texture = get_theme_icon("NodeInfo", "EditorIcons")
+	_source_change_warning.hide()
 
 
 func _get_file_tree(base_path: String, dir_name: String = "") -> Dictionary:
@@ -128,6 +151,8 @@ func _add_items_to_tree(root: TreeItem, children: Array):
 
 			"resource":
 				item.set_icon(0, get_theme_icon(node.node_type, "EditorIcons"))
+				if node.has_changes:
+					item.set_text(0, "%s (*)" % node.name)
 
 
 func _get_aseprite_metadata(file_path: String) -> Array:
@@ -140,7 +165,8 @@ func _get_aseprite_metadata(file_path: String) -> Array:
 		var node_type = state.get_node_type(i)
 		if _is_supported_type(node_type):
 			var node_path = state.get_node_path(i)
-			var meta = wizard_config.load_config(root.get_node(node_path))
+			var target_node = root.get_node(node_path)
+			var meta = wizard_config.load_config(target_node)
 			if meta != null:
 				resources.push_back({
 					"type": "resource",
@@ -150,9 +176,21 @@ func _get_aseprite_metadata(file_path: String) -> Array:
 					"node_name": state.get_node_name(i),
 					"meta": meta,
 					"scene_path": file_path,
+					"has_changes": _has_source_changes(target_node, meta.get("source"))
 				})
 
 	return resources
+
+
+func _has_source_changes(target_node: Node, source_path: String) -> bool:
+	if not source_path or source_path == "":
+		return false
+	var saved_hash = wizard_config.get_source_hash(target_node)
+	if saved_hash == "":
+		return false
+	var current_hash = FileAccess.get_md5(source_path)
+
+	return saved_hash != current_hash
 
 
 func _is_supported_type(node_type: String) -> bool:
@@ -216,6 +254,7 @@ func _set_item_details(item: TreeItem) -> void:
 	_dir_buttons.hide()
 	_resource_buttons.hide()
 	_file_buttons.hide()
+	_source_change_warning.hide()
 
 	match data.type:
 		"dir":
@@ -236,6 +275,7 @@ func _set_item_details(item: TreeItem) -> void:
 			_name.text = data.node_name
 			_type.text = data.node_type
 			_path.text = data.node_path
+
 			var meta = data.meta
 			_source.text = meta.source
 			_layer.text = "All" if meta.get("layer", "") == "" else meta.layer
@@ -254,6 +294,8 @@ func _set_item_details(item: TreeItem) -> void:
 			_resource_buttons.show()
 			_current_buttons_container = _resource_buttons
 
+			_source_change_warning.visible = data.has_changes
+
 
 func _hide_option_fields() -> void:
 	for o in _option_fields:
@@ -267,6 +309,8 @@ func _show_option_fields() -> void:
 
 func _on_import_pressed():
 	await _trigger_import(_resource_tree.get_selected().get_meta("node"))
+	_set_tree_item_as_saved(_resource_tree.get_selected())
+	_source_change_warning.hide()
 	EditorInterface.save_scene()
 
 
@@ -332,10 +376,12 @@ func _on_import_confirm_pressed():
 		EditorInterface.mark_scene_as_unsaved()
 	_resources_to_process = null
 
-	# unfortunately godot throws some nasty warnings when trying to save after
-	# this import operation. Just marking scenes as edited and letting the user
-	# save them manually
-	#EditorInterface.save_all_scenes()
+	_should_save_in = 1
+
+
+func _save_all_scenes():
+	EditorInterface.save_all_scenes()
+	_reload_tree()
 
 
 func _on_import_cancel_pressed():
@@ -367,7 +413,10 @@ func _on_collapse_all_pressed():
 
 func _on_refresh_tree_pressed():
 	_set_empty_details_state()
+	_reload_tree()
 
+
+func _reload_tree():
 	_confirmation_warning_container.hide()
 	_resources_to_process = null
 	if _current_buttons_container != null:
@@ -409,3 +458,10 @@ func _ensure_parent_visible(tree_item: TreeItem) -> void:
 	if node_parent != null and not node_parent.visible:
 		node_parent.visible = true
 		_ensure_parent_visible(node_parent)
+
+
+func _set_tree_item_as_saved(item: TreeItem) -> void:
+	var meta = item.get_meta("node")
+	meta.has_changes = false
+	item.set_meta("node", meta)
+	item.set_text(0, meta.name)

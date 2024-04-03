@@ -7,10 +7,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 
 - Imports Manager: Allow re-importing and finding all animations imported via the Inspector Dock.
+- Source file changes indicator: Now docks will show warning when source file changed since last import.
 
 ### Changed
 
 - Aseprite Wizard menus are now grouped under `Project -> Tools -> Aseprite Wizard`.
+- Save scene on importing via dock to persist metadata.
 
 ### Fixed
 

@@ -177,6 +177,7 @@ func _import_for_animation_player():
 	animation_creator.create_animations(target_node, root.get_node(_animation_player_path), aseprite_output.content, anim_options)
 	_importing = false
 
+	wizard_config.set_source_hash(target_node, FileAccess.get_md5(source_path))
 	_handle_cleanup(aseprite_output.content)
 
 ##
@@ -202,8 +203,8 @@ func _import_static():
 
 	static_texture_creator.load_texture(target_node, aseprite_output.content, { "slice": _slice })
 
-
 	_importing = false
+	wizard_config.set_source_hash(target_node, FileAccess.get_md5(source_path))
 	_handle_cleanup(aseprite_output.content)
 
 

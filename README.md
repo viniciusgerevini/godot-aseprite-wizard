@@ -227,9 +227,7 @@ You can find the manager under `Project -> Tools -> Aseprite Wizard -> Imports M
 
 In this screen you can see all the nodes in your project imported using the Inspector Dock. From here, you can re-import any file, as well as selecting multiple files to import in one go.
 
-Due to some limitations and bugs in Godot there are a few caveats:
-- When importing a node, its scene will be open in the editor.
-- When importing multiple nodes at same time, the animations are imported but the scenes are not saved automatically. You need to manually trigger "save" or "save all".
+Due to some limitations and bugs in Godot, when importing a node its scene will be open in the editor.
 
 ## F.A.Q. and limitations
 

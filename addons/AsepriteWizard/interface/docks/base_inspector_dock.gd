@@ -61,6 +61,21 @@ func _ready():
 	_aseprite_file_exporter.init(config)
 	_setup_field_listeners()
 	_setup()
+	_check_for_changes()
+
+
+func _check_for_changes():
+	if not _source or _source == "":
+		return
+
+	var saved_hash = wizard_config.get_source_hash(target_node)
+
+	if saved_hash == "":
+		return
+
+	if saved_hash != FileAccess.get_md5(_source):
+		$dock_fields.show_source_change_warning()
+
 
 func _setup_interface():
 	_hide_fields()
@@ -362,6 +377,8 @@ func _on_import_pressed():
 
 	await _do_import()
 	_importing = false
+	$dock_fields.hide_source_change_warning()
+	EditorInterface.save_scene()
 
 
 # This is a little bit leaky as this base scene contains fields only relevant to animation players.
