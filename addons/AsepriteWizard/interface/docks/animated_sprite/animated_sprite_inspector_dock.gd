@@ -42,4 +42,6 @@ func _do_import():
 
 	sprite_frames_creator.create_animations(target_node, aseprite_output.content, { "slice": _slice })
 
+	wizard_config.set_source_hash(target_node, FileAccess.get_md5(source_path))
+
 	_handle_cleanup(aseprite_output.content)

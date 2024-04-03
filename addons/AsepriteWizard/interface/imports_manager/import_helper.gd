@@ -54,6 +54,7 @@ func _sprite_frames_import(node: Node, resource_config: Dictionary) -> void:
 
 	_sprite_frames_creator.create_animations(node, aseprite_output.content, { "slice": options.slice })
 
+	wizard_config.set_source_hash(node, FileAccess.get_md5(source))
 	_handle_cleanup(aseprite_output.content)
 
 
@@ -89,6 +90,7 @@ func _import_to_animation_player(node: Node, root: Node, resource_config: Dictio
 	var animation_creator = _texture_rect_animation_creator if node is TextureRect else _sprite_animation_creator
 	animation_creator.create_animations(node, root.get_node(config.player), aseprite_output.content, anim_options)
 
+	wizard_config.set_source_hash(node, FileAccess.get_md5(source))
 	_handle_cleanup(aseprite_output.content)
 
 
@@ -109,6 +111,7 @@ func _import_static(node: Node, resource_config: Dictionary) -> void:
 
 	_static_texture_creator.load_texture(node, aseprite_output.content, { "slice": options.slice })
 
+	wizard_config.set_source_hash(node, FileAccess.get_md5(source))
 	_handle_cleanup(aseprite_output.content)
 
 
