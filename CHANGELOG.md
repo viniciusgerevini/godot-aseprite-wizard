@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 
 - Imports Manager: Allow re-importing and finding all animations imported via the Inspector Dock.
+- Source file changes indicator: Now docks will show warning when source file changed since last import.
 
 ### Changed
 
