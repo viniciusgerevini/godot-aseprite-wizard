@@ -254,6 +254,7 @@ func _set_item_details(item: TreeItem) -> void:
 	_dir_buttons.hide()
 	_resource_buttons.hide()
 	_file_buttons.hide()
+	_source_change_warning.hide()
 
 	match data.type:
 		"dir":
