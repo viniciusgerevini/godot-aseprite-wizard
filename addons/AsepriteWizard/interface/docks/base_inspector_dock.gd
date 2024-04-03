@@ -378,6 +378,7 @@ func _on_import_pressed():
 	await _do_import()
 	_importing = false
 	$dock_fields.hide_source_change_warning()
+	EditorInterface.save_scene()
 
 
 # This is a little bit leaky as this base scene contains fields only relevant to animation players.

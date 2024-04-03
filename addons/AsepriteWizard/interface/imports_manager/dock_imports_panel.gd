@@ -293,7 +293,7 @@ func _set_item_details(item: TreeItem) -> void:
 			_show_option_fields()
 			_resource_buttons.show()
 			_current_buttons_container = _resource_buttons
-			
+
 			_source_change_warning.visible = data.has_changes
 
 
@@ -377,7 +377,7 @@ func _on_import_confirm_pressed():
 	_resources_to_process = null
 
 	_should_save_in = 1
-	
+
 
 func _save_all_scenes():
 	EditorInterface.save_all_scenes()
