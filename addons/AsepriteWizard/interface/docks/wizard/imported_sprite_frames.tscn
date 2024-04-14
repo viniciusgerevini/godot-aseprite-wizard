@@ -1,0 +1,67 @@
+[gd_scene load_steps=6 format=3 uid="uid://bfhsdslj8kt7b"]
+
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/wizard/imported_sprite_frames.gd" id="1_dk2ra"]
+[ext_resource type="PackedScene" uid="uid://cisgsfvp4nf1g" path="res://addons/AsepriteWizard/interface/shared/tree/resource_tree.tscn" id="2_svrqo"]
+[ext_resource type="PackedScene" uid="uid://q7eyyg2kvvv2" path="res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_single_item.tscn" id="3_pe1cg"]
+[ext_resource type="PackedScene" uid="uid://fscemkx5w1dw" path="res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_multiple_items.tscn" id="4_vteew"]
+[ext_resource type="PackedScene" uid="uid://qgmln507kjnm" path="res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.tscn" id="5_jigim"]
+
+[node name="ImportedSpriteFrames" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dk2ra")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="tree" parent="MarginContainer/HSplitContainer" instance=ExtResource("2_svrqo")]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HSplitContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HSplitContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HSplitContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HSplitContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "Details"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HSplitContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="nothing" type="Label" parent="MarginContainer/HSplitContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Nothing selected"
+horizontal_alignment = 1
+
+[node name="single_item" parent="MarginContainer/HSplitContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_pe1cg")]
+visible = false
+layout_mode = 2
+
+[node name="multiple_items" parent="MarginContainer/HSplitContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_vteew")]
+visible = false
+layout_mode = 2
+
+[node name="confirmation_warning" parent="MarginContainer/HSplitContainer/MarginContainer/VBoxContainer" instance=ExtResource("5_jigim")]
+visible = false
+layout_mode = 2
+
+[connection signal="multi_selected" from="MarginContainer/HSplitContainer/tree" to="." method="_on_tree_multi_selected"]
+[connection signal="refresh_triggered" from="MarginContainer/HSplitContainer/tree" to="." method="_on_tree_refresh_triggered"]
+[connection signal="import_triggered" from="MarginContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item" to="." method="_on_single_item_import_triggered"]
+[connection signal="import_triggered" from="MarginContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items" to="." method="_on_multiple_items_import_triggered"]
+[connection signal="warning_confirmed" from="MarginContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning" to="." method="_on_confirmation_warning_warning_confirmed"]
+[connection signal="warning_declined" from="MarginContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning" to="." method="_on_confirmation_warning_warning_declined"]

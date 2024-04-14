@@ -8,12 +8,13 @@ const SourcePathField = preload("./wizard_nodes/source_path.tscn")
 const OutputPathField = preload("./wizard_nodes/output_path.tscn")
 const ImportDateField = preload("./wizard_nodes/import_date.tscn")
 const ItemActions = preload("./wizard_nodes/list_actions.tscn")
+const DetailsField = preload("./wizard_nodes/details.tscn")
 
 const SORT_BY_DATE := 0
 const SORT_BY_PATH := 1
-const INITIAL_GRID_INDEX := 3
+const INITIAL_GRID_INDEX := 4
 
-var _config
+var _config = preload("../../../config/config.gd").new()
 var _history: Array
 var _history_nodes := {}
 var _history_nodes_list := []
@@ -25,13 +26,13 @@ var _sort_by = SORT_BY_DATE
 @onready var loading_warning = $MarginContainer/VBoxContainer/loading_warning
 @onready var no_history_warning = $MarginContainer/VBoxContainer/no_history_warning
 
-func init(config):
-	_config = config
-
 
 func reload():
 	if _history:
 		return
+
+	if _config.has_old_history():
+		_migrate_history()
 
 	_history = _config.get_import_history()
 
@@ -51,23 +52,32 @@ func _create_node_list_entry(entry: Dictionary, index: int):
 
 
 func _create_nodes(entry: Dictionary, index: int) -> Dictionary:
+	var import_date = ImportDateField.instantiate()
+	import_date.set_date(entry.import_date)
+
 	var source_path = SourcePathField.instantiate()
 	source_path.set_entry(entry)
 
-	grid.get_child(INITIAL_GRID_INDEX).add_sibling(source_path)
-
 	var output_path = OutputPathField.instantiate()
 	output_path.text = entry.output_location
-	source_path.add_sibling(output_path)
-	var import_date = ImportDateField.instantiate()
-	import_date.set_date(entry.import_date)
-	output_path.add_sibling(import_date)
+	output_path.tooltip_text = entry.output_location
+
+	var details = DetailsField.instantiate()
+	details.set_details(entry)
+
 	var actions = ItemActions.instantiate()
 	actions.history_index = index
-	import_date.add_sibling(actions)
 	actions.connect("import_clicked",Callable(self,"_on_entry_reimport_clicked"))
 	actions.connect("edit_clicked",Callable(self,"_on_entry_edit_clicked"))
 	actions.connect("removed_clicked",Callable(self,"_on_entry_remove_clicked"))
+
+
+	grid.get_child(INITIAL_GRID_INDEX).add_sibling(import_date)
+	import_date.add_sibling(source_path)
+	source_path.add_sibling(output_path)
+	output_path.add_sibling(details)
+	details.add_sibling(actions)
+
 	return {
 		"history_index": index,
 		"timestamp": entry.import_date,
@@ -76,6 +86,7 @@ func _create_nodes(entry: Dictionary, index: int) -> Dictionary:
 		"output_path_node": output_path,
 		"import_date_node": import_date,
 		"actions_node": actions,
+		"details_node": details,
 	}
 
 
@@ -89,16 +100,16 @@ func _add_to_node_list(entry: Dictionary, node: Dictionary):
 func add_entry(file_settings: Dictionary):
 	if _history == null:
 		reload()
-
+#
 	var dt = Time.get_datetime_dict_from_system()
 	file_settings["import_date"] = "%04d-%02d-%02d %02d:%02d:%02d" % [dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second]
-
+#
 	if _import_requested_for != -1:
 		_remove_item(_import_requested_for)
 		_import_requested_for = -1
-	elif _config.is_single_file_history() and _history_nodes.has(file_settings.source_file):
-		_remove_entries(file_settings.source_file)
-
+	elif _history.size() > _config.get_history_max_entries():
+		_remove_entries(_history[0].source_file, 0)
+#
 	_history.push_back(file_settings)
 	_config.save_import_history(_history)
 	_create_node_list_entry(file_settings, _history.size() - 1)
@@ -192,6 +203,7 @@ func _free_entry_nodes(entry_history_node: Dictionary):
 	entry_history_node.output_path_node.queue_free()
 	entry_history_node.import_date_node.queue_free()
 	entry_history_node.actions_node.queue_free()
+	entry_history_node.details_node.queue_free()
 
 
 func _on_SortOptions_item_selected(index):
@@ -220,7 +232,29 @@ func _sort_by_path(a, b):
 
 func _reorganise_nodes():
 	for entry in _history_nodes_list:
-		grid.move_child(entry.source_path_node, INITIAL_GRID_INDEX + 1)
-		grid.move_child(entry.output_path_node, INITIAL_GRID_INDEX + 2)
-		grid.move_child(entry.import_date_node, INITIAL_GRID_INDEX + 3)
-		grid.move_child(entry.actions_node, INITIAL_GRID_INDEX + 4)
+		grid.move_child(entry.import_date_node, INITIAL_GRID_INDEX + 1)
+		grid.move_child(entry.source_path_node, INITIAL_GRID_INDEX + 2)
+		grid.move_child(entry.output_path_node, INITIAL_GRID_INDEX + 3)
+		grid.move_child(entry.details_node, INITIAL_GRID_INDEX + 4)
+		grid.move_child(entry.actions_node, INITIAL_GRID_INDEX + 5)
+
+
+func _migrate_history():
+	var history = _config.get_old_import_history()
+	var new_history = []
+
+	for index in range(history.size()):
+		var entry = history[index]
+		new_history.push_back({
+			"split_layers": true if entry.options.export_mode else false,
+			"only_visible_layers": entry.options.only_visible_layers,
+			"layer_exclusion_pattern": entry.options.exception_pattern,
+			"output_name": entry.options.output_filename,
+			"source_file": entry.source_file,
+			"do_not_create_resource": entry.options.do_not_create_resource,
+			"output_location": entry.output_location,
+			"import_date": entry.import_date,
+		})
+
+	_config.save_import_history(new_history)
+	_config.remove_old_history_setting()

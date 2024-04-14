@@ -19,7 +19,7 @@ const AnimatedSpriteInspectorPlugin = preload("interface/docks/animated_sprite/i
 const SpriteInspectorPlugin = preload("interface/docks/sprite/inspector_plugin.gd")
 
 const tool_menu_name = "Aseprite Wizard"
-const menu_item_name = "Open Spritesheet Wizard Dock"
+const menu_item_name = "Spritesheet Wizard Dock..."
 const config_menu_item_name = "Config..."
 const import_menu_item_name = "Imports Manager..."
 
@@ -61,9 +61,6 @@ func _disable_plugin():
 
 
 func _load_config():
-	var editor_gui = get_editor_interface().get_base_control()
-	config._editor_settings = get_editor_interface().get_editor_settings()
-
 	config.initialize_project_settings()
 
 
@@ -89,9 +86,6 @@ func _setup_importer():
 	]
 
 	for i in _importers:
-		if not i is NoopImportPlugin:
-			i.file_system = get_editor_interface().get_resource_filesystem()
-		i.config = config
 		add_import_plugin(i)
 
 
@@ -115,15 +109,11 @@ func _remove_exporter():
 
 func _setup_sprite_inspector_plugin():
 	sprite_inspector_plugin = SpriteInspectorPlugin.new()
-	sprite_inspector_plugin.file_system = get_editor_interface().get_resource_filesystem()
-	sprite_inspector_plugin.config = config
 	add_inspector_plugin(sprite_inspector_plugin)
 
 
 func _setup_animated_sprite_inspector_plugin():
 	animated_sprite_inspector_plugin = AnimatedSpriteInspectorPlugin.new()
-	animated_sprite_inspector_plugin.file_system = get_editor_interface().get_resource_filesystem()
-	animated_sprite_inspector_plugin.config = config
 	add_inspector_plugin(animated_sprite_inspector_plugin)
 
 
@@ -145,7 +135,6 @@ func _open_window():
 		return
 
 	window = WizardWindow.instantiate()
-	window.init(config, get_editor_interface().get_resource_filesystem())
 	window.connect("close_requested",Callable(self,"_on_window_closed"))
 	add_control_to_bottom_panel(window, "Aseprite Wizard")
 	make_bottom_panel_item_visible(window)
@@ -156,7 +145,6 @@ func _open_config_dialog():
 		config_window.queue_free()
 
 	config_window = ConfigDialog.instantiate()
-	config_window.init(config)
 	get_editor_interface().get_base_control().add_child(config_window)
 	config_window.popup_centered()
 

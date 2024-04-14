@@ -9,9 +9,6 @@ enum {
 	LAYERS_EXPORT_MODE
 }
 
-func init(config):
-	_aseprite.init(config)
-
 ##
 ## Generate Aseprite spritesheet and data files for source.
 ##

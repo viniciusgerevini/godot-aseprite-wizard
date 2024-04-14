@@ -36,7 +36,7 @@ metadata/_tab_name = "Dock Imports"
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
-tooltip_text = "Dock Window"
-icon = SubResource("ImageTexture_lxhmx")
+tooltip_text = "Dock window"
+icon = SubResource("ImageTexture_qam8x")
 
 [connection signal="pressed" from="dock_button" to="." method="_on_dock_button_pressed"]

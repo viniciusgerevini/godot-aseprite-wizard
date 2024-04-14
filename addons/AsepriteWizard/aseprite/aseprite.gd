@@ -1,10 +1,7 @@
 @tool
 extends RefCounted
 
-var _config
-
-func init(config):
-	_config = config
+var _config = preload("../config/config.gd").new()
 
 #
 # Output:

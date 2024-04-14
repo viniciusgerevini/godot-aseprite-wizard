@@ -65,6 +65,10 @@ var _resources_to_process
 
 var _should_save_in = 0
 
+# TODO refactor like the wizard tree
+# - move details to its own component
+# - re-use confirmation and inline warning
+
 func _ready():
 	_set_empty_details_state()
 	_configure_source_warning()

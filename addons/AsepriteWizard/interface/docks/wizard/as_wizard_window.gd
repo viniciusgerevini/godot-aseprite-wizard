@@ -4,12 +4,12 @@ extends PanelContainer
 signal close_requested
 signal import_success(file_settings)
 
-var result_code = preload("../../../config/result_codes.gd")
-var _aseprite_file_exporter = preload("../../../aseprite/file_exporter.gd").new()
-var _sf_creator = preload("../../../creators/sprite_frames/sprite_frames_creator.gd").new()
+const result_code = preload("../../../config/result_codes.gd")
+var _config = preload("../../../config/config.gd").new()
 
-var _config
-var _file_system: EditorFileSystem
+var _import_helper = preload("./wizard_import_helper.gd").new()
+
+var _file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
 
 var _file_dialog_aseprite: EditorFileDialog
 var _output_folder_dialog: EditorFileDialog
@@ -45,60 +45,89 @@ const INTERFACE_SECTION_KEY_OUTPUT = "output_section"
 
 var _interface_section_state = {}
 
-# TODO persist expanded collapsed sections
-# TODO Imported SpriteFrames tab
 
 func _ready():
 	_configure_sections()
-
-
-func _exit_tree():
-	_file_dialog_aseprite.queue_free()
-	_output_folder_dialog.queue_free()
-	_warning_dialog.queue_free()
-
-
-func init(config, editor_file_system: EditorFileSystem):
-	_config = config
-	_file_system = editor_file_system
-	_file_dialog_aseprite = _create_aseprite_file_selection()
-	_output_folder_dialog = _create_outuput_folder_selection()
-	_warning_dialog = AcceptDialog.new()
-	_warning_dialog.exclusive = false
-
-	_sf_creator.init(_config)
-	_aseprite_file_exporter.init(config)
-
-	get_parent().get_parent().add_child(_file_dialog_aseprite)
-	get_parent().get_parent().add_child(_output_folder_dialog)
-	get_parent().get_parent().add_child(_warning_dialog)
-
 	_load_persisted_config()
 
 
-func _load_persisted_config():
-	_split_mode_field.button_pressed = _config.should_split_layers()
-	_only_visible_layers_field.button_pressed = _config.should_include_only_visible_layers()
-	_exception_pattern_field.text = _config.get_exception_pattern()
-	_custom_name_field.text = _config.get_last_custom_name()
-	_file_location_field.text = _config.get_last_source_path()
-	_do_not_create_res_field.button_pressed = _config.should_not_create_resource()
-
-	var output_folder = _config.get_last_output_path()
-	_output_folder_field.text = output_folder if output_folder != "" else "res://"
+func _exit_tree():
+	if is_instance_valid(_file_dialog_aseprite):
+		_file_dialog_aseprite.queue_free()
+	if is_instance_valid(_output_folder_dialog):
+		_output_folder_dialog.queue_free()
+	if is_instance_valid(_warning_dialog):
+		_warning_dialog.queue_free()
 
 
-func load_import_config(import_config: Dictionary):
-	_split_mode_field.button_pressed = import_config.options.export_mode == _aseprite_file_exporter.LAYERS_EXPORT_MODE
-	_only_visible_layers_field.button_pressed = import_config.options.only_visible_layers
-	_exception_pattern_field.text = import_config.options.exception_pattern
-	_custom_name_field.text = import_config.options.output_filename
-	_file_location_field.text = import_config.source_file
-	_do_not_create_res_field.button_pressed = import_config.options.do_not_create_resource
-	_output_folder_field.text = import_config.output_location if import_config.output_location != "" else "res://"
+func _init_aseprite_file_selection_dialog():
+	_file_dialog_aseprite = _create_aseprite_file_selection()
+	get_parent().get_parent().add_child(_file_dialog_aseprite)
+
+
+func _init_output_folder_selection_dialog():
+	_output_folder_dialog = _create_outuput_folder_selection()
+	get_parent().get_parent().add_child(_output_folder_dialog)
+
+
+func _init_warning_dialog():
+	_warning_dialog = AcceptDialog.new()
+	_warning_dialog.exclusive = false
+	get_parent().get_parent().add_child(_warning_dialog)
+
+
+func _load_persisted_config() -> void:
+	var cfg = _load_last_import_cfg()
+	_load_config(cfg)
+
+
+func _load_config(cfg: Dictionary) -> void:
+	_split_mode_field.button_pressed = cfg.split_layers
+	_only_visible_layers_field.button_pressed = cfg.only_visible_layers
+	_exception_pattern_field.text = cfg.layer_exclusion_pattern
+	_custom_name_field.text = cfg.output_name
+	_file_location_field.text = cfg.source_file
+	_do_not_create_res_field.button_pressed = cfg.do_not_create_resource
+	_output_folder_field.text = cfg.output_location if cfg.output_location != "" else "res://"
+
+
+func _save_config() -> void:
+	_config.set_standalone_spriteframes_last_import_config(_get_field_values())
+
+
+func _get_field_values() -> Dictionary:
+	return {
+		"split_layers": _split_mode_field.button_pressed,
+		"only_visible_layers": _only_visible_layers_field.button_pressed,
+		"layer_exclusion_pattern": _exception_pattern_field.text,
+		"output_name": _custom_name_field.text,
+		"source_file": _file_location_field.text,
+		"do_not_create_resource": _do_not_create_res_field.button_pressed,
+		"output_location": _output_folder_field.text if _output_folder_field.text != "" else "res://",
+	}
+
+
+func _clear_config() -> void:
+	_config.clear_standalone_spriteframes_last_import_config()
+	var default = _get_default_config()
+	_load_config(default)
+
+
+## This is used by the other tabs to set the form fields
+func load_import_config(field_values: Dictionary):
+	_split_mode_field.button_pressed = field_values.split_layers
+	_only_visible_layers_field.button_pressed = field_values.only_visible_layers
+	_exception_pattern_field.text = field_values.layer_exclusion_pattern
+	_custom_name_field.text = field_values.output_name
+	_file_location_field.text = field_values.source_file
+	_do_not_create_res_field.button_pressed =  field_values.do_not_create_resource
+	_output_folder_field.text = field_values.output_location
 
 
 func _open_aseprite_file_selection_dialog():
+	if not is_instance_valid(_file_dialog_aseprite):
+		_init_aseprite_file_selection_dialog()
+
 	var current_selection = _file_location_field.text
 	if current_selection != "":
 		_file_dialog_aseprite.current_dir = current_selection.get_base_dir()
@@ -106,6 +135,8 @@ func _open_aseprite_file_selection_dialog():
 
 
 func _open_output_folder_selection_dialog():
+	if not is_instance_valid(_output_folder_dialog):
+		_init_output_folder_selection_dialog()
 	var current_selection = _output_folder_field.text
 	if current_selection != "":
 		_output_folder_dialog.current_dir = current_selection
@@ -132,58 +163,25 @@ func _create_outuput_folder_selection():
 func _on_aseprite_file_selected(path):
 	var localized_path = ProjectSettings.localize_path(path)
 	_file_location_field.text = localized_path
-	_config.set_last_source_path(localized_path)
 
 
 func _on_output_folder_selected(path):
 	_output_folder_field.text = path
-	_config.set_last_output_path(path)
 
 
 func _on_next_btn_up():
 	var aseprite_file = _file_location_field.text
-	var output_location = _output_folder_field.text
-	var split_layers = _split_mode_field.button_pressed
-
-	var export_mode = _aseprite_file_exporter.LAYERS_EXPORT_MODE if split_layers else _aseprite_file_exporter.FILE_EXPORT_MODE
-	var options = {
-		"export_mode": export_mode,
-		"exception_pattern": _exception_pattern_field.text,
-		"only_visible_layers": _only_visible_layers_field.button_pressed,
-		"output_filename": _custom_name_field.text,
-		"do_not_create_resource": _do_not_create_res_field.button_pressed,
-		"output_folder": output_location,
-	}
-
-	var aseprite_output = _aseprite_file_exporter.generate_aseprite_files(
-		ProjectSettings.globalize_path(aseprite_file),
-		options
-	)
-
-	if not aseprite_output.is_ok:
-		_show_error(aseprite_output.code)
-		return
-
-	_file_system.scan()
-	await _file_system.filesystem_changed
-
-	var exit_code = OK
-
-	if !options.get("do_not_create_resource", false):
-		exit_code = _sf_creator.create_and_save_resources(aseprite_output.content)
-
-	if _config.should_remove_source_files():
-		_remove_source_files(aseprite_output.content)
+	var fields = _get_field_values()
+	var exit_code = await _import_helper.import_and_create_resources(aseprite_file, _get_field_values())
 
 	if exit_code != OK:
 		_show_error(exit_code)
 		return
 
-	emit_signal("import_success", {
-		"source_file": aseprite_file,
-		"output_location": output_location,
-		"options": options,
-	})
+	emit_signal("import_success", fields)
+
+	if _config.should_remove_source_files():
+		_file_system.call_deferred("scan")
 
 	_show_import_success_message()
 
@@ -201,12 +199,8 @@ func _close_window():
 	self.emit_signal("close_requested")
 
 
-func _save_config():
-	_config.set_split_layers(_split_mode_field.button_pressed)
-	_config.set_exception_pattern(_exception_pattern_field.text)
-	_config.set_custom_name(_custom_name_field.text)
-	_config.set_include_only_visible_layers(_only_visible_layers_field.button_pressed)
-	_config.set_do_not_create_resource(_do_not_create_res_field.button_pressed)
+func _on_clear_button_up():
+	_clear_config()
 
 
 func _show_error(code: int):
@@ -214,28 +208,24 @@ func _show_error(code: int):
 
 
 func _show_error_message(message: String):
+	if not is_instance_valid(_warning_dialog):
+		_init_warning_dialog()
 	_warning_dialog.dialog_text = "Error: %s" % message
 	_warning_dialog.popup_centered()
 
 
 func _show_import_success_message():
+	if not is_instance_valid(_warning_dialog):
+		_init_warning_dialog()
 	_warning_dialog.dialog_text = "Aseprite import succeeded"
 	_warning_dialog.popup_centered()
 	_save_config()
 
-func _remove_source_files(source_files: Array):
-	for s in source_files:
-		DirAccess.remove_absolute(s.data_file)
-
-	_file_system.call_deferred("scan")
-
 
 func _configure_sections():
-	#var cfg = wizard_config.load_interface_config(target_node)
-	#_interface_section_state = cfg
-
 	for key in _expandable_sections:
 		_adjust_section_visibility(key)
+
 
 func _adjust_section_visibility(key: String) -> void:
 	var section = _expandable_sections[key]
@@ -252,7 +242,6 @@ func _adjust_icon(section: Button, is_visible: bool = true) -> void:
 func _toggle_section_visibility(key: String) -> void:
 	_interface_section_state[key] = not _interface_section_state.get(key, true)
 	_adjust_section_visibility(key)
-	#wizard_config.save_interface_config(target_node, _interface_section_state)
 
 
 func _on_layer_section_header_button_down():
@@ -261,3 +250,25 @@ func _on_layer_section_header_button_down():
 
 func _on_output_section_header_button_down():
 	_toggle_section_visibility(INTERFACE_SECTION_KEY_OUTPUT)
+
+
+func _load_last_import_cfg() -> Dictionary:
+	var cfg = _config.get_standalone_spriteframes_last_import_config()
+
+	if cfg.is_empty():
+		return _get_default_config()
+
+	return cfg
+
+
+func _get_default_config() -> Dictionary:
+	return {
+		"split_layers": false,
+		"only_visible_layers": _config.should_include_only_visible_layers_by_default(),
+		"layer_exclusion_pattern": _config.get_default_exclusion_pattern(),
+		"output_name": "",
+		"source_file": "",
+		"do_not_create_resource": false,
+		"output_location": "res://",
+	}
+

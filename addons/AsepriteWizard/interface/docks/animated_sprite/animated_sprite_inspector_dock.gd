@@ -3,9 +3,6 @@ extends "../base_inspector_dock.gd"
 
 var sprite_frames_creator = preload("../../../creators/sprite_frames/sprite_frames_creator.gd").new()
 
-func _setup():
-	sprite_frames_creator.init(config)
-
 
 func _get_available_layers(global_source_path: String) -> Array:
 	return sprite_frames_creator.list_layers(global_source_path)
