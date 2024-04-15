@@ -1,30 +1,12 @@
 [gd_scene load_steps=7 format=3 uid="uid://ci67r2f2btg5"]
 
 [ext_resource type="Script" path="res://addons/AsepriteWizard/interface/imports_manager/dock_imports_panel.gd" id="1_1xyeb"]
-[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/imports_manager/tree_filter_field.gd" id="2_4k0wf"]
+[ext_resource type="PackedScene" uid="uid://cisgsfvp4nf1g" path="res://addons/AsepriteWizard/interface/shared/tree/resource_tree.tscn" id="2_d1s4o"]
+[ext_resource type="PackedScene" uid="uid://qgmln507kjnm" path="res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.tscn" id="3_2us73"]
+[ext_resource type="PackedScene" uid="uid://dnlk2yep7teea" path="res://addons/AsepriteWizard/interface/imports_manager/tree_selection_single_item.tscn" id="3_4ufqa"]
+[ext_resource type="PackedScene" uid="uid://bhtu6mlwmthqo" path="res://addons/AsepriteWizard/interface/imports_manager/tree_selection_multiple_items.tscn" id="3_pw8ds"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_edrvq"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ko5r7"]
-bg_color = Color(0.44, 0.73, 0.98, 0.2)
-border_width_left = 10
-border_color = Color(0.8, 0.8, 0.8, 0)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="Image" id="Image_8mx1e"]
-data = {
-"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 43, 255, 255, 255, 78, 255, 255, 255, 112, 255, 255, 255, 111, 255, 255, 255, 78, 255, 255, 255, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 12, 255, 255, 255, 107, 255, 255, 255, 212, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 210, 255, 255, 255, 105, 255, 255, 255, 10, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 47, 255, 255, 255, 219, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 217, 255, 255, 255, 44, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 84, 255, 255, 255, 247, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 245, 255, 255, 255, 80, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 45, 255, 255, 255, 246, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 244, 255, 255, 255, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 10, 255, 255, 255, 217, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 128, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 128, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 216, 255, 255, 255, 10, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 104, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 128, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 128, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 101, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 211, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 128, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 128, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 207, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 44, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 39, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 81, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 192, 255, 255, 255, 128, 255, 255, 255, 128, 255, 255, 255, 192, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 76, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 114, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 128, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 128, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 110, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 114, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 128, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 128, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 109, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 81, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 128, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 128, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 75, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 43, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 128, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 128, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 37, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 210, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 128, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 128, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 204, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 104, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 128, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 128, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 97, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 10, 255, 255, 255, 217, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 128, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 128, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 212, 255, 255, 255, 8, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 44, 255, 255, 255, 245, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 242, 255, 255, 255, 39, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 81, 255, 255, 255, 245, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 243, 255, 255, 255, 75, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 44, 255, 255, 255, 217, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 214, 255, 255, 255, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 10, 255, 255, 255, 102, 255, 255, 255, 208, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 207, 255, 255, 255, 100, 255, 255, 255, 9, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 38, 255, 255, 255, 75, 255, 255, 255, 110, 255, 255, 255, 110, 255, 255, 255, 75, 255, 255, 255, 38, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
-"format": "RGBA8",
-"height": 24,
-"mipmaps": false,
-"width": 24
-}
-
-[sub_resource type="ImageTexture" id="ImageTexture_7a40j"]
-image = SubResource("Image_8mx1e")
 
 [node name="dock_imports" type="Panel"]
 custom_minimum_size = Vector2(600, 400)
@@ -60,41 +42,8 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+[node name="tree" parent="MarginContainer/VBoxContainer/HSplitContainer" instance=ExtResource("2_d1s4o")]
 layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="buttons" type="HFlowContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="tree_filter" type="LineEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Filter..."
-clear_button_enabled = true
-script = ExtResource("2_4k0wf")
-
-[node name="expand_all" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-text = "Expand All"
-
-[node name="collapse_all" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-text = "Collapse All"
-
-[node name="refresh_tree" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-text = "Refresh Tree"
-
-[node name="Tree" type="Tree" parent="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-hide_root = true
-select_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer"]
 custom_minimum_size = Vector2(200, 0)
@@ -120,230 +69,19 @@ size_flags_vertical = 6
 text = "Nothing selected"
 horizontal_alignment = 1
 
-[node name="single_item" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer"]
-visible = false
+[node name="single_item" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_4ufqa")]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/h_separation = 10
-columns = 2
-
-[node name="type_label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-text = "Type"
-
-[node name="type_value" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-text = "-"
-
-[node name="name_label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-text = "Name"
-
-[node name="name_value" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "-"
-autowrap_mode = 2
-
-[node name="path_label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-text = "Path"
-
-[node name="path_value" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "-"
-autowrap_mode = 1
-
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
+[node name="multiple_items" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_pw8ds")]
 layout_mode = 2
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="source_file_label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-text = "Aseprite File"
-
-[node name="source_file_value" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "-"
-autowrap_mode = 1
-
-[node name="layer_label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-text = "Layer"
-
-[node name="layer_value" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-text = "-"
-
-[node name="slice_label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-text = "Slice"
-
-[node name="slice_value" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-text = "-"
-
-[node name="o_folder_label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-visible = false
-layout_mode = 2
-text = "Output folder"
-
-[node name="o_folder_value" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-visible = false
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "-"
-
-[node name="o_name_label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-text = "Spritesheet name"
-
-[node name="o_name_value" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer"]
-layout_mode = 2
-text = "-"
-
-[node name="source_changed_warning" type="PanelContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item"]
-visible = false
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ko5r7")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/source_changed_warning"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_right = 10
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/source_changed_warning/MarginContainer"]
+[node name="confirmation_warning" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_2us73")]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/source_changed_warning/MarginContainer/HBoxContainer"]
-modulate = Color(1, 1, 1, 0.486275)
-custom_minimum_size = Vector2(16, 0)
-layout_mode = 2
-texture = SubResource("ImageTexture_7a40j")
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/source_changed_warning/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(10, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Source file changed since last import"
-autowrap_mode = 2
-
-[node name="resource_buttons" type="HFlowContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item"]
-visible = false
-layout_mode = 2
-
-[node name="import" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/resource_buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Re-Import"
-
-[node name="open_scene" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/resource_buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Open Scene"
-
-[node name="scene_buttons" type="HFlowContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item"]
-visible = false
-layout_mode = 2
-
-[node name="import_all" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/scene_buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Re-Import all"
-
-[node name="open_scene" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/scene_buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Open Scene"
-
-[node name="dir_buttons" type="HFlowContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item"]
-visible = false
-layout_mode = 2
-
-[node name="import_all" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/dir_buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Re-Import all"
-
-[node name="show_dir_in_fs" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/dir_buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Show In FileSystem"
-
-[node name="multiple_items" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="multiple" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items"]
-layout_mode = 2
-size_flags_vertical = 6
-text = "Multiple items selected
-"
-horizontal_alignment = 1
-
-[node name="buttons" type="HFlowContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items"]
-layout_mode = 2
-
-[node name="import_selected" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items/buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Re-Import all"
-
-[node name="confirmation_warning" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="warning_message" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning/MarginContainer"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-autowrap_mode = 2
-
-[node name="buttons" type="HFlowContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning"]
-layout_mode = 2
-
-[node name="confirm" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning/buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Confirm"
-
-[node name="cancel" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning/buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Cancel"
-
-[connection signal="change_finished" from="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons/tree_filter" to="." method="_on_tree_filter_change_finished"]
-[connection signal="text_changed" from="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons/tree_filter" to="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons/tree_filter" method="_on_text_changed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons/expand_all" to="." method="_on_expand_all_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons/collapse_all" to="." method="_on_collapse_all_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons/refresh_tree" to="." method="_on_refresh_tree_pressed"]
-[connection signal="multi_selected" from="MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/Tree" to="." method="_on_tree_multi_selected"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/resource_buttons/import" to="." method="_on_import_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/resource_buttons/open_scene" to="." method="_on_open_scene_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/scene_buttons/import_all" to="." method="_on_import_all_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/scene_buttons/open_scene" to="." method="_on_open_scene_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/dir_buttons/import_all" to="." method="_on_import_all_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/dir_buttons/show_dir_in_fs" to="." method="_on_show_dir_in_fs_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items/buttons/import_selected" to="." method="_on_import_selected_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning/buttons/confirm" to="." method="_on_import_confirm_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning/buttons/cancel" to="." method="_on_import_cancel_pressed"]
+[connection signal="multi_selected" from="MarginContainer/VBoxContainer/HSplitContainer/tree" to="." method="_on_resource_tree_multi_selected"]
+[connection signal="refresh_triggered" from="MarginContainer/VBoxContainer/HSplitContainer/tree" to="." method="_on_resource_tree_refresh_triggered"]
+[connection signal="import_triggered" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item" to="." method="_on_single_item_import_triggered"]
+[connection signal="open_scene_triggered" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item" to="." method="_on_single_item_open_scene_triggered"]
+[connection signal="import_triggered" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items" to="." method="_on_multiple_items_import_triggered"]
+[connection signal="warning_confirmed" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning" to="." method="_on_confirmation_warning_warning_confirmed"]
+[connection signal="warning_declined" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning" to="." method="_on_confirmation_warning_warning_declined"]

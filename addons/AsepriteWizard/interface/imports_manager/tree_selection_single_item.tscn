@@ -1,0 +1,158 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnlk2yep7teea"]
+
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/imports_manager/tree_selection_single_item.gd" id="1_bb3ui"]
+[ext_resource type="PackedScene" uid="uid://c1l0bk12iwln3" path="res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.tscn" id="2_weuqf"]
+
+[node name="single_item" type="VBoxContainer"]
+visible = false
+script = ExtResource("1_bb3ui")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
+columns = 2
+
+[node name="type_label" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Type"
+
+[node name="type_value" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="name_label" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Name"
+
+[node name="name_value" type="Label" parent="GridContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-"
+autowrap_mode = 2
+
+[node name="path_label" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Path"
+
+[node name="path_value" type="Label" parent="GridContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-"
+autowrap_mode = 1
+
+[node name="HSeparator" type="HSeparator" parent="GridContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="source_file_label" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Aseprite File"
+
+[node name="source_file_value" type="Label" parent="GridContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-"
+autowrap_mode = 1
+
+[node name="layer_label" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Layer"
+
+[node name="layer_value" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="slice_label" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Slice"
+
+[node name="slice_value" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="o_folder_label" type="Label" parent="GridContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 0
+text = "Output folder"
+
+[node name="o_folder_value" type="Label" parent="GridContainer"]
+visible = false
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-"
+
+[node name="o_name_label" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Spritesheet name"
+
+[node name="o_name_value" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="source_changed_warning" parent="." instance=ExtResource("2_weuqf")]
+layout_mode = 2
+
+[node name="resource_buttons" type="HFlowContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="import" type="Button" parent="resource_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Re-Import"
+
+[node name="open_scene" type="Button" parent="resource_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Open Scene"
+
+[node name="scene_buttons" type="HFlowContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="import_all" type="Button" parent="scene_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Re-Import all"
+
+[node name="open_scene" type="Button" parent="scene_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Open Scene"
+
+[node name="dir_buttons" type="HFlowContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="import_all" type="Button" parent="dir_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Re-Import all"
+
+[node name="show_dir_in_fs" type="Button" parent="dir_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Show In FileSystem"
+
+[connection signal="button_up" from="resource_buttons/import" to="." method="_on_import_button_up"]
+[connection signal="button_up" from="resource_buttons/open_scene" to="." method="_on_open_scene_button_up"]
+[connection signal="button_up" from="scene_buttons/import_all" to="." method="_on_import_all_button_up"]
+[connection signal="button_up" from="scene_buttons/open_scene" to="." method="_on_open_scene_button_up"]
+[connection signal="button_up" from="dir_buttons/import_all" to="." method="_on_import_all_button_up"]
+[connection signal="button_up" from="dir_buttons/show_dir_in_fs" to="." method="_on_show_dir_in_fs_button_up"]

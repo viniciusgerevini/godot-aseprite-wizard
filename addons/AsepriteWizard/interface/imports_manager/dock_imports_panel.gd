@@ -5,51 +5,15 @@ const wizard_config = preload("../../config/wizard_config.gd")
 
 var _import_helper = preload("./import_helper.gd").new()
 
-@onready var _resource_tree = $MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/Tree
+@onready var _tree_container = $MarginContainer/VBoxContainer/HSplitContainer/tree
+@onready var _resource_tree = _tree_container.get_resource_tree()
 @onready var _details = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer
 
 @onready var _nothing_container = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/nothing
 @onready var _single_item_container = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item
 @onready var _multiple_items_container = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items
 
-@onready var _name = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/name_value
-@onready var _type = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/type_value
-@onready var _path = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/path_value
-
-@onready var _source = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/source_file_value
-@onready var _layer = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/layer_value
-@onready var _slice = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/slice_value
-@onready var _o_name = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/o_name_value
-
-@onready var _source_label = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/source_file_label
-@onready var _layer_label = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/layer_label
-@onready var _slice_label = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/slice_label
-@onready var _o_name_label = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/GridContainer/o_name_label
-
-@onready var _resource_buttons = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/resource_buttons
-@onready var _dir_buttons = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/dir_buttons
-@onready var _file_buttons = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/scene_buttons
-
-@onready var _multiple_import_message = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items/multiple
-@onready var _multiple_import_button = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/multiple_items/buttons/import_selected
-
 @onready var _confirmation_warning_container = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning
-@onready var _confirmation_warning_message = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/confirmation_warning/MarginContainer/warning_message
-
-@onready var _tree_buttons = $MarginContainer/VBoxContainer/HSplitContainer/VBoxContainer/buttons
-
-@onready var _source_change_warning = $MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/single_item/source_changed_warning
-
-@onready var _option_fields = [
-	_source,
-	_layer,
-	_slice,
-	_o_name,
-	_source_label,
-	_layer_label,
-	_slice_label,
-	_o_name_label,
-]
 
 const supported_types = [
 	"Sprite2D",
@@ -65,13 +29,9 @@ var _resources_to_process
 
 var _should_save_in = 0
 
-# TODO refactor like the wizard tree
-# - move details to its own component
-# - re-use confirmation and inline warning
 
 func _ready():
 	_set_empty_details_state()
-	_configure_source_warning()
 
 	var file_tree = _get_file_tree("res://")
 	_setup_tree(file_tree)
@@ -85,15 +45,6 @@ func _process(delta):
 		if _should_save_in <= 0:
 			_should_save_in = 0
 			_save_all_scenes()
-
-
-func _configure_source_warning():
-	var sb = _source_change_warning.get_theme_stylebox("panel")
-	var color = EditorInterface.get_editor_settings().get_setting("interface/theme/accent_color")
-	color.a = 0.2
-	sb.bg_color = color
-	_source_change_warning.get_node("MarginContainer/HBoxContainer/Icon").texture = get_theme_icon("NodeInfo", "EditorIcons")
-	_source_change_warning.hide()
 
 
 func _get_file_tree(base_path: String, dir_name: String = "") -> Dictionary:
@@ -223,11 +174,11 @@ func _trigger_import(meta: Dictionary) -> void:
 	print("Import complete: %s (%s) node from %s" % [ meta.node_path, meta.meta.source, meta.scene_path])
 
 
-func _on_tree_multi_selected(_item: TreeItem, _column: int, selected: bool) -> void:
+func _on_resource_tree_multi_selected(_item: TreeItem, _column: int, selected: bool) -> void:
 	_confirmation_warning_container.hide()
 	_resources_to_process = null
 	if _current_buttons_container != null:
-		_current_buttons_container.show()
+		_current_buttons_container.show_buttons()
 
 	if selected:
 		_selection_count += 1
@@ -244,89 +195,21 @@ func _on_tree_multi_selected(_item: TreeItem, _column: int, selected: bool) -> v
 		1:
 			_single_item_container.show()
 			_set_item_details(_resource_tree.get_selected())
+			_current_buttons_container = _single_item_container
 		_:
 			_multiple_items_container.show()
-			_multiple_import_message.text = "%2d items selected" % _selection_count
-			_current_buttons_container = _multiple_import_button
+			_multiple_items_container.set_selected_count(_selection_count)
+			_current_buttons_container =  _multiple_items_container
 
 
 func _set_item_details(item: TreeItem) -> void:
 	if not item.has_meta("node"):
 		return
 	var data = item.get_meta("node")
-
-	_dir_buttons.hide()
-	_resource_buttons.hide()
-	_file_buttons.hide()
-	_source_change_warning.hide()
-
-	match data.type:
-		"dir":
-			_name.text = data.name
-			_type.text = "Folder"
-			_path.text = data.path
-			_hide_option_fields()
-			_dir_buttons.show()
-			_current_buttons_container = _dir_buttons
-		"file":
-			_name.text = data.name
-			_type.text = "File"
-			_path.text = data.path
-			_hide_option_fields()
-			_file_buttons.show()
-			_current_buttons_container = _file_buttons
-		"resource":
-			_name.text = data.node_name
-			_type.text = data.node_type
-			_path.text = data.node_path
-
-			var meta = data.meta
-			_source.text = meta.source
-			_layer.text = "All" if meta.get("layer", "") == "" else meta.layer
-			_slice.text = "All" if meta.get("slice", "") == "" else meta.slice
-
-			var folder = data.scene_path.get_base_dir() if meta.get("o_folder", "") == "" else meta.o_folder
-			var file_name = "" if meta.get("o_name", "") == "" else meta.o_name
-
-			if _layer.text != "All":
-				file_name += _layer.text
-			elif file_name == "":
-				file_name = meta.source.get_basename().get_file()
-			_o_name.text = "%s/%s.png" % [folder, file_name]
-
-			_show_option_fields()
-			_resource_buttons.show()
-			_current_buttons_container = _resource_buttons
-
-			_source_change_warning.visible = data.has_changes
+	_single_item_container.set_resource_details(data)
 
 
-func _hide_option_fields() -> void:
-	for o in _option_fields:
-		o.hide()
-
-
-func _show_option_fields() -> void:
-	for o in _option_fields:
-		o.show()
-
-
-func _on_import_pressed():
-	await _trigger_import(_resource_tree.get_selected().get_meta("node"))
-	_set_tree_item_as_saved(_resource_tree.get_selected())
-	_source_change_warning.hide()
-	EditorInterface.save_scene()
-
-
-func _on_import_all_pressed():
-	var selected_item = _resource_tree.get_selected()
-	var all_resources = []
-	var scenes_to_open = _set_all_resources(selected_item.get_meta("node"), all_resources)
-	_resources_to_process = all_resources
-	_show_confirmation_message(scenes_to_open, all_resources.size())
-
-
-func _on_import_selected_pressed():
+func _on_multiple_items_import_triggered():
 	var selected_item = _resource_tree.get_next_selected(null)
 	var all_resources = []
 	var scenes_to_open = 0
@@ -339,13 +222,24 @@ func _on_import_selected_pressed():
 	_show_confirmation_message(scenes_to_open, all_resources.size())
 
 
-func _on_show_dir_in_fs_pressed():
-	var selected_item = _resource_tree.get_selected()
-	var meta = selected_item.get_meta("node")
-	EditorInterface.get_file_system_dock().navigate_to_path(meta.path)
+func _on_single_item_import_triggered():
+	var selected = _resource_tree.get_selected()
+	var meta = selected.get_meta("node")
+
+	if meta.type == "resource":
+		await _trigger_import(_resource_tree.get_selected().get_meta("node"))
+		_set_tree_item_as_saved(_resource_tree.get_selected())
+		_single_item_container.hide_source_change_warning()
+		EditorInterface.save_scene()
+	else:
+		var selected_item = _resource_tree.get_selected()
+		var all_resources = []
+		var scenes_to_open = _set_all_resources(selected_item.get_meta("node"), all_resources)
+		_resources_to_process = all_resources
+		_show_confirmation_message(scenes_to_open, all_resources.size())
 
 
-func _on_open_scene_pressed():
+func _on_single_item_open_scene_triggered():
 	var selected_item = _resource_tree.get_selected()
 	var meta = selected_item.get_meta("node")
 	if meta.type == "file":
@@ -371,51 +265,22 @@ func _set_all_resources(meta: Dictionary, resources: Array):
 	return scenes_to_open
 
 
-func _on_import_confirm_pressed():
-	_confirmation_warning_container.hide()
-	_current_buttons_container.show()
-
-	for resource in _resources_to_process:
-		await _trigger_import(resource)
-		EditorInterface.mark_scene_as_unsaved()
-	_resources_to_process = null
-
-	_should_save_in = 1
-
-
 func _save_all_scenes():
 	EditorInterface.save_all_scenes()
 	_reload_tree()
 
 
-func _on_import_cancel_pressed():
-	_confirmation_warning_container.hide()
-	_current_buttons_container.show()
-	_resources_to_process = null
-
-
 func _show_confirmation_message(scenes: int, resources: int):
-	_current_buttons_container.hide()
+	_current_buttons_container.hide_buttons()
 	if scenes > 1:
-		_confirmation_warning_message.text = "You are about to open %s scenes and re-import %s resources. Do you wish to continue?" % [scenes, resources]
+		_confirmation_warning_container.set_message("You are about to open %s scenes and re-import %s resources. Do you wish to continue?" % [scenes, resources])
 	else:
-		_confirmation_warning_message.text = "You are about to re-import %s resources. Do you wish to continue?" % resources
+		_confirmation_warning_container.set_message("You are about to re-import %s resources. Do you wish to continue?" % resources)
 
 	_confirmation_warning_container.show()
 
 
-func _on_expand_all_pressed():
-	var tree_root: TreeItem = _resource_tree.get_root()
-	tree_root.set_collapsed_recursive(false)
-
-
-func _on_collapse_all_pressed():
-	var tree_root: TreeItem = _resource_tree.get_root()
-	tree_root.set_collapsed_recursive(true)
-	tree_root.collapsed = false
-
-
-func _on_refresh_tree_pressed():
+func _on_resource_tree_refresh_triggered():
 	_set_empty_details_state()
 	_reload_tree()
 
@@ -424,7 +289,7 @@ func _reload_tree():
 	_confirmation_warning_container.hide()
 	_resources_to_process = null
 	if _current_buttons_container != null:
-		_current_buttons_container.show()
+		_current_buttons_container.show_buttons()
 		_current_buttons_container = null
 
 	_selection_count = 0
@@ -437,31 +302,7 @@ func _set_empty_details_state():
 	_nothing_container.show()
 	_single_item_container.hide()
 	_multiple_items_container.hide()
-
-
-func _on_tree_filter_change_finished(text: String):
-	var tree_root: TreeItem = _resource_tree.get_root()
-
-	if text == "":
-		tree_root.call_recursive("set", "visible", true)
-		return
-	tree_root.call_recursive("set", "visible", false)
-
-	_make_matching_children_visible(tree_root, text.to_lower())
-
-func _make_matching_children_visible(tree_root: TreeItem, text: String) -> void:
-	for c in tree_root.get_children():
-		if c.get_text(0).to_lower().contains(text):
-			c.visible = true
-			_ensure_parent_visible(c)
-		_make_matching_children_visible(c, text)
-
-
-func _ensure_parent_visible(tree_item: TreeItem) -> void:
-	var node_parent = tree_item.get_parent()
-	if node_parent != null and not node_parent.visible:
-		node_parent.visible = true
-		_ensure_parent_visible(node_parent)
+	_confirmation_warning_container.hide()
 
 
 func _set_tree_item_as_saved(item: TreeItem) -> void:
@@ -469,3 +310,21 @@ func _set_tree_item_as_saved(item: TreeItem) -> void:
 	meta.has_changes = false
 	item.set_meta("node", meta)
 	item.set_text(0, meta.name)
+
+
+func _on_confirmation_warning_warning_confirmed():
+	_confirmation_warning_container.hide()
+	_current_buttons_container.show_buttons()
+
+	for resource in _resources_to_process:
+		await _trigger_import(resource)
+		EditorInterface.mark_scene_as_unsaved()
+	_resources_to_process = null
+
+	_should_save_in = 1
+
+
+func _on_confirmation_warning_warning_declined():
+	_confirmation_warning_container.hide()
+	_current_buttons_container.show_buttons()
+	_resources_to_process = null
