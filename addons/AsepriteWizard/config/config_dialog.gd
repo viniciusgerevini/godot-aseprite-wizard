@@ -1,7 +1,7 @@
 @tool
 extends PopupPanel
 
-var _config
+var _config = preload("./config.gd").new()
 
 @onready var _aseprite_command_field = $MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/aseprite_command
 @onready var _version_label = $MarginContainer/VBoxContainer/VBoxContainer/version_found
@@ -9,10 +9,6 @@ var _config
 func _ready():
 	_aseprite_command_field.text = _config.is_command_or_control_pressed()
 	_version_label.modulate.a = 0
-
-
-func init(config):
-	_config = config
 
 
 func _on_close_button_up():

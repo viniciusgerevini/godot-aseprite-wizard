@@ -3,10 +3,10 @@ extends EditorImportPlugin
 
 const result_codes = preload("../config/result_codes.gd")
 
-var config
+var config = preload("../config/config.gd").new()
 var _aseprite_file_exporter = preload("../aseprite/file_exporter.gd").new()
 var _sf_creator = preload("../creators/sprite_frames/sprite_frames_creator.gd").new()
-var file_system: EditorFileSystem
+var file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
 
 func _get_importer_name():
 	# ideally this should be called aseprite_wizard.plugin.spriteframes
@@ -79,9 +79,6 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var source_path = source_file.substr(0, source_file.rfind('/'))
 	var source_basename = source_file.substr(source_path.length()+1, -1)
 	source_basename = source_basename.substr(0, source_basename.rfind('.'))
-
-	_sf_creator.init(config)
-	_aseprite_file_exporter.init(config)
 
 	var export_mode = _sf_creator.LAYERS_EXPORT_MODE if options['split_layers'] else _sf_creator.FILE_EXPORT_MODE
 

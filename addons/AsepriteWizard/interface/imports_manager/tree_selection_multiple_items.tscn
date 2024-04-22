@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhtu6mlwmthqo"]
+
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/imports_manager/tree_selection_multiple_items.gd" id="1_beamo"]
+
+[node name="multiple_items" type="VBoxContainer"]
+visible = false
+size_flags_vertical = 3
+script = ExtResource("1_beamo")
+
+[node name="message" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Multiple items selected
+"
+horizontal_alignment = 1
+
+[node name="buttons" type="HFlowContainer" parent="."]
+layout_mode = 2
+
+[node name="import_selected" type="Button" parent="buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Re-Import all"
+
+[connection signal="button_up" from="buttons/import_selected" to="." method="_on_import_selected_button_up"]

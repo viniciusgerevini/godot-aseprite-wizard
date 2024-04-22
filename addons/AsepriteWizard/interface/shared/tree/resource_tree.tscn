@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://cisgsfvp4nf1g"]
+
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/shared/tree/resource_tree.gd" id="1_io4rc"]
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/imports_manager/tree_filter_field.gd" id="1_q7epo"]
+
+[node name="resource_tree" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_io4rc")
+
+[node name="buttons" type="HFlowContainer" parent="."]
+layout_mode = 2
+
+[node name="tree_filter" type="LineEdit" parent="buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter..."
+clear_button_enabled = true
+script = ExtResource("1_q7epo")
+
+[node name="expand_all" type="Button" parent="buttons"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Expand All"
+
+[node name="collapse_all" type="Button" parent="buttons"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Collapse All"
+
+[node name="refresh_tree" type="Button" parent="buttons"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Refresh Tree"
+
+[node name="Tree" type="Tree" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+hide_root = true
+select_mode = 2
+
+[connection signal="change_finished" from="buttons/tree_filter" to="." method="_on_tree_filter_change_finished"]
+[connection signal="text_changed" from="buttons/tree_filter" to="buttons/tree_filter" method="_on_text_changed"]
+[connection signal="pressed" from="buttons/expand_all" to="." method="_on_expand_all_pressed"]
+[connection signal="pressed" from="buttons/collapse_all" to="." method="_on_collapse_all_pressed"]
+[connection signal="pressed" from="buttons/refresh_tree" to="." method="_on_refresh_tree_pressed"]
+[connection signal="multi_selected" from="Tree" to="." method="_on_tree_multi_selected"]

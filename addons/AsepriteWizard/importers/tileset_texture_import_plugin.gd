@@ -9,8 +9,8 @@ extends EditorImportPlugin
 const result_codes = preload("../config/result_codes.gd")
 var _aseprite_file_exporter = preload("../aseprite/file_exporter.gd").new()
 
-var config
-var file_system: EditorFileSystem
+var config = preload("../config/config.gd").new()
+var file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
 
 
 func _get_importer_name():
@@ -66,8 +66,6 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var source_path = source_file.substr(0, source_file.rfind('/'))
 	var source_basename = source_file.substr(source_path.length()+1, -1)
 	source_basename = source_basename.substr(0, source_basename.rfind('.'))
-
-	_aseprite_file_exporter.init(config)
 
 	var aseprite_opts = {
 		"exception_pattern": options['exclude_layers_pattern'],

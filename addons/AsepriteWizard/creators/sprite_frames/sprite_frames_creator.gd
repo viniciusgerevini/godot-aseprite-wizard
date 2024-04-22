@@ -24,14 +24,6 @@ func create_animations(animated_sprite: Node, aseprite_files: Dictionary, option
 		animated_sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 
 
-func create_and_save_resources(source_files: Array) -> int:
-	var resources = create_resources(source_files)
-	if resources.is_ok:
-		return _save_resources(resources.content)
-
-	return resources.code
-
-
 func create_resources(source_files: Array, options: Dictionary = {}) -> Dictionary:
 	var resources = []
 
@@ -80,7 +72,7 @@ func _load_aseprite_resources(aseprite_data: Dictionary):
 	})
 
 
-func _save_resources(resources: Array) -> int:
+func save_resources(resources: Array) -> int:
 	for resource in resources:
 		var code = _save_resource(resource.resource, resource.data_file)
 		if code != OK:

@@ -8,11 +8,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Imports Manager: Allow re-importing and finding all animations imported via the Inspector Dock.
 - Source file changes indicator: Now docks will show warning when source file changed since last import.
+- Wizard Imported SpriteSheets tab. Shows previously imported resources.
 
 ### Changed
 
 - Aseprite Wizard menus are now grouped under `Project -> Tools -> Aseprite Wizard`.
 - Save scene on importing via dock to persist metadata.
+- Wizard history now works as a simple import history. There is a new tab with a tree showing imported resources.
+- Wizard history is saved as project metadata and not a file anymore.
 
 ### Fixed
 

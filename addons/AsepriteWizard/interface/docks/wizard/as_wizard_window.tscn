@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5dwobjd34w3p"]
+[gd_scene load_steps=4 format=3 uid="uid://c5dwobjd34w3p"]
 
 [ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/wizard/as_wizard_window.gd" id="1"]
+
+[sub_resource type="Image" id="Image_wk0kh"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 44, 255, 255, 255, 90, 255, 255, 255, 52, 255, 255, 255, 1, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 1, 255, 255, 255, 52, 255, 255, 255, 90, 255, 255, 255, 44, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 90, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 61, 255, 255, 255, 1, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 1, 255, 255, 255, 61, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 90, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 52, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 62, 255, 255, 255, 1, 255, 255, 255, 1, 255, 255, 255, 62, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 52, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 1, 255, 255, 255, 60, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 63, 255, 255, 255, 63, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 60, 255, 255, 255, 1, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 1, 255, 255, 255, 60, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 60, 255, 255, 255, 1, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 1, 255, 255, 255, 60, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 60, 255, 255, 255, 1, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 1, 255, 255, 255, 60, 255, 255, 255, 102, 255, 255, 255, 102, 255, 255, 255, 60, 255, 255, 255, 1, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 28, 255, 255, 255, 28, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 18,
+"mipmaps": false,
+"width": 18
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_fpvt0"]
+image = SubResource("Image_wk0kh")
 
 [node name="ASWizardWindow" type="PanelContainer"]
 offset_right = 600.0
@@ -16,6 +28,7 @@ size_flags_vertical = 3
 
 [node name="options" type="VBoxContainer" parent="container"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="file_location" type="VBoxContainer" parent="container/options"]
 layout_mode = 2
@@ -24,7 +37,7 @@ layout_mode = 2
 layout_mode = 2
 tooltip_text = "Location of the Aseprite *.ase source file"
 mouse_filter = 1
-text = "Aseprite File Location:*"
+text = "Aseprite File Location:"
 clip_text = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="container/options/file_location"]
@@ -33,90 +46,135 @@ layout_mode = 2
 [node name="file_location_path" type="LineEdit" parent="container/options/file_location/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "res://test/llama_import.aseprite"
 caret_blink = true
 
 [node name="file_location_btn" type="Button" parent="container/options/file_location/HBoxContainer"]
 layout_mode = 2
 text = "Select"
 
-[node name="output_folder" type="VBoxContainer" parent="container/options"]
+[node name="layer_section" type="VBoxContainer" parent="container/options"]
 layout_mode = 2
 
-[node name="label" type="Label" parent="container/options/output_folder"]
-layout_mode = 2
-tooltip_text = "Folder where the SpriteSheet resource is going to be saved"
-mouse_filter = 1
-text = "Output folder:*"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="container/options/output_folder"]
+[node name="header" type="HBoxContainer" parent="container/options/layer_section"]
 layout_mode = 2
 
-[node name="file_location_path" type="LineEdit" parent="container/options/output_folder/HBoxContainer"]
+[node name="section_header" type="Button" parent="container/options/layer_section/header"]
+layout_mode = 2
+text = "Layers"
+icon = SubResource("ImageTexture_fpvt0")
+flat = true
+alignment = 0
+
+[node name="HSeparator" type="HSeparator" parent="container/options/layer_section/header"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
-text = "res://"
-caret_blink = true
 
-[node name="output_folder_btn" type="Button" parent="container/options/output_folder/HBoxContainer"]
+[node name="section_content" type="MarginContainer" parent="container/options/layer_section"]
 layout_mode = 2
-text = "Select"
+theme_override_constants/margin_left = 20
 
-[node name="exclude_pattern" type="VBoxContainer" parent="container/options"]
+[node name="items" type="VBoxContainer" parent="container/options/layer_section/section_content"]
 layout_mode = 2
 
-[node name="label" type="Label" parent="container/options/exclude_pattern"]
+[node name="exclude_pattern" type="VBoxContainer" parent="container/options/layer_section/section_content/items"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="container/options/layer_section/section_content/items/exclude_pattern"]
 layout_mode = 2
 tooltip_text = "If layer name matches this pattern, it won't be exported."
 mouse_filter = 1
 text = "Exclude layers with name matching pattern:"
 
-[node name="pattern" type="LineEdit" parent="container/options/exclude_pattern"]
+[node name="pattern" type="LineEdit" parent="container/options/layer_section/section_content/items/exclude_pattern"]
 layout_mode = 2
+text = "_$"
 caret_blink = true
 
-[node name="custom_filename" type="VBoxContainer" parent="container/options"]
+[node name="split_layers" type="HBoxContainer" parent="container/options/layer_section/section_content/items"]
 layout_mode = 2
 
-[node name="label" type="Label" parent="container/options/custom_filename"]
-layout_mode = 2
-tooltip_text = "Output filename. In case layers are not being merged, this is used as file prefix.
-If not set, source filename is used."
-mouse_filter = 1
-text = "Output file name / prefix:"
-
-[node name="pattern" type="LineEdit" parent="container/options/custom_filename"]
-layout_mode = 2
-caret_blink = true
-
-[node name="layer_importing_mode" type="VBoxContainer" parent="container/options"]
-layout_mode = 2
-
-[node name="label" type="Label" parent="container/options/layer_importing_mode"]
-layout_mode = 2
-mouse_filter = 1
-text = "Options:"
-
-[node name="split_layers" type="HBoxContainer" parent="container/options/layer_importing_mode"]
-layout_mode = 2
-
-[node name="field" type="CheckBox" parent="container/options/layer_importing_mode/split_layers"]
+[node name="field" type="CheckBox" parent="container/options/layer_section/section_content/items/split_layers"]
 layout_mode = 2
 tooltip_text = "If selected, one resource will be created for each layer.
 If not selected, layers will be merged and exported as one SpriteSheet."
+button_pressed = true
 text = "Split layers in multiple resources"
 
-[node name="visible_layers" type="HBoxContainer" parent="container/options/layer_importing_mode"]
+[node name="visible_layers" type="HBoxContainer" parent="container/options/layer_section/section_content/items"]
 layout_mode = 2
 
-[node name="field" type="CheckBox" parent="container/options/layer_importing_mode/visible_layers"]
+[node name="field" type="CheckBox" parent="container/options/layer_section/section_content/items/visible_layers"]
 layout_mode = 2
 tooltip_text = "If selected, layers not visible in the source file won't be included in the final image."
 text = "Only include visible layers"
 
-[node name="disable_resource_creation" type="HBoxContainer" parent="container/options/layer_importing_mode"]
+[node name="output_section" type="VBoxContainer" parent="container/options"]
 layout_mode = 2
 
-[node name="field" type="CheckBox" parent="container/options/layer_importing_mode/disable_resource_creation"]
+[node name="header" type="HBoxContainer" parent="container/options/output_section"]
+layout_mode = 2
+
+[node name="section_header" type="Button" parent="container/options/output_section/header"]
+layout_mode = 2
+text = "Output"
+icon = SubResource("ImageTexture_fpvt0")
+flat = true
+alignment = 0
+
+[node name="HSeparator" type="HSeparator" parent="container/options/output_section/header"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="section_content" type="MarginContainer" parent="container/options/output_section"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+
+[node name="items" type="VBoxContainer" parent="container/options/output_section/section_content"]
+layout_mode = 2
+
+[node name="output_folder" type="VBoxContainer" parent="container/options/output_section/section_content/items"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="container/options/output_section/section_content/items/output_folder"]
+layout_mode = 2
+tooltip_text = "Folder where the SpriteSheet resource is going to be saved"
+mouse_filter = 1
+text = "Output Folder:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="container/options/output_section/section_content/items/output_folder"]
+layout_mode = 2
+
+[node name="file_location_path" type="LineEdit" parent="container/options/output_section/section_content/items/output_folder/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "res://output/refactor/split_test"
+caret_blink = true
+
+[node name="output_folder_btn" type="Button" parent="container/options/output_section/section_content/items/output_folder/HBoxContainer"]
+layout_mode = 2
+text = "Select"
+
+[node name="custom_filename" type="VBoxContainer" parent="container/options/output_section/section_content/items"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="container/options/output_section/section_content/items/custom_filename"]
+layout_mode = 2
+tooltip_text = "Output filename. In case layers are not being merged, this is used as file prefix.
+If not set, source filename is used."
+mouse_filter = 1
+text = "Output File Name / Prefix:"
+
+[node name="pattern" type="LineEdit" parent="container/options/output_section/section_content/items/custom_filename"]
+layout_mode = 2
+caret_blink = true
+
+[node name="disable_resource_creation" type="HBoxContainer" parent="container/options/output_section/section_content/items"]
+layout_mode = 2
+
+[node name="field" type="CheckBox" parent="container/options/output_section/section_content/items/disable_resource_creation"]
 layout_mode = 2
 tooltip_text = "Does not create SpriteFrames resource. Useful if you are only interested in the .json and .png output from Aseprite."
 text = "Do not create resource file"
@@ -129,11 +187,18 @@ alignment = 2
 layout_mode = 2
 text = "Close"
 
+[node name="clear" type="Button" parent="container/options/buttons"]
+layout_mode = 2
+text = "Clear"
+
 [node name="next" type="Button" parent="container/options/buttons"]
 layout_mode = 2
 text = "Import"
 
 [connection signal="button_up" from="container/options/file_location/HBoxContainer/file_location_btn" to="." method="_open_aseprite_file_selection_dialog"]
-[connection signal="button_up" from="container/options/output_folder/HBoxContainer/output_folder_btn" to="." method="_open_output_folder_selection_dialog"]
+[connection signal="button_down" from="container/options/layer_section/header/section_header" to="." method="_on_layer_section_header_button_down"]
+[connection signal="button_down" from="container/options/output_section/header/section_header" to="." method="_on_output_section_header_button_down"]
+[connection signal="button_up" from="container/options/output_section/section_content/items/output_folder/HBoxContainer/output_folder_btn" to="." method="_open_output_folder_selection_dialog"]
 [connection signal="button_up" from="container/options/buttons/close" to="." method="_on_close_btn_up"]
+[connection signal="button_up" from="container/options/buttons/clear" to="." method="_on_clear_button_up"]
 [connection signal="button_up" from="container/options/buttons/next" to="." method="_on_next_btn_up"]

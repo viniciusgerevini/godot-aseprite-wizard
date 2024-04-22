@@ -43,9 +43,6 @@ func _setup():
 
 	static_texture_creator = StaticTextureCreator.new()
 
-	animation_creator.init(config)
-	static_texture_creator.init(config)
-
 	_setup_animation_fields_listeners()
 
 

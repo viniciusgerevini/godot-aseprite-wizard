@@ -54,23 +54,15 @@ static func _is_wizard_config(cfg) -> bool:
 	return cfg != null and cfg.begins_with(WIZARD_CONFIG_MARKER)
 
 
-static func load_config(node:Node):
+static func load_config(node: Object):
 	if node.has_meta(WIZARD_CONFIG_META_NAME):
 		return node.get_meta(WIZARD_CONFIG_META_NAME)
 
 	return decode(node.editor_description)
 
 
-static func save_config(node:Node, use_metadata:bool, cfg:Dictionary):
-	if use_metadata:
-		node.set_meta(WIZARD_CONFIG_META_NAME, cfg)
-
-		#Delete config from editor_description
-		var decoded = _decode_base64(node.editor_description)
-		if  _is_wizard_config(decoded):
-			node.editor_description = ""
-	else:
-		node.editor_description = encode(cfg)
+static func save_config(node: Object, cfg: Dictionary):
+	node.set_meta(WIZARD_CONFIG_META_NAME, cfg)
 
 
 static func load_interface_config(node: Node, default: Dictionary = {}) -> Dictionary:
@@ -79,15 +71,15 @@ static func load_interface_config(node: Node, default: Dictionary = {}) -> Dicti
 	return default
 
 
-static func save_interface_config(node:Node, cfg:Dictionary) -> void:
+static func save_interface_config(node: Node, cfg:Dictionary) -> void:
 	node.set_meta(WIZARD_INTERFACE_CONFIG_META_NAME, cfg)
 
 
-static func set_source_hash(node:Node, hash: String) -> void:
+static func set_source_hash(node: Object, hash: String) -> void:
 	node.set_meta(SOURCE_FILE_HASH_META_NAME, hash)
 
 
-static func get_source_hash(node:Node) -> String:
+static func get_source_hash(node: Object) -> String:
 	if node.has_meta(SOURCE_FILE_HASH_META_NAME):
 		return node.get_meta(SOURCE_FILE_HASH_META_NAME)
 	return ""

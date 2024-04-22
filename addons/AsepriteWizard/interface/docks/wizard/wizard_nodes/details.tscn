@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1jb5yierm2bq"]
+
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/details.gd" id="1_1v4dc"]
+
+[node name="Details" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_1v4dc")
+
+[node name="label" type="Button" parent="."]
+layout_mode = 2
+text = "Details"
+flat = true
+alignment = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 5
+columns = 2
+
+[node name="split_layers_label" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Split layers:"
+
+[node name="split_layers" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="only_visible_layers_label" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Only visible layers:"
+
+[node name="only_visible_layers" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="layer_exclusion_pattern_label" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Layer Ex Pattern:"
+
+[node name="layer_exclusion_pattern" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="output_name_label" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Output name:"
+
+[node name="output_name" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="do_not_create_resource_label" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Do not create resource:"
+
+[node name="do_not_create_resource" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+
+[connection signal="pressed" from="label" to="." method="_on_label_pressed"]

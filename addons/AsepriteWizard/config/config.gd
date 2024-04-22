@@ -15,11 +15,9 @@ const _LOOP_ENABLED = 'aseprite/animation/loop/enabled'
 const _LOOP_EXCEPTION_PREFIX = 'aseprite/animation/loop/exception_prefix'
 const _USE_METADATA = 'aseprite/animation/storage/use_metadata'
 
-
 # cleanup
 const _REMOVE_SOURCE_FILES_KEY = 'aseprite/import/cleanup/remove_json_file'
 const _SET_VISIBLE_TRACK_AUTOMATICALLY = 'aseprite/import/cleanup/automatically_hide_sprites_not_in_animation'
-
 
 # automatic importer
 const _IMPORTER_ENABLE_KEY = 'aseprite/import/import_plugin/enable_automatic_importer'
@@ -31,18 +29,18 @@ const IMPORTER_TILESET_TEXTURE_NAME = "Tileset Texture"
 const IMPORTER_STATIC_TEXTURE_NAME = "Static Texture"
 
 # wizard history
+const _WIZARD_HISTORY = "wizard_history"
+const _HISTORY_MAX_ENTRIES = 'aseprite/wizard/history/max_history_entries'
+const _HISTORY_DEFAULT_MAX_ENTRIES = 100
+
+## DEPRECATED (v7.4.0): remove in a next major version
 const _HISTORY_CONFIG_FILE_CFG_KEY = 'aseprite/wizard/history/cache_file_path'
-const _HISTORY_SINGLE_ENTRY_KEY = 'aseprite/wizard/history/keep_one_entry_per_source_file'
+## DEPRECATED (v7.4.0): remove in a next major version
 const _DEFAULT_HISTORY_CONFIG_FILE_PATH = 'res://.aseprite_wizard_history'
 
-# IMPORT SETTINGS
-const _I_LAST_SOURCE_PATH_KEY = 'i_source'
-const _I_LAST_OUTPUT_DIR_KEY = 'i_output'
-const _I_SHOULD_SPLIT_LAYERS_KEY = 'i_split_layers'
-const _I_EXCEPTIONS_KEY = 'i_exceptions_key'
-const _I_ONLY_VISIBLE_LAYERS_KEY = 'i_only_visible_layers'
-const _I_CUSTOM_NAME_KEY = 'i_custom_name'
-const _I_DO_NOT_CREATE_RES_KEY = 'i_disable_resource_creation'
+
+# SpriteFrames import last config
+const _STANDALONE_SPRITEFRAMES_LAST_IMPORT_CFG = "standalone_sf_last_import_cfg"
 
 # export
 const _EXPORTER_ENABLE_KEY = 'aseprite/animation/storage/enable_metadata_removal_on_export'
@@ -102,11 +100,15 @@ func should_include_only_visible_layers_by_default() -> bool:
 	return _get_project_setting(_DEFAULT_ONLY_VISIBLE_LAYERS, false)
 
 
-func is_single_file_history() -> bool:
-	return ProjectSettings.get(_HISTORY_SINGLE_ENTRY_KEY) == true
+func get_history_max_entries() -> int:
+	return _get_project_setting(_HISTORY_MAX_ENTRIES, _HISTORY_DEFAULT_MAX_ENTRIES)
 
 
 func get_import_history() -> Array:
+	return get_plugin_metadata(_WIZARD_HISTORY, [])
+
+
+func get_old_import_history() -> Array:
 	var history = []
 	var history_path := _get_history_file_path()
 
@@ -128,76 +130,48 @@ func get_import_history() -> Array:
 func is_set_visible_track_automatically_enabled() -> bool:
 	return _get_project_setting(_SET_VISIBLE_TRACK_AUTOMATICALLY, false)
 
-# history is saved and retrieved line-by-line so
-# file becomes version control friendly
+
 func save_import_history(history: Array):
-	var file = FileAccess.open(_get_history_file_path(), FileAccess.WRITE)
-	for entry in history:
-		file.store_line(JSON.new().stringify(entry))
-	file = null
+	set_plugin_metadata(_WIZARD_HISTORY, history)
 
 
+## DEPRECATED
 func _get_history_file_path() -> String:
 	return _get_project_setting(_HISTORY_CONFIG_FILE_CFG_KEY, _DEFAULT_HISTORY_CONFIG_FILE_PATH)
 
 
-#######################################################
+## used for old history migration. Should be removed together with the history cleanup
+func has_old_history() -> bool:
+	return ProjectSettings.has_setting(_HISTORY_CONFIG_FILE_CFG_KEY) or FileAccess.file_exists(_DEFAULT_HISTORY_CONFIG_FILE_PATH)
+
+## used for old history migration. Should be removed together with the history cleanup
+func remove_old_history_setting() -> void:
+	DirAccess.remove_absolute(_get_history_file_path())
+	if ProjectSettings.has_setting(_HISTORY_CONFIG_FILE_CFG_KEY):
+		ProjectSettings.clear(_HISTORY_CONFIG_FILE_CFG_KEY)
+
+#=========================================================
 # IMPORT CONFIGS
-######################################################
-func get_last_source_path() -> String:
-	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_LAST_SOURCE_PATH_KEY, "")
+#=========================================================
+## Return config for last import done via standalone SpriteFrames import dock
+func get_standalone_spriteframes_last_import_config() -> Dictionary:
+	return get_plugin_metadata(_STANDALONE_SPRITEFRAMES_LAST_IMPORT_CFG, {})
+
+## Set config for last import done via standalone SpriteFrames import dock
+func set_standalone_spriteframes_last_import_config(data: Dictionary) -> void:
+	set_plugin_metadata(_STANDALONE_SPRITEFRAMES_LAST_IMPORT_CFG, data)
 
 
-func set_last_source_path(source_path: String) -> void:
-	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_LAST_SOURCE_PATH_KEY, source_path)
+func clear_standalone_spriteframes_last_import_config() -> void:
+	set_plugin_metadata(_STANDALONE_SPRITEFRAMES_LAST_IMPORT_CFG, {})
 
 
-func get_last_output_path() -> String:
-	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_LAST_OUTPUT_DIR_KEY, "")
+func get_plugin_metadata(key: String, default: Variant = null) -> Variant:
+	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, key, default)
 
 
-func set_last_output_path(output_path: String) -> void:
-	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_LAST_OUTPUT_DIR_KEY, output_path)
-
-
-func should_split_layers() -> bool:
-	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_SHOULD_SPLIT_LAYERS_KEY, false)
-
-
-func set_split_layers(should_split: bool) -> void:
-	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_SHOULD_SPLIT_LAYERS_KEY, false)
-
-
-func get_exception_pattern() -> String:
-	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_EXCEPTIONS_KEY, "")
-
-
-func set_exception_pattern(pattern: String) -> void:
-	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_EXCEPTIONS_KEY, pattern)
-
-
-func should_include_only_visible_layers() -> bool:
-	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_ONLY_VISIBLE_LAYERS_KEY, false)
-
-
-func set_include_only_visible_layers(include_only_visible: bool) -> void:
-	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_ONLY_VISIBLE_LAYERS_KEY, include_only_visible)
-
-
-func get_last_custom_name() -> String:
-	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_CUSTOM_NAME_KEY, "")
-
-
-func set_custom_name(custom_name: String) -> void:
-	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_CUSTOM_NAME_KEY, custom_name)
-
-
-func should_not_create_resource() -> bool:
-	return _editor_settings.get_project_metadata(_CONFIG_SECTION_KEY, _I_DO_NOT_CREATE_RES_KEY, false)
-
-
-func set_do_not_create_resource(do_no_create: bool) -> void:
-	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, _I_DO_NOT_CREATE_RES_KEY, do_no_create)
+func set_plugin_metadata(key: String, data: Variant):
+	_editor_settings.set_project_metadata(_CONFIG_SECTION_KEY, key, data)
 
 
 #######################################################
@@ -221,8 +195,9 @@ func initialize_project_settings():
 
 	_initialize_project_cfg(_EXPORTER_ENABLE_KEY, true, TYPE_BOOL)
 
-	_initialize_project_cfg(_HISTORY_CONFIG_FILE_CFG_KEY, _DEFAULT_HISTORY_CONFIG_FILE_PATH, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE)
-	_initialize_project_cfg(_HISTORY_SINGLE_ENTRY_KEY, false, TYPE_BOOL)
+	# TODO remove (history max entries)
+	#_initialize_project_cfg(_HISTORY_CONFIG_FILE_CFG_KEY, _DEFAULT_HISTORY_CONFIG_FILE_PATH, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE)
+	_initialize_project_cfg(_HISTORY_MAX_ENTRIES, _HISTORY_DEFAULT_MAX_ENTRIES, TYPE_INT)
 
 	_initialize_project_cfg(_SET_VISIBLE_TRACK_AUTOMATICALLY, false, TYPE_BOOL)
 
@@ -240,8 +215,7 @@ func clear_project_settings():
 		_REMOVE_SOURCE_FILES_KEY,
 		_DEFAULT_IMPORTER_KEY,
 		_EXPORTER_ENABLE_KEY,
-		_HISTORY_CONFIG_FILE_CFG_KEY,
-		_HISTORY_SINGLE_ENTRY_KEY,
+		_HISTORY_MAX_ENTRIES,
 		_SET_VISIBLE_TRACK_AUTOMATICALLY,
 		_DEFAULT_ONLY_VISIBLE_LAYERS,
 	]

@@ -12,14 +12,6 @@ var _aseprite_file_exporter = preload("../../aseprite/file_exporter.gd").new()
 var _config = preload("../../config/config.gd").new()
 
 
-func _init():
-	_aseprite_file_exporter.init(_config)
-	_sprite_frames_creator.init(_config)
-	_sprite_animation_creator.init(_config)
-	_texture_rect_animation_creator.init(_config)
-	_static_texture_creator.init(_config)
-
-
 func import_node(root_node: Node, meta: Dictionary) -> void:
 	var node = root_node.get_node(meta.node_path)
 

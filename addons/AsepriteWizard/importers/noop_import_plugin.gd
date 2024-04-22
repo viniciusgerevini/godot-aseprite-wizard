@@ -6,8 +6,7 @@ extends EditorImportPlugin
 ## managed, but without triggering a real import
 ##
 
-var config
-var file_system: EditorFileSystem
+var config = preload("../config/config.gd").new()
 
 func _get_importer_name():
 	return "aseprite_wizard.plugin.noop"

@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://qgmln507kjnm"]
+
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.gd" id="1_7gtu1"]
+
+[node name="confirmation_warning" type="VBoxContainer"]
+script = ExtResource("1_7gtu1")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="warning_message" type="Label" parent="MarginContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+autowrap_mode = 2
+
+[node name="buttons" type="HFlowContainer" parent="."]
+layout_mode = 2
+
+[node name="confirm" type="Button" parent="buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Confirm"
+
+[node name="cancel" type="Button" parent="buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[connection signal="button_up" from="buttons/confirm" to="." method="_on_confirm_button_up"]
+[connection signal="button_up" from="buttons/cancel" to="." method="_on_cancel_button_up"]
