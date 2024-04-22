@@ -72,7 +72,7 @@ After activating the plugin, there are three different ways you can use it:
 
 1. Using the automatic importers: Any file saved in the project will be automatically converted to the chosen resource. By default, the importer does not import anything. You can change the behaviour per file or choose the default importer via Project Settings.
 1. Using the inspector docks: There will be a section called Aseprite in the inspector dock when selecting Sprite, TextureRect and AnimatedSprite nodes.
-1. Using the wizard dock: You can open the wizard dock via `Project -> Tools -> Aseprite Wizard -> Open Spritesheet Wizard Dock` menu. In this dock you can generate standalone SpriteFrames files from anywhere in your system.
+1. Using the wizard dock: You can open the wizard dock via `Project -> Tools -> Aseprite Wizard -> Spritesheet Wizard Dock...` menu. In this dock you can generate standalone SpriteFrames files from anywhere in your system.
 
 ### AnimationPlayer
 
