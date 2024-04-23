@@ -10,7 +10,25 @@ _This branch supports Godot 4. For Godot 3 docs and code check the [godot_3](htt
 
 _Check the screenshots folder for more examples._
 
-### Features
+## Index
+
+- [Features](#features)
+- [Installation and Configuration](#installation-and-configuration)
+- [How to use](#how-to-use)
+	- [Importers](#importers)
+		- [SpriteFrames](#spriteframes-importer)
+		- [Static Image](#static-image-importer)
+		- [Tileset texture](#tileset-texture-importer)
+	- [Inspector Docks](#inspector-docks)
+ 		- [AnimatedSprites](#animatedsprites)
+		- [Sprites and TextureRect](#sprites-and-texturerect)
+		- [Imports manager](#imports-manager) 
+	- [Wizard Dock](#wizard-dock) 
+- [F.A.Q. and limitations](#faq-and-limitations)
+- [Known Issues](#known-issues)
+- [Contact](#contact)
+
+## Features
 
 - Godot importer and inspector docks for easy import and re-import.
 - Adds automatic importers:
@@ -74,16 +92,95 @@ After activating the plugin, there are three different ways you can use it:
 1. Using the inspector docks: There will be a section called Aseprite in the inspector dock when selecting Sprite, TextureRect and AnimatedSprite nodes.
 1. Using the wizard dock: You can open the wizard dock via `Project -> Tools -> Aseprite Wizard -> Spritesheet Wizard Dock...` menu. In this dock you can generate standalone SpriteFrames files from anywhere in your system.
 
-### AnimationPlayer
+### Importers
 
-Animations can be imported to AnimationPlayers via the Inspector dock.
+If you use the importer flow, any `*.ase` or `*.aseprite` file saved in the project folder will be automatically imported as a resource. The plugin enables 3 importers: `SpriteFrames`, `Static Image` and `Tileset Texture`.
 
-- First, Create a `Sprite` or `TextureRect` node in your scene.
-- With the node selected, look for the "Aseprite" section in the bottom part of the Inspector.
-- Fill up the fields and click import.
+You can choose which importer to use via the Import Dock. By default, aseprite files will use the "No import" option, which will show them in the filesytem dock, but won´t generate any resource. You can change the default importer behaviour via Project Settings.
+
+![Importer screenshot](./screenshots/importers.png)
+
+The downside of using the importer flow is that you will need Aseprite available on every machine where you intend to run the project, even if you won't be working on the game art. If this is a problem to you, you should consider using the Import dock flow instead.
+
+#### SpriteFrames importer
+
+Aseprite files are imported as `SpriteFrames` resources and can be loaded to `AnimatedSprite` nodes directly.
+
+Options:
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Output filename / prefix | Defines output filename. In case layers are split into multiple files, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source filename is used.|
+| Exclude layers matching pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
+| Split layers in multiple resources: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with the same base name as the source. |
+| Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+
+#### Static image importer
+
+Aseprite files are imported as `AtlasTexture` resources. Only the first frame will be visibile. A PNG file will be created alongside the AtlasTexture. You can choose to use either the aseprite and png file directly, as both will be kept updated.
+
+Texture importer options:
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Exclude layers pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
+| Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+
+#### Tileset texture importer
+
+Aseprite 1.3 added [Tilemap support](https://www.aseprite.org/docs/tilemap/). You can create special layers which can then be exported as tilesets. The tileset importer will generate an image with the tiles from the aseprite file, which can be added to the Tileset editor in Godot.
+
+Tileset importer options:
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Exclude layers pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
+| Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+
+__Note:__ Like in the static image importer, a png file is generated alongside the resource. I noticed that sometimes when updating the aseprite file, Godot is keeping a cached version of the resource and not showing the update in the tileset editor. The same doesn't happen to the png file, so you might want to use it instead of the main .aseprite file.
+
+### Inspector Docks
+
+You can import animations directly to `AnimatedSprite` nodes and `AnimationPlayers` using the Inspector Dock. You can find the Aseprite section at the bottom of the Inspector Dock when selecting `AnimatedSprite2D`/`AnimatedSprite3D`/`Sprite2D`/`Sprite3D`/`TextureRect` nodes.
+
+Animations imported via docks are only updated once you manually re-import them, giving more control on when imports happen and allowing others to run the project without having Aseprite installed.
+
+#### AnimatedSprites
+
+To import animations via the Import Dock:
+
+1. Create an `AnimatedSprite2D` or `AnimatedSprite3D`node and select it in your scene.
+1. With the node selected, look for the "Aseprite" section in the bottom part of the Inspector.
+1. Fill up the fields and click import.
+
+![AnimatedSprite inspector dock screenshot](./screenshots/animated_sprite_dock_expanded.png)
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Aseprite File: | (\*.aseprite or \*.ase) source file. |
+| Layer: | Aseprite layer to be used in the animation. By default, all layers are included. |
+| Exclude pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
+| Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+| Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
+| Output folder: | Folder to save the sprite sheet (png) file. Default: same as scene |
+| Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
+
+Notes:
+- A `SpriteFrames` resource will be generated and assigned to the AnimatedSprite. This resource is embedded in the scene and the spritesheet file will be created in the output folder.
+- As opposed to the `AnimationPlayer` flow, a new `SpriteFrames` resource is generated on every import. This means any manual change will be lost after re-import.
+
+#### Sprites and TextureRect
+
+When working with `Sprite2D`, `Sprite3D` and `TextureRect` nodes, you have the option to import the file as a static image or load its animations to an `AnimationPlayer` node.
+
+1. Create your node (`Sprite2D`, `Sprite3D`, `TextureRect`).
+2. With the node selected, look for the "Aseprite" section in the bottom part of the Inspector dock.
+3. Fill up the fields and click import.
+
+
+##### Animation mode:
 
 ![Sprite inspector dock screenshot](./screenshots/sprite_animation_dock_expanded.png)
-
 
 | Field                   | Description |
 | ----------------------- | ----------- |
@@ -106,97 +203,10 @@ Notes:
 - The plugin will never delete an Animation containing other tracks than the ones used by itself. In case the animation is removed from Aseprite, it will delete the track from the AnimationPlayer and only delete the animation in case there are no other tracks left.
 - Animations are added to the global animation library by default. To define a library name, use the `library_name/animation_name` pattern on your Aseprite tags.
 
-### AnimatedSprite and SpriteFrames
 
-There are a few different ways to import animations to be used in AnimatedSprites. All of them create a SpriteFrames resource with everything configured.
-
-#### via Inspector dock
-
-This is very similar to the AnimationPlayer option.
-
-- First, select the AnimatedSprite in your scene.
-- With the node selected, look for the "Aseprite" section in the bottom part of the Inspector.
-- Fill up the fields and click import.
-
-![AnimatedSprite inspector dock screenshot](./screenshots/animated_sprite_dock_expanded.png)
-
-| Field                   | Description |
-| ----------------------- | ----------- |
-| Aseprite File: | (\*.aseprite or \*.ase) source file. |
-| Layer: | Aseprite layer to be used in the animation. By default, all layers are included. |
-| Exclude pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
-| Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
-| Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
-| Output folder: | Folder to save the sprite sheet (png) file. Default: same as scene |
-| Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
-
-
-Notes:
-- A SpriteFrames resource will be generated and assigned to the AnimatedSprite. This resource is embedded in the scene. It does not require any external dependency.
-- As opposed to the AnimationPlayer flow, a new SpriteFrames resource is generated on every import. This means any manual change will be lost after re-import.
-
-
-#### Wizard (bottom dock)
-
-The wizard screen allows you to import SpriteFrames resources without attaching them to a scene or node This can be used in cases where you would like to generate SpriteFrames independently and include them in different nodes manually or programmatically.
-
-
-| Field                   | Description |
-| ----------------------- | ----------- |
-| Aseprite File Location: | \*.aseprite or \*.ase source file containing animations. |
-| Output folder:          | Folder to save the output `SpriteFrames` resource(s). |
-| Output filename / prefix | Defines output filename. In case layers are split into multiple files, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
-| Exclude layers matching pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
-| Split layers in multiple resources: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with the same base name as the source. |
-| Only include visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
-| Do not create resource file | Does not create SpriteFrames resource. Useful if you are only interested in the .json and .png output from Aseprite. |
-
-
-Notes:
-- Overwrites any manual change done to previously imported resources.
-
-
-#### Importer
-
-If you use the importer flow, any `*.ase` or `*.aseprite` file saved in the project will be automatically imported as a `SpriteFrames` resource, which can be used in `AnimatedSprite` nodes. You can change import settings for each file in the Import dock.
-
-By default, the automatic importer won´t generate any file. You can change the default importer behaviour via Project Settings.
-
-
-![Importer screenshot](./screenshots/importers.png)
-
-SpriteFrames importer Options:
-
-| Field                   | Description |
-| ----------------------- | ----------- |
-| Output filename / prefix | Defines output filename. In case layers are split into multiple files, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source filename is used.|
-| Exclude layers matching pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
-| Split layers in multiple resources: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with the same base name as the source. |
-| Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
-
-
-### Tilesets
-
-Aseprite 1.3 added [Tilemap support](https://www.aseprite.org/docs/tilemap/). You can create special layers which can then be exported as tilesets. Aseprite Wizard has an automatic importer which allows using asprite files directly in the Tileset editor in Godot.
-
-You can select the "Aseprite Tileset Texture Importer" in the Import dock. You can also set it as the default importer via ProjectSettings.
-
-Tileset importer options:
-
-| Field                   | Description |
-| ----------------------- | ----------- |
-| Exclude layers pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
-| Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
-
-### Static image (AtlasTexture)
-
-You can import your Aseprite file as a static image (first frame only, no animations) via the inspector dock or automatic importer.
-
-For the inspector dock, after selecting a `Sprite` or `TextureRect` node, in the Aseprite section you can select "mode" as "Image".
+##### Image mode:
 
 ![Static image inspector dock screenshot](./screenshots/static_sprite_dock_expanded.png)
-
-Dock options:
 
 | Field                   | Description |
 | ----------------------- | ----------- |
@@ -208,18 +218,10 @@ Dock options:
 | Output folder | Folder to save the sprite sheet (png) file. Default: same as scene |
 | Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
 
-You can also use Aseprite files directly as static images. For that you need to select the "Aseprite Texture" importer in the Import dock. You can also set it as the default importer via ProjectSettings.
 
-Texture importer options:
+#### Imports Manager
 
-| Field                   | Description |
-| ----------------------- | ----------- |
-| Exclude layers pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
-| Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
-
-## Imports Manager
-
-Importing animations via the Inspector Docks are handy, but it makes it harder to re-import multiple animations at same time. For that you can use the Imports Manager.
+Importing animations via the Inspector Docks is handy, but it makes it harder to re-import multiple animations at same time. For that you can use the Imports Manager.
 
 You can find the manager under `Project -> Tools -> Aseprite Wizard -> Imports Manager...`.
 
@@ -228,6 +230,30 @@ You can find the manager under `Project -> Tools -> Aseprite Wizard -> Imports M
 In this screen you can see all the nodes in your project imported using the Inspector Dock. From here, you can re-import any file, as well as selecting multiple files to import in one go.
 
 Due to some limitations and bugs in Godot, when importing a node its scene will be open in the editor.
+
+### Wizard Dock
+
+The wizard screen allows you to import `SpriteFrames` resources without attaching them to a scene or node. This can be used in cases where you would like to generate `SpriteFrames` independently and include them in different nodes manually or programmatically.
+
+This dock also allows you to create the raw aseprite export files (png, json) without creating any resource at all.
+
+To open the dock go to `Project -> Tools -> Aseprite Wizard -> SpriteFrames Wizard...`.
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Aseprite File Location: | \*.aseprite or \*.ase source file containing animations. |
+| Output folder:          | Folder to save the output `SpriteFrames` resource(s). |
+| Output filename / prefix | Defines output filename. In case layers are split into multiple files, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
+| Exclude layers matching pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
+| Split layers in multiple resources: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with the same base name as the source. |
+| Only include visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+| Do not create resource file | Does not create SpriteFrames resource. Useful if you are only interested in the .json and .png output from Aseprite. |
+
+Notes:
+- Overwrites any manual change done to previously imported resources.
+
+In this dock you also find tabs to list all `SpriteFrames` imported through it and a local history of previous imports.
+
 
 ## F.A.Q. and limitations
 
