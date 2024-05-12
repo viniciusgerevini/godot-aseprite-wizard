@@ -2,6 +2,16 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 7.4.1 (2024-05-12)
+
+### Fixed
+
+- Project settins were being removed on exit. Now settings won´t be removed even when plugin is disabled.
+
+### Thanks
+
+- Thanks @sandord for finding and reporting the config issue
+
 ## 7.4.0 (2024-04-23)
 
 ### Added
