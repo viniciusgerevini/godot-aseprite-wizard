@@ -57,7 +57,6 @@ func _disable_plugin():
 	_remove_exporter()
 	_remove_wizard_dock()
 	_remove_inspector_plugins()
-	config.clear_project_settings()
 
 
 func _load_config():
