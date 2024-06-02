@@ -63,7 +63,7 @@ func _get_option_visibility(path, option, options):
 func _import(source_file, save_path, options, platform_variants, gen_files):
 	var absolute_source_file = ProjectSettings.globalize_path(source_file)
 	var absolute_save_path = ProjectSettings.globalize_path(save_path)
-	var source_path = source_file.substr(0, source_file.rfind('/'))
+	var source_path = source_file.substr(0, source_file.rfind('/')+1)
 	var source_basename = source_file.substr(source_path.length()+1, -1)
 	source_basename = source_basename.substr(0, source_basename.rfind('.'))
 
