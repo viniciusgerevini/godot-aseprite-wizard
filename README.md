@@ -261,13 +261,28 @@ In this dock you also find tabs to list all `SpriteFrames` imported through it a
 
 ### What is the correct command to use in Aseprite Command Path
 
-The plugin uses `aseprite` as the default command. In case your system uses a different location you can either add it to the PATH variable or provide the full path to the executable. Here are some common locations:
+The plugin uses one of the default commands bellow depending on the Operational System:
 
-- Steam on Windows: `C:\\Steam\steamapps\common\Aseprite\aseprite.exe`. (This will vary depending on your Steam Library location).
+- Windows: `C:\\Steam\steamapps\common\Aseprite\aseprite.exe`.
 - MacOS: `/Applications/Aseprite.app/Contents/MacOS/aseprite`.
-- Ubuntu: `/usr/bin/aseprite`. (Note: usually your PATH already includes binaries from `/usr/bin`)
+- Linux: `aseprite`.
 
-*Note: Adding Aseprite to the PATH on Windows does not always work, as reported by some users. In this case, it's better to stick to the full path.*
+If you are using a different path you can edit it via Editor Settings.
+
+Further notes based on reported mistakes:
+
+#### Linux
+
+Some distros install Godot via Flatpak. By default, flatpak apps are sandboxed not having access to the host's file system. This will make Godot show "command not found" even when the right path is set.
+
+At the time I'm writing this, people recommend using a program called Flatseal which is able to give flatpak apps permission to access parts of the file system.
+
+
+#### MacOS
+
+If you are copying the path from the Finder, it's very likely you are copying the wrong one. MacOS apps are just special folders ending on `.app`. The real executable is located inside it, in the `Contents/MacOS/` folder.
+
+Check the default command for an example. Usually what you want is for your aseprite path to end on `Aseprite.app/Contents/MacOS/aseprite`.
 
 ### Non-looping animations
 
