@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Added
+
+- Operational system specific default command.
+
 ### Fixed
 
 - Automatic import would not work when aseprite file was in the root directory. (@HexBlit)
