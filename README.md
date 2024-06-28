@@ -60,7 +60,9 @@ Aseprite Wizard is only required during development. If you decide to not use it
 
 Follow Godot [ installing plugins guide ]( https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html).
 
-If you are using Windows, a portable version or if the `aseprite` command is not in your PATH, you need to set the right path on `Editor -> Editor Settings -> Aseprite`.
+After installing the plugin, you need to make sure it's using the right Aseprite command. You can test the command by going to `Project > Tools > Aseprite Wizard > Config...`. If you get "command not found" instead of aseprite's version, you need to change the path to the Aseprite executable.
+
+You can also change the path via editor settings: `Editor -> Editor Settings -> Aseprite`.
 
 | Configuration           | Description |
 | ----------------------- | ----------- |
