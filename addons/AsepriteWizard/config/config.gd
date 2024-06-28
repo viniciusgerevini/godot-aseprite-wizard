@@ -59,7 +59,13 @@ var _plugin_icons: Dictionary
 ######################################################
 
 func default_command() -> String:
-	return 'aseprite'
+	match OS.get_name():
+		"Windows":
+			return "C:\\\\Steam\\steamapps\\common\\Aseprite\\aseprite.exe"
+		"OSX":
+			return "/Applications/Aseprite.app/Contents/MacOS/aseprite"
+		_:
+			return 'aseprite'
 
 
 func get_command() -> String:
