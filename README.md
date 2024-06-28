@@ -37,7 +37,9 @@ Aseprite Wizard is only required during development. If you decide to not use it
 
 Follow Godot [ installing plugins guide ]( https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html).
 
-If you are using Windows, a portable version or if the `aseprite` command is not in your PATH, you need to set the right path on `Editor -> Editor Settings -> Aseprite`.
+After installing the plugin, you need to make sure it's using the right Aseprite command. You can test the command by going to `Project > Tools > Aseprite Config`. If you get "command not found" instead of aseprite's version, you need to change the path to the Aseprite executable.
+
+You can also change the path via editor settings: `Editor -> Editor Settings -> Aseprite`.
 
 | Configuration           | Description |
 | ----------------------- | ----------- |
@@ -165,13 +167,13 @@ By default, the automatic importer won´t generate any file. You can change the 
 
 ### What is the correct command to use in Aseprite Command Path
 
-The plugin uses `aseprite` as the default command. In case your system uses a different location you can either add it to the PATH variable or provide the full path to the executable. Here are some common locations:
+The plugin uses one of the default commands bellow depending on the Operational System:
 
-- Steam on Windows: `C:\\Steam\steamapps\common\Aseprite\aseprite.exe`. (This will vary depending on your Steam Library location).
+- Steam on Windows: `C:\\Steam\steamapps\common\Aseprite\aseprite.exe`.
 - MacOS: `/Applications/Aseprite.app/Contents/MacOS/aseprite`.
-- Ubuntu: `/usr/bin/aseprite`. (Note: usually your PATH already includes binaries from `/usr/bin`)
+- Linux: `aseprite`.
 
-*Note: Adding Aseprite to the PATH on Windows does not always work, as reported by some users. In this case, it's better to stick to the full path.*
+If you are using a different path you can edit it via Editor Settings.
 
 ### Non-looping animations
 

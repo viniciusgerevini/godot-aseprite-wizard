@@ -2,6 +2,12 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Added
+
+- Operational system specific default command.
+
 ## 6.4.0 (2024-02-13)
 
 ## Added
