@@ -2,6 +2,16 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Fixed
+
+- Automatic import would not work when aseprite file was in the root directory. (@HexBlit)
+
+### Thanks
+
+- Thanks @HexBlit for fixing the root folder import issue
+
 ## 7.4.1 (2024-05-12)
 
 ### Fixed
