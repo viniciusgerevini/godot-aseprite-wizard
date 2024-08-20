@@ -2,6 +2,18 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+
+### Fixed
+
+- Editor would crash when re-importing a big number of files. Threading texture load and debouncing scans to fix it.
+
+
+### Thanks
+
+- Thanks @0Volcanon, @KeyboardDanni and @thyancey for reporting and helping debug the re-import crash issue.
+
 ## 7.5.0 (2024-05-28)
 
 ### Added
