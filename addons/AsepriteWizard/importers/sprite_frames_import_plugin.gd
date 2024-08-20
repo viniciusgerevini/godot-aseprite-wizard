@@ -8,6 +8,12 @@ var _aseprite_file_exporter = preload("../aseprite/file_exporter.gd").new()
 var _sf_creator = preload("../creators/sprite_frames/sprite_frames_creator.gd").new()
 var file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
 
+var file_system_helper
+
+func _init(fs_helper) -> void:
+	file_system_helper = fs_helper
+
+
 func _get_importer_name():
 	# ideally this should be called aseprite_wizard.plugin.spriteframes
 	# but I'm keeping it like this to avoid unnecessary breaking changes
@@ -97,12 +103,12 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		return FAILED
 
 
-	var should_trigger_scan = false
-
 	for sf in source_files.content:
 		if sf.is_first_import:
 			file_system.update_file(sf.sprite_sheet)
 			append_import_external_resource(sf.sprite_sheet)
+		else:
+			file_system_helper.schedule_file_system_scan()
 
 	var resources = _sf_creator.create_resources(source_files.content)
 
@@ -141,3 +147,5 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 func _remove_source_files(source_files: Array):
 	for s in source_files:
 		DirAccess.remove_absolute(s.data_file)
+		file_system_helper.schedule_file_system_scan()
+

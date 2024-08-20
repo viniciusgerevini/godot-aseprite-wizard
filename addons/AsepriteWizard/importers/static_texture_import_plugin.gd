@@ -11,6 +11,10 @@ var _aseprite_file_exporter = preload("../aseprite/file_exporter.gd").new()
 
 var config = preload("../config/config.gd").new()
 var file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
+var file_system_helper
+
+func _init(fs_helper) -> void:
+	file_system_helper = fs_helper
 
 
 func _get_importer_name():
@@ -84,7 +88,9 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var sprite_sheet = result.content.sprite_sheet
 	var data = result.content.data
 
-	if not ResourceLoader.exists(sprite_sheet):
+	if ResourceLoader.exists(sprite_sheet):
+		file_system_helper.schedule_file_system_scan()
+	else:
 		file_system.update_file(sprite_sheet)
 		append_import_external_resource(sprite_sheet)
 
@@ -127,6 +133,7 @@ func _save_resource(texture: CompressedTexture2D, save_path: String, data_file_p
 
 	if config.should_remove_source_files():
 		DirAccess.remove_absolute(data_file_path)
+		file_system_helper.schedule_file_system_scan()
 
 	if exit_code != OK:
 		printerr("ERROR - Could not persist aseprite file: %s" % result_codes.get_error_message(exit_code))
