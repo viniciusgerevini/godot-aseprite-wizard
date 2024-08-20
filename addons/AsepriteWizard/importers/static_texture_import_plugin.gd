@@ -84,13 +84,12 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var sprite_sheet = result.content.sprite_sheet
 	var data = result.content.data
 
-	if ResourceLoader.exists(sprite_sheet):
-		file_system.scan()
-	else:
+	if not ResourceLoader.exists(sprite_sheet):
 		file_system.update_file(sprite_sheet)
 		append_import_external_resource(sprite_sheet)
 
-	var texture: CompressedTexture2D = ResourceLoader.load(sprite_sheet, "CompressedTexture2D", ResourceLoader.CACHE_MODE_REPLACE)
+	ResourceLoader.load_threaded_request(sprite_sheet, "CompressedTexture2D", false, ResourceLoader.CACHE_MODE_REPLACE)
+	var texture: CompressedTexture2D = ResourceLoader.load_threaded_get(sprite_sheet)
 
 	return _save_resource(texture, save_path, result.content.data_file, data.meta.size)
 
@@ -128,7 +127,6 @@ func _save_resource(texture: CompressedTexture2D, save_path: String, data_file_p
 
 	if config.should_remove_source_files():
 		DirAccess.remove_absolute(data_file_path)
-		file_system.call_deferred("scan")
 
 	if exit_code != OK:
 		printerr("ERROR - Could not persist aseprite file: %s" % result_codes.get_error_message(exit_code))

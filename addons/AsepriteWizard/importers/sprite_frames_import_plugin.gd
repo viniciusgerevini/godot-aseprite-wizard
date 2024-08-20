@@ -103,11 +103,6 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		if sf.is_first_import:
 			file_system.update_file(sf.sprite_sheet)
 			append_import_external_resource(sf.sprite_sheet)
-		else:
-			should_trigger_scan = true
-
-	if should_trigger_scan:
-		file_system.scan()
 
 	var resources = _sf_creator.create_resources(source_files.content)
 
@@ -146,5 +141,3 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 func _remove_source_files(source_files: Array):
 	for s in source_files:
 		DirAccess.remove_absolute(s.data_file)
-
-	file_system.call_deferred("scan")
