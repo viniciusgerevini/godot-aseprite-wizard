@@ -138,6 +138,9 @@ Tileset importer options:
 | ----------------------- | ----------- |
 | Exclude layers pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+| Sheet type | Algorithm to create spritesheet. Options: columns, horizontal, vertical, packed. Default: columns|
+| Sheet column | Only applied when sheet type is "columns". Defines the number of columns in the spritesheet. If "0", packed algorithm is used. Default: 12.
+
 
 __Note:__ Like in the static image importer, a png file is generated alongside the resource. I noticed that sometimes when updating the aseprite file, Godot is keeping a cached version of the resource and not showing the update in the tileset editor. The same doesn't happen to the png file, so you might want to use it instead of the main .aseprite file.
 
