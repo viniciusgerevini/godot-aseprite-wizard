@@ -58,13 +58,13 @@ func _get_import_options(_path, _i):
 		{"name": "only_visible_layers",    "default_value": false},
 		{
 			"name": "sheet/sheet_type",
-			"default_value": "packed",
+			"default_value": "columns",
 			"property_hint": PROPERTY_HINT_ENUM,
 			"hint_string": "packed,horizontal,vertical,columns",
 		},
 		{
 			"name": "sheet/sheet_columns",
-			"default_value": 0,
+			"default_value": 12,
 		},
 	]
 
