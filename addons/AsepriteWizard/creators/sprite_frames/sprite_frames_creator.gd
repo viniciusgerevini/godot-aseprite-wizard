@@ -173,7 +173,8 @@ func _get_min_duration(frames) -> int:
 
 
 func _load_texture(path) -> CompressedTexture2D:
-	return ResourceLoader.load(path, "CompressedTexture2D", ResourceLoader.CACHE_MODE_REPLACE)
+	ResourceLoader.load_threaded_request(path, "CompressedTexture2D", false, ResourceLoader.CACHE_MODE_REPLACE)
+	return ResourceLoader.load_threaded_get(path)
 
 
 func _add_to_sprite_frames(
