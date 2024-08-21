@@ -56,8 +56,17 @@ func _get_import_options(_path, _i):
 	return [
 		{"name": "exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
 		{"name": "only_visible_layers",    "default_value": false},
+		{
+			"name": "sheet/sheet_type",
+			"default_value": "packed",
+			"property_hint": PROPERTY_HINT_ENUM,
+			"hint_string": "packed,horizontal,vertical,columns",
+		},
+		{
+			"name": "sheet/sheet_columns",
+			"default_value": 0,
+		},
 	]
-
 
 func _get_option_visibility(path, option, options):
 	return true
@@ -75,6 +84,8 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"only_visible_layers": options['only_visible_layers'],
 		"output_filename": '',
 		"output_folder": source_path,
+		"sheet_type": options["sheet/sheet_type"],
+		"sheet_columns": options["sheet/sheet_columns"],
 	}
 
 	var result = _generate_texture(absolute_source_file, aseprite_opts)
