@@ -60,7 +60,7 @@ func _get_import_options(_path, _i):
 			"name": "sheet/sheet_type",
 			"default_value": "columns",
 			"property_hint": PROPERTY_HINT_ENUM,
-			"hint_string": "packed,horizontal,vertical,columns",
+			"hint_string": "columns,horizontal,vertical,packed",
 		},
 		{
 			"name": "sheet/sheet_columns",
