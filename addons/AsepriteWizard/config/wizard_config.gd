@@ -65,6 +65,10 @@ static func save_config(node: Object, cfg: Dictionary):
 	node.set_meta(WIZARD_CONFIG_META_NAME, cfg)
 
 
+static func has_config(node: Object) -> bool:
+	return node.has_meta(WIZARD_CONFIG_META_NAME)
+
+
 static func load_interface_config(node: Node, default: Dictionary = {}) -> Dictionary:
 	if node.has_meta(WIZARD_INTERFACE_CONFIG_META_NAME):
 		return node.get_meta(WIZARD_INTERFACE_CONFIG_META_NAME)
