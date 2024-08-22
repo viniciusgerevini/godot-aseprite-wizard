@@ -2,7 +2,7 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## Unreleased
+## 7.6.0 (2024-08-22)
 
 ### Added
 
@@ -11,7 +11,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Fixed
 
 - Editor would crash when re-importing a big number of files. Threading texture load and debouncing scans to fix it.
-
 
 ### Thanks
 
