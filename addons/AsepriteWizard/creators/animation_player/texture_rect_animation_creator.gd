@@ -1,16 +1,16 @@
 extends "animation_creator.gd"
 
 
-func _get_meta_prop_names():
-	return [ "visible" ]
-
-
 func _setup_texture(target_node: Node, sprite_sheet: String, content: Dictionary, context: Dictionary, _is_importing_slice: bool):
 	context["base_texture"] = _load_texture(sprite_sheet)
 
 
 func _get_frame_property(_is_importing_slice: bool) -> String:
 	return "texture"
+
+
+func _get_props_to_cleanup() -> Array[String]:
+	return ["texture", "visible"]
 
 
 func _get_frame_key(target_node: Node, frame: Dictionary, context: Dictionary, slice_info: Variant):
