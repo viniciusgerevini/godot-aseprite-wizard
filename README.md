@@ -79,7 +79,7 @@ For project specific configurations check `Project -> Project Settings -> Genera
 | Animation > Storage > Use Metadata | (_deprecated_) Persist dock info in the scene metadata instead of editor description. Default: `true` |
 | Animation > Storage > Enable Metadata Removal on Export | Removes dock metadata from scene when exporting the project. Ensures no local info is shipped with the app. Default: `true` |
 | Import > Cleanup > Remove Json File | Remove temporary `*.json` files generated during import. Default: `true` |
-| Import > Cleanup > Automatically Hide Sprites Not In Animation | Default configuration for AnimationPlayer option to hide Sprites when not in animation. Default: `false` |
+| Import > Cleanup > Automatically Hide Sprites Not In Animation | Default configuration for AnimationPlayer option to hide sprite when not in animation. Default: `false` |
 | Import > Import Plugin > Default Automatic Importer | Which importer to use by default for aseprite files. Options: `No Import`, `SpriteFrames`, `Static Texture`, `Tileset Texture`. Default: `No Import` |
 | Wizard > History > Cache File Path | Path to file where history data is stored. Default: `res://.aseprite_wizard_history` |
 | Wizard > History > Keep One Entry Per Source File | When true, history does not show duplicates. Default: `false` |
@@ -196,7 +196,7 @@ When working with `Sprite2D`, `Sprite3D` and `TextureRect` nodes, you have the o
 | Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
 | Keep manual animation length | When this is active the animation length won't be adjusted if other properties were added and the resulting imported animation is shorter. Default: false. |
-| Hide unused sprites | If selected, sprites that are present in the AnimationPlayer will be set as visible=false in any animation they are not part of.|
+| Hide when unused| If active, this node will be set as hidden in every existing animation it is not part of. Default: false.|
 | Output folder | Folder to save the sprite sheet (png) file. Default: same as scene |
 | Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
 

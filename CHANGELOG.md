@@ -2,6 +2,18 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Breaking changes
+
+Hide unused now only hide sprites with "hide when unused" enabled. `visible` property is just used when this option is set.
+
+### Changed
+
+- Only set and control the visible property for sprites with "Hide when unused" enabled.
+- Sprites without the "Hide when unused" option or not imported from Aseprite won't have the visible property animated.
+- Fixed animation / track cleanup which was disabled as it stopped working after this feature was introduced. This cleanup removes any animation that has no tracks.
+
 ## 7.6.0 (2024-08-22)
 
 ### Added
