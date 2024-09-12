@@ -311,7 +311,7 @@ tooltip_text = "If active on import, this node will be set as hidden in every ex
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-text = "Hide when unused"
+text = "Hide When Unused"
 
 [node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track"]
 layout_mode = 2
