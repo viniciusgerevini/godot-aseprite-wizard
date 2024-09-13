@@ -190,7 +190,7 @@ func _cleanup_animations(target_node: Node, player: AnimationPlayer, content: Di
 func _remove_unused_animations(target_node: Node, player: AnimationPlayer, content: Dictionary):
 	var tags: Array[String] = []
 	for t in content.meta.frameTags:
-		tags.push_back(t.name)
+		tags.push_back(_animation_name_without_loop_prefix(t.name))
 
 	for a in player.get_animation_list():
 		if tags.has(a):
@@ -325,3 +325,9 @@ func _relevant_track_count(target_node: Node, player: AnimationPlayer, animation
 			track_count += 1
 
 	return track_count
+
+
+func _animation_name_without_loop_prefix(animation_name: String) -> String:
+	if animation_name.begins_with(_config.get_animation_loop_exception_prefix()):
+		return animation_name.substr(_config.get_animation_loop_exception_prefix().length())
+	return animation_name

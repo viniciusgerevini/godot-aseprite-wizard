@@ -2,6 +2,16 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 8.0.1 (2024-09-13)
+
+### Fixed
+
+- Animations using the loop prefix were not being imported.
+
+### Thanks
+
+Thanks @erniel for reporting the loop prefix issue.
+
 ## 8.0.0 (2024-09-12)
 
 ### Breaking changes
