@@ -31,9 +31,6 @@ func reload():
 	if _history:
 		return
 
-	if _config.has_old_history():
-		_migrate_history()
-
 	_history = _config.get_import_history()
 
 	for index in range(_history.size()):
@@ -237,24 +234,3 @@ func _reorganise_nodes():
 		grid.move_child(entry.output_path_node, INITIAL_GRID_INDEX + 3)
 		grid.move_child(entry.details_node, INITIAL_GRID_INDEX + 4)
 		grid.move_child(entry.actions_node, INITIAL_GRID_INDEX + 5)
-
-
-func _migrate_history():
-	var history = _config.get_old_import_history()
-	var new_history = []
-
-	for index in range(history.size()):
-		var entry = history[index]
-		new_history.push_back({
-			"split_layers": true if entry.options.export_mode else false,
-			"only_visible_layers": entry.options.only_visible_layers,
-			"layer_exclusion_pattern": entry.options.exception_pattern,
-			"output_name": entry.options.output_filename,
-			"source_file": entry.source_file,
-			"do_not_create_resource": entry.options.do_not_create_resource,
-			"output_location": entry.output_location,
-			"import_date": entry.import_date,
-		})
-
-	_config.save_import_history(new_history)
-	_config.remove_old_history_setting()

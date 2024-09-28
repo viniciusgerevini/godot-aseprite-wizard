@@ -2,6 +2,12 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Removed
+
+- Removed deprected metadata and wizard history settings
+
 ## 8.0.1 (2024-09-13)
 
 ### Fixed
