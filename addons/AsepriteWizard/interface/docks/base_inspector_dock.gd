@@ -20,6 +20,9 @@ var _output_folder := ""
 var _out_folder_default := "[Same as scene]"
 var _layer_default := "[all]"
 
+var _output_filename_text := "File name"
+var _output_filename_prefix_text := "File name prefix"
+
 var _interface_section_state
 
 @onready var _section_title := $dock_fields/VBoxContainer/title as Button
@@ -41,6 +44,7 @@ var _interface_section_state
 @onready var _output_section_container := $dock_fields/VBoxContainer/extra/sections/output/section_content as MarginContainer
 @onready var _out_folder_field := $dock_fields/VBoxContainer/extra/sections/output/section_content/content/out_folder/button as Button
 @onready var _out_filename_field := $dock_fields/VBoxContainer/extra/sections/output/section_content/content/out_filename/LineEdit as LineEdit
+@onready var _out_filename_label := $dock_fields/VBoxContainer/extra/sections/output/section_content/content/out_filename/Label as Label
 
 @onready var _import_button := $dock_fields/VBoxContainer/import as Button
 
@@ -103,6 +107,7 @@ func _load_common_config(cfg):
 	if cfg.get("layer", "") != "":
 		_layer_field.clear()
 		_set_layer(cfg.layer)
+		_out_filename_label.text = _output_filename_prefix_text
 
 	if cfg.get("slice", "") != "":
 		_slice_field.clear()
@@ -207,8 +212,10 @@ func _on_layer_button_down():
 func _on_layer_item_selected(index):
 	if index == 0:
 		_layer = ""
+		_out_filename_label.text = _output_filename_text
 		return
 	_layer = _layer_field.get_item_text(index)
+	_out_filename_label.text = _output_filename_prefix_text
 	_save_config()
 
 
