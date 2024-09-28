@@ -33,12 +33,6 @@ const _WIZARD_HISTORY = "wizard_history"
 const _HISTORY_MAX_ENTRIES = 'aseprite/wizard/history/max_history_entries'
 const _HISTORY_DEFAULT_MAX_ENTRIES = 100
 
-## DEPRECATED (v7.4.0): remove in a next major version
-const _HISTORY_CONFIG_FILE_CFG_KEY = 'aseprite/wizard/history/cache_file_path'
-## DEPRECATED (v7.4.0): remove in a next major version
-const _DEFAULT_HISTORY_CONFIG_FILE_PATH = 'res://.aseprite_wizard_history'
-
-
 # SpriteFrames import last config
 const _STANDALONE_SPRITEFRAMES_LAST_IMPORT_CFG = "standalone_sf_last_import_cfg"
 
@@ -114,25 +108,6 @@ func get_import_history() -> Array:
 	return get_plugin_metadata(_WIZARD_HISTORY, [])
 
 
-func get_old_import_history() -> Array:
-	var history = []
-	var history_path := _get_history_file_path()
-
-	if not FileAccess.file_exists(history_path):
-		return history
-
-	var file_object = FileAccess.open(history_path, FileAccess.READ)
-
-	while not file_object.eof_reached():
-		var line = file_object.get_line()
-		if line:
-			var test_json_conv = JSON.new()
-			test_json_conv.parse(line)
-			history.push_back(test_json_conv.get_data())
-
-	return history
-
-
 func is_set_visible_track_automatically_enabled() -> bool:
 	return _get_project_setting(_SET_VISIBLE_TRACK_AUTOMATICALLY, false)
 
@@ -140,21 +115,6 @@ func is_set_visible_track_automatically_enabled() -> bool:
 func save_import_history(history: Array):
 	set_plugin_metadata(_WIZARD_HISTORY, history)
 
-
-## DEPRECATED
-func _get_history_file_path() -> String:
-	return _get_project_setting(_HISTORY_CONFIG_FILE_CFG_KEY, _DEFAULT_HISTORY_CONFIG_FILE_PATH)
-
-
-## used for old history migration. Should be removed together with the history cleanup
-func has_old_history() -> bool:
-	return ProjectSettings.has_setting(_HISTORY_CONFIG_FILE_CFG_KEY) or FileAccess.file_exists(_DEFAULT_HISTORY_CONFIG_FILE_PATH)
-
-## used for old history migration. Should be removed together with the history cleanup
-func remove_old_history_setting() -> void:
-	DirAccess.remove_absolute(_get_history_file_path())
-	if ProjectSettings.has_setting(_HISTORY_CONFIG_FILE_CFG_KEY):
-		ProjectSettings.clear(_HISTORY_CONFIG_FILE_CFG_KEY)
 
 #=========================================================
 # IMPORT CONFIGS
@@ -201,8 +161,6 @@ func initialize_project_settings():
 
 	_initialize_project_cfg(_EXPORTER_ENABLE_KEY, true, TYPE_BOOL)
 
-	# TODO remove (history max entries)
-	#_initialize_project_cfg(_HISTORY_CONFIG_FILE_CFG_KEY, _DEFAULT_HISTORY_CONFIG_FILE_PATH, TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE)
 	_initialize_project_cfg(_HISTORY_MAX_ENTRIES, _HISTORY_DEFAULT_MAX_ENTRIES, TYPE_INT)
 
 	_initialize_project_cfg(_SET_VISIBLE_TRACK_AUTOMATICALLY, false, TYPE_BOOL)
