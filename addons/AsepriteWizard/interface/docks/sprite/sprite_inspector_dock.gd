@@ -128,7 +128,8 @@ func _on_animation_player_item_selected(index):
 		_animation_player_path = ""
 		return
 	_animation_player_path = _animation_player_field.get_item_text(index)
-	_save_config()
+	#_save_config()
+	_update_pending_fields()
 
 
 func _do_import():
@@ -236,7 +237,8 @@ func _on_animation_player_node_dropped(node_path):
 		if _animation_player_field.get_item_text(i) == _animation_player_path:
 			_animation_player_field.select(i)
 			break
-	_save_config()
+	#_save_config()
+	_update_pending_fields()
 
 
 func _on_modes_item_selected(index):

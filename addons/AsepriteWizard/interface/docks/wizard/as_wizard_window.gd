@@ -271,4 +271,3 @@ func _get_default_config() -> Dictionary:
 		"do_not_create_resource": false,
 		"output_location": "res://",
 	}
-

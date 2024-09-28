@@ -2,13 +2,8 @@
 extends RefCounted
 
 const WIZARD_CONFIG_META_NAME = "_aseprite_wizard_config_"
-const WIZARD_CONFIG_MARKER = "aseprite_wizard_config"
 const WIZARD_INTERFACE_CONFIG_META_NAME = "_aseprite_wizard_interface_config_"
 const SOURCE_FILE_HASH_META_NAME = "_aseprite_wizard_source_file_hash_"
-
-
-static func _is_wizard_config(cfg) -> bool:
-	return cfg != null and cfg.begins_with(WIZARD_CONFIG_MARKER)
 
 
 static func load_config(node: Object):

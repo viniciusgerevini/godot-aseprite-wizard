@@ -58,6 +58,10 @@ const INTERFACE_SECTION_KEY_OUTPUT = "output_section"
 	INTERFACE_SECTION_KEY_OUTPUT: { "header": _output_section_header, "content": _output_section_container},
 }
 
+const PENDING_CHANGES_KEY := "pending_changes"
+
+var _do_not_update_pending := false
+
 func _ready():
 	_pre_setup()
 	_setup_interface()
@@ -65,6 +69,7 @@ func _ready():
 	_setup_field_listeners()
 	_setup()
 	_check_for_changes()
+	_check_for_field_changes()
 
 
 func _check_for_changes():
@@ -80,6 +85,45 @@ func _check_for_changes():
 		$dock_fields.show_source_change_warning()
 
 
+func _check_for_field_changes():
+	var cfg = wizard_config.load_config(target_node)
+	var changed = _get_changed_config(cfg)
+
+	if changed == null or changed.is_empty():
+		$dock_fields.hide_fields_change_warning()
+		_interface_section_state[PENDING_CHANGES_KEY] = {}
+	else:
+		if cfg != null and not cfg.is_empty(): # has saved data
+			$dock_fields.show_fields_change_warning()
+		_interface_section_state[PENDING_CHANGES_KEY] = changed
+
+
+func _update_pending_fields():
+	if _do_not_update_pending:
+		return
+
+	_check_for_field_changes()
+	wizard_config.save_interface_config(target_node, _interface_section_state)
+
+
+func _get_changed_config(saved_config):
+	var current = _get_current_config()
+
+	if saved_config == null:
+		return current if current != null else {}
+	
+	if current == null:
+		return {}
+
+	var changed := {}
+
+	for c in current:
+		if saved_config.get(c) != current[c]:
+			changed[c] = current[c]
+
+	return changed
+
+
 func _setup_interface():
 	_hide_fields()
 	_show_specific_fields()
@@ -92,9 +136,26 @@ func _setup_interface():
 		_adjust_section_visibility(key)
 
 
-func _setup_config():
+func _load_persisted_config() -> Dictionary:
 	var cfg = wizard_config.load_config(target_node)
+	var persisted = {}
 	if cfg == null:
+		persisted = {}
+	else:
+		persisted = cfg.duplicate()
+
+	var changed = _interface_section_state.get(PENDING_CHANGES_KEY, {})
+
+	for c in changed:
+		persisted[c] = changed[c]
+
+	return persisted
+
+
+func _setup_config():
+	var cfg = _load_persisted_config()
+
+	if cfg.is_empty():
 		_load_common_default_config()
 	else:
 		_load_common_config(cfg)
@@ -132,22 +193,26 @@ func _set_source(source):
 	_source = source
 	_source_field.text = _source
 	_source_field.tooltip_text = _source
+	_update_pending_fields()
 
 
 func _set_layer(layer):
 	_layer = layer
 	_layer_field.add_item(_layer)
+	_update_pending_fields()
 
 
 func _set_slice(slice):
 	_slice = slice
 	_slice_field.add_item(_slice)
+	_update_pending_fields()
 
 
 func _set_out_folder(path):
 	_output_folder = path
 	_out_folder_field.text = _output_folder if _output_folder != "" else _out_folder_default
 	_out_folder_field.tooltip_text = _out_folder_field.text
+	_update_pending_fields()
 
 
 func _toggle_section_visibility(key: String) -> void:
@@ -213,10 +278,13 @@ func _on_layer_item_selected(index):
 	if index == 0:
 		_layer = ""
 		_out_filename_label.text = _output_filename_text
+		_update_pending_fields()
 		return
 	_layer = _layer_field.get_item_text(index)
 	_out_filename_label.text = _output_filename_prefix_text
-	_save_config()
+	_update_pending_fields()
+	#_save_config()
+	#_update_pending_fields()
 
 
 func _on_slice_item_selected(index):
@@ -224,7 +292,8 @@ func _on_slice_item_selected(index):
 		_slice = ""
 		return
 	_slice = _slice_field.get_item_text(index)
-	_save_config()
+	_update_pending_fields()
+	#_save_config()
 
 
 func _on_slice_button_down():
@@ -250,10 +319,8 @@ func _on_slice_button_down():
 func _on_source_pressed():
 	_open_source_dialog()
 
-##
-## Save current import options to node metadata
-##
-func _save_config():
+
+func _get_current_config():
 	var child_config = _get_current_field_values()
 
 	var cfg := {
@@ -269,7 +336,16 @@ func _save_config():
 	for c in child_config:
 		cfg[c] = child_config[c]
 
-	wizard_config.save_config(target_node, cfg)
+	return cfg
+
+
+##
+## Save current import options to node metadata
+##
+func _save_config():
+	wizard_config.save_config(target_node, _get_current_config())
+	_update_pending_fields()
+	EditorInterface.mark_scene_as_unsaved()
 
 
 func _get_import_options(default_folder: String):
@@ -301,13 +377,15 @@ func _create_aseprite_file_selection():
 
 func _on_aseprite_file_selected(path):
 	_set_source(ProjectSettings.localize_path(path))
-	_save_config()
+	#_save_config()
+	_update_pending_fields()
 	_file_dialog_aseprite.queue_free()
 
 
 func _on_source_aseprite_file_dropped(path):
 	_set_source(path)
-	_save_config()
+	#_save_config()
+	_update_pending_fields()
 
 
 ## Helper method to populate field with values
@@ -345,10 +423,12 @@ func _create_output_folder_selection():
 func _on_output_folder_selected(path):
 	_set_out_folder(path)
 	_output_folder_dialog.queue_free()
+	_update_pending_fields()
 
 
 func _on_out_dir_dropped(path):
 	_set_out_folder(path)
+	_update_pending_fields()
 
 
 func _show_message(message: String):
@@ -385,6 +465,7 @@ func _on_import_pressed():
 	_importing = false
 	$dock_fields.hide_source_change_warning()
 	EditorInterface.save_scene()
+	
 
 
 # This is a little bit leaky as this base scene contains fields only relevant to animation players.
@@ -393,6 +474,22 @@ func _hide_fields():
 	$dock_fields/VBoxContainer/modes.hide()
 	$dock_fields/VBoxContainer/animation_player.hide()
 	$dock_fields/VBoxContainer/extra/sections/animation.hide()
+
+
+func _on_dock_fields_revert_changes_requested() -> void:
+	$dock_fields.disable_change_notification = true
+	_do_not_update_pending = true
+	_interface_section_state[PENDING_CHANGES_KEY] = {}
+	wizard_config.save_interface_config(target_node, _interface_section_state)
+	_setup_config()
+	$dock_fields.disable_change_notification = false
+	$dock_fields.hide_fields_change_warning()
+	_do_not_update_pending = false
+	EditorInterface.mark_scene_as_unsaved()
+
+
+func _on_dock_fields_field_changed() -> void:
+	_check_for_field_changes()
 
 
 ## this will be called before base class does its setup
