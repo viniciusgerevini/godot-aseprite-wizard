@@ -20,8 +20,8 @@ var _output_folder := ""
 var _out_folder_default := "[Same as scene]"
 var _layer_default := "[all]"
 
-var _output_filename_text := "File name"
-var _output_filename_prefix_text := "File name prefix"
+var _output_filename_text := "File Name"
+var _output_filename_prefix_text := "File Name Prefix"
 
 var _interface_section_state
 
