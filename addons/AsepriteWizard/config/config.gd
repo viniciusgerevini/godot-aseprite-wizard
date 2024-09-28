@@ -13,7 +13,6 @@ const _DEFAULT_ONLY_VISIBLE_LAYERS = 'aseprite/animation/layers/only_include_vis
 const _DEFAULT_LOOP_EX_PREFIX = '_'
 const _LOOP_ENABLED = 'aseprite/animation/loop/enabled'
 const _LOOP_EXCEPTION_PREFIX = 'aseprite/animation/loop/exception_prefix'
-const _USE_METADATA = 'aseprite/animation/storage/use_metadata'
 
 # cleanup
 const _REMOVE_SOURCE_FILES_KEY = 'aseprite/import/cleanup/remove_json_file'
@@ -88,9 +87,6 @@ func is_default_animation_loop_enabled() -> bool:
 func get_animation_loop_exception_prefix() -> String:
 	return _get_project_setting(_LOOP_EXCEPTION_PREFIX, _DEFAULT_LOOP_EX_PREFIX)
 
-func is_use_metadata_enabled() -> bool:
-	return _get_project_setting(_USE_METADATA, true)
-
 
 func get_default_exclusion_pattern() -> String:
 	return _get_project_setting(_DEFAULT_EXCLUSION_PATTERN_KEY, "")
@@ -148,7 +144,6 @@ func initialize_project_settings():
 	_initialize_project_cfg(_DEFAULT_ONLY_VISIBLE_LAYERS, false, TYPE_BOOL)
 	_initialize_project_cfg(_LOOP_ENABLED, true, TYPE_BOOL)
 	_initialize_project_cfg(_LOOP_EXCEPTION_PREFIX, _DEFAULT_LOOP_EX_PREFIX, TYPE_STRING)
-	_initialize_project_cfg(_USE_METADATA, true, TYPE_BOOL)
 
 	_initialize_project_cfg(_REMOVE_SOURCE_FILES_KEY, true, TYPE_BOOL)
 	_initialize_project_cfg(
@@ -175,7 +170,6 @@ func clear_project_settings():
 		_DEFAULT_EXCLUSION_PATTERN_KEY,
 		_LOOP_ENABLED,
 		_LOOP_EXCEPTION_PREFIX,
-		_USE_METADATA,
 		_REMOVE_SOURCE_FILES_KEY,
 		_DEFAULT_IMPORTER_KEY,
 		_EXPORTER_ENABLE_KEY,
