@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Added
+
+- Persist pending config and show warning with revert option
+
 ### Changed
 
 - Change "File Name" field label to prefix when layer is selected

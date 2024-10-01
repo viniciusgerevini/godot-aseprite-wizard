@@ -10,3 +10,6 @@ script = ExtResource("1_ku6wj")
 
 [node name="dock_fields" parent="." instance=ExtResource("2_wkqx4")]
 layout_mode = 2
+
+[connection signal="field_changed" from="dock_fields" to="." method="_on_dock_fields_field_changed"]
+[connection signal="revert_changes_requested" from="dock_fields" to="." method="_on_dock_fields_revert_changes_requested"]
