@@ -169,10 +169,17 @@ func _load_common_config(cfg):
 		_layer_field.clear()
 		_set_layer(cfg.layer)
 		_out_filename_label.text = _output_filename_prefix_text
+	else:
+		_layer = ""
+		_layer_field.select(0)
+
 
 	if cfg.get("slice", "") != "":
 		_slice_field.clear()
 		_set_slice(cfg.slice)
+	else:
+		_slice = ""
+		_slice_field.select(0)
 
 	_set_out_folder(cfg.get("o_folder", ""))
 	_out_filename_field.text = cfg.get("o_name", "")
