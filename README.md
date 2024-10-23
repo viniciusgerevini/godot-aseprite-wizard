@@ -160,12 +160,12 @@ To import animations via the Import Dock:
 | Field                   | Description |
 | ----------------------- | ----------- |
 | Aseprite File: | (\*.aseprite or \*.ase) source file. |
-| Layer: | Aseprite layer to be used in the animation. By default, all layers are included. |
+| Layer: | Aseprite layer(s) to be used in the animation. By default, all layers are included. |
 | Exclude pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
 | Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
 | Output folder: | Folder to save the sprite sheet (png) file. Default: same as scene |
-| Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
+| Output file name | Output file name for the sprite sheet. In case the Layer option is used with a single layer, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
 
 Notes:
 - A `SpriteFrames` resource will be generated and assigned to the AnimatedSprite. This resource is embedded in the scene and the spritesheet file will be created in the output folder.
@@ -188,7 +188,7 @@ When working with `Sprite2D`, `Sprite3D` and `TextureRect` nodes, you have the o
 | ----------------------- | ----------- |
 | Aseprite File | (\*.aseprite or \*.ase) source file. |
 | Animation Player |AnimationPlayer node where animations should be added to.|
-| Layer | Aseprite layer to be used in the animation. By default, all layers are included. |
+| Layer | Aseprite layer(s) to be used in the animation. By default, all layers are included. |
 | Exclude pattern | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html) |
 | Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
@@ -218,7 +218,7 @@ Notes:
 | Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
 | Output folder | Folder to save the sprite sheet (png) file. Default: same as scene |
-| Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
+| Output file name | Output file name for the sprite sheet. In case the Layer option is used with a single layer, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
 
 
 #### Imports Manager
