@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8ricawxf4kxs"]
+
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/layer_select_field.gd" id="1_6ya8h"]
+
+[node name="layer_fields" type="HBoxContainer"]
+script = ExtResource("1_6ya8h")
+
+[node name="options" type="OptionButton" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+selected = 0
+item_count = 1
+popup/item_0/text = "[all]"
+
+[node name="add_btn" type="Button" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="remove_btn" type="Button" parent="."]
+visible = false
+layout_mode = 2
+
+[connection signal="button_down" from="options" to="." method="_on_options_button_down"]
+[connection signal="item_selected" from="options" to="." method="_on_options_item_selected"]
+[connection signal="pressed" from="add_btn" to="." method="_on_add_btn_pressed"]
+[connection signal="pressed" from="remove_btn" to="." method="_on_remove_btn_pressed"]

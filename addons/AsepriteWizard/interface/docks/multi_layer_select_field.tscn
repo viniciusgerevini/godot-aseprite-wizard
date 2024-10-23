@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddlr2qc0atcfm"]
+
+[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/multi_layer_select_field.gd" id="1_h2oy5"]
+[ext_resource type="PackedScene" uid="uid://b8ricawxf4kxs" path="res://addons/AsepriteWizard/interface/docks/layer_select_field.tscn" id="2_75fqs"]
+
+[node name="layer_multiselect" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+script = ExtResource("1_h2oy5")
+
+[node name="layer_fields" parent="." instance=ExtResource("2_75fqs")]
+layout_mode = 2

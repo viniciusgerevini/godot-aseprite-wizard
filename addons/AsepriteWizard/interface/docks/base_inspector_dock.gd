@@ -10,7 +10,6 @@ var scene: Node
 var target_node: Node
 var file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
 
-var _layer: String = ""
 var _slice: String = ""
 var _source: String = ""
 var _file_dialog_aseprite: EditorFileDialog
@@ -32,7 +31,7 @@ var _interface_section_state
 # layers
 @onready var _layer_section_header := $dock_fields/VBoxContainer/extra/sections/layers/section_header as Button
 @onready var _layer_section_container := $dock_fields/VBoxContainer/extra/sections/layers/section_content as MarginContainer
-@onready var _layer_field := $dock_fields/VBoxContainer/extra/sections/layers/section_content/content/layer/options as OptionButton
+@onready var _layer_field := $dock_fields/VBoxContainer/extra/sections/layers/section_content/content/layer/options as VBoxContainer
 @onready var _visible_layers_field :=  $dock_fields/VBoxContainer/extra/sections/layers/section_content/content/visible_layers/CheckBox as CheckBox
 @onready var _ex_pattern_field := $dock_fields/VBoxContainer/extra/sections/layers/section_content/content/ex_pattern/LineEdit as LineEdit
 # slice
@@ -111,7 +110,7 @@ func _get_changed_config(saved_config):
 
 	if saved_config == null:
 		return current if current != null else {}
-	
+
 	if current == null:
 		return {}
 
@@ -165,14 +164,18 @@ func _load_common_config(cfg):
 	if cfg.has("source"):
 		_set_source(cfg.source)
 
+	# keeping this to be backwards compatible
 	if cfg.get("layer", "") != "":
-		_layer_field.clear()
-		_set_layer(cfg.layer)
+		_layer_field.set_selected_layers([cfg.layer])
+		_update_pending_fields()
 		_out_filename_label.text = _output_filename_prefix_text
 	else:
-		_layer = ""
-		_layer_field.select(0)
-
+		var layers = cfg.get("layers", [])
+		_layer_field.set_selected_layers(layers)
+		if layers.size() > 0:
+			_update_pending_fields()
+		if layers.size() == 1:
+			_out_filename_label.text = _output_filename_prefix_text
 
 	if cfg.get("slice", "") != "":
 		_slice_field.clear()
@@ -200,12 +203,6 @@ func _set_source(source):
 	_source = source
 	_source_field.text = _source
 	_source_field.tooltip_text = _source
-	_update_pending_fields()
-
-
-func _set_layer(layer):
-	_layer = layer
-	_layer_field.add_item(_layer)
 	_update_pending_fields()
 
 
@@ -248,8 +245,8 @@ func _setup_field_listeners():
 	_source_field.pressed.connect(_on_source_pressed)
 	_source_field.aseprite_file_dropped.connect(_on_source_aseprite_file_dropped)
 
-	_layer_field.button_down.connect(_on_layer_button_down)
-	_layer_field.item_selected.connect(_on_layer_item_selected)
+	_layer_field.data_fetcher = _fetch_layers
+	_layer_field.value_changed.connect(_on_layer_value_changed)
 
 	_slice_field.button_down.connect(_on_slice_button_down)
 	_slice_field.item_selected.connect(_on_slice_item_selected)
@@ -272,26 +269,24 @@ func _on_output_header_button_down():
 	_toggle_section_visibility(INTERFACE_SECTION_KEY_OUTPUT)
 
 
-func _on_layer_button_down():
+func _fetch_layers():
 	if _source == "":
 		_show_message("Please. Select source file first.")
 		return
 
-	var layers = _get_available_layers(ProjectSettings.globalize_path(_source))
-	_populate_options_field(_layer_field, layers, _layer)
+	return _get_available_layers(ProjectSettings.globalize_path(_source))
 
 
-func _on_layer_item_selected(index):
-	if index == 0:
-		_layer = ""
-		_out_filename_label.text = _output_filename_text
+func _on_layer_value_changed():
+	var layers: Array = _layer_field.get_selected_layers()
+
+	if layers.size() == 1:
+		_out_filename_label.text = _output_filename_prefix_text
 		_update_pending_fields()
 		return
-	_layer = _layer_field.get_item_text(index)
-	_out_filename_label.text = _output_filename_prefix_text
+
+	_out_filename_label.text = _output_filename_text
 	_update_pending_fields()
-	#_save_config()
-	#_update_pending_fields()
 
 
 func _on_slice_item_selected(index):
@@ -300,7 +295,6 @@ func _on_slice_item_selected(index):
 		return
 	_slice = _slice_field.get_item_text(index)
 	_update_pending_fields()
-	#_save_config()
 
 
 func _on_slice_button_down():
@@ -332,7 +326,7 @@ func _get_current_config():
 
 	var cfg := {
 		"source": _source,
-		"layer": _layer,
+		"layers": _layer_field.get_selected_layers(),
 		"slice": _slice,
 		"o_folder": _output_folder,
 		"o_name": _out_filename_field.text,
@@ -361,7 +355,7 @@ func _get_import_options(default_folder: String):
 		"exception_pattern": _ex_pattern_field.text,
 		"only_visible_layers": _visible_layers_field.button_pressed,
 		"output_filename": _out_filename_field.text,
-		"layer": _layer
+		"layers": _layer_field.get_selected_layers()
 	}
 
 
@@ -384,14 +378,12 @@ func _create_aseprite_file_selection():
 
 func _on_aseprite_file_selected(path):
 	_set_source(ProjectSettings.localize_path(path))
-	#_save_config()
 	_update_pending_fields()
 	_file_dialog_aseprite.queue_free()
 
 
 func _on_source_aseprite_file_dropped(path):
 	_set_source(path)
-	#_save_config()
 	_update_pending_fields()
 
 
@@ -472,7 +464,7 @@ func _on_import_pressed():
 	_importing = false
 	$dock_fields.hide_source_change_warning()
 	EditorInterface.save_scene()
-	
+
 
 
 # This is a little bit leaky as this base scene contains fields only relevant to animation players.

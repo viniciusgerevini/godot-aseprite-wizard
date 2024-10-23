@@ -69,10 +69,13 @@ func generate_aseprite_file(source_file: String, options: Dictionary) -> Diction
 
 	var output
 
-	if options.get("layer", "") == "":
-		output = _aseprite.export_file(source_file, options.output_folder, options)
+	if options.get("layer") != null and options.get("layer") != "":
+		output = _aseprite.export_file_with_layers(source_file, [options.layer], options.output_folder, options)
+	elif options.get("layers", []).size() > 0:
+		output = _aseprite.export_file_with_layers(source_file, options.layers, options.output_folder, options)
 	else:
-		output = _aseprite.export_layer(source_file, options.layer, options.output_folder, options)
+		output = _aseprite.export_file(source_file, options.output_folder, options)
+
 
 	if output.is_empty():
 		return result_code.error(result_code.ERR_ASEPRITE_EXPORT_FAILED)

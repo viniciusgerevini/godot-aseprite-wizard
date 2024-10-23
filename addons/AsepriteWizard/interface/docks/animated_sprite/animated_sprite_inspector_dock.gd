@@ -16,13 +16,7 @@ func _do_import():
 	var root = get_tree().get_edited_scene_root()
 
 	var source_path = ProjectSettings.globalize_path(_source)
-	var options = {
-		"output_folder": _output_folder if _output_folder != "" else root.scene_file_path.get_base_dir(),
-		"exception_pattern": _ex_pattern_field.text,
-		"only_visible_layers": _visible_layers_field.button_pressed,
-		"output_filename": _out_filename_field.text,
-		"layer": _layer,
-	}
+	var options = _get_import_options(root.scene_file_path.get_base_dir())
 
 	_save_config()
 
