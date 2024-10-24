@@ -114,7 +114,7 @@ func _parse_import_options(config: Dictionary, scene_base_path: String) -> Dicti
 		"only_visible_layers": config.only_visible,
 		"output_filename": config.o_name,
 		"layer": config.get("layer"),
-		"layers": config.get("layers"),
+		"layers": config.get("layers", []),
 		"slice": config.get("slice", ""),
 	}
 
