@@ -18,6 +18,7 @@ var _file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
 # "source_file"
 # "do_not_create_resource"
 # "output_location"
+# "should_round_fps"
 func import_and_create_resources(aseprite_file: String, fields: Dictionary) -> int:
 	var export_mode = _aseprite_file_exporter.LAYERS_EXPORT_MODE if fields.split_layers else _aseprite_file_exporter.FILE_EXPORT_MODE
 	var options = {
@@ -44,7 +45,7 @@ func import_and_create_resources(aseprite_file: String, fields: Dictionary) -> i
 	var exit_code = OK
 
 	if !options.get("do_not_create_resource", false):
-		var resources = _sf_creator.create_resources(aseprite_output.content)
+		var resources = _sf_creator.create_resources(aseprite_output.content, { "should_round_fps": fields.get("should_round_fps", true) })
 		if resources.is_ok:
 			_add_metadata(resources.content, aseprite_file, fields, options)
 			exit_code = _sf_creator.save_resources(resources.content)
