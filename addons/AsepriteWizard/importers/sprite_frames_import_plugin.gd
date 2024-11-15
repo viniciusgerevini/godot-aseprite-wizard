@@ -148,4 +148,3 @@ func _remove_source_files(source_files: Array):
 	for s in source_files:
 		DirAccess.remove_absolute(s.data_file)
 		file_system_helper.schedule_file_system_scan()
-

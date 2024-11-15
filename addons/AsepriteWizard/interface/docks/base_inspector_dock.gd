@@ -473,6 +473,7 @@ func _hide_fields():
 	$dock_fields/VBoxContainer/modes.hide()
 	$dock_fields/VBoxContainer/animation_player.hide()
 	$dock_fields/VBoxContainer/extra/sections/animation.hide()
+	$dock_fields/VBoxContainer/extra/sections/animation_sf.hide()
 
 
 func _on_dock_fields_revert_changes_requested() -> void:

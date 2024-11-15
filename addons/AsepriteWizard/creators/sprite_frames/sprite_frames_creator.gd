@@ -103,9 +103,19 @@ func _create_sprite_frames_with_animations(content: Dictionary, texture, options
 	if content.meta.has("frameTags") and content.meta.frameTags.size() > 0:
 		for tag in content.meta.frameTags:
 			var selected_frames = frames.slice(tag.from, tag.to + 1)
-			_add_animation_frames(sprite_frames, tag.name, selected_frames, texture, frame_rect, tag.direction, int(tag.get("repeat", -1)), frame_cache)
+			_add_animation_frames(
+				sprite_frames,
+				tag.name,
+				selected_frames,
+				texture,
+				frame_rect,
+				{ "should_round_fps": options.get("should_round_fps", true) },
+				tag.direction,
+				int(tag.get("repeat", -1)),
+				frame_cache
+			)
 	else:
-		_add_animation_frames(sprite_frames, "default", frames, texture, frame_rect)
+		_add_animation_frames(sprite_frames, "default", frames, texture, frame_rect, { "should_round_fps": options.get("should_round_fps", true) })
 
 	return sprite_frames
 
@@ -116,6 +126,7 @@ func _add_animation_frames(
 	frames: Array,
 	texture,
 	frame_rect: Variant,
+	options: Dictionary,
 	direction = 'forward',
 	repeat = -1,
 	frame_cache = {}
@@ -131,7 +142,7 @@ func _add_animation_frames(
 	sprite_frames.add_animation(animation_name)
 
 	var min_duration = _get_min_duration(frames)
-	var fps = _calculate_fps(min_duration)
+	var fps = _calculate_fps(min_duration, options.should_round_fps)
 
 	if direction == "reverse" or direction == "pingpong_reverse":
 		frames.reverse()
@@ -160,8 +171,10 @@ func _add_animation_frames(
 	sprite_frames.set_animation_speed(animation_name, fps)
 
 
-func _calculate_fps(min_duration: int) -> float:
-	return ceil(1000.0 / min_duration)
+func _calculate_fps(min_duration: int, should_round: bool) -> float:
+	if should_round:
+		return ceil(1000.0 / min_duration)
+	return 1000.0 / min_duration
 
 
 func _get_min_duration(frames) -> int:

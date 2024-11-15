@@ -79,3 +79,7 @@ func _notify_change_with_debounce():
 		return
 
 	field_changed.emit()
+
+
+func _on_round_fps_toggled(_toggled_on: bool) -> void:
+	_notify_change_with_debounce()
