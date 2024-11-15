@@ -63,6 +63,7 @@ func _get_import_options(_path, _i):
 			"property_hint": PROPERTY_HINT_ENUM,
 			"hint_string": get_sheet_type_hint_string()
 		},
+		{"name": "animation/round_fps", "default_value": true},
 	]
 
 
@@ -110,7 +111,9 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		else:
 			file_system_helper.schedule_file_system_scan()
 
-	var resources = _sf_creator.create_resources(source_files.content)
+	var resources = _sf_creator.create_resources(source_files.content, {
+		"should_round_fps": options["animation/round_fps"]
+	})
 
 	if not resources.is_ok:
 		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(resources.code))
