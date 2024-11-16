@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Support selecting multiple layers in dock imports
 - Allow disabling FPS rounding when importing SpriteFrames
 
+### Fixed
+
+- Show warning when trying to import animations on an unsaved scene
+
 ## 8.1.0 (2024-10-07)
 
 ### Added

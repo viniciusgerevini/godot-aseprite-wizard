@@ -435,7 +435,8 @@ func _show_message(message: String):
 	get_parent().add_child(_warning_dialog)
 	_warning_dialog.dialog_text = message
 	_warning_dialog.popup_centered()
-	_warning_dialog.connect("popup_hide",Callable(_warning_dialog,"queue_free"))
+	_warning_dialog.canceled.connect(_warning_dialog.queue_free)
+	_warning_dialog.confirmed.connect(_warning_dialog.queue_free)
 
 
 func _notify_aseprite_error(aseprite_error_code):
@@ -457,6 +458,11 @@ func _on_import_pressed():
 
 	if _source == "":
 		_show_message("Aseprite file not selected")
+		_importing = false
+		return
+
+	if get_tree().get_edited_scene_root().scene_file_path == "":
+		_show_message("Scene needs to be saved at least once before importing animations")
 		_importing = false
 		return
 
