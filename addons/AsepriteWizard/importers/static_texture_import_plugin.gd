@@ -34,7 +34,7 @@ func _get_save_extension():
 
 
 func _get_resource_type():
-	return "AtlasTexture"
+	return "PortableCompressedTexture2D"
 
 
 func _get_preset_count():
@@ -88,16 +88,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var sprite_sheet = result.content.sprite_sheet
 	var data = result.content.data
 
-	if ResourceLoader.exists(sprite_sheet):
-		file_system_helper.schedule_file_system_scan()
-	else:
-		file_system.update_file(sprite_sheet)
-		append_import_external_resource(sprite_sheet)
-
-	ResourceLoader.load_threaded_request(sprite_sheet, "CompressedTexture2D", false, ResourceLoader.CACHE_MODE_REPLACE)
-	var texture: CompressedTexture2D = ResourceLoader.load_threaded_get(sprite_sheet)
-
-	return _save_resource(texture, save_path, result.content.data_file, data.meta.size)
+	return _save_resource(sprite_sheet, save_path, result.content.data_file, data.meta.size)
 
 
 func _generate_texture(absolute_source_file: String, options: Dictionary) -> Dictionary:
@@ -107,7 +98,6 @@ func _generate_texture(absolute_source_file: String, options: Dictionary) -> Dic
 		return result
 
 	var sprite_sheet = result.content.sprite_sheet
-
 	var data_result = _aseprite_file_exporter.load_json_content(result.content.data_file)
 
 	if not data_result.is_ok:
@@ -122,20 +112,20 @@ func _generate_texture(absolute_source_file: String, options: Dictionary) -> Dic
 	})
 
 
-func _save_resource(texture: CompressedTexture2D, save_path: String, data_file_path: String, size: Dictionary) -> int:
-	var resource = AtlasTexture.new()
-	resource.atlas = texture
-	resource.region = Rect2(0, 0, size.w, size.h)
+func _save_resource(sprite_sheet: String, save_path: String, data_file_path: String, size: Dictionary) -> int:
+	var image = Image.load_from_file(sprite_sheet)
 
-	var resource_path = "%s.res" % save_path
-	var exit_code = ResourceSaver.save(resource, resource_path)
-	resource.take_over_path(resource_path)
+	var tex := PortableCompressedTexture2D.new()
+	tex.create_from_image(image, PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
+#
+	var exit_code = ResourceSaver.save(tex, "%s.%s" % [save_path, _get_save_extension()])
 
 	if config.should_remove_source_files():
 		DirAccess.remove_absolute(data_file_path)
-		file_system_helper.schedule_file_system_scan()
+		DirAccess.remove_absolute(sprite_sheet)
 
 	if exit_code != OK:
 		printerr("ERROR - Could not persist aseprite file: %s" % result_codes.get_error_message(exit_code))
 		return FAILED
+
 	return OK
