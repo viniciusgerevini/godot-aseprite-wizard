@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Breaking changes
 
-- Aseprite Texture importer does not generate a png file anymore, and has type `PortableCompressedTexture2D` instead of `AtlasTexture`.
+- Aseprite Texture importer does not generate a png file anymore, and has type `PortableCompressedTexture2D` instead of `AtlasTexture`. If you use the png file, you should change the references to the aseprite file instead.
 
 ### Changed
 
