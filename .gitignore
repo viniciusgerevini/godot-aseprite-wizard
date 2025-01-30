@@ -21,3 +21,5 @@ mono_crash.*.json
 
 # Project test files
 test/
+
+**/.DS_Store
