@@ -23,6 +23,7 @@ const _IMPORTER_ENABLE_KEY = 'aseprite/import/import_plugin/enable_automatic_imp
 const _DEFAULT_IMPORTER_KEY = 'aseprite/import/import_plugin/default_automatic_importer'
 
 const IMPORTER_SPRITEFRAMES_NAME = "SpriteFrames"
+const IMPORTER_SPRITEFRAMES_SPLIT_NAME = "SpriteFrames (Split By Layer)"
 const IMPORTER_NOOP_NAME = "No Import"
 const IMPORTER_TILESET_TEXTURE_NAME = "Tileset Texture"
 const IMPORTER_STATIC_TEXTURE_NAME = "Static Texture"
@@ -151,7 +152,13 @@ func initialize_project_settings():
 		IMPORTER_SPRITEFRAMES_NAME if is_importer_enabled() else IMPORTER_NOOP_NAME,
 		TYPE_STRING,
 		PROPERTY_HINT_ENUM,
-		"%s,%s,%s,%s" % [IMPORTER_NOOP_NAME, IMPORTER_SPRITEFRAMES_NAME, IMPORTER_TILESET_TEXTURE_NAME, IMPORTER_STATIC_TEXTURE_NAME]
+		",".join([
+			IMPORTER_NOOP_NAME,
+			IMPORTER_SPRITEFRAMES_NAME,
+			IMPORTER_SPRITEFRAMES_SPLIT_NAME,
+			IMPORTER_TILESET_TEXTURE_NAME,
+			IMPORTER_STATIC_TEXTURE_NAME
+		])
 	)
 
 	_initialize_project_cfg(_EXPORTER_ENABLE_KEY, true, TYPE_BOOL)

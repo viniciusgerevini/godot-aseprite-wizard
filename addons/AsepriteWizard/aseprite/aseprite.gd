@@ -139,6 +139,19 @@ func _get_exception_layers(file_name: String, exception_pattern: String) -> Arra
 	return exception_layers
 
 
+func list_valid_layers(file_name: String, exception_pattern: String = "", show_only_visible: bool = false) -> Array:
+	var layers = list_layers(file_name, show_only_visible)
+	var exception_regex = _compile_regex(exception_pattern)
+
+	var output = []
+
+	for layer in layers:
+		if layer != "" and (not exception_regex or exception_regex.search(layer) == null):
+			output.push_back(layer)
+
+	return output
+
+
 func list_layers(file_name: String, only_visible = false) -> Array:
 	var output = []
 	var arguments = ["-b", "--list-layers", file_name]

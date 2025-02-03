@@ -4,8 +4,11 @@ extends EditorPlugin
 # importers
 const NoopImportPlugin = preload("importers/noop_import_plugin.gd")
 const SpriteFramesImportPlugin = preload("importers/sprite_frames_import_plugin.gd")
+const SpriteFramesSplitImportPlugin = preload("res://addons/AsepriteWizard/importers/sprite_frames_multiple_import_plugin.gd")
 const TilesetTextureImportPlugin = preload("importers/tileset_texture_import_plugin.gd")
 const TextureImportPlugin = preload("importers/static_texture_import_plugin.gd")
+const LayerSpriteFramesImportPlugin = preload("res://addons/AsepriteWizard/importers/layer_import_plugin.gd")
+const FileSystemHelper = preload("importers/helpers/file_system_helper.gd")
 # export
 const ExportPlugin = preload("export/metadata_export_plugin.gd")
 # interface
@@ -30,6 +33,8 @@ var imports_list_panel: MarginContainer
 var export_plugin : EditorExportPlugin
 var sprite_inspector_plugin: EditorInspectorPlugin
 var animated_sprite_inspector_plugin: EditorInspectorPlugin
+
+var file_system_helper
 
 var _exporter_enabled = false
 
@@ -76,11 +81,16 @@ func _remove_menu_entries():
 
 
 func _setup_importer():
+	file_system_helper = FileSystemHelper.new()
+	add_child(file_system_helper)
+
 	_importers = [
 		NoopImportPlugin.new(),
 		SpriteFramesImportPlugin.new(),
+		SpriteFramesSplitImportPlugin.new(file_system_helper),
 		TilesetTextureImportPlugin.new(),
 		TextureImportPlugin.new(),
+		LayerSpriteFramesImportPlugin.new(),
 	]
 
 	for i in _importers:
@@ -90,6 +100,10 @@ func _setup_importer():
 func _remove_importer():
 	for i in _importers:
 		remove_import_plugin(i)
+
+	if file_system_helper != null:
+		file_system_helper.queue_free()
+		file_system_helper = null
 
 
 func _setup_exporter():
