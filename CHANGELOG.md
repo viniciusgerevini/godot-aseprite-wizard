@@ -10,6 +10,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Aseprite SpriteFrames importer does not generate extra png file anymore
 - Organised importer properties.
     - If you changed the default sheet options or layer options, they will be reverted to the default values on next import. Make sure to set them again before this happens
+- Renamed SpriteFrames importer id.
+
+### Added
+- New split importers (Static Texture, SpriteFrames). These importers should be used for exporting each layer in a Aseprite file as a separate resource. These resource are plain files that will hold the info to generate the file independently.
+    - This will prevent issues with unstable ids which happens when the import folder is removed and new files are generated. In these cases, even though the resulting files are the same, they have different interal references causing them to be shown as changed in version control.
+    - This will also allow cleanup to happen on split importers. i.e. when a layer is removed from the aseprite file, its resource will also be removed in Godot.
 
 ### Changed
 
@@ -20,6 +26,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     - Does not generate extra png file anymore.
 - Organised importer properties (layer related under layers section and implemented improved sheet options for SpriteFrames).
     - Any already existing import will revert to default values unless set correctly.
+- Renamed SpriteFrames importer id for consistency
+- Removed Split option from SpriteFrames importer. Split are handled in separate importers.
 
 ## 8.2.0 (2024-11-22)
 
