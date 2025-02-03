@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Aseprite Texture importer and Tileset Importer do not generate a png file anymore, and have type `PortableCompressedTexture2D` instead of `AtlasTexture`. If you use the png file, you should change the references to the aseprite file instead.
 - Aseprite SpriteFrames importer does not generate extra png file anymore
+- Organised importer properties.
+    - If you changed the default sheet options or layer options, they will be reverted to the default values on next import. Make sure to set them again before this happens
 
 ### Changed
 
@@ -16,6 +18,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     - Does not generate extra png file anymore.
 - Aseprite SpriteFrames importer:
     - Does not generate extra png file anymore.
+- Organised importer properties (layer related under layers section and implemented improved sheet options for SpriteFrames).
+    - Any already existing import will revert to default values unless set correctly.
 
 ## 8.2.0 (2024-11-22)
 
