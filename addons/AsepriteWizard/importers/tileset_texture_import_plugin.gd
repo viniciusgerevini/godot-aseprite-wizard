@@ -51,8 +51,8 @@ func _get_import_order():
 
 func _get_import_options(_path, _i):
 	return [
-		{"name": "exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
-		{"name": "only_visible_layers",    "default_value": false},
+		{"name": "layer/exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
+		{"name": "layer/only_visible_layers",    "default_value": false},
 		{
 			"name": "sheet/sheet_type",
 			"default_value": "columns",
@@ -77,8 +77,8 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	source_basename = source_basename.substr(0, source_basename.rfind('.'))
 
 	var aseprite_opts = {
-		"exception_pattern": options['exclude_layers_pattern'],
-		"only_visible_layers": options['only_visible_layers'],
+		"exception_pattern": options['layer/exclude_layers_pattern'],
+		"only_visible_layers": options['layer/only_visible_layers'],
 		"output_filename": '',
 		"output_folder": source_path,
 		"sheet_type": options["sheet/sheet_type"],

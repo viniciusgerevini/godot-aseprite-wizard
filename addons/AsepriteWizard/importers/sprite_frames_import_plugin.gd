@@ -49,14 +49,18 @@ func _get_import_order():
 
 func _get_import_options(_path, _i):
 	return [
-		{"name": "split_layers",           "default_value": false},
-		{"name": "exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
-		{"name": "only_visible_layers",    "default_value": false},
+		{"name": "layer/split_layers",           "default_value": false},
+		{"name": "layer/exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
+		{"name": "layer/only_visible_layers",    "default_value": false},
 		{
-			"name": "sheet_type",
-			"default_value": "Packed",
+			"name": "sheet/sheet_type",
+			"default_value": "packed",
 			"property_hint": PROPERTY_HINT_ENUM,
-			"hint_string": get_sheet_type_hint_string()
+			"hint_string": "columns,horizontal,vertical,packed",
+		},
+		{
+			"name": "sheet/sheet_columns",
+			"default_value": 12,
 		},
 		{"name": "animation/round_fps", "default_value": true},
 	]
@@ -64,14 +68,6 @@ func _get_import_options(_path, _i):
 
 func _get_option_visibility(path, option, options):
 	return true
-
-
-static func get_sheet_type_hint_string() -> String:
-	var hint_string := "Packed"
-	for number in [2, 4, 8, 16, 32]:
-		hint_string += ",%s columns" % number
-	hint_string += ",Strip"
-	return hint_string
 
 
 func _import(source_file, save_path, options, platform_variants, gen_files):
@@ -82,15 +78,16 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var source_basename = source_file.substr(source_path.length()+1, -1)
 	source_basename = source_basename.substr(0, source_basename.rfind('.'))
 
-	var export_mode = _sf_creator.LAYERS_EXPORT_MODE if options['split_layers'] else _sf_creator.FILE_EXPORT_MODE
+	var export_mode = _sf_creator.LAYERS_EXPORT_MODE if options['layer/split_layers'] else _sf_creator.FILE_EXPORT_MODE
 
 	var aseprite_opts = {
 		"export_mode": export_mode,
-		"exception_pattern": options['exclude_layers_pattern'],
-		"only_visible_layers": options['only_visible_layers'],
+		"exception_pattern": options['layer/exclude_layers_pattern'],
+		"only_visible_layers": options['layer/only_visible_layers'],
 		"output_filename": '' if export_mode == _sf_creator.FILE_EXPORT_MODE else '%s_' % source_basename,
-		"column_count" : int(options['sheet_type']) if options['sheet_type'] != "Strip" else 128,
 		"output_folder": source_path,
+		"sheet_type": options["sheet/sheet_type"],
+		"sheet_columns": options["sheet/sheet_columns"],
 	}
 
 	var source_files = _aseprite_file_exporter.generate_aseprite_files(absolute_source_file, aseprite_opts)

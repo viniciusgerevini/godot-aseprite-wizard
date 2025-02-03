@@ -109,10 +109,6 @@ func _add_ignore_layer_arguments(file_name: String, arguments: Array, exception_
 
 
 func _add_sheet_type_arguments(arguments: Array, options : Dictionary):
-	if options.has("column_count"):
-		_old_sheet_type_config(arguments, options)
-		return
-
 	var sheet_type = options.get("sheet_type", "packed")
 	var item_count = options.get("sheet_columns", 0)
 
@@ -127,16 +123,6 @@ func _add_sheet_type_arguments(arguments: Array, options : Dictionary):
 	else:
 		arguments.push_back("--sheet-type")
 		arguments.push_back(sheet_type)
-
-
-func _old_sheet_type_config(arguments: Array, options : Dictionary):
-	var column_count : int = options.get("column_count", 0)
-	if column_count > 0:
-		arguments.push_back("--merge-duplicates") # Yes, this is undocumented
-		arguments.push_back("--sheet-columns")
-		arguments.push_back(column_count)
-	else:
-		arguments.push_back("--sheet-pack")
 
 
 func _get_exception_layers(file_name: String, exception_pattern: String) -> Array:
