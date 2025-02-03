@@ -6,12 +6,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Breaking changes
 
-- Aseprite Texture importer does not generate a png file anymore, and has type `PortableCompressedTexture2D` instead of `AtlasTexture`. If you use the png file, you should change the references to the aseprite file instead.
+- Aseprite Texture importer and Tileset Importer do not generate a png file anymore, and have type `PortableCompressedTexture2D` instead of `AtlasTexture`. If you use the png file, you should change the references to the aseprite file instead.
+- Aseprite SpriteFrames importer does not generate extra png file anymore
 
 ### Changed
 
-- Aseprite Texture importer:
+- Aseprite Texture importer and Aseprite Tileset Texture importer:
     - Changed type to `PortableCompressedTexture2D`
+    - Does not generate extra png file anymore.
+- Aseprite SpriteFrames importer:
     - Does not generate extra png file anymore.
 
 ## 8.2.0 (2024-11-22)
