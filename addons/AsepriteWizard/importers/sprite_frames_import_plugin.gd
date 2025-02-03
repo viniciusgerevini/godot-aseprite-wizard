@@ -103,16 +103,10 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(source_files.code))
 		return FAILED
 
-
-	for sf in source_files.content:
-		if sf.is_first_import:
-			file_system.update_file(sf.sprite_sheet)
-			append_import_external_resource(sf.sprite_sheet)
-		else:
-			file_system_helper.schedule_file_system_scan()
-
 	var resources = _sf_creator.create_resources(source_files.content, {
-		"should_round_fps": options["animation/round_fps"]
+		"should_round_fps": options["animation/round_fps"],
+		"should_create_portable_texture": true,
+		"sheet_base_path": save_path,
 	})
 
 	if not resources.is_ok:
@@ -132,10 +126,17 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 				printerr("ERROR - Could not persist aseprite file: %s" % result_codes.get_error_message(exit_code))
 				return FAILED
 
+			for extra_file in resource.extra_gen_files:
+				gen_files.push_back(extra_file)
+
 	var resource = resources.content[0]
 	var resource_path = "%s.res" % save_path
 	var exit_code = ResourceSaver.save(resource.resource, resource_path)
 	resource.resource.take_over_path(resource_path)
+
+
+	for extra_file in resource.extra_gen_files:
+		gen_files.push_back(extra_file)
 
 	if config.should_remove_source_files():
 		_remove_source_files(source_files.content)
@@ -150,4 +151,5 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 func _remove_source_files(source_files: Array):
 	for s in source_files:
 		DirAccess.remove_absolute(s.data_file)
+		DirAccess.remove_absolute(s.sprite_sheet)
 		file_system_helper.schedule_file_system_scan()

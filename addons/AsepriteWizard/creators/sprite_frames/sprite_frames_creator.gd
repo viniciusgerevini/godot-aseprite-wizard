@@ -31,45 +31,61 @@ func create_resources(source_files: Array, options: Dictionary = {}) -> Dictiona
 		if o.is_empty():
 			return result_code.error(result_code.ERR_ASEPRITE_EXPORT_FAILED)
 
-		var resource = _create_sprite_frames(o, options)
+		var result = _create_sprite_frames(o, options)
 
-		if not resource.is_ok:
-			return resource
+		if not result.is_ok:
+			return result
 
 		resources.push_back({
 			"data_file": o.data_file,
-			"resource": resource.content,
+			"resource": result.content.resource,
+			"extra_gen_files": result.content.extra_gen_files
 		})
 
 	return result_code.result(resources)
 
 
 func _create_sprite_frames(data: Dictionary, options: Dictionary) -> Dictionary:
-	var aseprite_resources = _load_aseprite_resources(data)
+	var aseprite_resources = _load_aseprite_resources(data, options)
 	if not aseprite_resources.is_ok:
 		return aseprite_resources
 
-	return result_code.result(
-		_create_sprite_frames_with_animations(
-			aseprite_resources.content.metadata,
-			aseprite_resources.content.texture,
-			options,
-		)
+	var resource = _create_sprite_frames_with_animations(
+		aseprite_resources.content.metadata,
+		aseprite_resources.content.texture,
+		options,
 	)
 
+	return result_code.result({
+		"resource": resource,
+		"extra_gen_files": aseprite_resources.content.extra_gen_files
+	})
 
-func _load_aseprite_resources(aseprite_data: Dictionary):
+func _load_aseprite_resources(aseprite_data: Dictionary, options: Dictionary) -> Dictionary:
 	var content_result = _aseprite_file_exporter.load_json_content(aseprite_data.data_file)
 
 	if not content_result.is_ok:
 		return content_result
 
-	var texture = _load_texture(aseprite_data.sprite_sheet)
+	var result = _load_or_create_texture_resource(aseprite_data.sprite_sheet, options)
 
 	return result_code.result({
 		"metadata": content_result.content,
-		"texture": texture
+		"texture": result.texture,
+		"extra_gen_files": result.extra_gen_files
 	})
+
+
+func _load_or_create_texture_resource(sprite_sheet: String, options: Dictionary) -> Dictionary:
+	if not options.get("should_create_portable_texture", false):
+		return { "texture": _load_texture(sprite_sheet), "extra_gen_files": [] }
+
+	var texture_path = "%s.%s.texture.res" % [options.sheet_base_path, sprite_sheet.get_file().get_basename() ]
+
+	return {
+		"texture": create_packed_texture(sprite_sheet, texture_path),
+		"extra_gen_files": [texture_path]
+	}
 
 
 func save_resources(resources: Array) -> int:
@@ -188,6 +204,20 @@ func _get_min_duration(frames) -> int:
 func _load_texture(path) -> CompressedTexture2D:
 	ResourceLoader.load_threaded_request(path, "CompressedTexture2D", false, ResourceLoader.CACHE_MODE_REPLACE)
 	return ResourceLoader.load_threaded_get(path)
+
+
+func create_packed_texture(sprite_sheet: String, save_path: String) -> PortableCompressedTexture2D:
+	var image = Image.load_from_file(sprite_sheet)
+
+	var tex := PortableCompressedTexture2D.new()
+	tex.create_from_image(image, PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
+
+	var exit_code = ResourceSaver.save(tex, save_path)
+	if exit_code != OK:
+		printerr(result_code.get_error_message(result_code.ERR_ASEPRITE_EXPORT_FAILED))
+		return null
+
+	return ResourceLoader.load(save_path)
 
 
 func _add_to_sprite_frames(
