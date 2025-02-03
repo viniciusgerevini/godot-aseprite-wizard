@@ -93,7 +93,7 @@ After activating the plugin, there are three different ways you can use it:
 
 ### Importers
 
-If you use the importer flow, any `*.ase` or `*.aseprite` file saved in the project folder will be automatically imported as a resource. The plugin enables 3 importers: `SpriteFrames`, `Static Image` and `Tileset Texture`.
+If you use the importer flow, any `*.ase` or `*.aseprite` file saved in the project folder will be automatically imported as a resource. The plugin enables a few importers: `SpriteFrames`, `Static Image` and `Tileset Texture`.
 
 You can choose which importer to use via the Import Dock. By default, aseprite files will use the "No import" option, which will show them in the filesytem dock, but won´t generate any resource. You can change the default importer behaviour via Project Settings.
 
@@ -109,11 +109,23 @@ Options:
 
 | Field                   | Description |
 | ----------------------- | ----------- |
-| Output filename / prefix | Defines output filename. In case layers are split into multiple files, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source filename is used.|
 | Exclude layers matching pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
-| Split layers in multiple resources: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with the same base name as the source. |
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+| Sheet type | Algorithm to create spritesheet. Options: columns, horizontal, vertical, packed. Default: Packed|
+| Sheet column | Only applied when sheet type is "columns". Defines the number of columns in the spritesheet. If "0", packed algorithm is used. Default: 12.
 | Animation / Round FPS | When selected, animation FPS is rounded to next integer. Default: true.|
+
+###### SpriteFrames split by layer
+
+You can generate one `SpriteFrames` resource for each layer by using the `SpriteFrames (Split by Layer)` importer. This importer will generate one `.ase_layer` file for each layer, which will be recognised as `SpriteFrames` and can be used directly. 
+
+This importer has the same properties as the regular `SpriteFrames` importer with one extra:
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Layer Resources Folder | The folder where the layer resources should be created. Default: Same as source aseprite file|
+
+This importer will keep track of the generated resources and remove them if the layer is removed in Aseprite.
 
 #### Static image importer
 
@@ -125,6 +137,18 @@ Texture importer options:
 | ----------------------- | ----------- |
 | Exclude layers pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+
+######  Static image split by layer
+
+You can generate one image resource for each layer by using the `Texture (Split by Layer)` importer. This importer will generate one `.ase_layer_tex` file for each layer, which will be recognised as `PortableCompressedTexture2D` and can be used directly. 
+
+This importer has the same properties as the regular `Texture` importer with one extra:
+
+| Field                   | Description |
+| ----------------------- | ----------- |
+| Layer Resources Folder | The folder where the layer resources should be created. Default: Same as source aseprite file|
+
+This importer will keep track of the generated resources and remove them if the layer is removed in Aseprite.
 
 #### Tileset texture importer
 
