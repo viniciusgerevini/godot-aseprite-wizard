@@ -10,9 +10,7 @@ var file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
 
 
 func _get_importer_name():
-	# ideally this should be called aseprite_wizard.plugin.spriteframes
-	# but I'm keeping it like this to avoid unnecessary breaking changes
-	return "aseprite_wizard.plugin"
+	return "aseprite_wizard.plugin.spriteframes"
 
 
 func _get_visible_name():
@@ -49,7 +47,6 @@ func _get_import_order():
 
 func _get_import_options(_path, _i):
 	return [
-		{"name": "layer/split_layers",           "default_value": false},
 		{"name": "layer/exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
 		{"name": "layer/only_visible_layers",    "default_value": false},
 		{
@@ -78,13 +75,11 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var source_basename = source_file.substr(source_path.length()+1, -1)
 	source_basename = source_basename.substr(0, source_basename.rfind('.'))
 
-	var export_mode = _sf_creator.LAYERS_EXPORT_MODE if options['layer/split_layers'] else _sf_creator.FILE_EXPORT_MODE
-
 	var aseprite_opts = {
-		"export_mode": export_mode,
+		"export_mode": _sf_creator.FILE_EXPORT_MODE,
 		"exception_pattern": options['layer/exclude_layers_pattern'],
 		"only_visible_layers": options['layer/only_visible_layers'],
-		"output_filename": '' if export_mode == _sf_creator.FILE_EXPORT_MODE else '%s_' % source_basename,
+		"output_filename": '',
 		"output_folder": source_path,
 		"sheet_type": options["sheet/sheet_type"],
 		"sheet_columns": options["sheet/sheet_columns"],
@@ -104,22 +99,6 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	if not resources.is_ok:
 		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(resources.code))
 		return FAILED
-
-	if export_mode == _sf_creator.LAYERS_EXPORT_MODE:
-		# each layer is saved as one resource using base file name to prevent collisions
-		# the first layer will be saved in the default resource path to prevent
-		# godot from keeping re-importing it
-		for resource in resources.content:
-			var resource_path = "%s.res" % resource.data_file.get_basename();
-			var exit_code = ResourceSaver.save(resource.resource, resource_path)
-			resource.resource.take_over_path(resource_path)
-
-			if exit_code != OK:
-				printerr("ERROR - Could not persist aseprite file: %s" % result_codes.get_error_message(exit_code))
-				return FAILED
-
-			for extra_file in resource.extra_gen_files:
-				gen_files.push_back(extra_file)
 
 	var resource = resources.content[0]
 	var resource_path = "%s.res" % save_path

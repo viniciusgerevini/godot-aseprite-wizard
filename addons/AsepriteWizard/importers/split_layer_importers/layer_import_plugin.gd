@@ -1,11 +1,11 @@
 @tool
 extends EditorImportPlugin
 
-const result_codes = preload("../config/result_codes.gd")
+const result_codes = preload("../../config/result_codes.gd")
 
-var config = preload("../config/config.gd").new()
-var _aseprite = preload("../aseprite/aseprite.gd").new()
-var _sf_creator = preload("../creators/sprite_frames/sprite_frames_creator.gd").new()
+var config = preload("../../config/config.gd").new()
+var _aseprite = preload("../../aseprite/aseprite.gd").new()
+var _sf_creator = preload("../../creators/sprite_frames/sprite_frames_creator.gd").new()
 
 
 func _get_importer_name():

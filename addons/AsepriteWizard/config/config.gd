@@ -27,6 +27,7 @@ const IMPORTER_SPRITEFRAMES_SPLIT_NAME = "SpriteFrames (Split By Layer)"
 const IMPORTER_NOOP_NAME = "No Import"
 const IMPORTER_TILESET_TEXTURE_NAME = "Tileset Texture"
 const IMPORTER_STATIC_TEXTURE_NAME = "Static Texture"
+const IMPORTER_STATIC_TEXTURE_SPLIT_NAME = "Static Texture (Split By Layer)"
 
 # wizard history
 const _WIZARD_HISTORY = "wizard_history"
@@ -157,7 +158,8 @@ func initialize_project_settings():
 			IMPORTER_SPRITEFRAMES_NAME,
 			IMPORTER_SPRITEFRAMES_SPLIT_NAME,
 			IMPORTER_TILESET_TEXTURE_NAME,
-			IMPORTER_STATIC_TEXTURE_NAME
+			IMPORTER_STATIC_TEXTURE_NAME,
+			IMPORTER_STATIC_TEXTURE_SPLIT_NAME
 		])
 	)
 
