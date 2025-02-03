@@ -11,10 +11,6 @@ var _aseprite_file_exporter = preload("../aseprite/file_exporter.gd").new()
 
 var config = preload("../config/config.gd").new()
 var file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
-var file_system_helper
-
-func _init(fs_helper) -> void:
-	file_system_helper = fs_helper
 
 
 func _get_importer_name():

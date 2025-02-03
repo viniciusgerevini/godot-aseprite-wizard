@@ -8,11 +8,6 @@ var _aseprite_file_exporter = preload("../aseprite/file_exporter.gd").new()
 var _sf_creator = preload("../creators/sprite_frames/sprite_frames_creator.gd").new()
 var file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
 
-var file_system_helper
-
-func _init(fs_helper) -> void:
-	file_system_helper = fs_helper
-
 
 func _get_importer_name():
 	# ideally this should be called aseprite_wizard.plugin.spriteframes
@@ -152,4 +147,3 @@ func _remove_source_files(source_files: Array):
 	for s in source_files:
 		DirAccess.remove_absolute(s.data_file)
 		DirAccess.remove_absolute(s.sprite_sheet)
-		file_system_helper.schedule_file_system_scan()
