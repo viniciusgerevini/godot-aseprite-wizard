@@ -76,7 +76,6 @@ For project specific configurations check `Project -> Project Settings -> Genera
 | Animation > Layer > Only Include Visible Layers By Default | Default configuration for "only visible" in the docks. Default: false |
 | Animation > Loop > Enabled | Enables animation loop by default. Default: `true` |
 | Animation > Loop > Exception Prefix | Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The prefix is removed from the animation name on import (i.e  `_death` > `death`). Default: `_` |
-| Animation > Storage > Enable Metadata Removal on Export | Removes dock metadata from scene when exporting the project. Ensures no local info is shipped with the app. Default: `true` |
 | Import > Cleanup > Remove Json File | Remove temporary `*.json` files generated during import. Default: `true` |
 | Import > Cleanup > Automatically Hide Sprites Not In Animation | Default configuration for AnimationPlayer option to hide sprite when not in animation. Default: `false` |
 | Import > Import Plugin > Default Automatic Importer | Which importer to use by default for aseprite files. Options: `No Import`, `SpriteFrames`, `Static Texture`, `Tileset Texture`. Default: `No Import` |
@@ -324,10 +323,6 @@ Both the default configuration and the exception prefix can be changed in the co
 ### Import overwrite previous files
 
 Currently, import overwrites previously imported files. Any manual modification in the previous resource file will be lost.
-
-### Metadata cleanup on export
-
-The options you select in the inspector dock are stored in the scene as metadata. As you can select files from anywhere in your system, there is an export plugin to prevent your local path metadata to be shipped with the game. In case you suspect this is conflicting with other plugins (or if you think you don't need it) you can disable it at `Project > Project Settings > General > Animation > Storage > Enable Metadata Removal On Export`.
 
 ## Known Issues
 

@@ -37,9 +37,6 @@ const _HISTORY_DEFAULT_MAX_ENTRIES = 100
 # SpriteFrames import last config
 const _STANDALONE_SPRITEFRAMES_LAST_IMPORT_CFG = "standalone_sf_last_import_cfg"
 
-# export
-const _EXPORTER_ENABLE_KEY = 'aseprite/animation/storage/enable_metadata_removal_on_export'
-
 var _editor_settings: EditorSettings = EditorInterface.get_editor_settings()
 
 #######################################################
@@ -72,10 +69,6 @@ func is_importer_enabled() -> bool:
 
 func get_default_importer() -> String:
 	return _get_project_setting(_DEFAULT_IMPORTER_KEY, IMPORTER_SPRITEFRAMES_NAME if is_importer_enabled() else IMPORTER_NOOP_NAME)
-
-
-func is_exporter_enabled() -> bool:
-	return _get_project_setting(_EXPORTER_ENABLE_KEY, true)
 
 
 func should_remove_source_files() -> bool:
@@ -163,8 +156,6 @@ func initialize_project_settings():
 		])
 	)
 
-	_initialize_project_cfg(_EXPORTER_ENABLE_KEY, true, TYPE_BOOL)
-
 	_initialize_project_cfg(_HISTORY_MAX_ENTRIES, _HISTORY_DEFAULT_MAX_ENTRIES, TYPE_INT)
 
 	_initialize_project_cfg(_SET_VISIBLE_TRACK_AUTOMATICALLY, false, TYPE_BOOL)
@@ -181,7 +172,6 @@ func clear_project_settings():
 		_LOOP_EXCEPTION_PREFIX,
 		_REMOVE_SOURCE_FILES_KEY,
 		_DEFAULT_IMPORTER_KEY,
-		_EXPORTER_ENABLE_KEY,
 		_HISTORY_MAX_ENTRIES,
 		_SET_VISIBLE_TRACK_AUTOMATICALLY,
 		_DEFAULT_ONLY_VISIBLE_LAYERS,

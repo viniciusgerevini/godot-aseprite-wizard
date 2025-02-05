@@ -100,14 +100,14 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(resources.code))
 		return FAILED
 
-	var resource = resources.content[0]
+	var resource: Dictionary = resources.content[0]
+	resource.resource.set_meta("imported_via_aw", true)
 	var resource_path = "%s.res" % save_path
 	var exit_code = ResourceSaver.save(resource.resource, resource_path)
 	resource.resource.take_over_path(resource_path)
 
-
-	for extra_file in resource.extra_gen_files:
-		gen_files.push_back(extra_file)
+	#for extra_file in resource.extra_gen_files:
+		#gen_files.push_back(extra_file)
 
 	if config.should_remove_source_files():
 		_remove_source_files(source_files.content)

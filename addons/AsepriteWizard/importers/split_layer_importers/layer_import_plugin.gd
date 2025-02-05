@@ -88,6 +88,8 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		return FAILED
 
 	var resource = resources.content[0]
+	resource.resource.set_meta("imported_via_aw", true)
+
 	var resource_path = "%s.res" % save_path
 	var exit_code = ResourceSaver.save(resource.resource, resource_path)
 	resource.resource.take_over_path(resource_path)

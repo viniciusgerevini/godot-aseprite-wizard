@@ -1,7 +1,6 @@
-## Some animations might have been imported from outside the project folder,
-## potentially leaking the host's path, which is not ideal.
-## This plugin removes the aseprite metadata from scenes and spriteframes before
-## generating the game export.
+## This export plugin makes sure all textures are included in
+## the exported game and also remove any metadata that could
+## potentially leak information about paths in the host system. 
 extends EditorExportPlugin
 
 const wizard_config = preload("../config/wizard_config.gd")
@@ -15,7 +14,7 @@ func _export_file(path: String, type: String, features: PackedStringArray) -> vo
 		"PackedScene":
 			_cleanup_scene(path, type)
 		"SpriteFrames":
-			_cleanup_spriteframes(path, type)
+			_handle_spriteframes(path, type)
 
 
 func _cleanup_scene(path: String, type: String):
@@ -69,9 +68,38 @@ func _get_scene_content(path:String, scene:PackedScene) -> PackedByteArray:
 
 	return content
 
+## As of today, Godot only includes in the export the resources
+## directly referenced by the import plugin.
+## To make the generated textures available, I need to explicitly
+## add them to the exported package.
+func _import_extra_textures(node: SpriteFrames):
+	# check if this is a wizard import
+	if not node.has_meta("imported_via_aw"):
+		return
 
-func _cleanup_spriteframes(path: String, type: String):
+	var animations = node.get_animation_names()
+	var textures = []
+	for animation in animations:
+		var frame_count = node.get_frame_count(animation)
+		for idx in range(frame_count):
+			var atlas = node.get_frame_texture(animation, idx)
+			if atlas == null:
+				continue
+			var tex = atlas.atlas
+			if tex == null:
+				continue
+			if not textures.has(tex.resource_path):
+				textures.push_back(tex.resource_path)
+
+	for texture_path in textures:
+		var file = FileAccess.open(texture_path, FileAccess.READ)
+		var content : PackedByteArray = file.get_buffer(file.get_length())
+		add_file(texture_path, content, false)
+
+
+func _handle_spriteframes(path: String, type: String):
 	var resource : SpriteFrames = ResourceLoader.load(path, type, ResourceLoader.CACHE_MODE_IGNORE)
+	_import_extra_textures(resource)
 	if _remove_meta(resource):
 		var content := _create_temp_resource(path, resource)
 		add_file(path, content, true)
