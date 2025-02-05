@@ -49,11 +49,15 @@ func _do_import():
 	file_system.scan()
 	await file_system.filesystem_changed
 
-	sprite_frames_creator.create_animations(target_node, aseprite_output.content, { "slice": _slice, "should_round_fps": _round_fps.button_pressed })
+	sprite_frames_creator.create_animations(target_node, aseprite_output.content, {
+		"slice": _slice,
+		"should_round_fps": _round_fps.button_pressed,
+		"should_create_portable_texture": _embed_field.button_pressed,
+	})
 
 	wizard_config.set_source_hash(target_node, FileAccess.get_md5(source_path))
 
-	_handle_cleanup(aseprite_output.content)
+	_handle_cleanup(aseprite_output.content, _embed_field.button_pressed)
 
 
 func _show_specific_fields():

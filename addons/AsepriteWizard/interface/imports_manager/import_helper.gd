@@ -34,6 +34,7 @@ func _sprite_frames_import(node: Node, resource_config: Dictionary) -> void:
 	var source = ProjectSettings.globalize_path(config.source)
 	var options = _parse_import_options(config, resource_config.scene_path.get_base_dir())
 
+	# TODO FPS?
 	var aseprite_output = _aseprite_file_exporter.generate_aseprite_file(source, options)
 
 	if not aseprite_output.is_ok:
@@ -44,6 +45,7 @@ func _sprite_frames_import(node: Node, resource_config: Dictionary) -> void:
 
 	await EditorInterface.get_resource_filesystem().filesystem_changed
 
+	# TODO embed
 	_sprite_frames_creator.create_animations(node, aseprite_output.content, { "slice": options.slice })
 
 	wizard_config.set_source_hash(node, FileAccess.get_md5(source))
@@ -80,6 +82,7 @@ func _import_to_animation_player(node: Node, root: Node, resource_config: Dictio
 		"slice": config.get("slice", ""),
 	}
 	var animation_creator = _texture_rect_animation_creator if node is TextureRect else _sprite_animation_creator
+	# TODO embed
 	animation_creator.create_animations(node, root.get_node(config.player), aseprite_output.content, anim_options)
 
 	wizard_config.set_source_hash(node, FileAccess.get_md5(source))
@@ -101,6 +104,7 @@ func _import_static(node: Node, resource_config: Dictionary) -> void:
 	EditorInterface.get_resource_filesystem().scan()
 	await EditorInterface.get_resource_filesystem().filesystem_changed
 
+	# TODO embed
 	_static_texture_creator.load_texture(node, aseprite_output.content, { "slice": options.slice })
 
 	wizard_config.set_source_hash(node, FileAccess.get_md5(source))
@@ -118,7 +122,9 @@ func _parse_import_options(config: Dictionary, scene_base_path: String) -> Dicti
 		"slice": config.get("slice", ""),
 	}
 
+
 func _handle_cleanup(aseprite_content):
+	# TODO cleanup spritesshet when embed
 	if _config.should_remove_source_files():
 		DirAccess.remove_absolute(aseprite_content.data_file)
 		EditorInterface.get_resource_filesystem().scan()

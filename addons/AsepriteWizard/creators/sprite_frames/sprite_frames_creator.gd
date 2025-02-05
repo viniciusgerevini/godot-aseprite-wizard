@@ -80,6 +80,12 @@ func _load_or_create_texture_resource(sprite_sheet: String, options: Dictionary)
 	if not options.get("should_create_portable_texture", false):
 		return { "texture": _load_texture(sprite_sheet), "extra_gen_files": [] }
 
+	if options.get("sheet_base_path", "") == "":
+		return {
+			"texture": create_packed_texture(sprite_sheet),
+			"extra_gen_files": []
+		}
+
 	var texture_path = "%s.%s.texture.res" % [options.sheet_base_path, sprite_sheet.get_file().get_basename() ]
 
 	return {
@@ -206,11 +212,15 @@ func _load_texture(path) -> CompressedTexture2D:
 	return ResourceLoader.load_threaded_get(path)
 
 
-func create_packed_texture(sprite_sheet: String, save_path: String) -> PortableCompressedTexture2D:
+func create_packed_texture(sprite_sheet: String, save_path: String = "") -> PortableCompressedTexture2D:
 	var image = Image.load_from_file(sprite_sheet)
 
 	var tex := PortableCompressedTexture2D.new()
 	tex.create_from_image(image, PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
+
+	# if no path was provided, we just want the texture in memory
+	if save_path == "":
+		return tex
 
 	var exit_code = ResourceSaver.save(tex, save_path)
 	if exit_code != OK:
