@@ -16,7 +16,7 @@ func create_animations(animated_sprite: Node, aseprite_files: Dictionary, option
 		printerr(result_code.get_error_message(sprite_frames_result.code))
 		return
 
-	animated_sprite.frames = sprite_frames_result.content
+	animated_sprite.frames = sprite_frames_result.content.resource
 
 	if animated_sprite is CanvasItem:
 		animated_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
