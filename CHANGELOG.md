@@ -29,6 +29,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Renamed SpriteFrames importer id for consistency
 - Removed Split option from SpriteFrames importer. Split are handled in separate importers.
 
+### Removed
+
+- Removed option to disable the exporter plugin, because now it's required for importing textures correctly.
+
 ## 8.2.0 (2024-11-22)
 
 ### Added
