@@ -195,7 +195,7 @@ func _load_common_config(cfg):
 	_visible_layers_field.button_pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
 	
-	_embed_field.button_pressed = cfg.get("embed_tex", true)
+	_embed_field.button_pressed = cfg.get("embed_tex", false)
 
 	_load_config(cfg)
 	_handle_embed_visibility()
