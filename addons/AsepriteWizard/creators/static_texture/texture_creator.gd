@@ -5,7 +5,12 @@ func load_texture(target_node: Node, aseprite_files: Dictionary, options: Dictio
 	var source_file = aseprite_files.data_file
 	var sprite_sheet = aseprite_files.sprite_sheet
 	var data = _aseprite_file_exporter.load_json_content(source_file)
-	var texture = ResourceLoader.load(sprite_sheet)
+	var texture
+
+	if options.get("should_create_portable_texture", false):
+		texture = _load_compressed_texture(sprite_sheet)
+	else:
+		texture = ResourceLoader.load(sprite_sheet)
 
 	if not data.is_ok:
 		printerr("Failed to load aseprite source %s" % source_file)

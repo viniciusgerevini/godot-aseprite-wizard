@@ -213,11 +213,7 @@ func _load_texture(path) -> CompressedTexture2D:
 
 
 func create_packed_texture(sprite_sheet: String, save_path: String = "") -> PortableCompressedTexture2D:
-	var image = Image.load_from_file(sprite_sheet)
-
-	var tex := PortableCompressedTexture2D.new()
-	tex.create_from_image(image, PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
-
+	var tex := _load_compressed_texture(sprite_sheet)
 	# if no path was provided, we just want the texture in memory
 	if save_path == "":
 		return tex

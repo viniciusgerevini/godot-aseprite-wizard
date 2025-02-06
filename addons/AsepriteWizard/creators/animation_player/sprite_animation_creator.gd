@@ -1,8 +1,7 @@
 extends "animation_creator.gd"
 
 
-func _setup_texture(sprite: Node, sprite_sheet: String, content: Dictionary, context: Dictionary, is_importing_slice: bool):
-	var texture = _load_texture(sprite_sheet)
+func _setup_texture(sprite: Node, texture: Texture2D, content: Dictionary, context: Dictionary, is_importing_slice: bool):
 	sprite.texture = texture
 
 	if content.frames.is_empty():

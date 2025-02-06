@@ -29,7 +29,9 @@ func _import(target_node: Node, player: AnimationPlayer, aseprite_files: Diction
 	else:
 		target_node.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 
-	_setup_texture(target_node, sprite_sheet, content, context, options.slice != "")
+	var texture := _load_texture(sprite_sheet, options.get("should_create_portable_texture", false))
+
+	_setup_texture(target_node, texture, content, context, options.slice != "")
 	var result = _configure_animations(target_node, player, content, context, options)
 	if result != result_code.SUCCESS:
 		return result
@@ -37,7 +39,10 @@ func _import(target_node: Node, player: AnimationPlayer, aseprite_files: Diction
 	return _cleanup_animations(target_node, player, content, options)
 
 
-func _load_texture(sprite_sheet: String) -> Texture2D:
+func _load_texture(sprite_sheet: String, use_portable_tex: bool) -> Texture2D:
+	if use_portable_tex:
+		return _load_compressed_texture(sprite_sheet)
+
 	var texture = ResourceLoader.load(sprite_sheet, 'Image', ResourceLoader.CACHE_MODE_IGNORE)
 	texture.take_over_path(sprite_sheet)
 	return texture
@@ -278,7 +283,7 @@ func _cleanup_tracks(target_node: Node, player: AnimationPlayer, animation: Anim
 			animation.remove_track(track_index)
 
 
-func _setup_texture(target_node: Node, sprite_sheet: String, content: Dictionary, context: Dictionary, is_importing_slice: bool):
+func _setup_texture(target_node: Node, texture: Texture2D, content: Dictionary, context: Dictionary, is_importing_slice: bool):
 	push_error("_setup_texture not implemented!")
 
 
