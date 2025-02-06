@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - New split importers (Static Texture, SpriteFrames). These importers should be used for exporting each layer in a Aseprite file as a separate resource. These resource are plain files that will hold the info to generate the file independently.
     - This will prevent issues with unstable ids which happens when the import folder is removed and new files are generated. In these cases, even though the resulting files are the same, they have different interal references causing them to be shown as changed in version control.
     - This will also allow cleanup to happen on split importers. i.e. when a layer is removed from the aseprite file, its resource will also be removed in Godot.
+- Importer docks now can embed the spritesheet texture in the scene, not requiring generating external png files. This option will be enabled by default.
 
 ### Changed
 

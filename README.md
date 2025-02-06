@@ -189,11 +189,12 @@ To import animations via the Import Dock:
 | Only visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
 | Round FPS | Rounds Animation FPS to next integer. Default: true |
-| Output folder: | Folder to save the sprite sheet (png) file. Default: same as scene |
-| Output file name | Output file name for the sprite sheet. In case the Layer option is used with a single layer, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
+| Embed Texture: | Embed sprite sheet texture in the scene, instead of generating an external file. Default: enabled |
+| Output folder: | (When Embed Texture is off) Folder to save the sprite sheet (png) file. Default: same as scene |
+| Output file name | (When Embed Texture is off) Output file name for the sprite sheet. In case the Layer option is used with a single layer, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
 
 Notes:
-- A `SpriteFrames` resource will be generated and assigned to the AnimatedSprite. This resource is embedded in the scene and the spritesheet file will be created in the output folder.
+- A `SpriteFrames` resource will be generated and assigned to the AnimatedSprite. This resource is embedded in the scene and the spritesheet can be either embedded (Embed Texture option enabled) or a file will be created in the output folder.
 - As opposed to the `AnimationPlayer` flow, a new `SpriteFrames` resource is generated on every import. This means any manual change will be lost after re-import.
 
 #### Sprites and TextureRect
@@ -219,8 +220,9 @@ When working with `Sprite2D`, `Sprite3D` and `TextureRect` nodes, you have the o
 | Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
 | Keep manual animation length | When this is active the animation length won't be adjusted if other properties were added and the resulting imported animation is shorter. Default: false. |
 | Hide when unused| If active, this node will be set as hidden in every existing animation it is not part of. Default: false.|
-| Output folder | Folder to save the sprite sheet (png) file. Default: same as scene |
-| Output file name | Output file name for the sprite sheet. In case the Layer option is used, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
+| Embed Texture: | Embed sprite sheet texture in the scene, instead of generating an external file. Default: enabled |
+| Output folder: | (When Embed Texture is off) Folder to save the sprite sheet (png) file. Default: same as scene |
+| Output file name | (When Embed Texture is off) Output file name for the sprite sheet. In case the Layer option is used with a single layer, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
 
 
 Notes:
