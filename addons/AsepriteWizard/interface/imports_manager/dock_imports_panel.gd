@@ -131,7 +131,7 @@ func _get_aseprite_metadata(file_path: String) -> Array:
 					"node_name": state.get_node_name(i),
 					"meta": meta,
 					"scene_path": file_path,
-					"has_changes": _has_source_changes(target_node, meta.get("source"))
+					"has_changes": _has_source_changes(target_node, meta.get("source", ""))
 				})
 
 	return resources

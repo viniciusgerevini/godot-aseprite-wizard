@@ -58,6 +58,7 @@ func _load_config(cfg):
 
 func _load_default_config():
 	_cleanup_hide_unused_nodes.button_pressed = config.is_set_visible_track_automatically_enabled()
+	_set_import_mode(0)
 
 
 func _set_animation_player(player):
