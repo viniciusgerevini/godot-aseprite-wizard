@@ -9,6 +9,7 @@ const TilesetTextureImportPlugin = preload("importers/tileset_texture_import_plu
 const TextureImportPlugin = preload("importers/static_texture_import_plugin.gd")
 const TextureImportPluginCustom = preload("importers/static_texture_import_plugin_custom.gd")
 const TextureSplitImportPlugin = preload("res://addons/AsepriteWizard/importers/static_texture_multiple_import_plugin.gd")
+const TextureSplitImportPluginCustom = preload("res://addons/AsepriteWizard/importers/static_texture_multiple_import_plugin_custom.gd")
 const LayerSpriteFramesImportPlugin = preload("res://addons/AsepriteWizard/importers/split_layer_importers/layer_import_plugin.gd")
 const LayerTextureImportPlugin = preload("res://addons/AsepriteWizard/importers/split_layer_importers/layer_texture_import_plugin.gd")
 const FileSystemHelper = preload("importers/helpers/file_system_helper.gd")
@@ -93,6 +94,7 @@ func _setup_importer():
 		TextureImportPlugin.new(),
 		TextureImportPluginCustom.new(),
 		TextureSplitImportPlugin.new(file_system_helper),
+		TextureSplitImportPluginCustom.new(file_system_helper),
 		LayerSpriteFramesImportPlugin.new(),
 		LayerTextureImportPlugin.new(),
 	]

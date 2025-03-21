@@ -70,6 +70,7 @@ func export_file_with_layers(file_name: String, layer_names: Array, output_folde
 	var base_output_path = "%s/%s%s" % [output_dir, output_prefix, layer_names[0] if layer_names.size() == 1 else ""]
 	var data_file = "%s.json" % base_output_path
 	var sprite_sheet = "%s.png" % base_output_path
+	var trim_cels = options.get("trim_cels", false)
 	var first_frame_only = options.get("first_frame_only", false)
 	var output = []
 	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
@@ -77,6 +78,9 @@ func export_file_with_layers(file_name: String, layer_names: Array, output_folde
 	for layer_name in layer_names:
 		arguments.push_front(layer_name)
 		arguments.push_front("--layer")
+		
+	if trim_cels:
+		arguments.push_front("--trim")
 
 	if first_frame_only:
 		arguments.push_front("'[0, 0]'")
