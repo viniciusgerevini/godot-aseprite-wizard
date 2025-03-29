@@ -18,6 +18,7 @@ func _get_import_options(_path, _i):
 	return [
 		{"name": "layer/exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
 		{"name": "layer/only_visible_layers",    "default_value": false},
+		{"name": "layer/trim_cels",    			 "default_value": false},
 		{
 			"name": "output/layers_resources_folder",
 			"default_value": "",
@@ -31,4 +32,6 @@ func _layer_extension() -> String:
 
 
 func _get_base_import_options(options: Dictionary):
-	return  {}
+	return  {
+		"trim_cels": options["layer/trim_cels"]
+	}

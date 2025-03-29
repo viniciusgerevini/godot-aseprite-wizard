@@ -27,8 +27,24 @@ func _get_import_options(_path, _i):
 	return [
 		{"name": "layer/exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
 		{"name": "layer/only_visible_layers",    "default_value": false},
+		{"name": "first_frame_only",    	 	 "default_value": true},
+		{
+			"name": "sheet/sheet_type",
+			"default_value": "packed",
+			"property_hint": PROPERTY_HINT_ENUM,
+			"hint_string": "columns,horizontal,vertical,packed",
+		},
+		{
+			"name": "sheet/sheet_columns",
+			"default_value": 12,
+		}
 	]
 
+func _get_option_visibility(path, option, options):
+	if ((option == "sheet/sheet_type" or option == "sheet/sheet_columns") and 
+		options.has("first_frame_only")):
+		return options["first_frame_only"] == false
+	return true
 
 func _import(source_file, save_path, options, platform_variants, gen_files):
 	var absolute_source_file = ProjectSettings.globalize_path(source_file)
@@ -39,8 +55,13 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"only_visible_layers": options['layer/only_visible_layers'],
 		"output_filename": '',
 		"output_folder": source_path,
-		"first_frame_only": true,
 	}
+	
+	if options['first_frame_only']:
+		aseprite_opts['first_frame_only'] = options['first_frame_only']
+	else:
+		aseprite_opts['sheet_type'] = options["sheet/sheet_type"]
+		aseprite_opts['sheet_columns'] = options["sheet/sheet_columns"]
 
 	var result = _generate_texture(absolute_source_file, aseprite_opts)
 
