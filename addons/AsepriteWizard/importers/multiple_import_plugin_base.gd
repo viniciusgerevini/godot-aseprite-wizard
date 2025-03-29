@@ -44,13 +44,15 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var old_data = _load_old_data(source_file)
 	var exception_pattern = options.get('layer/exclude_layers_pattern', "")
 	var should_include_only_visibles = options.get('layer/only_visible_layers', false)
+	var should_merge_duplicates = options.get('layer/merge_duplicate_layers', false)
 
 	var absolute_source_file = ProjectSettings.globalize_path(source_file)
 
 	var layers = _aseprite.list_valid_layers(
 		absolute_source_file,
 		exception_pattern,
-		should_include_only_visibles
+		should_include_only_visibles,
+		should_merge_duplicates
 	)
 
 	var layers_resources_folder = options["output/layers_resources_folder"]

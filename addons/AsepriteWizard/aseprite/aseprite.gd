@@ -143,8 +143,14 @@ func _get_exception_layers(file_name: String, exception_pattern: String) -> Arra
 	return exception_layers
 
 
-func list_valid_layers(file_name: String, exception_pattern: String = "", show_only_visible: bool = false) -> Array:
-	var layers = list_layers_json(file_name, show_only_visible)
+func list_valid_layers(file_name: String, exception_pattern: String = "", show_only_visible: bool = false, should_merge_duplicates: bool = false) -> Array:
+	var layers = []
+
+	if should_merge_duplicates:
+		layers = list_layers_json(file_name, show_only_visible)
+	else:
+		layers = list_layers(file_name, show_only_visible)
+	
 	var exception_regex = _compile_regex(exception_pattern)
 
 	var output = []

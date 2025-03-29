@@ -19,6 +19,7 @@ func _get_import_options(_path, _i):
 		{"name": "layer/exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
 		{"name": "layer/only_visible_layers",    "default_value": false},
 		{"name": "layer/trim_cels",    			 "default_value": false},
+		{"name": "layer/merge_duplicate_layers", "default_value": false},
 		{
 			"name": "output/layers_resources_folder",
 			"default_value": "",
