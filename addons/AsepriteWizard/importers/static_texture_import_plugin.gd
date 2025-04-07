@@ -40,12 +40,6 @@ func _get_import_options(_path, _i):
 		}
 	]
 
-func _get_option_visibility(path, option, options):
-	if ((option == "sheet/sheet_type" or option == "sheet/sheet_columns") and 
-		options.has("first_frame_only")):
-		return options["first_frame_only"] == false
-	return true
-
 func _import(source_file, save_path, options, platform_variants, gen_files):
 	var absolute_source_file = ProjectSettings.globalize_path(source_file)
 	var source_path = source_file.get_base_dir()
