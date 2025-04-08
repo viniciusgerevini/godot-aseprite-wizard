@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://q7eyyg2kvvv2"]
 
-[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_single_item.gd" id="1_h1q4t"]
+[ext_resource type="Script" uid="uid://baoyq2h6bor2o" path="res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_single_item.gd" id="1_h1q4t"]
 [ext_resource type="PackedScene" uid="uid://c1l0bk12iwln3" path="res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.tscn" id="2_hmv61"]
 
 [node name="single_item" type="VBoxContainer"]

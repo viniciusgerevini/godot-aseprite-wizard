@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://0x3mlxsex7eb"]
 
-[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/imports_manager/aseprite_imports_manager.gd" id="1_wrm15"]
+[ext_resource type="Script" uid="uid://dmaetujyo1ov5" path="res://addons/AsepriteWizard/interface/imports_manager/aseprite_imports_manager.gd" id="1_wrm15"]
 
 [node name="AsepriteDockImportsWindow" type="Window"]
 title = "Aseprite Imports Manager"

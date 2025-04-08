@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d0whlywijwa6s"]
 
-[ext_resource type="Script" path="res://addons/AsepriteWizard/config/config_dialog.gd" id="1"]
+[ext_resource type="Script" uid="uid://66ct0chhwb4h" path="res://addons/AsepriteWizard/config/config_dialog.gd" id="1"]
 
 [node name="config_dialog" type="PopupPanel"]
 title = "Aseprite Wizard Config"

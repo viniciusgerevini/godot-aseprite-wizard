@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://fscemkx5w1dw"]
 
-[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_multiple_items.gd" id="1_lg81l"]
+[ext_resource type="Script" uid="uid://dkb6s868hna1i" path="res://addons/AsepriteWizard/interface/docks/wizard/resource_tree_multiple_items.gd" id="1_lg81l"]
 
 [node name="multiple_items" type="VBoxContainer"]
 size_flags_vertical = 3

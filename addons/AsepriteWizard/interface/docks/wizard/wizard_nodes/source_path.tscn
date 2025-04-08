@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://bgf0nf3hqy0xq"]
 
-[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/source_path.gd" id="1"]
+[ext_resource type="Script" uid="uid://b5vp72sqovo7p" path="res://addons/AsepriteWizard/interface/docks/wizard/wizard_nodes/source_path.gd" id="1"]
 
 [node name="source_path" type="LineEdit"]
 offset_top = 34.0
 offset_right = 440.0
 offset_bottom = 58.0
-minimum_size = Vector2( 200, 0 )
+minimum_size = Vector2(200, 0)
 tooltip_text = "Output name / prefix: some_name
 Ex. Pattern: $_
 Split: Yes
@@ -15,4 +15,4 @@ No Resource: No"
 size_flags_vertical = 0
 text = "/some/very/long/source/path/to/test/field"
 editable = false
-script = ExtResource( 1 )
+script = ExtResource("1")

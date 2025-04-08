@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://vej7yqkbtd5f"]
 
-[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/docks/animated_sprite/animated_sprite_inspector_dock.gd" id="1"]
+[ext_resource type="Script" uid="uid://mthylyhxbge5" path="res://addons/AsepriteWizard/interface/docks/animated_sprite/animated_sprite_inspector_dock.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://uxm7b02wry10" path="res://addons/AsepriteWizard/interface/docks/dock_fields.tscn" id="2_2ilip"]
 
 [node name="animated_sprite_inspector_dock" type="PanelContainer"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bhtu6mlwmthqo"]
 
-[ext_resource type="Script" path="res://addons/AsepriteWizard/interface/imports_manager/tree_selection_multiple_items.gd" id="1_beamo"]
+[ext_resource type="Script" uid="uid://c4n7qkut3ut23" path="res://addons/AsepriteWizard/interface/imports_manager/tree_selection_multiple_items.gd" id="1_beamo"]
 
 [node name="multiple_items" type="VBoxContainer"]
 visible = false
