@@ -50,7 +50,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"output_filename": '',
 		"output_folder": source_path,
 	}
-	
+
 	if options['first_frame_only']:
 		aseprite_opts['first_frame_only'] = options['first_frame_only']
 	else:

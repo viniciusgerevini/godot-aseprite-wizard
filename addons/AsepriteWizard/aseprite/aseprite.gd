@@ -78,7 +78,7 @@ func export_file_with_layers(file_name: String, layer_names: Array, output_folde
 	for layer_name in layer_names:
 		arguments.push_front(layer_name)
 		arguments.push_front("--layer")
-		
+
 	if trim_cels:
 		arguments.push_front("--trim")
 
@@ -147,10 +147,10 @@ func list_valid_layers(file_name: String, exception_pattern: String = "", show_o
 	var layers = []
 
 	if should_merge_duplicates:
-		layers = list_layers_json(file_name, show_only_visible)
+		layers = list_layers_without_duplicates(file_name, show_only_visible)
 	else:
 		layers = list_layers(file_name, show_only_visible)
-	
+
 	var exception_regex = _compile_regex(exception_pattern)
 
 	var output = []
@@ -185,10 +185,11 @@ func list_layers(file_name: String, only_visible = false) -> Array:
 		sanitized.append(s.strip_edges())
 	return sanitized
 
-func list_layers_json(file_name: String, only_visible = false) -> Array:
+
+func list_layers_without_duplicates(file_name: String, only_visible = false) -> Array:
 	var output_dir = OS.get_cache_dir()
 	var data_path = "%s/%s.json" % [output_dir, file_name];
-	
+
 	var arguments = [
 		"-b",
 		"--split-layers",
@@ -215,10 +216,10 @@ func list_layers_json(file_name: String, only_visible = false) -> Array:
 
 	if data.is_empty():
 		return output
-		
+
 	var regex = RegEx.new()
 	regex.compile("(?<=\\().*(?=\\))")
-	
+
 	var frames = []
 	frames = data.frames;
 	var sanitizedFrames = {}
@@ -226,8 +227,9 @@ func list_layers_json(file_name: String, only_visible = false) -> Array:
 		if(sanitizedFrames.find_key(frame.frame) == null):
 			var result = regex.search(frame.filename)
 			sanitizedFrames[frame.frame] = result.get_string()
-		
+
 	return sanitizedFrames.values()
+
 
 func list_slices(file_name: String) -> Array:
 	var output = []

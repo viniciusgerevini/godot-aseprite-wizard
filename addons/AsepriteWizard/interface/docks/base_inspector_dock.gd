@@ -194,7 +194,7 @@ func _load_common_config(cfg):
 	_out_filename_field.text = cfg.get("o_name", "")
 	_visible_layers_field.button_pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
-	
+
 	_embed_field.button_pressed = cfg.get("embed_tex", false)
 
 	_load_config(cfg)
@@ -264,7 +264,7 @@ func _setup_field_listeners():
 	_out_folder_field.pressed.connect(_on_out_folder_pressed)
 
 	_import_button.pressed.connect(_on_import_pressed)
-	
+
 	_embed_field.pressed.connect(_on_embed_button_pressed)
 
 
