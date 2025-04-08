@@ -37,7 +37,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"layer": i_data.layer,
 		"output_filename": '',
 		"output_folder": source_path,
-		"first_frame_only": true,
+		"first_frame_only": i_data.import_options.get("first_frame_only", false),
 		"trim_cels": i_data.import_options.get("trim_cels", false),
 	}
 
