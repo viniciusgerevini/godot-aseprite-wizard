@@ -61,7 +61,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	import_options["source"] = source_file
 
 	var base_name = source_file.get_basename()
-	
+
 	if layers_resources_folder != "":
 		if not DirAccess.dir_exists_absolute(layers_resources_folder):
 			DirAccess.make_dir_recursive_absolute(layers_resources_folder)
