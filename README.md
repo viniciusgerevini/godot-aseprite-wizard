@@ -128,24 +128,29 @@ This importer will keep track of the generated resources and remove them if the 
 
 #### Static image importer
 
-Aseprite files are imported as `AtlasTexture` resources. Only the first frame will be visibile. A PNG file will be created alongside the AtlasTexture. You can choose to use either the aseprite and png file directly, as both will be kept updated.
+Import Aseprite file as `PortableCompressedTexture2D`. This image can be either the full spritesheet or just the first frame (useful for static art like backgrounds).
 
 Texture importer options:
 
 | Field                   | Description |
 | ----------------------- | ----------- |
+| First Frame Only        | Export first frame only. When not selected, the full spritesheet is exported. Default: true |
 | Exclude layers pattern: | Do not export layers that match the pattern defined. i.e `_draft$` excludes all layers ending with `_draft`. Uses Godot's [Regex implementation](https://docs.godotengine.org/en/stable/classes/class_regex.html)  |
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+| Sheet type | Algorithm to create spritesheet. Options: columns, horizontal, vertical, packed. Default: columns|
+| Sheet column | Only applied when sheet type is "columns". Defines the number of columns in the spritesheet. If "0", packed algorithm is used. Default: 12.|
 
 ######  Static image split by layer
 
 You can generate one image resource for each layer by using the `Texture (Split by Layer)` importer. This importer will generate one `.ase_layer_tex` file for each layer, which will be recognised as `PortableCompressedTexture2D` and can be used directly. 
 
-This importer has the same properties as the regular `Texture` importer with one extra:
+This importer has the same properties as the regular `Texture` importer with some extra:
 
 | Field                   | Description |
 | ----------------------- | ----------- |
 | Layer Resources Folder | The folder where the layer resources should be created. Default: Same as source aseprite file|
+| Trim Cels | Trim empty space from spritesheet frames |
+| Merge duplicated Layers | If selected, only unique layers will be imported. If two layers output the same texture, only the last one will be imported |
 
 This importer will keep track of the generated resources and remove them if the layer is removed in Aseprite.
 
@@ -161,9 +166,6 @@ Tileset importer options:
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Sheet type | Algorithm to create spritesheet. Options: columns, horizontal, vertical, packed. Default: columns|
 | Sheet column | Only applied when sheet type is "columns". Defines the number of columns in the spritesheet. If "0", packed algorithm is used. Default: 12.
-
-
-__Note:__ Like in the static image importer, a png file is generated alongside the resource. I noticed that sometimes when updating the aseprite file, Godot is keeping a cached version of the resource and not showing the update in the tileset editor. The same doesn't happen to the png file, so you might want to use it instead of the main .aseprite file.
 
 ### Inspector Docks
 

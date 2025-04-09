@@ -3,7 +3,7 @@ extends "../static_texture_import_plugin_base.gd"
 
 ##
 ## Static texture importer (Split).
-## Imports first frame from Aseprite file as texture in multiple resources
+## Imports Aseprite layer as texture (either first frame or full spritesheet)
 ##
 
 func _get_importer_name():
