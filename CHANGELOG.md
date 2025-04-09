@@ -2,6 +2,18 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Added
+- Added option to Texture and Texture (split) importers to import the full spritesheet instead of just the first frame.
+- Added option to Texture (split) importer to not export duplicated layers and trim spritesheet cells.
+
+
+### Thanks
+
+- Thanks @Bastani for suggesting and implementing the texture importers improvements.
+
+
 ## 9.0.0 (2025-02-06)
 
 ### Breaking changes
