@@ -5,13 +5,22 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Unreleased
 
 ### Added
+
 - Added option to Texture and Texture (split) importers to import the full spritesheet instead of just the first frame.
 - Added option to Texture (split) importer to not export duplicated layers and trim spritesheet cells.
 
+### Changed
+
+- Better error message when Tileset importer fails due to bad data file. Now it warns the user that the file should have at least one tilemap layer.
+
+### Fixed
+
+- Make sure parameter is not null when validating data file, so it doesn't print obscure errors.
 
 ### Thanks
 
 - Thanks @Bastani for suggesting and implementing the texture importers improvements.
+- Thansk @lashtear and @jupsky for detecting and reporting the Tileset importer issue.
 
 
 ## 9.0.0 (2025-02-06)
