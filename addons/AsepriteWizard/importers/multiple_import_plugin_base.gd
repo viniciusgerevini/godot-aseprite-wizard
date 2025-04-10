@@ -17,11 +17,11 @@ func _get_recognized_extensions():
 
 
 func _get_save_extension():
-	return "json"
+	return "res"
 
 
 func _get_resource_type():
-	return "JSON"
+	return "PackedDataContainer"
 
 
 func _get_preset_count():
@@ -80,10 +80,10 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		}))
 		data_to_save.layers[layer] = layer_save_path
 
-	var json = JSON.new()
-	json.data = data_to_save
+	var packed = PackedDataContainer.new()
+	packed.pack(data_to_save)
 
-	var exit_code = ResourceSaver.save(json, "%s.%s" % [save_path, _get_save_extension()])
+	var exit_code = ResourceSaver.save(packed, "%s.%s" % [save_path, _get_save_extension()])
 
 	_cleanup_old_layers(old_data, layers)
 
@@ -104,14 +104,29 @@ func _load_old_data(source_file: String):
 
 	if ResourceLoader.exists(source_file):
 		var d = ResourceLoader.load(source_file)
+		# handling JSON to keep it backwards compatible
+		# remove it in the next major version
 		if d is JSON:
 			old_data = d.data.layers
+		elif d is PackedDataContainer:
+			old_data = _packed_container_to_dictionary(d["layers"])
 
 	return old_data
 
 
+func _packed_container_to_dictionary(packed):
+	var dic = {}
+	for k in packed:
+		if packed[k] is PackedDataContainerRef:
+			dic[k] = _packed_container_to_dictionary(packed[k])
+		else:
+			dic[k] = packed[k]
+	return dic
+
+
 func _cleanup_old_layers(old_data: Dictionary, layers: Array):
 	var old_layers = old_data.keys()
+
 	for old_layer in old_layers:
 		if not layers.has(old_layer):
 			var file = old_data[old_layer]
