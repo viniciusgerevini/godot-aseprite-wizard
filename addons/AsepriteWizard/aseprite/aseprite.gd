@@ -143,13 +143,13 @@ func _get_exception_layers(file_name: String, exception_pattern: String) -> Arra
 	return exception_layers
 
 
-func list_valid_layers(file_name: String, exception_pattern: String = "", show_only_visible: bool = false, should_merge_duplicates: bool = false) -> Array:
+func list_valid_layers(file_path: String, exception_pattern: String = "", show_only_visible: bool = false, should_merge_duplicates: bool = false) -> Array:
 	var layers = []
 
 	if should_merge_duplicates:
-		layers = list_layers_without_duplicates(file_name, show_only_visible)
+		layers = list_layers_without_duplicates(file_path, show_only_visible)
 	else:
-		layers = list_layers(file_name, show_only_visible)
+		layers = list_layers(file_path, show_only_visible)
 
 	var exception_regex = _compile_regex(exception_pattern)
 
@@ -162,9 +162,9 @@ func list_valid_layers(file_name: String, exception_pattern: String = "", show_o
 	return output
 
 
-func list_layers(file_name: String, only_visible = false) -> Array:
+func list_layers(file_path: String, only_visible = false) -> Array:
 	var output = []
-	var arguments = ["-b", "--list-layers", file_name]
+	var arguments = ["-b", "--list-layers", file_path]
 
 	if not only_visible:
 		arguments.push_front("--all-layers")
@@ -186,8 +186,9 @@ func list_layers(file_name: String, only_visible = false) -> Array:
 	return sanitized
 
 
-func list_layers_without_duplicates(file_name: String, only_visible = false) -> Array:
+func list_layers_without_duplicates(file_path: String, only_visible = false) -> Array:
 	var output_dir = OS.get_cache_dir()
+	var file_name = file_path.get_file()
 	var data_path = "%s/%s.json" % [output_dir, file_name];
 
 	var arguments = [
@@ -197,7 +198,7 @@ func list_layers_without_duplicates(file_name: String, only_visible = false) -> 
 		"--merge-duplicates",
 		"--format", "json-array",
 		"--data", data_path,
-		file_name
+		file_path
 	]
 
 	if not only_visible:
