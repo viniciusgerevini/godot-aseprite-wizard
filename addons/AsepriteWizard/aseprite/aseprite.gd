@@ -128,6 +128,10 @@ func _add_sheet_type_arguments(arguments: Array, options : Dictionary):
 		arguments.push_back("--sheet-type")
 		arguments.push_back(sheet_type)
 
+	var frame_padding = options.get("frame_padding", 0)
+	arguments.push_back("--shape-padding")
+	arguments.push_back(frame_padding)
+
 
 func _get_exception_layers(file_name: String, exception_pattern: String) -> Array:
 	var layers = list_layers(file_name)

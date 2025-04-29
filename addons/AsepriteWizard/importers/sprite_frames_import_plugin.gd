@@ -59,6 +59,10 @@ func _get_import_options(_path, _i):
 			"name": "sheet/sheet_columns",
 			"default_value": 12,
 		},
+		{
+			"name": "sheet/frame_padding",
+			"default_value": 0,
+		},
 		{"name": "animation/round_fps", "default_value": true},
 	]
 
@@ -82,6 +86,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"output_filename": '',
 		"output_folder": source_path,
 		"sheet_type": options["sheet/sheet_type"],
+		"frame_padding": options["sheet/frame_padding"],
 		"sheet_columns": options["sheet/sheet_columns"],
 	}
 

@@ -62,6 +62,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	
 	var export_options = {
 		"sheet_type": data.import_options.sheet_type,
+		"frame_padding": data.import_options.frame_padding,
 		"sheet_columns": data.import_options.sheet_columns,
 		"should_round_fps": data.import_options.should_round_fps,
 	}

@@ -112,6 +112,7 @@ Options:
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Sheet type | Algorithm to create spritesheet. Options: columns, horizontal, vertical, packed. Default: Packed|
 | Sheet column | Only applied when sheet type is "columns". Defines the number of columns in the spritesheet. If "0", packed algorithm is used. Default: 12.
+| Frame padding | Padding in pixels to add around each frame. This can help deal with textures bleeding across frames. Default: 0.
 | Animation / Round FPS | When selected, animation FPS is rounded to next integer. Default: true.|
 
 ###### SpriteFrames split by layer
@@ -139,6 +140,7 @@ Texture importer options:
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Sheet type | Algorithm to create spritesheet. Options: columns, horizontal, vertical, packed. Default: columns|
 | Sheet column | Only applied when sheet type is "columns". Defines the number of columns in the spritesheet. If "0", packed algorithm is used. Default: 12.|
+| Frame padding | Padding in pixels to add around each frame. This can help deal with textures bleeding across frames. Default: 0.
 
 ######  Static image split by layer
 
@@ -166,6 +168,7 @@ Tileset importer options:
 | Only include visible layers | If selected it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
 | Sheet type | Algorithm to create spritesheet. Options: columns, horizontal, vertical, packed. Default: columns|
 | Sheet column | Only applied when sheet type is "columns". Defines the number of columns in the spritesheet. If "0", packed algorithm is used. Default: 12.
+| Frame padding | Padding in pixels to add around each frame. This can help deal with textures bleeding across frames. Default: 0.
 
 ### Inspector Docks
 
