@@ -1,5 +1,5 @@
 <!--
-headings-nav-max-level: 1
+headings_nav_max_level: 1
 -->
 # SpriteFrames (Split by layer)
 
