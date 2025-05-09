@@ -44,6 +44,6 @@ Aseprite Wizard is only required during development. If you decide to not use it
 
 Thanks for the constant feedback and suggestions. If you are facing problems with the plugin or have suggestions/questions, please open an issue in this repo.
 
-If you like game dev related content and want to support me, consider subscribing to my [Youtube channel](http://youtube.com/c/ThisIsVini).
+If you like game dev related content, you might like my [channel](http://youtube.com/c/ThisIsVini).
 
 Check my [website](https://thisisvini.com) for more contact options.
