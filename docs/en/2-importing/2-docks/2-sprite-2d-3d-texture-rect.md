@@ -1,3 +1,6 @@
+<!--
+nav_max: 1
+-->
 # Sprites and TextureRect
 
 When working with `Sprite2D`, `Sprite3D` and `TextureRect` nodes, you have the option to import the file as a static image or load its animations to an `AnimationPlayer` node.

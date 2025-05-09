@@ -1,3 +1,6 @@
+<!--
+nav_max: 1
+-->
 # Imports Manager
 
 Importing animations via the Inspector Docks is handy, but it makes it harder to re-import multiple animations at same time. For that you can use the Imports Manager.

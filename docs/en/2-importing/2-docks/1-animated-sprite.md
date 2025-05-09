@@ -1,3 +1,6 @@
+<!--
+nav_max: 1
+-->
 # AnimatedSprite
 
 To import animations via the Import Dock:

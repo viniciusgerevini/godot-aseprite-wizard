@@ -1,6 +1,6 @@
 <!--
 page_title: Home
-headings_nav_max_level: 1
+nav_max: 1
 -->
 # Godot Aseprite Wizard
 
