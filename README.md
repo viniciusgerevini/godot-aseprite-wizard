@@ -2,7 +2,7 @@
 
 <p align="center"><img src="icon.png" alt="Aseprite Wizard Logo"/></p>
 
-Aseprite Wizard is a godot plugin to help import Aseprite animations to Godot. It provides a few different methods to import the animations, and supports various nodes, such as AnimationPlayers, AnimatedSprites 2D/3D and SpriteFrames. 
+Aseprite Wizard is a godot plugin to help import Aseprite animations to Godot. It provides a few different import methods, and supports various nodes, such as AnimationPlayers, AnimatedSprites 2D/3D and SpriteFrames.
 
 Check the [documentation](https://thisisvini.com/aseprite-wizard) for more details.
 
