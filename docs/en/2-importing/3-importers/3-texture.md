@@ -16,4 +16,6 @@ Import Aseprite file as `PortableCompressedTexture2D`. This image can be either 
 | Sheet ||
 | Sheet type | Algorithm to create spritesheet. Options: columns, horizontal, vertical, packed. Default: columns|
 | Sheet column | Only applied when sheet type is "columns". Defines the number of columns in the spritesheet. If "0", packed algorithm is used. Default: 12.|
+| Frame padding | Padding in pixels to add around each frame. This can help deal with textures bleeding across frames. Default: 0.
+
 
