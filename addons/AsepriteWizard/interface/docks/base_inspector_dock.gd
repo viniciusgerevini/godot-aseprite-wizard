@@ -11,6 +11,7 @@ var target_node: Node
 var file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
 
 var _slice: String = ""
+var _source_uid: int = -1
 var _source: String = ""
 var _file_dialog_aseprite: EditorFileDialog
 var _output_folder_dialog: EditorFileDialog
@@ -168,7 +169,7 @@ func _setup_config():
 
 func _load_common_config(cfg):
 	if cfg.has("source"):
-		_set_source(cfg.source)
+		_set_source(cfg.source, cfg.get("source_uid", -1))
 
 	# keeping this to be backwards compatible
 	if cfg.get("layer", "") != "":
@@ -208,7 +209,20 @@ func _load_common_default_config():
 	_load_default_config()
 
 
-func _set_source(source):
+func _set_source(source, uid: int = -1):
+	if uid == -1 or not ResourceUID.has_id(uid):
+		if ResourceLoader.exists(source):
+			_source_uid = ResourceLoader.get_resource_uid(source)
+	else:
+		_source_uid = uid
+		var source_path = ResourceUID.get_id_path(uid)
+		_set_source_fields(source_path)
+		return
+
+	_set_source_fields(source)
+
+
+func _set_source_fields(source):
 	_source = source
 	_source_field.text = _source
 	_source_field.tooltip_text = _source
@@ -337,6 +351,7 @@ func _get_current_config():
 
 	var cfg := {
 		"source": _source,
+		"source_uid": _source_uid,
 		"layers": _layer_field.get_selected_layers(),
 		"slice": _slice,
 		"o_folder": _output_folder,

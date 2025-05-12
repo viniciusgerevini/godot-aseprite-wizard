@@ -31,7 +31,7 @@ func _sprite_frames_import(node: Node, resource_config: Dictionary) -> void:
 		printerr("Node config missing information.")
 		return
 
-	var source = ProjectSettings.globalize_path(config.source)
+	var source = ProjectSettings.globalize_path(_get_updated_source_path(config))
 	var options = _parse_import_options(config, resource_config.scene_path.get_base_dir())
 
 	var aseprite_output = _aseprite_file_exporter.generate_aseprite_file(source, options)
@@ -67,7 +67,7 @@ func _animation_import(node: Node, root_node: Node, resource_config: Dictionary)
 
 func _import_to_animation_player(node: Node, root: Node, resource_config: Dictionary) -> void:
 	var config = resource_config.meta
-	var source = ProjectSettings.globalize_path(config.source)
+	var source = ProjectSettings.globalize_path(_get_updated_source_path(config))
 	var options = _parse_import_options(config, resource_config.scene_path.get_base_dir())
 
 	var aseprite_output = _aseprite_file_exporter.generate_aseprite_file(source, options)
@@ -94,7 +94,7 @@ func _import_to_animation_player(node: Node, root: Node, resource_config: Dictio
 
 func _import_static(node: Node, resource_config: Dictionary) -> void:
 	var config = resource_config.meta
-	var source = ProjectSettings.globalize_path(config.source)
+	var source = ProjectSettings.globalize_path(_get_updated_source_path(config))
 	var options = _parse_import_options(config, resource_config.scene_path.get_base_dir())
 	options["first_frame_only"] = true
 
@@ -138,3 +138,10 @@ func _handle_cleanup(aseprite_content, should_remove_spritesheet: bool):
 				DirAccess.remove_absolute(import_file)
 
 		EditorInterface.get_resource_filesystem().scan()
+
+
+func _get_updated_source_path(config) -> String:
+	var uid = config.get("source_uid", -1)
+	if uid != -1 and ResourceUID.has_id(uid):
+		return ResourceUID.get_id_path(uid)
+	return config.source
