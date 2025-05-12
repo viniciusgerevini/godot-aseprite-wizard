@@ -9,7 +9,7 @@ var _config = preload("../config/config.gd").new()
 
 
 func _load_compressed_texture(sprite_sheet: String) -> PortableCompressedTexture2D:
-	var image = Image.load_from_file(sprite_sheet)
+	var image = Image.load_from_file(ProjectSettings.globalize_path(sprite_sheet))
 	var tex := PortableCompressedTexture2D.new()
 	tex.create_from_image(image, PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
 	return tex

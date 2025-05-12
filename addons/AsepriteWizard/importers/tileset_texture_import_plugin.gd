@@ -129,7 +129,7 @@ func _generate_texture(absolute_source_file: String, options: Dictionary) -> Dic
 
 
 func _save_resource(sprite_sheet: String, save_path: String, data_file_path: String, size: Dictionary) -> int:
-	var image = Image.load_from_file(sprite_sheet)
+	var image = Image.load_from_file(ProjectSettings.globalize_path(sprite_sheet))
 
 	var tex := PortableCompressedTexture2D.new()
 	tex.create_from_image(image, PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
