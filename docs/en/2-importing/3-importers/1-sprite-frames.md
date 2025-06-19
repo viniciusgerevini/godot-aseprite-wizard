@@ -16,5 +16,6 @@ Aseprite files are imported as `SpriteFrames` resources and can be loaded to `An
 | Sheet type | Algorithm to create spritesheet. Options: columns, horizontal, vertical, packed. Default: Packed|
 | Sheet column | Only applied when sheet type is "columns". Defines the number of columns in the spritesheet. If "0", packed algorithm is used. Default: 12.
 | Frame padding | Padding in pixels to add around each frame. This can help deal with textures bleeding across frames. Default: 0.
+| Scale | Scale factor. Allows scaling the art to bigger sizes. Default: 1 |
 | Animation ||
 | Animation / Round FPS | When selected, animation FPS is rounded to next integer. Default: true.|

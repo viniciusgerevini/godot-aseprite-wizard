@@ -26,6 +26,7 @@ To import animations via the Import Dock:
 | Embed Texture: | Embed sprite sheet texture in the scene, instead of generating an external file. Default: enabled |
 | Output folder: | (When Embed Texture is off) Folder to save the sprite sheet (png) file. Default: same as scene |
 | Output file name | (When Embed Texture is off) Output file name for the sprite sheet. In case the Layer option is used with a single layer, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
+| Scale | Scale factor. Allows scaling the art to bigger sizes. Default: 1 |
 
 ## Notes
 

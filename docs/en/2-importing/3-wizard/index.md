@@ -15,6 +15,7 @@ To open the dock go to `Project -> Tools -> Aseprite Wizard -> SpriteFrames Wiza
 | Split layers in multiple resources: | If selected, each layer will be exported as a separated resource (e.g my_layer_1.res, layer_name_2.res, ...). If not selected, all layers will be merged and exported as a single resource file with the same base name as the source. |
 | Round FPS | Rounds Animation FPS to next integer. Default: true |
 | Only include visible layers | If selected, it only includes in the image file the layers visible in Aseprite. If not selected, all layers are exported, regardless of visibility.|
+| Scale | Scale factor. Allows scaling the art to bigger sizes. Default: 1 |
 | Do not create resource file | Does not create SpriteFrames resource. Useful if you are only interested in the .json and .png output from Aseprite. |
 
 Notes:

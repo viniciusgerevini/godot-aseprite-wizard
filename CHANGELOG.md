@@ -5,6 +5,17 @@ nav_max: 1
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Added
+
+- Added scale option to automatic importers, Inspector docks and wizard dock. Allows scaling the art to bigger sizes.
+
+### Thanks
+
+- @Roxxouille for proposing the scale feature.
+
+
 ## 9.3.0 (2025-05-13)
 
 ### Added

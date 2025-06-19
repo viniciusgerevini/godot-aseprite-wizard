@@ -29,6 +29,7 @@ When working with `Sprite2D`, `Sprite3D` and `TextureRect` nodes, you have the o
 | Embed Texture: | Embed sprite sheet texture in the scene, instead of generating an external file. Default: enabled |
 | Output folder: | (When Embed Texture is off) Folder to save the sprite sheet (png) file. Default: same as scene |
 | Output file name | (When Embed Texture is off) Output file name for the sprite sheet. In case the Layer option is used with a single layer, this is used as the file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
+| Scale | Scale factor. Allows scaling the art to bigger sizes. Default: 1 |
 
 Notes:
 
@@ -53,3 +54,4 @@ Notes:
 | Output ||
 | Output folder | Folder to save the sprite sheet (png) file. Default: same as scene |
 | Output file name | Output file name for the sprite sheet. In case the Layer option is used with a single layer, this is used as file prefix (e.g prefix_layer_name.res). If not set, the source file basename is used.|
+| Scale | Scale factor. Allows scaling the art to bigger sizes. Default: 1 |

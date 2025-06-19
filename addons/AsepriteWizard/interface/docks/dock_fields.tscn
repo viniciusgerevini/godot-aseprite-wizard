@@ -19,7 +19,7 @@ corner_radius_bottom_left = 3
 corner_detail = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gu58o"]
-bg_color = Color(0.53, 0.67, 0.89, 0.2)
+bg_color = Color(0.44, 0.73, 0.98, 0.2)
 border_width_left = 10
 border_color = Color(0.8, 0.8, 0.8, 0)
 corner_radius_top_left = 5
