@@ -63,6 +63,10 @@ func _get_import_options(_path, _i):
 			"name": "sheet/frame_padding",
 			"default_value": 0,
 		},
+		{
+			"name": "sheet/scale",
+			"default_value": 1,
+		},
 		{"name": "animation/round_fps", "default_value": true},
 	]
 
@@ -88,6 +92,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"sheet_type": options["sheet/sheet_type"],
 		"frame_padding": options["sheet/frame_padding"],
 		"sheet_columns": options["sheet/sheet_columns"],
+		"scale": str(options["sheet/scale"]),
 	}
 
 	var source_files = _aseprite_file_exporter.generate_aseprite_files(absolute_source_file, aseprite_opts)

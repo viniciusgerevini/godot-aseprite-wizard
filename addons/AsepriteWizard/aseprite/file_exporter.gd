@@ -18,6 +18,7 @@ enum {
 ##    export_mode (FILE_EXPORT_MODE, LAYERS_EXPORT_MODE) default: FILE_EXPORT_MODE
 ##    exception_pattern (string, optional)
 ##    only_visible_layers (boolean, optional)
+##    scale (string, optional)
 ##
 ## Return:
 ##  Array
@@ -55,6 +56,7 @@ func generate_aseprite_files(source_file: String, options: Dictionary):
 ##    layer (string, optional)
 ##    exception_pattern (string, optional)
 ##    only_visible_layers (boolean, optional)
+##    scale (string, optional)
 ##
 ## Return:
 ##    Dictionary

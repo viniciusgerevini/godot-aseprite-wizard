@@ -14,12 +14,17 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 	var only_visible_layers = options.get('only_visible_layers', false)
 	var output_name = file_name if options.get('output_filename') == "" else options.get('output_filename', file_name)
 	var first_frame_only = options.get("first_frame_only", false)
+	var scale = options.get('scale', '1')
 	var basename = _get_file_basename(output_name)
 	var output_dir = ProjectSettings.globalize_path(output_folder)
 	var data_file = "%s/%s.json" % [output_dir, basename]
 	var sprite_sheet = "%s/%s.png" % [output_dir, basename]
 	var output = []
 	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
+
+	if scale != "1":
+		arguments.push_back("--scale")
+		arguments.push_back(scale)
 
 	if not only_visible_layers:
 		arguments.push_front("--all-layers")
@@ -72,8 +77,13 @@ func export_file_with_layers(file_name: String, layer_names: Array, output_folde
 	var sprite_sheet = "%s.png" % base_output_path
 	var trim_cels = options.get("trim_cels", false)
 	var first_frame_only = options.get("first_frame_only", false)
+	var scale = options.get('scale', '1')
 	var output = []
 	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
+
+	if scale != "1":
+		arguments.push_back("--scale")
+		arguments.push_back(scale)
 
 	for layer_name in layer_names:
 		arguments.push_front(layer_name)
@@ -268,7 +278,7 @@ func _export_command_common_arguments(source_name: String, data_path: String, sp
 		"json-array",
 		"--sheet",
 		spritesheet_path,
-		source_name
+		source_name,
 	]
 
 

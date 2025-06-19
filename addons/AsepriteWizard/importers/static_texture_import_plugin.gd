@@ -37,7 +37,11 @@ func _get_import_options(_path, _i):
 		{
 			"name": "sheet/sheet_columns",
 			"default_value": 12,
-		}
+		},
+		{
+			"name": "sheet/scale",
+			"default_value": 1,
+		},
 	]
 
 func _import(source_file, save_path, options, platform_variants, gen_files):
@@ -49,6 +53,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"only_visible_layers": options['layer/only_visible_layers'],
 		"output_filename": '',
 		"output_folder": source_path,
+		"scale": str(options["sheet/scale"]),
 	}
 
 	if options['first_frame_only']:

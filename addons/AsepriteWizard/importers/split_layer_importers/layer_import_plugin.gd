@@ -59,14 +59,15 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var source_path = source_file.get_base_dir()
 
 	var absolute_source_file = ProjectSettings.globalize_path(data.import_options.source)
-	
+
 	var export_options = {
 		"sheet_type": data.import_options.sheet_type,
 		"frame_padding": data.import_options.frame_padding,
 		"sheet_columns": data.import_options.sheet_columns,
 		"should_round_fps": data.import_options.should_round_fps,
+		"scale": data.import_options.get("scale"),
 	}
-	
+
 	var source_files = _aseprite.export_file_with_layers(
 		absolute_source_file,
 		[data.layer],

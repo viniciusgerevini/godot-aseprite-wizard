@@ -32,6 +32,10 @@ func _get_import_options(_path, _i):
 			"name": "sheet/frame_padding",
 			"default_value": 0,
 		},
+		{
+			"name": "sheet/scale",
+			"default_value": 1,
+		},
 		{"name": "animation/round_fps", "default_value": true},
 		{
 			"name": "output/layers_resources_folder",
@@ -51,4 +55,5 @@ func _get_base_import_options(options: Dictionary):
 		"frame_padding": options["sheet/frame_padding"],
 		"sheet_columns": options["sheet/sheet_columns"],
 		"should_round_fps": options["animation/round_fps"],
+		"scale": str(options["sheet/scale"]),
 	}
