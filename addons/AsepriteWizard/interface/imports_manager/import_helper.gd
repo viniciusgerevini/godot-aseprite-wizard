@@ -124,7 +124,9 @@ func _parse_import_options(config: Dictionary, scene_base_path: String) -> Dicti
 		"output_filename": config.o_name,
 		"layer": config.get("layer"),
 		"layers": config.get("layers", []),
-		"slice": config.get("slice", "")
+		"slice": config.get("slice", ""),
+		"scale": config.get("scale", "1"),
+
 	}
 
 

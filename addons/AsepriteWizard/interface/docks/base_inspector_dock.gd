@@ -52,6 +52,9 @@ var _interface_section_state
 @onready var _embed_label := $dock_fields/VBoxContainer/extra/sections/output/section_content/content/embed/Label as Label
 @onready var _embed_field :=  $dock_fields/VBoxContainer/extra/sections/output/section_content/content/embed/CheckBox as CheckBox
 
+@onready var _scale_field :=  $dock_fields/VBoxContainer/extra/sections/output/section_content/content/scale/SpinBox as SpinBox
+
+
 @onready var _import_button := $dock_fields/VBoxContainer/import as Button
 
 const INTERFACE_SECTION_KEY_LAYER = "layer_section"
@@ -197,6 +200,7 @@ func _load_common_config(cfg):
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
 
 	_embed_field.button_pressed = cfg.get("embed_tex", false)
+	_scale_field.value = float(cfg.get("scale", 1))
 
 	_load_config(cfg)
 	_handle_embed_visibility()
@@ -359,6 +363,7 @@ func _get_current_config():
 		"only_visible": _visible_layers_field.button_pressed,
 		"o_ex_p": _ex_pattern_field.text,
 		"embed_tex": _embed_field.button_pressed,
+		"scale": str(_scale_field.value),
 	}
 
 	for c in child_config:
@@ -384,6 +389,7 @@ func _get_import_options(default_folder: String):
 		"output_filename": _out_filename_field.text,
 		"layers": _layer_field.get_selected_layers(),
 		"embed_tex": _embed_field.button_pressed,
+		"scale": str(_scale_field.value),
 	}
 
 

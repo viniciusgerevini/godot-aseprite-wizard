@@ -83,3 +83,7 @@ func _notify_change_with_debounce():
 
 func _on_round_fps_toggled(_toggled_on: bool) -> void:
 	_notify_change_with_debounce()
+
+
+func _on_spin_box_value_changed(value: float) -> void:
+	_notify_change_with_debounce()

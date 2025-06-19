@@ -38,6 +38,8 @@ var _warning_dialog: AcceptDialog
 
 @onready var _round_fps_field: CheckBox = $container/options/animation_section/section_content/items/round_fps/field
 
+@onready var _scale_field: SpinBox = $container/options/output_section/section_content/items/scale/SpinBox
+
 @onready var _do_not_create_res_field: CheckBox = $container/options/output_section/section_content/items/disable_resource_creation/field
 
 const INTERFACE_SECTION_KEY_LAYER = "layer_section"
@@ -96,6 +98,7 @@ func _load_config(cfg: Dictionary) -> void:
 	_file_location_field.text = cfg.source_file
 	_do_not_create_res_field.button_pressed = cfg.do_not_create_resource
 	_round_fps_field.button_pressed = cfg.get("should_round_fps", true)
+	_scale_field.value = float(cfg.get("scale", 1))
 	_output_folder_field.text = cfg.output_location if cfg.output_location != "" else "res://"
 
 
@@ -113,6 +116,7 @@ func _get_field_values() -> Dictionary:
 		"do_not_create_resource": _do_not_create_res_field.button_pressed,
 		"output_location": _output_folder_field.text if _output_folder_field.text != "" else "res://",
 		"should_round_fps": _round_fps_field.button_pressed,
+		"scale": str(_scale_field.value),
 	}
 
 
@@ -129,9 +133,10 @@ func load_import_config(field_values: Dictionary):
 	_exception_pattern_field.text = field_values.layer_exclusion_pattern
 	_custom_name_field.text = field_values.output_name
 	_file_location_field.text = field_values.source_file
-	_do_not_create_res_field.button_pressed =  field_values.do_not_create_resource
+	_do_not_create_res_field.button_pressed = field_values.do_not_create_resource
 	_output_folder_field.text = field_values.output_location
-	_round_fps_field.button_pressed =  field_values.get("should_round_fps", true)
+	_round_fps_field.button_pressed = field_values.get("should_round_fps", true)
+	_scale_field.value = float(field_values.get("scale", 1))
 
 
 func _open_aseprite_file_selection_dialog():
@@ -285,4 +290,5 @@ func _get_default_config() -> Dictionary:
 		"do_not_create_resource": false,
 		"output_location": "res://",
 		"should_round_fps": true,
+		"scale": "1",
 	}
