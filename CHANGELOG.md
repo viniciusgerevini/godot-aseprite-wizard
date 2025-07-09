@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 
 - Added scale option to automatic importers, Inspector docks and wizard dock. Allows scaling the art to bigger sizes.
+- Re-enabled setting the command path via the config dialog and added file selection button to help avoiding typos.
 
 ### Thanks
 

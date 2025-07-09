@@ -31,11 +31,17 @@ _If you don't see the options bellow after installing the plugin, make sure it's
 
 After installing the plugin, you need to make sure it's using the right Aseprite command. You can test the command by going to `Project > Tools > Aseprite Wizard > Config...`. If you get "command not found" instead of the Aseprite's version, you need to change the path to the Aseprite executable.
 
-You can change the command path via editor settings: `Editor -> Editor Settings -> Aseprite`.
+You can change the command path via config dialog or the editor settings: `Editor -> Editor Settings -> Aseprite`.
 
 | Configuration           | Description |
 | ----------------------- | ----------- |
-| General > Command Path | Path to the aseprite executable. Default: `aseprite` |
+| General > Command Path | Path to the aseprite executable. |
+
+The plugin uses the following defaults:
+
+- Linux: `aseprite`.
+- MacOS: `/Applications/Aseprite.app/Contents/MacOS/aseprite`.
+- Windows: `C:\\Steam\steamapps\common\Aseprite\aseprite.exe`.
 
 
 ## Project settings
