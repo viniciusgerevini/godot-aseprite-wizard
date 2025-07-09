@@ -29,7 +29,7 @@ const import_menu_item_name = "Imports Manager..."
 
 var config = preload("config/config.gd").new()
 var window: TabContainer
-var config_window: PopupPanel
+var config_window: Window
 var imports_list_window: Window
 var imports_list_panel: MarginContainer
 var export_plugin : EditorExportPlugin
@@ -156,7 +156,7 @@ func _open_config_dialog():
 
 	config_window = ConfigDialog.instantiate()
 	get_editor_interface().get_base_control().add_child(config_window)
-	config_window.popup_centered()
+	config_window.popup_centered_ratio(0.5)
 
 
 func _open_import_list_dialog():

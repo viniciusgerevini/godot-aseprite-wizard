@@ -53,9 +53,14 @@ func default_command() -> String:
 			return 'aseprite'
 
 
-func is_command_or_control_pressed() -> String:
+func get_command() -> String:
 	var command = _editor_settings.get(_COMMAND_KEY) if _editor_settings.has_setting(_COMMAND_KEY) else ""
 	return command if command != "" else default_command()
+
+
+func set_command(command: String) -> void:
+	_editor_settings.set_setting(_COMMAND_KEY, command)
+
 
 
 #######################################################
