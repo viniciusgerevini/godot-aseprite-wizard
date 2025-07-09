@@ -14,7 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Changed
 
-- Config window is an action window instead of a popup. That was changed so it supports the file selection button without weirdness.
+- Config window is an actual window now instead of a popup. That was changed so it supports the file selection button without weirdness.
 - Re-enabled configuring the command via config window. Information is still persited as part of Editor Settings.
 
 ### Thanks
