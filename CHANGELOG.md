@@ -10,7 +10,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 
 - Added scale option to automatic importers, Inspector docks and wizard dock. Allows scaling the art to bigger sizes.
-- Re-enabled setting the command path via the config dialog and added file selection button to help avoiding typos.
+- Added file selection button to config screen to help avoiding typos.
+
+### Changed
+
+- Config window is an action window instead of a popup. That was changed so it supports the file selection button without weirdness.
+- Re-enabled configuring the command via config window. Information is still persited as part of Editor Settings.
 
 ### Thanks
 
