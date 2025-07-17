@@ -215,6 +215,7 @@ icon = SubResource("ImageTexture_qqpl1")
 alignment = 0
 
 [node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/layers"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
@@ -276,6 +277,7 @@ icon = SubResource("ImageTexture_qqpl1")
 alignment = 0
 
 [node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/slices"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
@@ -312,6 +314,7 @@ icon = SubResource("ImageTexture_qqpl1")
 alignment = 0
 
 [node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/animation"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
@@ -425,7 +428,6 @@ size_flags_stretch_ratio = 2.0
 text = "(16.667 ms)"
 
 [node name="animation_sf" type="VBoxContainer" parent="VBoxContainer/extra/sections"]
-visible = false
 layout_mode = 2
 
 [node name="section_header" type="Button" parent="VBoxContainer/extra/sections/animation_sf"]
