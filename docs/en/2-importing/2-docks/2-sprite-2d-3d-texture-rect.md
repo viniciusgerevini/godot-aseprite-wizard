@@ -24,6 +24,7 @@ When working with `Sprite2D`, `Sprite3D` and `TextureRect` nodes, you have the o
 | Slice | Aseprite Slice to be used in the animation. By default, the whole file is used. |
 | Animation ||
 | Keep manual animation length | When this is active the animation length won't be adjusted if other properties were added and the resulting imported animation is shorter. Default: false. |
+| Convert milliseconds to FPS | If active, Aseprite frame durations will be converted from their integer millisecond values to match the exact fractional timing of the target FPS. For example, if set to 16 ms = 1/60 FPS, a frame with a duration of 320 ms becomes 333.33 ms. |
 | Hide when unused| If active, this node will be set as hidden in every existing animation it is not part of. Default: false.|
 | Output ||
 | Embed Texture: | Embed sprite sheet texture in the scene, instead of generating an external file. Default: enabled |

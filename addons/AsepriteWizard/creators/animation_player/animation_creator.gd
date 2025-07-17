@@ -127,7 +127,14 @@ func _add_animation_frames(target_node: Node, player: AnimationPlayer, anim_name
 		for frame in frames:
 			var frame_key = _get_frame_key(target_node, frame, context, slice_rect)
 			animation.track_insert_key(frame_track_index, animation_length, frame_key)
-			animation_length += frame.duration / 1000
+			
+			var duration = frame.duration
+			if options.get("convert_to_fps"):
+				var old_ms = options.get("convert_ms_field")
+				var target_fps = options.get("convert_fps_field")
+				duration = (frame.duration / old_ms) * (1000 / target_fps)
+			
+			animation_length += duration / 1000
 
 		# Godot 4 has an Animation.LOOP_PINGPONG mode, however it does not
 		# behave like in Aseprite, so I'm keeping the custom implementation
