@@ -1,6 +1,6 @@
 ## This export plugin makes sure all textures are included in
 ## the exported game and also remove any metadata that could
-## potentially leak information about paths in the host system. 
+## potentially leak information about paths in the host system.
 extends EditorExportPlugin
 
 const wizard_config = preload("../config/wizard_config.gd")
@@ -42,6 +42,10 @@ func _cleanup_scene(path: String, type: String):
 
 		var content := _get_scene_content(path, filtered_scene)
 
+		if content.is_empty():
+			print("Aseprite Wizard: skipping metadata removal for ", path)
+			return
+
 		add_file(path, content, true)
 
 	root_node.free()
@@ -56,8 +60,12 @@ func _remove_meta(node: Object) -> bool:
 
 
 func _get_scene_content(path:String, scene:PackedScene) -> PackedByteArray:
-	var tmp_path = OS.get_cache_dir()  + "tmp_scene." + path.get_extension()
-	ResourceSaver.save(scene, tmp_path)
+	var tmp_path = OS.get_cache_dir().path_join("tmp_scene." + path.get_extension())
+	var result = ResourceSaver.save(scene, tmp_path)
+
+	if result != OK:
+		print("Aseprite Wizard: could not save temporary file for ", path, ". Error ", result)
+		return PackedByteArray()
 
 	var tmp_file = FileAccess.open(tmp_path, FileAccess.READ)
 	var content : PackedByteArray = tmp_file.get_buffer(tmp_file.get_length())
