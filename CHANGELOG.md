@@ -7,6 +7,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Added
+
+- Snap to FPS option for AnimationPlayer docks. When activated, Aseprite's integer frame durations will be recalculated to match the exact fractional timing of the target FPS. Useful for users that prefer to work with FPS instead of actual times.
 
 ### Fixed
 
@@ -15,6 +18,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Thanks
 
+- Thanks @plagakit for implementing the Snap to FPS feature.
 - Thanks @molor3k for reporting the YATI issue.
 
 ## 9.4.0 (2025-07-09)

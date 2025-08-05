@@ -39,7 +39,7 @@ data = {
 [sub_resource type="ImageTexture" id="ImageTexture_bfypj"]
 image = SubResource("Image_qog2w")
 
-[sub_resource type="Image" id="Image_bfypj"]
+[sub_resource type="Image" id="Image_oxeky"]
 data = {
 "data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
 "format": "RGBA8",
@@ -49,7 +49,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_qqpl1"]
-image = SubResource("Image_bfypj")
+image = SubResource("Image_oxeky")
 
 [node name="dock_fields" type="MarginContainer"]
 script = ExtResource("1_f3w00")
@@ -314,7 +314,6 @@ icon = SubResource("ImageTexture_qqpl1")
 alignment = 0
 
 [node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/animation"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
@@ -353,31 +352,41 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "On"
 
-[node name="convert_to_fps" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content"]
+[node name="snap_to_fps" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content"]
 layout_mode = 2
 tooltip_text = "If active, Aseprite frame durations will be converted from their integer millisecond values to match the exact fractional timing of the target FPS."
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_to_fps"]
+[node name="convert_to_fps" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps"]
+layout_mode = 2
+tooltip_text = "If active, Aseprite frame durations will be converted from their integer millisecond values to match the exact fractional timing of the target FPS."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_to_fps"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Snap to FPS"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_to_fps"]
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_to_fps"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "On"
 
-[node name="convert_ratio" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content"]
+[node name="convert_ratio_container" type="MarginContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="convert_ratio" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container"]
 layout_mode = 2
 tooltip_text = "For example, if set to 16 ms = 1/60 FPS, a frame with a duration of 320 ms becomes 333.33 ms."
 
-[node name="ms" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio"]
+[node name="ms" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio"]
 layout_mode = 2
-alignment = 1
 
-[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio/ms"]
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/ms"]
 layout_mode = 2
 min_value = 1.0
 max_value = 1000.0
@@ -385,43 +394,37 @@ value = 16.0
 rounded = true
 allow_greater = true
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio/ms"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/ms"]
 layout_mode = 2
 size_flags_stretch_ratio = 2.0
 text = "ms in Aseprite"
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio"]
 layout_mode = 2
-text = "converts to:"
+text = "="
 horizontal_alignment = 1
 
-[node name="fps" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio"]
-layout_mode = 2
-alignment = 1
-
-[node name="fraction" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio/fps"]
+[node name="fps" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio/fps/fraction"]
+[node name="fraction" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-text = "1/"
 
-[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio/fps/fraction"]
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps/fraction"]
 layout_mode = 2
 min_value = 1.0
 max_value = 1000.0
 value = 60.0
 rounded = true
 allow_greater = true
+prefix = "1/"
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio/fps"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps"]
 layout_mode = 2
 size_flags_stretch_ratio = 2.0
 text = "FPS in Godot"
 
-[node name="ms" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio/fps"]
+[node name="ms" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps"]
 layout_mode = 2
 size_flags_stretch_ratio = 2.0
 text = "(16.667 ms)"
@@ -555,9 +558,9 @@ one_shot = true
 [connection signal="toggled" from="VBoxContainer/extra/sections/layers/section_content/content/visible_layers/CheckBox" to="." method="_on_visible_layer_toggled"]
 [connection signal="toggled" from="VBoxContainer/extra/sections/animation/section_content/content/keep_length/CheckBox" to="." method="_on_keep_length_toggled"]
 [connection signal="toggled" from="VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track/CheckBox" to="." method="_on_anim_vis_toggled"]
-[connection signal="toggled" from="VBoxContainer/extra/sections/animation/section_content/content/convert_to_fps/CheckBox" to="." method="_on_anim_vis_toggled"]
-[connection signal="value_changed" from="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio/ms/SpinBox" to="." method="_on_spin_box_value_changed"]
-[connection signal="value_changed" from="VBoxContainer/extra/sections/animation/section_content/content/convert_ratio/fps/fraction/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="toggled" from="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_to_fps/CheckBox" to="." method="_on_anim_vis_toggled"]
+[connection signal="value_changed" from="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/ms/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps/fraction/SpinBox" to="." method="_on_spin_box_value_changed"]
 [connection signal="toggled" from="VBoxContainer/extra/sections/animation_sf/section_content/content/round_fps/CheckBox" to="." method="_on_round_fps_toggled"]
 [connection signal="toggled" from="VBoxContainer/extra/sections/output/section_content/content/embed/CheckBox" to="." method="_on_round_fps_toggled"]
 [connection signal="text_changed" from="VBoxContainer/extra/sections/output/section_content/content/out_filename/LineEdit" to="." method="_on_line_edit_text_changed"]
