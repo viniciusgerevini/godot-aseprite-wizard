@@ -5,6 +5,18 @@ nav_max: 1
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+
+### Fixed
+
+- Skip cleanup when can't save temporary packed scene. This was causing issues when adding aseprite files to `tmx` files via YATI.
+- Export cleanup was using wrong cache path for temporary file.
+
+### Thanks
+
+- Thanks @molor3k for reporting the YATI issue.
+
 ## 9.4.0 (2025-07-09)
 
 ### Added
