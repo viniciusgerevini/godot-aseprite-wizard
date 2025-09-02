@@ -64,6 +64,10 @@ func _get_import_options(_path, _i):
 			"default_value": 0,
 		},
 		{
+			"name": "sheet/ignore_empty",
+			"default_value": false
+		},
+		{
 			"name": "sheet/scale",
 			"default_value": 1,
 		},

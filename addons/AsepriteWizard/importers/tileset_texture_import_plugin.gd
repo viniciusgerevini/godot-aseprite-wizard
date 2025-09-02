@@ -67,6 +67,10 @@ func _get_import_options(_path, _i):
 			"name": "sheet/frame_padding",
 			"default_value": 0,
 		},
+		{
+			"name": "sheet/ignore_empty",
+			"default_value": false
+		},
 	]
 
 func _get_option_visibility(path, option, options):
@@ -86,6 +90,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"output_filename": '',
 		"output_folder": source_path,
 		"sheet_type": options["sheet/sheet_type"],
+		"ignore_empty": options["sheet/ignore_empty"],
 		"frame_padding": options["sheet/frame_padding"],
 		"sheet_columns": options["sheet/sheet_columns"],
 	}
