@@ -58,8 +58,9 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var layers_resources_folder = options["output/layers_resources_folder"]
 
 	if layers_resources_folder.is_relative_path():
-	    var source_base_dir = source_file.get_base_dir()
-	    layer_resources_folder = source_base_dir.path_join(layers_resources_folder).simplify_path()
+		var source_base_dir = source_file.get_base_dir()
+		layers_resources_folder = source_base_dir.path_join(layers_resources_folder).simplify_path()
+
 
 	var import_options = _get_base_import_options(options)
 	import_options["source"] = source_file
@@ -76,7 +77,8 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	}
 
 	for layer in layers:
-		var layer_save_path = "%s_l_%s.%s" % [base_name, layer, _layer_extension()]
+		var flat_layer_name = (layer as String).replace("/", "_")
+		var layer_save_path = "%s_%s.%s" % [base_name, flat_layer_name, _layer_extension()]
 		var file = FileAccess.open(layer_save_path, FileAccess.WRITE)
 		file.store_string(JSON.stringify({
 			"layer": layer,
