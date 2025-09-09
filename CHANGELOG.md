@@ -5,6 +5,16 @@ nav_max: 1
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 9.5.1 (2025-09-08)
+
+### Fixed
+
+- Mixed indentation causing parsing issues
+
+### Thanks
+
+- Thanks @andersmmg for reporting the issue and @russmatney for quickly fixing it.
+
 ## 9.5.0 (2025-08-05)
 
 ### Added

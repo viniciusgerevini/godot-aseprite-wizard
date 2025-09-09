@@ -61,7 +61,6 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		var source_base_dir = source_file.get_base_dir()
 		layers_resources_folder = source_base_dir.path_join(layers_resources_folder).simplify_path()
 
-
 	var import_options = _get_base_import_options(options)
 	import_options["source"] = source_file
 
