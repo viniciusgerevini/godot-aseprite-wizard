@@ -158,13 +158,13 @@ func _get_exception_layers(file_name: String, exception_pattern: String) -> Arra
 	return exception_layers
 
 
-func list_valid_layers(file_path: String, exception_pattern: String = "", show_only_visible: bool = false, should_merge_duplicates: bool = false) -> Array:
+func list_valid_layers(file_path: String, exception_pattern: String = "", show_only_visible: bool = false, should_merge_duplicates: bool = false, no_groups: bool = false) -> Array:
 	var layers = []
 
 	if should_merge_duplicates:
 		layers = list_layers_without_duplicates(file_path, show_only_visible)
 	else:
-		layers = list_layers(file_path, show_only_visible)
+		layers = list_layers(file_path, show_only_visible, no_groups)
 
 	var exception_regex = _compile_regex(exception_pattern)
 
@@ -177,7 +177,7 @@ func list_valid_layers(file_path: String, exception_pattern: String = "", show_o
 	return output
 
 
-func list_layers(file_path: String, only_visible = false) -> Array:
+func list_layers(file_path: String, only_visible = false, no_groups: bool = false) -> Array:
 	var output = []
 	var arguments = ["-b", "--list-layer-hierarchy", file_path]
 
@@ -209,6 +209,8 @@ func list_layers(file_path: String, only_visible = false) -> Array:
 		if line.ends_with('/'):
 			var dir_name = line.rstrip('/').strip_edges()
 			stack.append(dir_name)
+			if not no_groups:
+				paths.append("/".join(stack))
 		else:
 			var file_name = line.strip_edges()
 			var full_path = '/'.join(stack + [file_name])

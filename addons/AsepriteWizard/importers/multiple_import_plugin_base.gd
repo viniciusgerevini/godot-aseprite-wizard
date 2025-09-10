@@ -52,7 +52,8 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		absolute_source_file,
 		exception_pattern,
 		should_include_only_visibles,
-		should_merge_duplicates
+		should_merge_duplicates,
+		true
 	)
 
 	var layers_resources_folder = options["output/layers_resources_folder"]
