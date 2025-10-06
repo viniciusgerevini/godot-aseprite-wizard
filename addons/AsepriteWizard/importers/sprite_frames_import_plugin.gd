@@ -115,9 +115,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var resource_path = "%s.res" % save_path
 	var exit_code = ResourceSaver.save(resource.resource, resource_path)
 	resource.resource.take_over_path(resource_path)
-
-	#for extra_file in resource.extra_gen_files:
-		#gen_files.push_back(extra_file)
+	ResourceLoader.load(resource_path, "", ResourceLoader.CACHE_MODE_REPLACE_DEEP)
 
 	if config.should_remove_source_files():
 		_remove_source_files(source_files.content)
