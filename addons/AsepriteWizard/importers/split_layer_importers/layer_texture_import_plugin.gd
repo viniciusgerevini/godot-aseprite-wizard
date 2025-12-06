@@ -50,7 +50,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var result = _generate_texture(absolute_source_file, aseprite_opts)
 
 	if not result.is_ok:
-		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(result.code))
+		logger.error("Could not import aseprite file: %s" % result_codes.get_error_message(result.code), source_file)
 		return FAILED
 
 	var sprite_sheet = result.content.sprite_sheet

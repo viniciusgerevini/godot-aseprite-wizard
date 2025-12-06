@@ -13,7 +13,7 @@ enum {
 func create_animations(animated_sprite: Node, aseprite_files: Dictionary, options: Dictionary) -> void:
 	var sprite_frames_result = _create_sprite_frames(aseprite_files, options)
 	if not sprite_frames_result.is_ok:
-		printerr(result_code.get_error_message(sprite_frames_result.code))
+		logger.error(result_code.get_error_message(sprite_frames_result.code))
 		return
 
 	animated_sprite.frames = sprite_frames_result.content.resource
@@ -231,7 +231,7 @@ func create_packed_texture(sprite_sheet: String, save_path: String = "") -> Port
 
 	var exit_code = ResourceSaver.save(tex, save_path)
 	if exit_code != OK:
-		printerr(result_code.get_error_message(result_code.ERR_ASEPRITE_EXPORT_FAILED))
+		logger.error(result_code.get_error_message(result_code.ERR_ASEPRITE_EXPORT_FAILED), sprite_sheet)
 		return null
 
 	# Use CACHE_MODE_REPLACE to ensure we load the freshly saved texture,

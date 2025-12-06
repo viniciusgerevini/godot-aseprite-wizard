@@ -8,8 +8,9 @@ extends EditorImportPlugin
 
 const CONTINUE_STATUS_CODE = 91919
 
-var _bakery = preload("./helpers/bakery.gd").new()
 const result_codes = preload("../config/result_codes.gd")
+const logger = preload("../config/logger.gd")
+var _bakery = preload("./helpers/bakery.gd").new()
 var _aseprite_file_exporter = preload("../aseprite/file_exporter.gd").new()
 
 var config = preload("../config/config.gd").new()
@@ -105,7 +106,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		if result.code == result_codes.ERR_INVALID_ASEPRITE_SPRITESHEET:
 			extra_error_info = " Make sure your Aseprite file contains at least one Tilemap layer."
 
-		printerr("ERROR - Could not import aseprite file: %s.%s" % [result_codes.get_error_message(result.code), extra_error_info])
+		logger.error("Could not import aseprite file: %s.%s" % [result_codes.get_error_message(result.code), extra_error_info], source_file)
 		return FAILED
 
 	var sprite_sheet = result.content.sprite_sheet
@@ -149,13 +150,13 @@ func _save_resource(source_file: String, sprite_sheet: String, save_path: String
 		DirAccess.remove_absolute(sprite_sheet)
 
 	if exit_code != OK:
-		printerr("ERROR - Could not persist aseprite file: %s" % result_codes.get_error_message(exit_code))
+		logger.error("Could not persist aseprite file: %s" % result_codes.get_error_message(exit_code), source_file)
 		return FAILED
 
 	if config.should_generate_bake_files():
 		var bake_code = _bakery.save_bake_file(source_file, tex)
 		if bake_code != OK:
-			printerr('ERROR - bake file creation failed ', source_file, ' ', bake_code)
+			logger.error('Bake file creation failed (%s)' % bake_code, source_file)
 
 	return OK
 
@@ -165,7 +166,7 @@ func _handle_bake_fallback(source_file: String, save_path: String) -> int:
 		return CONTINUE_STATUS_CODE
 
 	if config.should_generate_bake_files() && _bakery.has_bake_file(source_file):
-		print("Aseprite command failed. Falling back to baked file (%s)" % source_file)
+		logger.warn("Aseprite command failed. Falling back to baked file", source_file)
 		var resource_path = "%s.%s" % [save_path, _get_save_extension()]
 		return _bakery.load_bake_texture(source_file, resource_path)
 	else:

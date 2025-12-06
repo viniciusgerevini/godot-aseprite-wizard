@@ -2,6 +2,7 @@
 extends EditorImportPlugin
 
 const result_codes = preload("../config/result_codes.gd")
+const logger = preload("../config/logger.gd")
 
 var config = preload("../config/config.gd").new()
 var _aseprite = preload("../aseprite/aseprite.gd").new()
@@ -46,7 +47,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 
 	if not _aseprite.test_command():
 		if config.should_generate_bake_files() && _bakery.has_bake_file(source_file):
-			print("Aseprite command failed. Falling back to baked file. No changes will be made to children resources")
+			logger.warn("Aseprite command failed. Falling back to baked file. No changes will be made to children resources", source_file)
 			return _bakery.load_bake_file(source_file, "%s.%s" % [save_path, _get_save_extension()])
 		else:
 			return ERR_UNCONFIGURED
@@ -105,7 +106,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	if config.should_generate_bake_files():
 		var bake_code = _bakery.save_bake_file(source_file, packed)
 		if bake_code != OK:
-			printerr('ERROR - bake file creation failed ', bake_code)
+			logger.error('Bake file creation failed (%s) ' % bake_code, source_file)
 
 	_cleanup_old_layers(old_data, layers)
 

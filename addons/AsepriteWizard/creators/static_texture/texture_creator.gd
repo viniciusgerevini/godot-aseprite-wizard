@@ -13,7 +13,7 @@ func load_texture(target_node: Node, aseprite_files: Dictionary, options: Dictio
 		texture = ResourceLoader.load(sprite_sheet)
 
 	if not data.is_ok:
-		printerr("Failed to load aseprite source %s" % source_file)
+		logger.error("Failed to load aseprite source", source_file)
 		return
 
 	if options.slice == "":

@@ -3,6 +3,7 @@
 ## potentially leak information about paths in the host system.
 extends EditorExportPlugin
 
+const logger = preload("../config/logger.gd")
 const wizard_config = preload("../config/wizard_config.gd")
 
 func _get_name():
@@ -37,13 +38,13 @@ func _cleanup_scene(path: String, type: String):
 	if scene_changed:
 		var filtered_scene := PackedScene.new()
 		if filtered_scene.pack(root_node) != OK:
-			print("Error updating scene")
+			logger.warn("Error updating scene", path)
 			return
 
 		var content := _get_scene_content(path, filtered_scene)
 
 		if content.is_empty():
-			print("Aseprite Wizard: skipping metadata removal for ", path)
+			logger.info("No scene content. Skipping metadata removal", path)
 			return
 
 		add_file(path, content, true)
@@ -64,7 +65,7 @@ func _get_scene_content(path:String, scene:PackedScene) -> PackedByteArray:
 	var result = ResourceSaver.save(scene, tmp_path)
 
 	if result != OK:
-		print("Aseprite Wizard: could not save temporary file for ", path, ". Error ", result)
+		logger.warn("Could not save temporary file. Error: %s" % result, path)
 		return PackedByteArray()
 
 	var tmp_file = FileAccess.open(tmp_path, FileAccess.READ)

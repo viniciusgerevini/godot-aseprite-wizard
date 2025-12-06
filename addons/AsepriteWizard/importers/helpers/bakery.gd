@@ -1,6 +1,9 @@
 @tool
 extends RefCounted
 
+const logger = preload("../../config/logger.gd")
+
+
 func save_bake_file(source_path: String, resource: Resource) -> int:
 	var bake_path = _bake_path(source_path)
 	var hash = FileAccess.get_md5(source_path)
@@ -24,7 +27,7 @@ func load_bake_file(source_path: String, target_path: String) -> int:
 	var bake = ResourceLoader.load(bake_path, "", ResourceLoader.CACHE_MODE_REPLACE_DEEP)
 
 	if bake.get_meta('source_hash') != source_hash:
-		print("Aseprite WARNING: baked file hash does not match current source file")
+		logger.warn("baked file hash does not match current source file", source_path)
 
 	var result = ResourceSaver.save(bake, target_path)
 
@@ -39,7 +42,8 @@ func load_bake_texture(source_path: String, target_path: String) -> int:
 	var bake: PortableCompressedTexture2D = ResourceLoader.load(bake_path, "", ResourceLoader.CACHE_MODE_REPLACE_DEEP)
 
 	if bake.get_meta('source_hash') != source_hash:
-		print("Aseprite WARNING: baked file hash does not match current source file")
+		logger.warn("baked file hash does not match current source file", source_path)
+
 
 	var tex := PortableCompressedTexture2D.new()
 	tex.create_from_image(bake.get_image(), PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)

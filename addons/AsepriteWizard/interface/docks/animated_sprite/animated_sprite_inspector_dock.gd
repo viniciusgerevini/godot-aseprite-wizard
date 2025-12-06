@@ -42,7 +42,7 @@ func _do_import():
 
 	if not aseprite_output.is_ok:
 		var error = result_code.get_error_message(aseprite_output.code)
-		printerr(error)
+		logger.error(error, source_path)
 		_show_message(error)
 		return
 

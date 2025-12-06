@@ -1,6 +1,7 @@
 @tool
 extends Panel
 
+const logger = preload("../../config/logger.gd")
 const wizard_config = preload("../../config/wizard_config.gd")
 
 var _import_helper = preload("./import_helper.gd").new()
@@ -167,11 +168,11 @@ func _trigger_import(meta: Dictionary) -> void:
 	var root_node = EditorInterface.get_edited_scene_root()
 
 	if not root_node:
-		printerr("couldn´t open scene %s" % meta.scene_path)
+		logger.error("Couldn't open scene", meta.scene_path)
 
 	await _import_helper.import_node(root_node, meta)
 
-	print("Import complete: %s (%s) node from %s" % [ meta.node_path, meta.meta.source, meta.scene_path])
+	logger.info("Import complete: %s (%s) node from %s" % [ meta.node_path, meta.meta.source, meta.scene_path])
 
 
 func _on_resource_tree_multi_selected(_item: TreeItem, _column: int, selected: bool) -> void:

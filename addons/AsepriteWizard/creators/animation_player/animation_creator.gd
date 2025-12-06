@@ -9,7 +9,7 @@ func create_animations(target_node: Node, player: AnimationPlayer,  aseprite_fil
 	var result = _import(target_node, player, aseprite_files, options)
 
 	if result != result_code.SUCCESS:
-		printerr(result_code.get_error_message(result))
+		logger.error(result_code.get_error_message(result))
 
 
 func _import(target_node: Node, player: AnimationPlayer, aseprite_files: Dictionary, options: Dictionary):

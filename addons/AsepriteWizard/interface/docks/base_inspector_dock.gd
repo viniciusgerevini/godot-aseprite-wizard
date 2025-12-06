@@ -1,6 +1,7 @@
 @tool
 extends PanelContainer
 
+const logger = preload("../../config/logger.gd")
 const wizard_config = preload("../../config/wizard_config.gd")
 const result_code = preload("../../config/result_codes.gd")
 var _aseprite_file_exporter = preload("../../aseprite/file_exporter.gd").new()
@@ -488,7 +489,7 @@ func _show_message(message: String):
 
 func _notify_aseprite_error(aseprite_error_code):
 	var error = result_code.get_error_message(aseprite_error_code)
-	printerr(error)
+	logger.error(error)
 	_show_message(error)
 
 

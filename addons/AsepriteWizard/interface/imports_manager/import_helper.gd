@@ -1,6 +1,7 @@
 @tool
 extends RefCounted
 
+const logger = preload("../../config/logger.gd")
 const wizard_config = preload("../../config/wizard_config.gd")
 const result_code = preload("../../config/result_codes.gd")
 
@@ -16,7 +17,7 @@ func import_node(root_node: Node, meta: Dictionary) -> void:
 	var node = root_node.get_node(meta.node_path)
 
 	if node == null:
-		printerr("Node not found: %s" % meta.node_path)
+		logger.error("Node not found: %s" % meta.node_path)
 		return
 
 	if node is AnimatedSprite2D or node is AnimatedSprite3D:
@@ -28,7 +29,7 @@ func import_node(root_node: Node, meta: Dictionary) -> void:
 func _sprite_frames_import(node: Node, resource_config: Dictionary) -> void:
 	var config = resource_config.meta
 	if not config.source:
-		printerr("Node config missing information.")
+		logger.error("Node config missing information.")
 		return
 
 	var source = ProjectSettings.globalize_path(_get_updated_source_path(config))
@@ -37,7 +38,7 @@ func _sprite_frames_import(node: Node, resource_config: Dictionary) -> void:
 	var aseprite_output = _aseprite_file_exporter.generate_aseprite_file(source, options)
 
 	if not aseprite_output.is_ok:
-		printerr(result_code.get_error_message(aseprite_output.code))
+		logger.error(result_code.get_error_message(aseprite_output.code))
 		return
 
 	EditorInterface.get_resource_filesystem().scan()
@@ -56,7 +57,7 @@ func _sprite_frames_import(node: Node, resource_config: Dictionary) -> void:
 
 func _animation_import(node: Node, root_node: Node, resource_config: Dictionary) -> void:
 	if not resource_config.meta.source:
-		printerr("Node config missing information.")
+		logger.error("Node config missing information.")
 		return
 
 	if resource_config.meta.get("i_mode", 0) == 0:
@@ -72,7 +73,7 @@ func _import_to_animation_player(node: Node, root: Node, resource_config: Dictio
 
 	var aseprite_output = _aseprite_file_exporter.generate_aseprite_file(source, options)
 	if not aseprite_output.is_ok:
-		printerr(result_code.get_error_message(aseprite_output.code))
+		logger.error(result_code.get_error_message(aseprite_output.code))
 		return
 
 	EditorInterface.get_resource_filesystem().scan()
@@ -101,7 +102,7 @@ func _import_static(node: Node, resource_config: Dictionary) -> void:
 	var aseprite_output = _aseprite_file_exporter.generate_aseprite_file(source, options)
 
 	if not aseprite_output.is_ok:
-		printerr(result_code.get_error_message(aseprite_output.code))
+		logger.error(result_code.get_error_message(aseprite_output.code))
 		return
 
 	EditorInterface.get_resource_filesystem().scan()

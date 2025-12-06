@@ -2,6 +2,7 @@
 extends EditorImportPlugin
 
 const result_codes = preload("../config/result_codes.gd")
+const logger = preload("../config/logger.gd")
 
 var config = preload("../config/config.gd").new()
 var _aseprite_file_exporter = preload("../aseprite/file_exporter.gd").new()
@@ -82,7 +83,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 
 	if not _aseprite_file_exporter.is_aseprite_command_working():
 		if is_baking_enabled && _bakery.has_bake_file(source_file):
-			print("Aseprite command failed. Falling back to baked file...")
+			logger.warn("Aseprite command failed. Falling back to baked file...", source_file)
 			return _bakery.load_bake_file(source_file, resource_path)
 		else:
 			return ERR_UNCONFIGURED
@@ -108,7 +109,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 
 	var source_files = _aseprite_file_exporter.generate_aseprite_files(absolute_source_file, aseprite_opts)
 	if not source_files.is_ok:
-		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(source_files.code))
+		logger.error("Could not import aseprite file: %s" % result_codes.get_error_message(source_files.code), source_file)
 		return FAILED
 
 	var resources = _sf_creator.create_resources(source_files.content, {
@@ -117,7 +118,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	})
 
 	if not resources.is_ok:
-		printerr("ERROR - Could not import aseprite file: %s" % result_codes.get_error_message(resources.code))
+		logger.error("Could not import aseprite file: %s" % result_codes.get_error_message(resources.code), source_file)
 		return FAILED
 
 	var resource: Dictionary = resources.content[0]
@@ -129,14 +130,14 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	if is_baking_enabled:
 		var bake_code = _bakery.save_bake_file(source_file, resource.resource)
 		if bake_code != OK:
-			printerr('ERROR - bake file creation failed ', bake_code)
+			logger.error('Bake file creation failed (%s)' % bake_code, source_file)
 
 
 	if config.should_remove_source_files():
 		_remove_source_files(source_files.content)
 
 	if exit_code != OK:
-		printerr("ERROR - Could not persist aseprite file: %s" % result_codes.get_error_message(exit_code))
+		logger.error("Could not persist aseprite file: %s" % result_codes.get_error_message(exit_code), source_file)
 		return FAILED
 
 	return OK
