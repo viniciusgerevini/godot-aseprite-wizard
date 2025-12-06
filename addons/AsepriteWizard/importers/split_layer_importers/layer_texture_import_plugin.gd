@@ -27,6 +27,11 @@ func _get_import_options(_path, _i):
 
 
 func _import(source_file, save_path, options, platform_variants, gen_files):
+	var bake_result = _handle_bake_fallback(source_file, save_path)
+
+	if bake_result != CONTINUE_STATUS_CODE:
+		return bake_result
+
 	var file = FileAccess.open(source_file, FileAccess.READ)
 	var i_data = JSON.parse_string(file.get_as_text())
 
@@ -51,4 +56,4 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var sprite_sheet = result.content.sprite_sheet
 	var data = result.content.data
 
-	return _save_resource(sprite_sheet, save_path, result.content.data_file, data.meta.size)
+	return _save_resource(source_file, sprite_sheet, save_path, result.content.data_file, data.meta.size)

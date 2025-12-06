@@ -5,6 +5,7 @@ const result_codes = preload("../config/result_codes.gd")
 
 var config = preload("../config/config.gd").new()
 var _aseprite = preload("../aseprite/aseprite.gd").new()
+var _bakery = preload("./helpers/bakery.gd").new()
 
 var file_system_helper
 
@@ -42,6 +43,14 @@ func _get_option_visibility(path, option, options):
 
 func _import(source_file, save_path, options, platform_variants, gen_files):
 	var old_data = _load_old_data(source_file)
+
+	if not _aseprite.test_command():
+		if config.should_generate_bake_files() && _bakery.has_bake_file(source_file):
+			print("Aseprite command failed. Falling back to baked file. No changes will be made to children resources")
+			return _bakery.load_bake_file(source_file, "%s.%s" % [save_path, _get_save_extension()])
+		else:
+			return ERR_UNCONFIGURED
+
 	var exception_pattern = options.get('layer/exclude_layers_pattern', "")
 	var should_include_only_visibles = options.get('layer/only_visible_layers', false)
 	var should_merge_duplicates = options.get('layer/merge_duplicate_layers', false)
@@ -92,6 +101,11 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	packed.pack(data_to_save)
 
 	var exit_code = ResourceSaver.save(packed, "%s.%s" % [save_path, _get_save_extension()])
+
+	if config.should_generate_bake_files():
+		var bake_code = _bakery.save_bake_file(source_file, packed)
+		if bake_code != OK:
+			printerr('ERROR - bake file creation failed ', bake_code)
 
 	_cleanup_old_layers(old_data, layers)
 

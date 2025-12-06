@@ -1,0 +1,54 @@
+@tool
+extends RefCounted
+
+func save_bake_file(source_path: String, resource: Resource) -> int:
+	var bake_path = _bake_path(source_path)
+	var hash = FileAccess.get_md5(source_path)
+
+	resource.set_meta('source_hash', hash)
+
+	var result = ResourceSaver.save(resource, bake_path)
+	ResourceLoader.load(bake_path, "", ResourceLoader.CACHE_MODE_REPLACE_DEEP)
+
+	return result
+
+
+func has_bake_file(source_path: String) -> bool:
+	var bake_path = _bake_path(source_path)
+	return ResourceLoader.exists(bake_path)
+
+
+func load_bake_file(source_path: String, target_path: String) -> int:
+	var source_hash = FileAccess.get_md5(source_path)
+	var bake_path = _bake_path(source_path)
+	var bake = ResourceLoader.load(bake_path, "", ResourceLoader.CACHE_MODE_REPLACE_DEEP)
+
+	if bake.get_meta('source_hash') != source_hash:
+		print("Aseprite WARNING: baked file hash does not match current source file")
+
+	var result = ResourceSaver.save(bake, target_path)
+
+	ResourceLoader.load(target_path, "", ResourceLoader.CACHE_MODE_REPLACE_DEEP)
+
+	return result
+
+
+func load_bake_texture(source_path: String, target_path: String) -> int:
+	var source_hash = FileAccess.get_md5(source_path)
+	var bake_path = _bake_path(source_path)
+	var bake: PortableCompressedTexture2D = ResourceLoader.load(bake_path, "", ResourceLoader.CACHE_MODE_REPLACE_DEEP)
+
+	if bake.get_meta('source_hash') != source_hash:
+		print("Aseprite WARNING: baked file hash does not match current source file")
+
+	var tex := PortableCompressedTexture2D.new()
+	tex.create_from_image(bake.get_image(), PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
+
+	var result = ResourceSaver.save(tex, target_path)
+	ResourceLoader.load(target_path, "PortableCompressedTexture2D", ResourceLoader.CACHE_MODE_REPLACE_DEEP)
+
+	return result
+
+
+func _bake_path(source_path: String) -> String:
+	return "%s.ase_bake.res" % source_path

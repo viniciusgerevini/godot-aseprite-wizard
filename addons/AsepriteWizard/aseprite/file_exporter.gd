@@ -146,3 +146,7 @@ func load_json_content(source_file: String) -> Dictionary:
 		return result_code.error(result_code.ERR_INVALID_ASEPRITE_SPRITESHEET)
 
 	return result_code.result(content)
+
+
+func is_aseprite_command_working() -> bool:
+	return _aseprite.test_command()

@@ -323,7 +323,7 @@ func _compile_regex(pattern):
 	printerr('exception regex error')
 
 
-func test_command():
+func test_command() -> bool:
 	var exit_code = OS.execute(_aseprite_command(), ['--version'], [], true)
 	return exit_code == 0
 

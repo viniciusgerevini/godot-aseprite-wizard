@@ -29,6 +29,8 @@ const IMPORTER_TILESET_TEXTURE_NAME = "Tileset Texture"
 const IMPORTER_STATIC_TEXTURE_NAME = "Static Texture"
 const IMPORTER_STATIC_TEXTURE_SPLIT_NAME = "Static Texture (Split By Layer)"
 
+const _IMPORTER_GENERATE_BAKE_FILE_KEY = 'aseprite/import/import_plugin/generate_bake_files'
+
 # wizard history
 const _WIZARD_HISTORY = "wizard_history"
 const _HISTORY_MAX_ENTRIES = 'aseprite/wizard/history/max_history_entries'
@@ -74,6 +76,10 @@ func is_importer_enabled() -> bool:
 
 func get_default_importer() -> String:
 	return _get_project_setting(_DEFAULT_IMPORTER_KEY, IMPORTER_SPRITEFRAMES_NAME if is_importer_enabled() else IMPORTER_NOOP_NAME)
+
+
+func should_generate_bake_files() -> bool:
+	return _get_project_setting(_IMPORTER_GENERATE_BAKE_FILE_KEY, false)
 
 
 func should_remove_source_files() -> bool:
@@ -160,6 +166,7 @@ func initialize_project_settings():
 			IMPORTER_STATIC_TEXTURE_SPLIT_NAME
 		])
 	)
+	_initialize_project_cfg(_IMPORTER_GENERATE_BAKE_FILE_KEY, false, TYPE_BOOL)
 
 	_initialize_project_cfg(_HISTORY_MAX_ENTRIES, _HISTORY_DEFAULT_MAX_ENTRIES, TYPE_INT)
 
@@ -180,6 +187,7 @@ func clear_project_settings():
 		_HISTORY_MAX_ENTRIES,
 		_SET_VISIBLE_TRACK_AUTOMATICALLY,
 		_DEFAULT_ONLY_VISIBLE_LAYERS,
+		_IMPORTER_GENERATE_BAKE_FILE_KEY,
 	]
 	for key in _all_settings:
 		ProjectSettings.clear(key)

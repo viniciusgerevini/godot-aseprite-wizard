@@ -6,6 +6,7 @@ const result_codes = preload("../../config/result_codes.gd")
 var config = preload("../../config/config.gd").new()
 var _aseprite = preload("../../aseprite/aseprite.gd").new()
 var _sf_creator = preload("../../creators/sprite_frames/sprite_frames_creator.gd").new()
+var _bakery = preload("../helpers/bakery.gd").new()
 
 
 func _get_importer_name():
@@ -53,6 +54,16 @@ func _get_option_visibility(path, option, options):
 
 
 func _import(source_file, save_path, options, platform_variants, gen_files):
+	var resource_path = "%s.res" % save_path
+	var is_baking_enabled = config.should_generate_bake_files()
+
+	if not _aseprite.test_command():
+		if is_baking_enabled && _bakery.has_bake_file(source_file):
+			print("Aseprite command failed. Falling back to baked file...")
+			return _bakery.load_bake_file(source_file, resource_path)
+		else:
+			return ERR_UNCONFIGURED
+
 	var file = FileAccess.open(source_file, FileAccess.READ)
 	var data = JSON.parse_string(file.get_as_text())
 
@@ -82,7 +93,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var resources = _sf_creator.create_resources([source_files], {
 		"should_round_fps": data.import_options.should_round_fps,
 		"should_create_portable_texture": true,
-		"sheet_base_path": save_path,
+		#"sheet_base_path": save_path,
 	})
 
 	if not resources.is_ok:
@@ -92,11 +103,14 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var resource = resources.content[0]
 	resource.resource.set_meta("imported_via_aw", true)
 
-	var resource_path = "%s.res" % save_path
 	var exit_code = ResourceSaver.save(resource.resource, resource_path)
 	resource.resource.take_over_path(resource_path)
 	ResourceLoader.load(resource_path, "", ResourceLoader.CACHE_MODE_REPLACE_DEEP)
 
+	if is_baking_enabled:
+		var bake_code = _bakery.save_bake_file(source_file, resource.resource)
+		if bake_code != OK:
+			printerr('ERROR - bake file creation failed ', bake_code)
 
 	for extra_file in resource.extra_gen_files:
 		gen_files.push_back(extra_file)

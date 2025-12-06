@@ -96,6 +96,12 @@ func _import_extra_textures(node: SpriteFrames):
 			var tex = atlas.atlas
 			if tex == null:
 				continue
+
+			# if resource path ends with it's scene id, it's because
+			# it's embedded to scene and not an external resource
+			if tex.resource_scene_unique_id && tex.resource_path.ends_with(tex.resource_scene_unique_id):
+				continue
+		
 			if not textures.has(tex.resource_path):
 				textures.push_back(tex.resource_path)
 
@@ -114,7 +120,7 @@ func _handle_spriteframes(path: String, type: String):
 
 
 func _create_temp_resource(path: String, resource: SpriteFrames) -> PackedByteArray:
-	var tmp_path = OS.get_cache_dir() + "tmp_spriteframes_resource." + path.get_extension()
+	var tmp_path = OS.get_cache_dir().path_join("tmp_spriteframes_resource." + path.get_extension())
 	ResourceSaver.save(resource, tmp_path)
 
 	var tmp_file = FileAccess.open(tmp_path, FileAccess.READ)
