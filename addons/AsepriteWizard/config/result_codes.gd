@@ -23,6 +23,8 @@ static func get_error_message(code: int):
 			return "unable to import file"
 		ERR_INVALID_ASEPRITE_SPRITESHEET:
 			return "aseprite generated bad data file"
+		ERR_UNKNOWN_EXPORT_MODE:
+			return "wrong export mode"
 		ERR_NO_VALID_LAYERS_FOUND:
 			return "no valid layers found"
 		_:
