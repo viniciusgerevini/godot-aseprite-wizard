@@ -2,13 +2,13 @@
 extends RefCounted
 
 const SUCCESS = 0
-const ERR_ASEPRITE_CMD_NOT_FOUND = 1
-const ERR_SOURCE_FILE_NOT_FOUND = 2
-const ERR_OUTPUT_FOLDER_NOT_FOUND = 3
-const ERR_ASEPRITE_EXPORT_FAILED = 4
-const ERR_UNKNOWN_EXPORT_MODE = 5
-const ERR_NO_VALID_LAYERS_FOUND = 6
-const ERR_INVALID_ASEPRITE_SPRITESHEET = 7
+const ERR_ASEPRITE_CMD_NOT_FOUND = 991
+const ERR_SOURCE_FILE_NOT_FOUND = 992
+const ERR_OUTPUT_FOLDER_NOT_FOUND = 993
+const ERR_ASEPRITE_EXPORT_FAILED = 994
+const ERR_UNKNOWN_EXPORT_MODE = 995
+const ERR_NO_VALID_LAYERS_FOUND = 996
+const ERR_INVALID_ASEPRITE_SPRITESHEET = 997
 
 
 static func get_error_message(code: int):
@@ -26,7 +26,7 @@ static func get_error_message(code: int):
 		ERR_NO_VALID_LAYERS_FOUND:
 			return "no valid layers found"
 		_:
-			return "import failed with code %d" % code
+			return "import failed: %d" % error_string(code)
 
 
 static func error(error_code: int):
