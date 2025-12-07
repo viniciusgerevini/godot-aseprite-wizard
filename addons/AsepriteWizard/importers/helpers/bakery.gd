@@ -3,7 +3,6 @@ extends RefCounted
 
 const logger = preload("../../config/logger.gd")
 
-
 func save_bake_file(source_path: String, resource: Resource) -> int:
 	var bake_path = _bake_path(source_path)
 	var hash = FileAccess.get_md5(source_path)
@@ -55,4 +54,6 @@ func load_bake_texture(source_path: String, target_path: String) -> int:
 
 
 func _bake_path(source_path: String) -> String:
-	return "%s.ase_bake.res" % source_path
+	var file = source_path.get_file()
+	var dir = source_path.get_base_dir()
+	return dir.path_join(".%s.ase_bake.res" % file)
