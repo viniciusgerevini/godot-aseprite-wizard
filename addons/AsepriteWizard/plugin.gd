@@ -27,6 +27,7 @@ const menu_item_name = "Spritesheet Wizard Dock..."
 const config_menu_item_name = "Config..."
 const import_menu_item_name = "Imports Manager..."
 
+var file_lifecycle_listeners = preload("files/file_lifecycle_listeners.gd").new()
 var config = preload("config/config.gd").new()
 var window: TabContainer
 var config_window: Window
@@ -49,6 +50,7 @@ func _enter_tree():
 	_setup_exporter()
 	_setup_animated_sprite_inspector_plugin()
 	_setup_sprite_inspector_plugin()
+	_setup_file_listeners()
 
 
 func _exit_tree():
@@ -61,6 +63,7 @@ func _disable_plugin():
 	_remove_exporter()
 	_remove_wizard_dock()
 	_remove_inspector_plugins()
+	_remove_file_listeners()
 
 
 func _load_config():
@@ -217,3 +220,11 @@ func _create_imports_manager_window(panel: MarginContainer):
 	imports_list_window.add_child(panel)
 	get_editor_interface().get_base_control().add_child(imports_list_window)
 	imports_list_window.popup_centered_ratio(0.5)
+
+
+func _setup_file_listeners() -> void:
+	file_lifecycle_listeners.setup_listeners()
+
+
+func _remove_file_listeners() -> void:
+	file_lifecycle_listeners.remove_listeners()

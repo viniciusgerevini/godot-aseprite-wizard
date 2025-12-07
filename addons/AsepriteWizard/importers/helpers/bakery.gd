@@ -53,6 +53,17 @@ func load_bake_texture(source_path: String, target_path: String) -> int:
 	return result
 
 
+func delete_bake_file(source_path: String) -> int:
+	return DirAccess.remove_absolute(_bake_path(source_path))
+
+
+func move_bake_file(old_path: String, new_path: String) -> int:
+	var old_bake_path = _bake_path(old_path)
+	var new_bake_path = _bake_path(new_path)
+
+	return DirAccess.rename_absolute(old_bake_path, new_bake_path)
+
+
 func _bake_path(source_path: String) -> String:
 	var file = source_path.get_file()
 	var dir = source_path.get_base_dir()
