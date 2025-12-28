@@ -80,9 +80,11 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		var flat_layer_name = (layer as String).replace("/", "_")
 		var layer_save_path = "%s_%s.%s" % [base_name, flat_layer_name, _layer_extension()]
 		var file = FileAccess.open(layer_save_path, FileAccess.WRITE)
+		var source_hash = FileAccess.get_md5(absolute_source_file)
 		file.store_string(JSON.stringify({
 			"layer": layer,
 			"import_options": import_options,
+			"source_hash": source_hash
 		}))
 		data_to_save.layers[layer] = layer_save_path
 
