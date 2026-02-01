@@ -69,6 +69,9 @@ func _load_aseprite_resources(aseprite_data: Dictionary, options: Dictionary) ->
 
 	var result = _load_or_create_texture_resource(aseprite_data.sprite_sheet, options)
 
+	if result.get("error", false):
+		return result_code.error(result_code.ERR_ASEPRITE_EXPORT_FAILED)
+
 	return result_code.result({
 		"metadata": content_result.content,
 		"texture": result.texture,
@@ -78,18 +81,24 @@ func _load_aseprite_resources(aseprite_data: Dictionary, options: Dictionary) ->
 
 func _load_or_create_texture_resource(sprite_sheet: String, options: Dictionary) -> Dictionary:
 	if not options.get("should_create_portable_texture", false):
-		return { "texture": _load_texture(sprite_sheet), "extra_gen_files": [] }
+		var tex = _load_texture(sprite_sheet)
+		if tex == null:
+			return { "texture": null, "error": true, "extra_gen_files": [] }
+		return { "texture": tex, "extra_gen_files": [] }
 
 	if options.get("sheet_base_path", "") == "":
-		return {
-			"texture": create_packed_texture(sprite_sheet),
-			"extra_gen_files": []
-		}
+		var tex = create_packed_texture(sprite_sheet)
+		if tex == null:
+			return { "texture": null, "error": true, "extra_gen_files": [] }
+		return { "texture": tex, "extra_gen_files": [] }
 
 	var texture_path = "%s.%s.texture.res" % [options.sheet_base_path, sprite_sheet.get_file().get_basename() ]
+	var tex = create_packed_texture(sprite_sheet, texture_path)
+	if tex == null:
+		return { "texture": null, "error": true, "extra_gen_files": [texture_path] }
 
 	return {
-		"texture": create_packed_texture(sprite_sheet, texture_path),
+		"texture": tex,
 		"extra_gen_files": [texture_path]
 	}
 
@@ -214,6 +223,8 @@ func _load_texture(path) -> CompressedTexture2D:
 
 func create_packed_texture(sprite_sheet: String, save_path: String = "") -> PortableCompressedTexture2D:
 	var tex := _load_compressed_texture(sprite_sheet)
+	if tex == null:
+		return null
 	# if no path was provided, we just want the texture in memory
 	if save_path == "":
 		return tex
@@ -223,7 +234,9 @@ func create_packed_texture(sprite_sheet: String, save_path: String = "") -> Port
 		printerr(result_code.get_error_message(result_code.ERR_ASEPRITE_EXPORT_FAILED))
 		return null
 
-	return ResourceLoader.load(save_path)
+	# Use CACHE_MODE_REPLACE to ensure we load the freshly saved texture,
+	# not a stale cached version from a previous import
+	return ResourceLoader.load(save_path, "", ResourceLoader.CACHE_MODE_REPLACE)
 
 
 func _add_to_sprite_frames(
