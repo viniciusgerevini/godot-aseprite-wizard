@@ -5,6 +5,23 @@ nav_max: 1
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## 9.7.0 (unreleased)
+
+### Added
+
+- Baking files (beta): Now there is an option to generate bake files, which are used when Aseprite is not installed on the machine. These are also useful for when building the project in a CI environment as it does not require Aseprite to be present.
+
+### Fixed
+
+- Split importer did not trigger a re-import when source file changed
+- Split importer: Import was not updating cache with new files. Improved error reporting when texture fails to load
+- Project export would fail when user doesn't have write permission in the home folder, due to temporary scene files being saved in the wrong path.
+
+### Thanks
+
+- Thanks @brandonrbridges for fixing the split layers cache and error handling
+- Thanks @SchnozzleCat and @migueel15 for reporting issue with split importers not triggering re-import
+
 ## 9.6.0 (2025-10-08)
 
 ### Changed

@@ -52,11 +52,12 @@ For project specific configurations check `Project -> Project Settings -> Genera
 | ----------------------- | ----------- |
 | Animation > Layer > Exclusion Pattern | Exclude layers with names matching this pattern (regex). This is the default value for new nodes. It can be changed or removed during the import. Default: not set |
 | Animation > Layer > Only Include Visible Layers By Default | Default configuration for "only visible" in the docks. Default: false |
-| Animation > Loop > Enabled | Enables animation loop by default. Default: `true` |
-| Animation > Loop > Exception Prefix | Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The prefix is removed from the animation name on import (i.e  `_death` > `death`). Default: `_` |
+| Animation > Loop > Enabled (deprecated)  | *DEPRECATED*: _use Aseprite's repat option instead_. Enables animation loop by default. Default: `true` |
+| Animation > Loop > Exception Prefix (deprecated) | *DEPRECATED*: __use Aseprite's repat option instead_. Animations with this prefix are imported with opposite loop configuration. For example, if your default configuration is Loop = true, animations starting with `_` would have Loop = false. The prefix is removed from the animation name on import (i.e  `_death` > `death`). Default: `_` |
 | Import > Cleanup > Remove Json File | Remove temporary `*.json` files generated during import. Default: `true` |
 | Import > Cleanup > Automatically Hide Sprites Not In Animation | Default configuration for AnimationPlayer option to hide sprite when not in animation. Default: `false` |
 | Import > Import Plugin > Default Automatic Importer | Which importer to use by default for aseprite files. Options: `No Import`, `SpriteFrames`, `Static Texture`, `Tileset Texture`. Default: `No Import` |
+| Import > Import Plugin > Generate Bake Files | Creates a resource file alongside source that can be used as fallback when machine doesn't have Aseprite installed. Default: `false` |
 
 ## Usage
 

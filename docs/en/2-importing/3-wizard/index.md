@@ -1,5 +1,7 @@
 # Wizard Dock
 
+__DEPRECATED:__ _The wizard dock will be removed in a future major version. The automated importer has become way more stable in the latest releases, and once I implement a way to export multiple resources from the same source, it makes no sense to keep this screen. If you have strong reasons to why this screen should be maintained, feel free to open a discussion or issue in the plugin's repository._
+
 The wizard screen allows you to import `SpriteFrames` resources without attaching them to a scene or node. This can be used in cases where you would like to generate `SpriteFrames` independently and include them in different nodes manually or programmatically.
 
 This dock also allows you to create the raw aseprite export files (png, json) without creating any resource at all.
