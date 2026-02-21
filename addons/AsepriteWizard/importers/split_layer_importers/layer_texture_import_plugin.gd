@@ -43,7 +43,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"output_filename": '',
 		"output_folder": source_path,
 		"first_frame_only": i_data.import_options.get("first_frame_only", false),
-		
+		"frame_padding": i_data.import_options.get("frame_padding", 0),
 		"trim_cels": i_data.import_options.get("trim_cels", false),
 		"scale": i_data.import_options.get("scale"),
 	}

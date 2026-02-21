@@ -31,6 +31,10 @@ func _get_import_options(_path, _i):
 			"name": "sheet/sheet_columns",
 			"default_value": 12,
 		},
+		{
+			"name": "sheet/frame_padding",
+			"default_value": 0,
+		},
 		{"name": "sheet/scale", "default_value": 1 },
 		{
 			"name": "output/layers_resources_folder",
@@ -50,5 +54,6 @@ func _get_base_import_options(options: Dictionary):
 		"first_frame_only": options["first_frame_only"],
 		"sheet_type": options["sheet/sheet_type"],
 		"sheet_columns": options["sheet/sheet_columns"],
+		"frame_padding": options["sheet/frame_padding"],
 		"scale": str(options["sheet/scale"]),
 	}
