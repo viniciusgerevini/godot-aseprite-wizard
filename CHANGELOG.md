@@ -5,6 +5,12 @@ nav_max: 1
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## Unreleased
+
+### Added
+
+- Frame padding and sheet type options to Texture split importer
+
 ## 9.7.0 (2026-02-18)
 
 ### Added
