@@ -9,7 +9,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 
-- Frame padding and sheet type options to Texture split importer
+- Texture split importer: added frame padding and sheet type options
+- Texture importer: added split layers option
+
+### Thanks
+
+- @snorthman for sheet type feature request
+- @janos-ijgyarto for split layers feature request
 
 ## 9.7.0 (2026-02-18)
 
