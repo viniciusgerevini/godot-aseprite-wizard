@@ -27,6 +27,7 @@ func _get_import_options(_path, _i):
 	return [
 		{"name": "layer/exclude_layers_pattern", "default_value": config.get_default_exclusion_pattern()},
 		{"name": "layer/only_visible_layers", "default_value": false},
+		{"name": "layer/split_layers", "default_value": false},
 		{"name": "first_frame_only", "default_value": true},
 		{
 			"name": "sheet/sheet_type",
@@ -56,6 +57,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var aseprite_opts = {
 		"exception_pattern": options['layer/exclude_layers_pattern'],
 		"only_visible_layers": options['layer/only_visible_layers'],
+		"split_layers": options.get('layer/split_layers', false),
 		"output_filename": '',
 		"output_folder": source_path,
 		"scale": str(options["sheet/scale"]),

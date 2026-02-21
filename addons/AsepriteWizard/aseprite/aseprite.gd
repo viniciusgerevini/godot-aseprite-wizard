@@ -34,6 +34,9 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 		arguments.push_front("'[0, 0]'")
 		arguments.push_front("--frame-range")
 
+	if options.get('split_layers', false):
+		arguments.push_front("--split-layers")
+
 	_add_sheet_type_arguments(arguments, options)
 
 	_add_ignore_layer_arguments(file_name, arguments, exception_pattern)
@@ -96,6 +99,9 @@ func export_file_with_layers(file_name: String, layer_names: Array, output_folde
 	if first_frame_only:
 		arguments.push_front("'[0, 0]'")
 		arguments.push_front("--frame-range")
+
+	if options.get('split_layers', false):
+		arguments.push_front("--split-layers")
 
 	_add_sheet_type_arguments(arguments, options)
 
