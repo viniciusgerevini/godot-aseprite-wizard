@@ -21,6 +21,16 @@ func _get_import_options(_path, _i):
 		{"name": "layer/only_visible_layers",    "default_value": false},
 		{"name": "layer/merge_duplicate_layers", "default_value": false},
 		{"name": "sheet/trim_cels", "default_value": false},
+		{
+			"name": "sheet/sheet_type",
+			"default_value": "packed",
+			"property_hint": PROPERTY_HINT_ENUM,
+			"hint_string": "columns,horizontal,vertical,packed",
+		},
+		{
+			"name": "sheet/sheet_columns",
+			"default_value": 12,
+		},
 		{"name": "sheet/scale", "default_value": 1 },
 		{
 			"name": "output/layers_resources_folder",
@@ -38,5 +48,7 @@ func _get_base_import_options(options: Dictionary):
 	return  {
 		"trim_cels": options["sheet/trim_cels"],
 		"first_frame_only": options["first_frame_only"],
+		"sheet_type": options["sheet/sheet_type"],
+		"sheet_columns": options["sheet/sheet_columns"],
 		"scale": str(options["sheet/scale"]),
 	}

@@ -43,9 +43,15 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"output_filename": '',
 		"output_folder": source_path,
 		"first_frame_only": i_data.import_options.get("first_frame_only", false),
+		
 		"trim_cels": i_data.import_options.get("trim_cels", false),
 		"scale": i_data.import_options.get("scale"),
 	}
+
+	if not aseprite_opts.first_frame_only:
+		aseprite_opts['sheet_type'] = i_data.import_options.get("sheet_type")
+		aseprite_opts['sheet_columns'] = i_data.import_options.get("sheet_columns")
+
 
 	var result = _generate_texture(absolute_source_file, aseprite_opts)
 
