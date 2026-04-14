@@ -2,6 +2,7 @@
 extends "../base_sprite_resource_creator.gd"
 
 const wizard_config = preload("../../config/wizard_config.gd")
+var _normal_map_generator = preload("../../normalmap/normal_map_generator.gd")
 
 var _DEFAULT_ANIMATION_LIBRARY = "" # GLOBAL
 
@@ -30,6 +31,24 @@ func _import(target_node: Node, player: AnimationPlayer, aseprite_files: Diction
 		target_node.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 
 	var texture := _load_texture(sprite_sheet, options.get("should_create_portable_texture", false))
+
+	if options.get("normalmap_generate", false):
+		var params: Dictionary = options.get("normalmap_params", {})
+		var global_path = ProjectSettings.globalize_path(sprite_sheet)
+		var source_image = Image.load_from_file(global_path)
+		if source_image != null and not source_image.is_empty():
+			var normal_img = _normal_map_generator.generate_normal_map(source_image, params)
+
+			if options.get("normalmap_save_debug_png", false):
+				var base = sprite_sheet.get_basename()
+				normal_img.save_png(ProjectSettings.globalize_path(base + "_n.png"))
+
+			var normal_tex := PortableCompressedTexture2D.new()
+			normal_tex.create_from_image(normal_img, PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
+			var canvas_tex := CanvasTexture.new()
+			canvas_tex.diffuse_texture = texture
+			canvas_tex.normal_texture = normal_tex
+			texture = canvas_tex
 
 	_setup_texture(target_node, texture, content, context, options.slice != "")
 	var result = _configure_animations(target_node, player, content, context, options)

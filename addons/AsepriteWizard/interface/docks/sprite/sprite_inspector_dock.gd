@@ -183,7 +183,15 @@ func _import_for_animation_player():
 		"should_create_portable_texture": _embed_field.button_pressed,
 		"convert_to_fps": _convert_to_fps.button_pressed,
 		"convert_ms_field": _convert_ms_field.value,
-		"convert_fps_field": _convert_fps_field.value
+		"convert_fps_field": _convert_fps_field.value,
+		"normalmap_generate": _normalmap_generate_field.button_pressed,
+		"normalmap_params": {
+			"emboss_height": _normalmap_emboss_height_field.value,
+			"bump_height": _normalmap_bump_height_field.value,
+			"blur": int(_normalmap_blur_field.value),
+			"bump": int(_normalmap_bump_field.value),
+		},
+		"normalmap_save_debug_png": _normalmap_save_debug_png_field.button_pressed,
 	}
 
 	animation_creator.create_animations(target_node, root.get_node(_animation_player_path), aseprite_output.content, anim_options)
@@ -216,6 +224,14 @@ func _import_static():
 	static_texture_creator.load_texture(target_node, aseprite_output.content, {
 		"slice": _slice,
 		"should_create_portable_texture": _embed_field.button_pressed,
+		"normalmap_generate": _normalmap_generate_field.button_pressed,
+		"normalmap_params": {
+			"emboss_height": _normalmap_emboss_height_field.value,
+			"bump_height": _normalmap_bump_height_field.value,
+			"blur": int(_normalmap_blur_field.value),
+			"bump": int(_normalmap_bump_field.value),
+		},
+		"normalmap_save_debug_png": _normalmap_save_debug_png_field.button_pressed,
 	})
 
 	_importing = false

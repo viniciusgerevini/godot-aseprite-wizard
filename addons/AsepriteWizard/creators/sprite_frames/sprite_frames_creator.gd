@@ -1,6 +1,8 @@
 @tool
 extends "../base_sprite_resource_creator.gd"
 
+var _normal_map_generator = preload("../../normalmap/normal_map_generator.gd")
+
 enum {
 	FILE_EXPORT_MODE,
 	LAYERS_EXPORT_MODE
@@ -80,27 +82,45 @@ func _load_aseprite_resources(aseprite_data: Dictionary, options: Dictionary) ->
 
 
 func _load_or_create_texture_resource(sprite_sheet: String, options: Dictionary) -> Dictionary:
+	var diffuse_tex: Texture2D = null
+	var extra_gen_files := []
+
 	if not options.get("should_create_portable_texture", false):
-		var tex = _load_texture(sprite_sheet)
-		if tex == null:
+		diffuse_tex = _load_texture(sprite_sheet)
+		if diffuse_tex == null:
 			return { "texture": null, "error": true, "extra_gen_files": [] }
-		return { "texture": tex, "extra_gen_files": [] }
-
-	if options.get("sheet_base_path", "") == "":
-		var tex = create_packed_texture(sprite_sheet)
-		if tex == null:
+	elif options.get("sheet_base_path", "") == "":
+		diffuse_tex = create_packed_texture(sprite_sheet)
+		if diffuse_tex == null:
 			return { "texture": null, "error": true, "extra_gen_files": [] }
-		return { "texture": tex, "extra_gen_files": [] }
+	else:
+		var texture_path = "%s.%s.texture.res" % [options.sheet_base_path, sprite_sheet.get_file().get_basename()]
+		diffuse_tex = create_packed_texture(sprite_sheet, texture_path)
+		if diffuse_tex == null:
+			return { "texture": null, "error": true, "extra_gen_files": [texture_path] }
+		extra_gen_files.append(texture_path)
 
-	var texture_path = "%s.%s.texture.res" % [options.sheet_base_path, sprite_sheet.get_file().get_basename() ]
-	var tex = create_packed_texture(sprite_sheet, texture_path)
-	if tex == null:
-		return { "texture": null, "error": true, "extra_gen_files": [texture_path] }
+	# Wrap in CanvasTexture with normal map if requested
+	if options.get("normalmap_generate", false):
+		var params: Dictionary = options.get("normalmap_params", {})
+		var global_path = ProjectSettings.globalize_path(sprite_sheet)
+		var source_image = Image.load_from_file(global_path)
+		if source_image != null and not source_image.is_empty():
+			var normal_img = _normal_map_generator.generate_normal_map(source_image, params)
 
-	return {
-		"texture": tex,
-		"extra_gen_files": [texture_path]
-	}
+			if options.get("normalmap_save_debug_png", false):
+				var base = sprite_sheet.get_basename()
+				normal_img.save_png(ProjectSettings.globalize_path(base + "_n.png"))
+
+			var normal_tex := PortableCompressedTexture2D.new()
+			normal_tex.create_from_image(normal_img, PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
+
+			var canvas_tex := CanvasTexture.new()
+			canvas_tex.diffuse_texture = diffuse_tex
+			canvas_tex.normal_texture = normal_tex
+			return { "texture": canvas_tex, "extra_gen_files": extra_gen_files }
+
+	return { "texture": diffuse_tex, "extra_gen_files": extra_gen_files }
 
 
 func save_resources(resources: Array) -> int:

@@ -463,6 +463,134 @@ size_flags_stretch_ratio = 2.0
 button_pressed = true
 text = "On"
 
+[node name="normalmap" type="VBoxContainer" parent="VBoxContainer/extra/sections"]
+layout_mode = 2
+
+[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/normalmap"]
+layout_mode = 2
+focus_mode = 0
+text = "Normal Map"
+icon = SubResource("ImageTexture_qqpl1")
+alignment = 0
+
+[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/normalmap"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/normalmap/section_content"]
+layout_mode = 2
+
+[node name="generate" type="HBoxContainer" parent="VBoxContainer/extra/sections/normalmap/section_content/content"]
+layout_mode = 2
+tooltip_text = "Generate a normal map and wrap the texture in a CanvasTexture."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/normalmap/section_content/content/generate"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Generate"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/normalmap/section_content/content/generate"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "On"
+
+[node name="emboss_height" type="HBoxContainer" parent="VBoxContainer/extra/sections/normalmap/section_content/content"]
+layout_mode = 2
+tooltip_text = "Emboss height for the normal map."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/normalmap/section_content/content/emboss_height"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Emboss Height"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/normalmap/section_content/content/emboss_height"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+min_value = 0.0
+max_value = 100.0
+step = 0.01
+value = 2.0
+
+[node name="bump_height" type="HBoxContainer" parent="VBoxContainer/extra/sections/normalmap/section_content/content"]
+layout_mode = 2
+tooltip_text = "Bump height for the normal map."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/normalmap/section_content/content/bump_height"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Bump Height"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/normalmap/section_content/content/bump_height"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+min_value = 0.0
+max_value = 100.0
+step = 0.01
+value = 8.0
+
+[node name="blur" type="HBoxContainer" parent="VBoxContainer/extra/sections/normalmap/section_content/content"]
+layout_mode = 2
+tooltip_text = "Gaussian blur radius for the normal map."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/normalmap/section_content/content/blur"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Blur"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/normalmap/section_content/content/blur"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+min_value = 0.0
+max_value = 10.0
+step = 1.0
+value = 2.0
+rounded = true
+
+[node name="bump" type="HBoxContainer" parent="VBoxContainer/extra/sections/normalmap/section_content/content"]
+layout_mode = 2
+tooltip_text = "Bump intensity for the normal map."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/normalmap/section_content/content/bump"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Bump"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/normalmap/section_content/content/bump"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+min_value = 0.0
+max_value = 500.0
+step = 1.0
+value = 150.0
+rounded = true
+
+[node name="save_debug_png" type="HBoxContainer" parent="VBoxContainer/extra/sections/normalmap/section_content/content"]
+layout_mode = 2
+tooltip_text = "Save the generated normal map as a _n.png file on disk for debugging."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/normalmap/section_content/content/save_debug_png"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Save Debug PNG"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/normalmap/section_content/content/save_debug_png"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "On"
+
 [node name="output" type="VBoxContainer" parent="VBoxContainer/extra/sections"]
 layout_mode = 2
 
@@ -562,6 +690,12 @@ one_shot = true
 [connection signal="value_changed" from="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/ms/SpinBox" to="." method="_on_spin_box_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps/fraction/SpinBox" to="." method="_on_spin_box_value_changed"]
 [connection signal="toggled" from="VBoxContainer/extra/sections/animation_sf/section_content/content/round_fps/CheckBox" to="." method="_on_round_fps_toggled"]
+[connection signal="toggled" from="VBoxContainer/extra/sections/normalmap/section_content/content/generate/CheckBox" to="." method="_on_round_fps_toggled"]
+[connection signal="value_changed" from="VBoxContainer/extra/sections/normalmap/section_content/content/emboss_height/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/extra/sections/normalmap/section_content/content/bump_height/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/extra/sections/normalmap/section_content/content/blur/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/extra/sections/normalmap/section_content/content/bump/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="toggled" from="VBoxContainer/extra/sections/normalmap/section_content/content/save_debug_png/CheckBox" to="." method="_on_round_fps_toggled"]
 [connection signal="toggled" from="VBoxContainer/extra/sections/output/section_content/content/embed/CheckBox" to="." method="_on_round_fps_toggled"]
 [connection signal="text_changed" from="VBoxContainer/extra/sections/output/section_content/content/out_filename/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="value_changed" from="VBoxContainer/extra/sections/output/section_content/content/scale/SpinBox" to="." method="_on_spin_box_value_changed"]

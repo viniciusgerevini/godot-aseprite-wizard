@@ -55,16 +55,28 @@ var _interface_section_state
 
 @onready var _scale_field :=  $dock_fields/VBoxContainer/extra/sections/output/section_content/content/scale/SpinBox as SpinBox
 
+# normalmap
+@onready var _normalmap_section_header := $dock_fields/VBoxContainer/extra/sections/normalmap/section_header as Button
+@onready var _normalmap_section_container := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content as MarginContainer
+@onready var _normalmap_generate_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/generate/CheckBox as CheckBox
+@onready var _normalmap_emboss_height_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/emboss_height/SpinBox as SpinBox
+@onready var _normalmap_bump_height_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/bump_height/SpinBox as SpinBox
+@onready var _normalmap_blur_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/blur/SpinBox as SpinBox
+@onready var _normalmap_bump_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/bump/SpinBox as SpinBox
+@onready var _normalmap_save_debug_png_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/save_debug_png/CheckBox as CheckBox
+
 
 @onready var _import_button := $dock_fields/VBoxContainer/import as Button
 
 const INTERFACE_SECTION_KEY_LAYER = "layer_section"
 const INTERFACE_SECTION_KEY_SLICE = "slice_section"
+const INTERFACE_SECTION_KEY_NORMALMAP = "normalmap_section"
 const INTERFACE_SECTION_KEY_OUTPUT = "output_section"
 
 @onready var _expandable_sections = {
 	INTERFACE_SECTION_KEY_LAYER: { "header": _layer_section_header, "content": _layer_section_container},
 	INTERFACE_SECTION_KEY_SLICE: { "header": _slice_section_header, "content": _slice_section_container},
+	INTERFACE_SECTION_KEY_NORMALMAP: { "header": _normalmap_section_header, "content": _normalmap_section_container},
 	INTERFACE_SECTION_KEY_OUTPUT: { "header": _output_section_header, "content": _output_section_container},
 }
 
@@ -203,6 +215,13 @@ func _load_common_config(cfg):
 	_embed_field.button_pressed = cfg.get("embed_tex", false)
 	_scale_field.value = float(cfg.get("scale", 1))
 
+	_normalmap_generate_field.button_pressed = cfg.get("normalmap_generate", config.is_normalmap_enabled())
+	_normalmap_emboss_height_field.value = cfg.get("normalmap_emboss_height", config.get_normalmap_emboss_height())
+	_normalmap_bump_height_field.value = cfg.get("normalmap_bump_height", config.get_normalmap_bump_height())
+	_normalmap_blur_field.value = cfg.get("normalmap_blur", config.get_normalmap_blur())
+	_normalmap_bump_field.value = cfg.get("normalmap_bump", config.get_normalmap_bump())
+	_normalmap_save_debug_png_field.button_pressed = cfg.get("normalmap_save_debug_png", false)
+
 	_load_config(cfg)
 	_handle_embed_visibility()
 
@@ -268,6 +287,7 @@ func _adjust_icon(section: Button, is_visible: bool = true) -> void:
 func _setup_field_listeners():
 	_layer_section_header.button_down.connect(_on_layer_header_button_down)
 	_slice_section_header.button_down.connect(_on_slice_header_button_down)
+	_normalmap_section_header.button_down.connect(_on_normalmap_header_button_down)
 	_output_section_header.button_down.connect(_on_output_header_button_down)
 
 	_source_field.pressed.connect(_on_source_pressed)
@@ -293,6 +313,10 @@ func _on_layer_header_button_down():
 
 func _on_slice_header_button_down():
 	_toggle_section_visibility(INTERFACE_SECTION_KEY_SLICE)
+
+
+func _on_normalmap_header_button_down():
+	_toggle_section_visibility(INTERFACE_SECTION_KEY_NORMALMAP)
 
 
 func _on_output_header_button_down():
@@ -365,6 +389,12 @@ func _get_current_config():
 		"o_ex_p": _ex_pattern_field.text,
 		"embed_tex": _embed_field.button_pressed,
 		"scale": str(_scale_field.value),
+		"normalmap_generate": _normalmap_generate_field.button_pressed,
+		"normalmap_emboss_height": _normalmap_emboss_height_field.value,
+		"normalmap_bump_height": _normalmap_bump_height_field.value,
+		"normalmap_blur": int(_normalmap_blur_field.value),
+		"normalmap_bump": int(_normalmap_bump_field.value),
+		"normalmap_save_debug_png": _normalmap_save_debug_png_field.button_pressed,
 	}
 
 	for c in child_config:

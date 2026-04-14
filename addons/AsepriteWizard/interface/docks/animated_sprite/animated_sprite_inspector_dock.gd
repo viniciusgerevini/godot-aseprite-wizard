@@ -53,6 +53,14 @@ func _do_import():
 		"slice": _slice,
 		"should_round_fps": _round_fps.button_pressed,
 		"should_create_portable_texture": _embed_field.button_pressed,
+		"normalmap_generate": _normalmap_generate_field.button_pressed,
+		"normalmap_params": {
+			"emboss_height": _normalmap_emboss_height_field.value,
+			"bump_height": _normalmap_bump_height_field.value,
+			"blur": int(_normalmap_blur_field.value),
+			"bump": int(_normalmap_bump_field.value),
+		},
+		"normalmap_save_debug_png": _normalmap_save_debug_png_field.button_pressed,
 	})
 
 	wizard_config.set_source_hash(target_node, FileAccess.get_md5(source_path))
