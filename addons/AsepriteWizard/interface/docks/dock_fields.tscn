@@ -575,22 +575,6 @@ step = 1.0
 value = 150.0
 rounded = true
 
-[node name="save_debug_png" type="HBoxContainer" parent="VBoxContainer/extra/sections/normalmap/section_content/content"]
-layout_mode = 2
-tooltip_text = "Save the generated normal map as a _n.png file on disk for debugging."
-
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/normalmap/section_content/content/save_debug_png"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-text = "Save Debug PNG"
-
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/normalmap/section_content/content/save_debug_png"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-text = "On"
-
 [node name="output" type="VBoxContainer" parent="VBoxContainer/extra/sections"]
 layout_mode = 2
 
@@ -620,6 +604,24 @@ size_flags_stretch_ratio = 2.0
 text = "Embed Texture"
 
 [node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/output/section_content/content/embed"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+button_pressed = true
+text = "On"
+
+[node name="normalmap_embed_resource" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content"]
+visible = false
+layout_mode = 2
+tooltip_text = "Embed the normal map resource directly in the scene. When disabled, a .tres file is saved on disk with the normal map resource."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/normalmap_embed_resource"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Embed Resource"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/output/section_content/content/normalmap_embed_resource"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
@@ -695,7 +697,7 @@ one_shot = true
 [connection signal="value_changed" from="VBoxContainer/extra/sections/normalmap/section_content/content/bump_height/SpinBox" to="." method="_on_spin_box_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/extra/sections/normalmap/section_content/content/blur/SpinBox" to="." method="_on_spin_box_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/extra/sections/normalmap/section_content/content/bump/SpinBox" to="." method="_on_spin_box_value_changed"]
-[connection signal="toggled" from="VBoxContainer/extra/sections/normalmap/section_content/content/save_debug_png/CheckBox" to="." method="_on_round_fps_toggled"]
+[connection signal="toggled" from="VBoxContainer/extra/sections/output/section_content/content/normalmap_embed_resource/CheckBox" to="." method="_on_round_fps_toggled"]
 [connection signal="toggled" from="VBoxContainer/extra/sections/output/section_content/content/embed/CheckBox" to="." method="_on_round_fps_toggled"]
 [connection signal="text_changed" from="VBoxContainer/extra/sections/output/section_content/content/out_filename/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="value_changed" from="VBoxContainer/extra/sections/output/section_content/content/scale/SpinBox" to="." method="_on_spin_box_value_changed"]

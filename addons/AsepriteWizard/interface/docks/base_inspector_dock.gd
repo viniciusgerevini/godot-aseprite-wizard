@@ -6,6 +6,7 @@ const wizard_config = preload("../../config/wizard_config.gd")
 const result_code = preload("../../config/result_codes.gd")
 var _aseprite_file_exporter = preload("../../aseprite/file_exporter.gd").new()
 var config = preload("../../config/config.gd").new()
+var _normal_map_generator = preload("../../normalmap/normal_map_generator.gd")
 
 var scene: Node
 var target_node: Node
@@ -63,7 +64,8 @@ var _interface_section_state
 @onready var _normalmap_bump_height_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/bump_height/SpinBox as SpinBox
 @onready var _normalmap_blur_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/blur/SpinBox as SpinBox
 @onready var _normalmap_bump_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/bump/SpinBox as SpinBox
-@onready var _normalmap_save_debug_png_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/save_debug_png/CheckBox as CheckBox
+@onready var _normalmap_embed_resource_field :=  $dock_fields/VBoxContainer/extra/sections/output/section_content/content/normalmap_embed_resource/CheckBox as CheckBox
+@onready var _normalmap_embed_resource_container := $dock_fields/VBoxContainer/extra/sections/output/section_content/content/normalmap_embed_resource as HBoxContainer
 
 
 @onready var _import_button := $dock_fields/VBoxContainer/import as Button
@@ -220,7 +222,7 @@ func _load_common_config(cfg):
 	_normalmap_bump_height_field.value = cfg.get("normalmap_bump_height", config.get_normalmap_bump_height())
 	_normalmap_blur_field.value = cfg.get("normalmap_blur", config.get_normalmap_blur())
 	_normalmap_bump_field.value = cfg.get("normalmap_bump", config.get_normalmap_bump())
-	_normalmap_save_debug_png_field.button_pressed = cfg.get("normalmap_save_debug_png", false)
+	_normalmap_embed_resource_field.button_pressed = cfg.get("normalmap_embed_resource", true)
 
 	_load_config(cfg)
 	_handle_embed_visibility()
@@ -305,6 +307,7 @@ func _setup_field_listeners():
 	_import_button.pressed.connect(_on_import_pressed)
 
 	_embed_field.pressed.connect(_on_embed_button_pressed)
+	_normalmap_generate_field.pressed.connect(_on_normalmap_generate_pressed)
 
 
 func _on_layer_header_button_down():
@@ -394,7 +397,7 @@ func _get_current_config():
 		"normalmap_bump_height": _normalmap_bump_height_field.value,
 		"normalmap_blur": int(_normalmap_blur_field.value),
 		"normalmap_bump": int(_normalmap_bump_field.value),
-		"normalmap_save_debug_png": _normalmap_save_debug_png_field.button_pressed,
+		"normalmap_embed_resource": _normalmap_embed_resource_field.button_pressed,
 	}
 
 	for c in child_config:
@@ -499,13 +502,52 @@ func _on_embed_button_pressed():
 	_handle_embed_visibility()
 
 
-func _handle_embed_visibility():
+func _on_normalmap_generate_pressed():
+	_handle_embed_visibility()
+
+
+## Generates the normal map for a sprite sheet and returns a ready-to-use Texture2D.
+## When Embed Texture is ON: returns an embedded PortableCompressedTexture2D (no file written).
+## When Embed Texture is OFF: saves _n.png, triggers a filesystem scan so Godot imports it,
+## then returns the imported file reference via ResourceLoader.
+func _prepare_normal_texture(sprite_sheet: String) -> Texture2D:
+	var params := {
+		"emboss_height": _normalmap_emboss_height_field.value,
+		"bump_height": _normalmap_bump_height_field.value,
+		"blur": int(_normalmap_blur_field.value),
+		"bump": int(_normalmap_bump_field.value),
+	}
+	var global_path := ProjectSettings.globalize_path(sprite_sheet)
+	var source_image := Image.load_from_file(global_path)
+	if source_image == null or source_image.is_empty():
+		return null
+	var normal_img := _normal_map_generator.generate_normal_map(source_image, params)
+
 	if _embed_field.button_pressed:
+		# Embed Texture ON: keep normal data in memory, no file on disk
+		var tex := PortableCompressedTexture2D.new()
+		tex.create_from_image(normal_img, PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
+		return tex
+	else:
+		# Embed Texture OFF: write _n.png, scan so Godot imports it, return file reference
+		var n_png_path := sprite_sheet.get_basename() + "_n.png"
+		normal_img.save_png(ProjectSettings.globalize_path(n_png_path))
+		file_system.scan()
+		await file_system.filesystem_changed
+		return ResourceLoader.load(n_png_path)
+
+
+func _handle_embed_visibility():
+	var embed_on := _embed_field.button_pressed
+	var normalmap_on := _normalmap_generate_field.button_pressed
+	if embed_on:
 		_out_folder_container.hide()
 		_out_filename_container.hide()
+		_normalmap_embed_resource_container.hide()
 	else:
 		_out_folder_container.show()
 		_out_filename_container.show()
+		_normalmap_embed_resource_container.visible = normalmap_on
 
 
 func _show_message(message: String):
