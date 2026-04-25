@@ -69,6 +69,7 @@ var _interface_section_state
 
 
 @onready var _import_button := $dock_fields/VBoxContainer/import as Button
+@onready var _normalmap_status_label := $dock_fields/VBoxContainer/normalmap_status as Label
 
 const INTERFACE_SECTION_KEY_LAYER = "layer_section"
 const INTERFACE_SECTION_KEY_SLICE = "slice_section"
@@ -513,9 +514,7 @@ func _on_normalmap_generate_pressed():
 
 
 ## Generates the normal map for a sprite sheet and returns a ready-to-use Texture2D.
-## When Embed Texture is ON: returns an embedded PortableCompressedTexture2D (no file written).
-## When Embed Texture is OFF: saves _n.png, triggers a filesystem scan so Godot imports it,
-## then returns the imported file reference via ResourceLoader.
+## Runs the CPU-heavy generation in a background thread so the editor stays responsive.
 func _prepare_normal_texture(sprite_sheet: String) -> Texture2D:
 	var params := {
 		"emboss_height": _normalmap_emboss_height_field.value,
@@ -527,7 +526,17 @@ func _prepare_normal_texture(sprite_sheet: String) -> Texture2D:
 	var source_image := Image.load_from_file(global_path)
 	if source_image == null or source_image.is_empty():
 		return null
-	var normal_img := _normal_map_generator.generate_normal_map(source_image, params)
+
+	# Run the heavy generation in a background thread so Godot doesn't freeze
+	_normalmap_status_label.show()
+	var thread := Thread.new()
+	thread.start(func() -> Image:
+		return _normal_map_generator.generate_normal_map(source_image, params)
+	)
+	while thread.is_alive():
+		await get_tree().process_frame
+	var normal_img: Image = thread.wait_to_finish()
+	_normalmap_status_label.hide()
 
 	if _embed_field.button_pressed:
 		# Embed Texture ON: keep normal data in memory, no file on disk

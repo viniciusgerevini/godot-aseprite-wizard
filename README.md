@@ -32,6 +32,7 @@ _Check the screenshots folder for more examples._
   - Generates a `_n.png` normal map from the diffuse sprite sheet using distance field + emboss techniques.
   - Configurable parameters: Emboss Height, Bump Height, Blur, and Bump intensity.
   - Wraps diffuse and normal textures in a `CanvasTexture` automatically.
+  - Generation runs in a **background thread** — the editor stays responsive even for large sprite sheets.
   - Two independent embed controls in the Output section:
     - **Embed Texture**: when ON, textures are stored as `PortableCompressedTexture2D` data; when OFF, PNG files are created on disk and referenced.
     - **Embed Resource**: when ON, the `CanvasTexture` (or plain texture) is inlined in the scene; when OFF, a `.tres` file is saved on disk and referenced.

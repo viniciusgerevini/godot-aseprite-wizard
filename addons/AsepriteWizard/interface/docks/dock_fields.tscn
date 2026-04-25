@@ -678,6 +678,13 @@ allow_greater = true
 layout_mode = 2
 text = "Import"
 
+[node name="normalmap_status" type="Label" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+auto_translate_mode = 0
+horizontal_alignment = 1
+text = "Generating normal map..."
+
 [node name="DebounceTimer" type="Timer" parent="."]
 wait_time = 0.6
 one_shot = true
