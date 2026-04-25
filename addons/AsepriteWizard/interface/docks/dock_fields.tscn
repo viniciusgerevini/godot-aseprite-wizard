@@ -611,7 +611,6 @@ button_pressed = true
 text = "On"
 
 [node name="normalmap_embed_resource" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content"]
-visible = false
 layout_mode = 2
 tooltip_text = "Embed the normal map resource directly in the scene. When disabled, a .tres file is saved on disk with the normal map resource."
 

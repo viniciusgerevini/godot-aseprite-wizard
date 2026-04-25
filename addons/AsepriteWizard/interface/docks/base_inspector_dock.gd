@@ -214,7 +214,7 @@ func _load_common_config(cfg):
 	_visible_layers_field.button_pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
 
-	_embed_field.button_pressed = cfg.get("embed_tex", false)
+	_embed_field.button_pressed = cfg.get("embed_tex", true)
 	_scale_field.value = float(cfg.get("scale", 1))
 
 	_normalmap_generate_field.button_pressed = cfg.get("normalmap_generate", config.is_normalmap_enabled())
@@ -308,6 +308,8 @@ func _setup_field_listeners():
 
 	_embed_field.pressed.connect(_on_embed_button_pressed)
 	_normalmap_generate_field.pressed.connect(_on_normalmap_generate_pressed)
+	_normalmap_embed_resource_field.pressed.connect(_on_embed_resource_button_pressed)
+	_normalmap_embed_resource_field.pressed.connect(_on_embed_resource_button_pressed)
 
 
 func _on_layer_header_button_down():
@@ -502,6 +504,10 @@ func _on_embed_button_pressed():
 	_handle_embed_visibility()
 
 
+func _on_embed_resource_button_pressed():
+	_handle_embed_visibility()
+
+
 func _on_normalmap_generate_pressed():
 	_handle_embed_visibility()
 
@@ -539,15 +545,14 @@ func _prepare_normal_texture(sprite_sheet: String) -> Texture2D:
 
 func _handle_embed_visibility():
 	var embed_on := _embed_field.button_pressed
-	var normalmap_on := _normalmap_generate_field.button_pressed
-	if embed_on:
+	var embed_res_on := _normalmap_embed_resource_field.button_pressed
+	# Hide folder/filename only when both embed modes are ON (nothing written to disk)
+	if embed_on and embed_res_on:
 		_out_folder_container.hide()
 		_out_filename_container.hide()
-		_normalmap_embed_resource_container.hide()
 	else:
 		_out_folder_container.show()
 		_out_filename_container.show()
-		_normalmap_embed_resource_container.visible = normalmap_on
 
 
 func _show_message(message: String):

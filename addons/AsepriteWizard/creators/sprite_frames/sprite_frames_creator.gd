@@ -104,12 +104,12 @@ func _load_or_create_texture_resource(sprite_sheet: String, options: Dictionary)
 		var canvas_tex := CanvasTexture.new()
 		canvas_tex.diffuse_texture = diffuse_tex
 		canvas_tex.normal_texture = normalmap_tex
-		if not options.get("should_create_portable_texture", false) and not options.get("normalmap_embed_resource", true):
-			var tres_path := sprite_sheet.get_basename() + ".tres"
-			ResourceSaver.save(canvas_tex, tres_path)
-			return { "texture": ResourceLoader.load(tres_path), "extra_gen_files": extra_gen_files }
-		else:
-			return { "texture": canvas_tex, "extra_gen_files": extra_gen_files }
+		diffuse_tex = canvas_tex
+
+	if not options.get("normalmap_embed_resource", true):
+		var tres_path := sprite_sheet.get_basename() + ".tres"
+		ResourceSaver.save(diffuse_tex, tres_path)
+		return { "texture": ResourceLoader.load(tres_path), "extra_gen_files": extra_gen_files }
 
 	return { "texture": diffuse_tex, "extra_gen_files": extra_gen_files }
 

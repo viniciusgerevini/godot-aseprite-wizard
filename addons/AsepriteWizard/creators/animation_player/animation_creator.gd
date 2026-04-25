@@ -36,12 +36,12 @@ func _import(target_node: Node, player: AnimationPlayer, aseprite_files: Diction
 		var canvas_tex := CanvasTexture.new()
 		canvas_tex.diffuse_texture = texture
 		canvas_tex.normal_texture = normalmap_tex
-		if not options.get("should_create_portable_texture", false) and not options.get("normalmap_embed_resource", true):
-			var tres_path := sprite_sheet.get_basename() + ".tres"
-			ResourceSaver.save(canvas_tex, tres_path)
-			texture = ResourceLoader.load(tres_path)
-		else:
-			texture = canvas_tex
+		texture = canvas_tex
+
+	if not options.get("normalmap_embed_resource", true):
+		var tres_path := sprite_sheet.get_basename() + ".tres"
+		ResourceSaver.save(texture, tres_path)
+		texture = ResourceLoader.load(tres_path)
 
 	_setup_texture(target_node, texture, content, context, options.slice != "")
 	var result = _configure_animations(target_node, player, content, context, options)
