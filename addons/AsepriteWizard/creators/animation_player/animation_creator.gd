@@ -340,6 +340,15 @@ func _relevant_track_count(target_node: Node, player: AnimationPlayer, animation
 
 
 func _animation_name_without_loop_prefix(animation_name: String) -> String:
+	var anim_tokens := animation_name.split("/")
+
+	if anim_tokens.size() == 2:
+		var library_name = anim_tokens[0]
+		animation_name = anim_tokens[1]
+		if animation_name.begins_with(_config.get_animation_loop_exception_prefix()):
+			animation_name = animation_name.substr(_config.get_animation_loop_exception_prefix().length())
+		return "%s/%s" % [library_name, animation_name]
+		
 	if animation_name.begins_with(_config.get_animation_loop_exception_prefix()):
 		return animation_name.substr(_config.get_animation_loop_exception_prefix().length())
 	return animation_name
