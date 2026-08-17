@@ -52,6 +52,7 @@ func _layer_extension() -> String:
 func _get_base_import_options(options: Dictionary):
 	return  {
 		"sheet_type": options["sheet/sheet_type"],
+		"ignore_empty": options["sheet/ignore_empty"],
 		"frame_padding": options["sheet/frame_padding"],
 		"sheet_columns": options["sheet/sheet_columns"],
 		"should_round_fps": options["animation/round_fps"],

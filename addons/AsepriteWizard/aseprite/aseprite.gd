@@ -148,6 +148,11 @@ func _add_sheet_type_arguments(arguments: Array, options : Dictionary):
 	arguments.push_back("--shape-padding")
 	arguments.push_back(frame_padding)
 
+	var ignore_empty = options.get("ignore_empty", false)
+
+	if ignore_empty:
+		arguments.push_back("--ignore-empty")
+
 
 func _get_exception_layers(file_name: String, exception_pattern: String) -> Array:
 	var layers = list_layers(file_name)
