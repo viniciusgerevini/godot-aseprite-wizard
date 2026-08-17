@@ -49,10 +49,16 @@ func _do_import():
 	file_system.scan()
 	await file_system.filesystem_changed
 
+	var normalmap_tex: Texture2D = null
+	if _normalmap_generate_field.button_pressed:
+		normalmap_tex = await _prepare_normal_texture(aseprite_output.content.sprite_sheet)
+
 	sprite_frames_creator.create_animations(target_node, aseprite_output.content, {
 		"slice": _slice,
 		"should_round_fps": _round_fps.button_pressed,
 		"should_create_portable_texture": _embed_field.button_pressed,
+		"normalmap_texture": normalmap_tex,
+		"normalmap_embed_resource": _normalmap_embed_resource_field.button_pressed,
 	})
 
 	wizard_config.set_source_hash(target_node, FileAccess.get_md5(source_path))

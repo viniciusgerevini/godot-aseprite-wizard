@@ -31,6 +31,13 @@ const IMPORTER_STATIC_TEXTURE_SPLIT_NAME = "Static Texture (Split By Layer)"
 
 const _IMPORTER_GENERATE_BAKE_FILE_KEY = 'aseprite/import/import_plugin/generate_bake_files'
 
+# normal map generation
+const _NORMALMAP_ENABLED_KEY = 'aseprite/normalmap/enabled'
+const _NORMALMAP_EMBOSS_HEIGHT_KEY = 'aseprite/normalmap/emboss_height'
+const _NORMALMAP_BUMP_HEIGHT_KEY = 'aseprite/normalmap/bump_height'
+const _NORMALMAP_BLUR_KEY = 'aseprite/normalmap/blur'
+const _NORMALMAP_BUMP_KEY = 'aseprite/normalmap/bump'
+
 # wizard history
 const _WIZARD_HISTORY = "wizard_history"
 const _HISTORY_MAX_ENTRIES = 'aseprite/wizard/history/max_history_entries'
@@ -114,6 +121,26 @@ func is_set_visible_track_automatically_enabled() -> bool:
 	return _get_project_setting(_SET_VISIBLE_TRACK_AUTOMATICALLY, false)
 
 
+func is_normalmap_enabled() -> bool:
+	return _get_project_setting(_NORMALMAP_ENABLED_KEY, false)
+
+
+func get_normalmap_emboss_height() -> float:
+	return _get_project_setting(_NORMALMAP_EMBOSS_HEIGHT_KEY, 2.0)
+
+
+func get_normalmap_bump_height() -> float:
+	return _get_project_setting(_NORMALMAP_BUMP_HEIGHT_KEY, 8.0)
+
+
+func get_normalmap_blur() -> int:
+	return _get_project_setting(_NORMALMAP_BLUR_KEY, 2)
+
+
+func get_normalmap_bump() -> int:
+	return _get_project_setting(_NORMALMAP_BUMP_KEY, 150)
+
+
 func save_import_history(history: Array):
 	set_plugin_metadata(_WIZARD_HISTORY, history)
 
@@ -172,6 +199,12 @@ func initialize_project_settings():
 
 	_initialize_project_cfg(_SET_VISIBLE_TRACK_AUTOMATICALLY, false, TYPE_BOOL)
 
+	_initialize_project_cfg(_NORMALMAP_ENABLED_KEY, false, TYPE_BOOL)
+	_initialize_project_cfg(_NORMALMAP_EMBOSS_HEIGHT_KEY, 2.0, TYPE_FLOAT)
+	_initialize_project_cfg(_NORMALMAP_BUMP_HEIGHT_KEY, 8.0, TYPE_FLOAT)
+	_initialize_project_cfg(_NORMALMAP_BLUR_KEY, 2, TYPE_INT)
+	_initialize_project_cfg(_NORMALMAP_BUMP_KEY, 150, TYPE_INT)
+
 	ProjectSettings.save()
 
 	_initialize_editor_cfg(_COMMAND_KEY, default_command(), TYPE_STRING)
@@ -188,6 +221,11 @@ func clear_project_settings():
 		_SET_VISIBLE_TRACK_AUTOMATICALLY,
 		_DEFAULT_ONLY_VISIBLE_LAYERS,
 		_IMPORTER_GENERATE_BAKE_FILE_KEY,
+		_NORMALMAP_ENABLED_KEY,
+		_NORMALMAP_EMBOSS_HEIGHT_KEY,
+		_NORMALMAP_BUMP_HEIGHT_KEY,
+		_NORMALMAP_BLUR_KEY,
+		_NORMALMAP_BUMP_KEY,
 	]
 	for key in _all_settings:
 		ProjectSettings.clear(key)

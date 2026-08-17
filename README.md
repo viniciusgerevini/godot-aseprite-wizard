@@ -28,6 +28,15 @@ _Check the screenshots folder for more examples._
 - Separates each Aseprite Tag into animations. In case no tags are defined, imports everything as default animation.
 - Filters out layers you don't want in the final animation using regex.
 - Supports slices. Import only a region from your file.
+- **Normal Map generation**: CPU-based normal map generator, no external tools required.
+  - Generates a `_n.png` normal map from the diffuse sprite sheet using distance field + emboss techniques.
+  - Configurable parameters: Emboss Height, Bump Height, Blur, and Bump intensity.
+  - Wraps diffuse and normal textures in a `CanvasTexture` automatically.
+  - Generation runs in a **background thread** — the editor stays responsive even for large sprite sheets.
+  - Two independent embed controls in the Output section:
+    - **Embed Texture**: when ON, textures are stored as `PortableCompressedTexture2D` data; when OFF, PNG files are created on disk and referenced.
+    - **Embed Resource**: when ON, the `CanvasTexture` (or plain texture) is inlined in the scene; when OFF, a `.tres` file is saved on disk and referenced.
+  - Works with AnimationPlayer, AnimatedSprite2D/3D, and static Sprite/TextureRect imports.
 - For AnimatedSprite
   - Creates SpriteFrames with Atlas Texture to be used in AnimatedSprites.
   - Converts Aseprite frame duration (defined in milliseconds) to Godot's animation FPS. This way you can create your animation with the right timing in Aseprite and it should work the same way in Godot.

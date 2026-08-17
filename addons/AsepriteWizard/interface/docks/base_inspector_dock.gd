@@ -6,6 +6,7 @@ const wizard_config = preload("../../config/wizard_config.gd")
 const result_code = preload("../../config/result_codes.gd")
 var _aseprite_file_exporter = preload("../../aseprite/file_exporter.gd").new()
 var config = preload("../../config/config.gd").new()
+var _normal_map_generator = preload("../../normalmap/normal_map_generator.gd")
 
 var scene: Node
 var target_node: Node
@@ -55,16 +56,30 @@ var _interface_section_state
 
 @onready var _scale_field :=  $dock_fields/VBoxContainer/extra/sections/output/section_content/content/scale/SpinBox as SpinBox
 
+# normalmap
+@onready var _normalmap_section_header := $dock_fields/VBoxContainer/extra/sections/normalmap/section_header as Button
+@onready var _normalmap_section_container := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content as MarginContainer
+@onready var _normalmap_generate_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/generate/CheckBox as CheckBox
+@onready var _normalmap_emboss_height_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/emboss_height/SpinBox as SpinBox
+@onready var _normalmap_bump_height_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/bump_height/SpinBox as SpinBox
+@onready var _normalmap_blur_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/blur/SpinBox as SpinBox
+@onready var _normalmap_bump_field := $dock_fields/VBoxContainer/extra/sections/normalmap/section_content/content/bump/SpinBox as SpinBox
+@onready var _normalmap_embed_resource_field :=  $dock_fields/VBoxContainer/extra/sections/output/section_content/content/normalmap_embed_resource/CheckBox as CheckBox
+@onready var _normalmap_embed_resource_container := $dock_fields/VBoxContainer/extra/sections/output/section_content/content/normalmap_embed_resource as HBoxContainer
+
 
 @onready var _import_button := $dock_fields/VBoxContainer/import as Button
+@onready var _normalmap_status_label := $dock_fields/VBoxContainer/normalmap_status as Label
 
 const INTERFACE_SECTION_KEY_LAYER = "layer_section"
 const INTERFACE_SECTION_KEY_SLICE = "slice_section"
+const INTERFACE_SECTION_KEY_NORMALMAP = "normalmap_section"
 const INTERFACE_SECTION_KEY_OUTPUT = "output_section"
 
 @onready var _expandable_sections = {
 	INTERFACE_SECTION_KEY_LAYER: { "header": _layer_section_header, "content": _layer_section_container},
 	INTERFACE_SECTION_KEY_SLICE: { "header": _slice_section_header, "content": _slice_section_container},
+	INTERFACE_SECTION_KEY_NORMALMAP: { "header": _normalmap_section_header, "content": _normalmap_section_container},
 	INTERFACE_SECTION_KEY_OUTPUT: { "header": _output_section_header, "content": _output_section_container},
 }
 
@@ -200,8 +215,15 @@ func _load_common_config(cfg):
 	_visible_layers_field.button_pressed = cfg.get("only_visible", false)
 	_ex_pattern_field.text = cfg.get("o_ex_p", "")
 
-	_embed_field.button_pressed = cfg.get("embed_tex", false)
+	_embed_field.button_pressed = cfg.get("embed_tex", true)
 	_scale_field.value = float(cfg.get("scale", 1))
+
+	_normalmap_generate_field.button_pressed = cfg.get("normalmap_generate", config.is_normalmap_enabled())
+	_normalmap_emboss_height_field.value = cfg.get("normalmap_emboss_height", config.get_normalmap_emboss_height())
+	_normalmap_bump_height_field.value = cfg.get("normalmap_bump_height", config.get_normalmap_bump_height())
+	_normalmap_blur_field.value = cfg.get("normalmap_blur", config.get_normalmap_blur())
+	_normalmap_bump_field.value = cfg.get("normalmap_bump", config.get_normalmap_bump())
+	_normalmap_embed_resource_field.button_pressed = cfg.get("normalmap_embed_resource", true)
 
 	_load_config(cfg)
 	_handle_embed_visibility()
@@ -268,6 +290,7 @@ func _adjust_icon(section: Button, is_visible: bool = true) -> void:
 func _setup_field_listeners():
 	_layer_section_header.button_down.connect(_on_layer_header_button_down)
 	_slice_section_header.button_down.connect(_on_slice_header_button_down)
+	_normalmap_section_header.button_down.connect(_on_normalmap_header_button_down)
 	_output_section_header.button_down.connect(_on_output_header_button_down)
 
 	_source_field.pressed.connect(_on_source_pressed)
@@ -285,6 +308,9 @@ func _setup_field_listeners():
 	_import_button.pressed.connect(_on_import_pressed)
 
 	_embed_field.pressed.connect(_on_embed_button_pressed)
+	_normalmap_generate_field.pressed.connect(_on_normalmap_generate_pressed)
+	_normalmap_embed_resource_field.pressed.connect(_on_embed_resource_button_pressed)
+	_normalmap_embed_resource_field.pressed.connect(_on_embed_resource_button_pressed)
 
 
 func _on_layer_header_button_down():
@@ -293,6 +319,10 @@ func _on_layer_header_button_down():
 
 func _on_slice_header_button_down():
 	_toggle_section_visibility(INTERFACE_SECTION_KEY_SLICE)
+
+
+func _on_normalmap_header_button_down():
+	_toggle_section_visibility(INTERFACE_SECTION_KEY_NORMALMAP)
 
 
 func _on_output_header_button_down():
@@ -365,6 +395,12 @@ func _get_current_config():
 		"o_ex_p": _ex_pattern_field.text,
 		"embed_tex": _embed_field.button_pressed,
 		"scale": str(_scale_field.value),
+		"normalmap_generate": _normalmap_generate_field.button_pressed,
+		"normalmap_emboss_height": _normalmap_emboss_height_field.value,
+		"normalmap_bump_height": _normalmap_bump_height_field.value,
+		"normalmap_blur": int(_normalmap_blur_field.value),
+		"normalmap_bump": int(_normalmap_bump_field.value),
+		"normalmap_embed_resource": _normalmap_embed_resource_field.button_pressed,
 	}
 
 	for c in child_config:
@@ -469,8 +505,58 @@ func _on_embed_button_pressed():
 	_handle_embed_visibility()
 
 
-func _handle_embed_visibility():
+func _on_embed_resource_button_pressed():
+	_handle_embed_visibility()
+
+
+func _on_normalmap_generate_pressed():
+	_handle_embed_visibility()
+
+
+## Generates the normal map for a sprite sheet and returns a ready-to-use Texture2D.
+## Runs the CPU-heavy generation in a background thread so the editor stays responsive.
+func _prepare_normal_texture(sprite_sheet: String) -> Texture2D:
+	var params := {
+		"emboss_height": _normalmap_emboss_height_field.value,
+		"bump_height": _normalmap_bump_height_field.value,
+		"blur": int(_normalmap_blur_field.value),
+		"bump": int(_normalmap_bump_field.value),
+	}
+	var global_path := ProjectSettings.globalize_path(sprite_sheet)
+	var source_image := Image.load_from_file(global_path)
+	if source_image == null or source_image.is_empty():
+		return null
+
+	# Run the heavy generation in a background thread so Godot doesn't freeze
+	_normalmap_status_label.show()
+	var thread := Thread.new()
+	thread.start(func() -> Image:
+		return _normal_map_generator.generate_normal_map(source_image, params)
+	)
+	while thread.is_alive():
+		await get_tree().process_frame
+	var normal_img: Image = thread.wait_to_finish()
+	_normalmap_status_label.hide()
+
 	if _embed_field.button_pressed:
+		# Embed Texture ON: keep normal data in memory, no file on disk
+		var tex := PortableCompressedTexture2D.new()
+		tex.create_from_image(normal_img, PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
+		return tex
+	else:
+		# Embed Texture OFF: write _n.png, scan so Godot imports it, return file reference
+		var n_png_path := sprite_sheet.get_basename() + "_n.png"
+		normal_img.save_png(ProjectSettings.globalize_path(n_png_path))
+		file_system.scan()
+		await file_system.filesystem_changed
+		return ResourceLoader.load(n_png_path)
+
+
+func _handle_embed_visibility():
+	var embed_on := _embed_field.button_pressed
+	var embed_res_on := _normalmap_embed_resource_field.button_pressed
+	# Hide folder/filename only when both embed modes are ON (nothing written to disk)
+	if embed_on and embed_res_on:
 		_out_folder_container.hide()
 		_out_filename_container.hide()
 	else:

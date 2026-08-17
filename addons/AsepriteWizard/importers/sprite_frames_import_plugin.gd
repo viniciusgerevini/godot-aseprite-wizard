@@ -8,6 +8,7 @@ var config = preload("../config/config.gd").new()
 var _aseprite_file_exporter = preload("../aseprite/file_exporter.gd").new()
 var _sf_creator = preload("../creators/sprite_frames/sprite_frames_creator.gd").new()
 var _bakery = preload("./helpers/bakery.gd").new()
+var _normal_map_generator = preload("../normalmap/normal_map_generator.gd")
 var file_system: EditorFileSystem = EditorInterface.get_resource_filesystem()
 
 
@@ -70,10 +71,38 @@ func _get_import_options(_path, _i):
 			"default_value": 1,
 		},
 		{"name": "animation/round_fps", "default_value": true},
+		{"name": "normalmap/generate", "default_value": config.is_normalmap_enabled()},
+		{
+			"name": "normalmap/emboss_height",
+			"default_value": config.get_normalmap_emboss_height(),
+			"property_hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,100,0.01",
+		},
+		{
+			"name": "normalmap/bump_height",
+			"default_value": config.get_normalmap_bump_height(),
+			"property_hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,100,0.01",
+		},
+		{
+			"name": "normalmap/blur",
+			"default_value": config.get_normalmap_blur(),
+			"property_hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,10,1",
+		},
+		{
+			"name": "normalmap/bump",
+			"default_value": config.get_normalmap_bump(),
+			"property_hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,500,1",
+		},
+		{"name": "normalmap/save_debug_png", "default_value": false},
 	]
 
 
 func _get_option_visibility(path, option, options):
+	if option.begins_with("normalmap/") and option != "normalmap/generate":
+		return options.get("normalmap/generate", false)
 	return true
 
 
@@ -115,6 +144,13 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var resources = _sf_creator.create_resources(source_files.content, {
 		"should_round_fps": options["animation/round_fps"],
 		"should_create_portable_texture": true,
+		"normalmap_generate": options.get("normalmap/generate", false),
+		"normalmap_params": {
+			"emboss_height": options.get("normalmap/emboss_height", 0.1),
+			"bump_height": options.get("normalmap/bump_height", 0.3),
+			"blur": options.get("normalmap/blur", 5),
+			"bump": options.get("normalmap/bump", 60),
+		},
 	})
 
 	if not resources.is_ok:
@@ -135,6 +171,20 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 
 	if config.should_remove_source_files():
 		_remove_source_files(source_files.content)
+
+	# Save debug normal map PNGs if requested
+	if options.get("normalmap/generate", false) and options.get("normalmap/save_debug_png", false):
+		for s in source_files.content:
+			var sheet_path: String = s.sprite_sheet
+			var global_sheet = ProjectSettings.globalize_path(sheet_path)
+			# Even if source files were removed, we still have the image in the resource.
+			# Load from the original path if it still exists, otherwise skip.
+			if FileAccess.file_exists(global_sheet) or FileAccess.file_exists(sheet_path):
+				var img = Image.load_from_file(global_sheet)
+				if img:
+					var normal_img = _normal_map_generator.generate_normal_map(img, options.get("normalmap/params", {}))
+					var base = sheet_path.get_basename()
+					normal_img.save_png(ProjectSettings.globalize_path(base + "_n.png"))
 
 	if exit_code != OK:
 		logger.error("Could not persist aseprite file: %s" % result_codes.get_error_message(exit_code), source_file)

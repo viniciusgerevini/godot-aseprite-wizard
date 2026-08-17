@@ -176,6 +176,10 @@ func _import_for_animation_player():
 	file_system.scan()
 	await file_system.filesystem_changed
 
+	var normalmap_tex: Texture2D = null
+	if _normalmap_generate_field.button_pressed:
+		normalmap_tex = await _prepare_normal_texture(aseprite_output.content.sprite_sheet)
+
 	var anim_options = {
 		"keep_anim_length": _keep_length.button_pressed,
 		"cleanup_hide_unused_nodes": _cleanup_hide_unused_nodes.button_pressed,
@@ -183,7 +187,9 @@ func _import_for_animation_player():
 		"should_create_portable_texture": _embed_field.button_pressed,
 		"convert_to_fps": _convert_to_fps.button_pressed,
 		"convert_ms_field": _convert_ms_field.value,
-		"convert_fps_field": _convert_fps_field.value
+		"convert_fps_field": _convert_fps_field.value,
+		"normalmap_texture": normalmap_tex,
+		"normalmap_embed_resource": _normalmap_embed_resource_field.button_pressed,
 	}
 
 	animation_creator.create_animations(target_node, root.get_node(_animation_player_path), aseprite_output.content, anim_options)
@@ -213,9 +219,15 @@ func _import_static():
 	file_system.scan()
 	await file_system.filesystem_changed
 
+	var normalmap_tex: Texture2D = null
+	if _normalmap_generate_field.button_pressed:
+		normalmap_tex = await _prepare_normal_texture(aseprite_output.content.sprite_sheet)
+
 	static_texture_creator.load_texture(target_node, aseprite_output.content, {
 		"slice": _slice,
 		"should_create_portable_texture": _embed_field.button_pressed,
+		"normalmap_texture": normalmap_tex,
+		"normalmap_embed_resource": _normalmap_embed_resource_field.button_pressed,
 	})
 
 	_importing = false

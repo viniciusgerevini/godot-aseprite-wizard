@@ -16,6 +16,18 @@ func load_texture(target_node: Node, aseprite_files: Dictionary, options: Dictio
 		logger.error("Failed to load aseprite source", source_file)
 		return
 
+	var normalmap_tex: Texture2D = options.get("normalmap_texture")
+	if normalmap_tex != null:
+		var canvas_tex := CanvasTexture.new()
+		canvas_tex.diffuse_texture = texture
+		canvas_tex.normal_texture = normalmap_tex
+		texture = canvas_tex
+
+	if not options.get("normalmap_embed_resource", true):
+		var tres_path := sprite_sheet.get_basename() + ".tres"
+		ResourceSaver.save(texture, tres_path)
+		texture = ResourceLoader.load(tres_path)
+
 	if options.slice == "":
 		target_node.texture = texture
 	else:

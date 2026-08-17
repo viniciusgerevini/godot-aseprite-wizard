@@ -43,6 +43,32 @@ func _get_import_options(_path, _i):
 			"name": "sheet/scale",
 			"default_value": 1,
 		},
+		{"name": "normalmap/generate", "default_value": config.is_normalmap_enabled()},
+		{
+			"name": "normalmap/emboss_height",
+			"default_value": config.get_normalmap_emboss_height(),
+			"property_hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,100,0.01",
+		},
+		{
+			"name": "normalmap/bump_height",
+			"default_value": config.get_normalmap_bump_height(),
+			"property_hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,100,0.01",
+		},
+		{
+			"name": "normalmap/blur",
+			"default_value": config.get_normalmap_blur(),
+			"property_hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,10,1",
+		},
+		{
+			"name": "normalmap/bump",
+			"default_value": config.get_normalmap_bump(),
+			"property_hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,500,1",
+		},
+		{"name": "normalmap/save_debug_png", "default_value": false},
 	]
 
 func _import(source_file, save_path, options, platform_variants, gen_files):
@@ -50,7 +76,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 
 	if bake_result != CONTINUE_STATUS_CODE:
 		return bake_result
-	
+
 	var absolute_source_file = ProjectSettings.globalize_path(source_file)
 	var source_path = source_file.get_base_dir()
 
@@ -78,4 +104,13 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var sprite_sheet = result.content.sprite_sheet
 	var data = result.content.data
 
-	return _save_resource(source_file, sprite_sheet, save_path, result.content.data_file, data.meta.size)
+	return _save_resource(source_file, sprite_sheet, save_path, result.content.data_file, data.meta.size, {
+		"generate": options.get("normalmap/generate", false),
+		"params": {
+			"emboss_height": options.get("normalmap/emboss_height", 0.1),
+			"bump_height": options.get("normalmap/bump_height", 0.3),
+			"blur": options.get("normalmap/blur", 5),
+			"bump": options.get("normalmap/bump", 60),
+		},
+		"save_debug_png": options.get("normalmap/save_debug_png", false),
+	})
