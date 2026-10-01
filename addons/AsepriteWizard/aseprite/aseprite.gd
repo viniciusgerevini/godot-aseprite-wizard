@@ -303,7 +303,13 @@ func _export_command_common_arguments(source_name: String, data_path: String, sp
 
 
 func _execute(arguments, output):
-	return OS.execute(_aseprite_command(), arguments, output, true, true)
+	var native_arguments: Array = arguments.duplicate()
+	if OS.get_name() == "Windows":
+		# Aseprite collapses //server/share paths; normalize UNC paths at the process boundary.
+		for index in native_arguments.size():
+			if native_arguments[index] is String and native_arguments[index].begins_with("//"):
+				native_arguments[index] = native_arguments[index].replace("/", "\\")
+	return OS.execute(_aseprite_command(), native_arguments, output, true, true)
 
 
 func _aseprite_command() -> String:
