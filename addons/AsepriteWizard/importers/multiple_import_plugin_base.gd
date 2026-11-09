@@ -125,8 +125,20 @@ func _get_base_import_options(options: Dictionary):
 func _load_old_data(source_file: String):
 	var old_data = {}
 
-	if ResourceLoader.exists(source_file):
-		var d = ResourceLoader.load(source_file)
+	var import_path = source_file + ".import"
+	if not FileAccess.file_exists(import_path):
+		return old_data
+
+	var cfg = ConfigFile.new()
+	if cfg.load(import_path) != OK:
+		return old_data
+
+	var dest_path = cfg.get_value("remap", "path", "")
+	if dest_path == "" or not FileAccess.file_exists(dest_path):
+		return old_data
+
+	if ResourceLoader.exists(dest_path):
+		var d = ResourceLoader.load(dest_path)
 		# handling JSON to keep it backwards compatible
 		# remove it in the next major version
 		if d is JSON:
