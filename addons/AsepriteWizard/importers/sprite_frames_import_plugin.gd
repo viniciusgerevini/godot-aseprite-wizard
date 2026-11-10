@@ -55,7 +55,7 @@ func _get_import_options(_path, _i):
 			"name": "sheet/sheet_type",
 			"default_value": "packed",
 			"property_hint": PROPERTY_HINT_ENUM,
-			"hint_string": "columns,horizontal,vertical,packed",
+			"hint_string": "columns,rows,horizontal,vertical,packed",
 		},
 		{
 			"name": "sheet/sheet_columns",
@@ -103,7 +103,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		"output_folder": source_path,
 		"sheet_type": options["sheet/sheet_type"],
 		"frame_padding": options["sheet/frame_padding"],
-		"sheet_columns": options["sheet/sheet_columns"],
+		"sheet_columns": options["sheet/sheet_columns_or_rows"],
 		"scale": str(options["sheet/scale"]),
 	}
 
