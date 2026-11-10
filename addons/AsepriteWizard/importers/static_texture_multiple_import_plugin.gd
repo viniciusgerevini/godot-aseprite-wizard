@@ -25,10 +25,10 @@ func _get_import_options(_path, _i):
 			"name": "sheet/sheet_type",
 			"default_value": "packed",
 			"property_hint": PROPERTY_HINT_ENUM,
-			"hint_string": "columns,horizontal,vertical,packed",
+			"hint_string": "columns,rows,horizontal,vertical,packed",
 		},
 		{
-			"name": "sheet/sheet_columns",
+			"name": "sheet/sheet_columns_or_rows",
 			"default_value": 12,
 		},
 		{
@@ -53,7 +53,7 @@ func _get_base_import_options(options: Dictionary):
 		"trim_cels": options["sheet/trim_cels"],
 		"first_frame_only": options["first_frame_only"],
 		"sheet_type": options["sheet/sheet_type"],
-		"sheet_columns": options["sheet/sheet_columns"],
+		"sheet_columns": options["sheet/sheet_columns_or_rows"],
 		"frame_padding": options["sheet/frame_padding"],
 		"scale": str(options["sheet/scale"]),
 	}

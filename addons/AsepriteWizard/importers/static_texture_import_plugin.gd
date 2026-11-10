@@ -33,10 +33,10 @@ func _get_import_options(_path, _i):
 			"name": "sheet/sheet_type",
 			"default_value": "packed",
 			"property_hint": PROPERTY_HINT_ENUM,
-			"hint_string": "columns,horizontal,vertical,packed",
+			"hint_string": "columns,rows,horizontal,vertical,packed",
 		},
 		{
-			"name": "sheet/sheet_columns",
+			"name": "sheet/sheet_columns_or_rows",
 			"default_value": 12,
 		},
 		{
@@ -67,7 +67,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		aseprite_opts['first_frame_only'] = options['first_frame_only']
 	else:
 		aseprite_opts['sheet_type'] = options["sheet/sheet_type"]
-		aseprite_opts['sheet_columns'] = options["sheet/sheet_columns"]
+		aseprite_opts['sheet_columns'] = options["sheet/sheet_columns_or_rows"]
 
 	var result = _generate_texture(absolute_source_file, aseprite_opts)
 

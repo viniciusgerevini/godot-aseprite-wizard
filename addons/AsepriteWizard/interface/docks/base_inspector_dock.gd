@@ -55,6 +55,11 @@ var _interface_section_state
 
 @onready var _scale_field :=  $dock_fields/VBoxContainer/extra/sections/output/section_content/content/scale/SpinBox as SpinBox
 
+@onready var _sheet_type_field: OptionButton =  $dock_fields/VBoxContainer/extra/sections/output/section_content/content/sheet_type/OptionButton
+@onready var _sheet_item_count_label: Label =  $dock_fields/VBoxContainer/extra/sections/output/section_content/content/sheet_item_count/Label
+@onready var _sheet_item_count_field: SpinBox=  $dock_fields/VBoxContainer/extra/sections/output/section_content/content/sheet_item_count/SpinBox
+@onready var _frame_padding_field: SpinBox=  $dock_fields/VBoxContainer/extra/sections/output/section_content/content/frame_padding/SpinBox
+
 
 @onready var _import_button := $dock_fields/VBoxContainer/import as Button
 
@@ -71,6 +76,14 @@ const INTERFACE_SECTION_KEY_OUTPUT = "output_section"
 const PENDING_CHANGES_KEY := "pending_changes"
 
 var _do_not_update_pending := false
+
+const SheetTypeIndex = {
+	"horizontal" = 0,
+	"vertical" = 1,
+	"columns" = 2,
+	"rows" = 3,
+	"packed" = 4
+}
 
 func _ready():
 	_pre_setup()
@@ -203,8 +216,18 @@ func _load_common_config(cfg):
 	_embed_field.button_pressed = cfg.get("embed_tex", false)
 	_scale_field.value = float(cfg.get("scale", 1))
 
+	var sheet_type = cfg.get("sheet_type", "packed")
+	_sheet_type_field.select(SheetTypeIndex[sheet_type])
+
+	var items_count = int(cfg.get("sheet_columns", 12))
+	_sheet_item_count_field.value = items_count
+	
+	_scale_field.value = float(cfg.get("scale", 1))
+	_frame_padding_field.value = int(cfg.get("frame_padding", 0))
+
 	_load_config(cfg)
 	_handle_embed_visibility()
+	_handle_sheet_fields_visibility()
 
 
 func _load_common_default_config():
@@ -286,6 +309,8 @@ func _setup_field_listeners():
 
 	_embed_field.pressed.connect(_on_embed_button_pressed)
 
+	_sheet_type_field.item_selected.connect(_on_sheet_type_selected)
+
 
 func _on_layer_header_button_down():
 	_toggle_section_visibility(INTERFACE_SECTION_KEY_LAYER)
@@ -365,6 +390,9 @@ func _get_current_config():
 		"o_ex_p": _ex_pattern_field.text,
 		"embed_tex": _embed_field.button_pressed,
 		"scale": str(_scale_field.value),
+		"sheet_type": _sheet_type_field.get_item_text(_sheet_type_field.selected),
+		"sheet_columns": str(int(_sheet_item_count_field.value)),
+		"frame_padding": str(_frame_padding_field.value),
 	}
 
 	for c in child_config:
@@ -383,7 +411,9 @@ func _save_config():
 
 
 func _get_import_options(default_folder: String):
-	return {
+	var sheet_type = _sheet_type_field.get_item_text(_sheet_type_field.selected)
+
+	var options = {
 		"output_folder": _output_folder if _output_folder != "" else default_folder,
 		"exception_pattern": _ex_pattern_field.text,
 		"only_visible_layers": _visible_layers_field.button_pressed,
@@ -391,7 +421,12 @@ func _get_import_options(default_folder: String):
 		"layers": _layer_field.get_selected_layers(),
 		"embed_tex": _embed_field.button_pressed,
 		"scale": str(_scale_field.value),
+		"sheet_type": sheet_type,
+		"sheet_columns": str(int(_sheet_item_count_field.value)),
+		"frame_padding": str(_frame_padding_field.value),
 	}
+
+	return options
 
 
 func _open_source_dialog():
@@ -476,6 +511,35 @@ func _handle_embed_visibility():
 	else:
 		_out_folder_container.show()
 		_out_filename_container.show()
+
+func _on_sheet_type_selected(_index):
+	_handle_sheet_fields_visibility()
+
+
+func _handle_sheet_fields_visibility() -> void:
+	var selected_index = _sheet_type_field.selected
+
+	if SheetTypeIndex["columns"] == selected_index:
+		_sheet_item_count_label.get_parent().show()
+		_sheet_item_count_label.text = "Sheet Rows"
+	elif SheetTypeIndex["rows"] == selected_index:
+		_sheet_item_count_label.get_parent().show()
+		_sheet_item_count_label.text = "Sheet Columns"
+	else:
+		_sheet_item_count_label.get_parent().hide()
+
+
+func _hide_sheet_fields() -> void:
+	_sheet_type_field.get_parent().hide()
+	_sheet_item_count_field.get_parent().hide()
+	_frame_padding_field.get_parent().hide()
+
+
+func _show_sheet_fields() -> void:
+	_sheet_type_field.get_parent().show()
+	_handle_sheet_fields_visibility()
+	_frame_padding_field.get_parent().show()
+
 
 
 func _show_message(message: String):

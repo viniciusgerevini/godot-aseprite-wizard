@@ -130,23 +130,27 @@ func _add_ignore_layer_arguments(file_name: String, arguments: Array, exception_
 
 func _add_sheet_type_arguments(arguments: Array, options : Dictionary):
 	var sheet_type = options.get("sheet_type", "packed")
-	var item_count = options.get("sheet_columns", 0)
+	var item_count = int(options.get("sheet_columns", 0))
 
 	if (sheet_type == "columns" or sheet_type == "rows") and item_count == 0:
 		sheet_type = "packed"
 	elif options.get("sheet_merge_duplicates", true):
 		arguments.push_back("--merge-duplicates")
 
+	arguments.push_back("--sheet-type")
+	arguments.push_back(sheet_type)
+
 	if sheet_type == "columns":
+		arguments.push_back("--sheet-rows")
+		arguments.push_back(item_count)
+	if sheet_type == "rows":
 		arguments.push_back("--sheet-columns")
 		arguments.push_back(item_count)
-	else:
-		arguments.push_back("--sheet-type")
-		arguments.push_back(sheet_type)
 
-	var frame_padding = options.get("frame_padding", 0)
-	arguments.push_back("--shape-padding")
-	arguments.push_back(frame_padding)
+	var frame_padding = options.get("frame_padding", "0")
+	if frame_padding != "0":
+		arguments.push_back("--shape-padding")
+		arguments.push_back(frame_padding)
 
 
 func _get_exception_layers(file_name: String, exception_pattern: String) -> Array:

@@ -90,9 +90,11 @@ func _handle_import_mode():
 		ImportMode.ANIMATION:
 			_animation_player_container.show()
 			_animation_section.show()
+			_show_sheet_fields()
 		ImportMode.IMAGE:
 			_animation_player_container.hide()
 			_animation_section.hide()
+			_hide_sheet_fields()
 
 
 func _setup_animation_fields_listeners():
