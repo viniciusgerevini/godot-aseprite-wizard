@@ -22,6 +22,9 @@ const ImportsManagerPanels = preload('interface/imports_manager/import_panels.ts
 const AnimatedSpriteInspectorPlugin = preload("interface/docks/animated_sprite/inspector_plugin.gd")
 const SpriteInspectorPlugin = preload("interface/docks/sprite/inspector_plugin.gd")
 
+const SpriteFramesPreviewGenerator = preload("previewer/sprite_frames_preview_generator.gd")
+const SpriteFramesTooltip = preload("previewer/sprite_frames_tooltip.gd")
+
 const tool_menu_name = "Aseprite Wizard"
 const menu_item_name = "Spritesheet Wizard Dock..."
 const config_menu_item_name = "Config..."
@@ -33,15 +36,18 @@ var window: TabContainer
 var config_window: Window
 var imports_list_window: Window
 var imports_list_panel: MarginContainer
-var export_plugin : EditorExportPlugin
+var export_plugin: EditorExportPlugin
 var sprite_inspector_plugin: EditorInspectorPlugin
 var animated_sprite_inspector_plugin: EditorInspectorPlugin
+var sprite_frame_preview_generator: SpriteFramesPreviewGenerator
+var sprite_frame_tooltip_plugin: SpriteFramesTooltip
 
 var file_system_helper
 
 var _importers = []
 
 var _is_import_list_docked = false
+
 
 func _enter_tree():
 	_load_config()
@@ -51,6 +57,7 @@ func _enter_tree():
 	_setup_animated_sprite_inspector_plugin()
 	_setup_sprite_inspector_plugin()
 	_setup_file_listeners()
+	_setup_preview_generator()
 
 
 func _exit_tree():
@@ -64,6 +71,7 @@ func _disable_plugin():
 	_remove_wizard_dock()
 	_remove_inspector_plugins()
 	_remove_file_listeners()
+	_remove_preview_generators()
 
 
 func _load_config():
@@ -140,6 +148,22 @@ func _remove_wizard_dock():
 		remove_control_from_bottom_panel(window)
 		window.queue_free()
 		window = null
+
+
+func _setup_preview_generator():
+	sprite_frame_preview_generator = SpriteFramesPreviewGenerator.new()
+	sprite_frame_tooltip_plugin = SpriteFramesTooltip.new()
+	EditorInterface.get_resource_previewer().add_preview_generator(sprite_frame_preview_generator)
+	EditorInterface.get_file_system_dock().add_resource_tooltip_plugin(sprite_frame_tooltip_plugin)
+
+
+func _remove_preview_generators():
+	EditorInterface.get_resource_previewer().remove_preview_generator(
+		sprite_frame_preview_generator
+	)
+	EditorInterface.get_file_system_dock().remove_resource_tooltip_plugin(
+		sprite_frame_tooltip_plugin
+	)
 
 
 func _open_window():
