@@ -137,12 +137,15 @@ func _add_sheet_type_arguments(arguments: Array, options : Dictionary):
 	elif options.get("sheet_merge_duplicates", true):
 		arguments.push_back("--merge-duplicates")
 
+	arguments.push_back("--sheet-type")
+	arguments.push_back(sheet_type)
+
 	if sheet_type == "columns":
+		arguments.push_back("--sheet-rows")
+		arguments.push_back(item_count)
+	if sheet_type == "rows":
 		arguments.push_back("--sheet-columns")
 		arguments.push_back(item_count)
-	else:
-		arguments.push_back("--sheet-type")
-		arguments.push_back(sheet_type)
 
 	var frame_padding = options.get("frame_padding", "0")
 	if frame_padding != "0":

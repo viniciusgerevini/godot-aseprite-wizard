@@ -521,6 +521,10 @@ func _handle_sheet_fields_visibility() -> void:
 
 	if SheetTypeIndex["columns"] == selected_index:
 		_sheet_item_count_label.get_parent().show()
+		_sheet_item_count_label.text = "Sheet Rows"
+	elif SheetTypeIndex["rows"] == selected_index:
+		_sheet_item_count_label.get_parent().show()
+		_sheet_item_count_label.text = "Sheet Columns"
 	else:
 		_sheet_item_count_label.get_parent().hide()
 

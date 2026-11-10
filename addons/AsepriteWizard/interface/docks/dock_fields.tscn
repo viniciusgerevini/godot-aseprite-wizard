@@ -565,7 +565,7 @@ popup/item_4/id = 4
 [node name="sheet_item_count" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content" unique_id=584241705]
 visible = false
 layout_mode = 2
-tooltip_text = "Scale for the generated files"
+tooltip_text = "Number of rows when sheet type is columns, and number of columns when sheet type is rows"
 
 [node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/sheet_item_count" unique_id=434270828]
 layout_mode = 2
