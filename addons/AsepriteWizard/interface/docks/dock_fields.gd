@@ -87,3 +87,7 @@ func _on_round_fps_toggled(_toggled_on: bool) -> void:
 
 func _on_spin_box_value_changed(value: float) -> void:
 	_notify_change_with_debounce()
+
+
+func _on_option_button_item_selected(index: int) -> void:
+	_notify_change_with_debounce()

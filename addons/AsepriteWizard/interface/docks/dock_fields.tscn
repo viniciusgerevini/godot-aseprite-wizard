@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://uxm7b02wry10"]
+[gd_scene format=3 uid="uid://uxm7b02wry10"]
 
 [ext_resource type="Script" uid="uid://yje4cun233o7" path="res://addons/AsepriteWizard/interface/docks/dock_fields.gd" id="1_f3w00"]
 [ext_resource type="PackedScene" uid="uid://x1f1t87m582u" path="res://addons/AsepriteWizard/interface/shared/animation_player_drop_button.tscn" id="1_gh7xg"]
@@ -19,7 +19,7 @@ corner_radius_bottom_left = 3
 corner_detail = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gu58o"]
-bg_color = Color(0.44, 0.73, 0.98, 0.2)
+bg_color = Color(0.337, 0.62, 1, 0.2)
 border_width_left = 10
 border_color = Color(0.8, 0.8, 0.8, 0)
 corner_radius_top_left = 5
@@ -27,19 +27,11 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="Image" id="Image_qog2w"]
-data = {
-"data": PackedByteArray(255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 0, 255, 92, 92, 127, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 0, 255, 93, 93, 255, 255, 92, 92, 127, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 92, 92, 127, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 92, 92, 127, 255, 92, 92, 0, 255, 92, 92, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 231, 255, 90, 90, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 90, 90, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 0, 255, 93, 93, 0, 255, 91, 91, 0, 255, 91, 91, 0, 255, 91, 91, 42, 255, 90, 90, 0, 255, 94, 94, 0, 255, 91, 91, 42, 255, 93, 93, 233, 255, 92, 92, 232, 255, 93, 93, 41, 255, 90, 90, 0, 255, 94, 94, 0, 255, 91, 91, 42, 255, 93, 93, 233, 255, 92, 92, 232, 255, 92, 92, 0, 255, 92, 92, 0, 255, 91, 91, 0, 255, 91, 91, 0, 255, 91, 91, 0, 255, 91, 91, 45, 255, 93, 93, 44, 255, 91, 91, 0, 255, 91, 91, 42, 255, 91, 91, 42, 255, 93, 93, 0, 255, 91, 91, 45, 255, 93, 93, 44, 255, 91, 91, 0, 255, 91, 91, 42, 255, 91, 91, 42, 255, 91, 91, 0, 255, 91, 91, 0, 255, 91, 91, 0, 255, 91, 91, 0, 255, 91, 91, 45, 255, 92, 92, 235, 255, 92, 92, 234, 255, 89, 89, 43, 255, 91, 91, 0, 255, 91, 91, 0, 255, 91, 91, 45, 255, 92, 92, 235, 255, 92, 92, 234, 255, 89, 89, 43, 255, 91, 91, 0, 255, 91, 91, 0, 255, 91, 91, 0, 255, 91, 91, 0, 255, 92, 92, 0, 255, 92, 92, 0, 255, 92, 92, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 91, 91, 59, 255, 92, 92, 61, 255, 92, 92, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 91, 91, 59, 255, 92, 92, 61, 255, 92, 92, 0, 255, 92, 92, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0, 255, 93, 93, 0),
-"format": "RGBA8",
-"height": 16,
-"mipmaps": false,
-"width": 16
-}
+[sub_resource type="DPITexture" id="DPITexture_qog2w"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#ff5d5d\" d=\"M2 1v8.586l1.293-1.293a1 1 0 0 1 1.414 0L7 10.587l2.293-2.293a1 1 0 0 1 1.414 0L13 10.586l1-1V6H9V1H2zm8 0v4h4zm-6 9.414-2 2V15h12v-2.586l-.293.293a1 1 0 0 1-1.414 0L10 10.414l-2.293 2.293a1 1 0 0 1-1.414 0L4 10.414z\"/></svg>
+"
 
-[sub_resource type="ImageTexture" id="ImageTexture_bfypj"]
-image = SubResource("Image_qog2w")
-
-[sub_resource type="Image" id="Image_oxeky"]
+[sub_resource type="Image" id="Image_bfypj"]
 data = {
 "data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
 "format": "RGBA8",
@@ -49,91 +41,91 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_qqpl1"]
-image = SubResource("Image_oxeky")
+image = SubResource("Image_bfypj")
 
-[node name="dock_fields" type="MarginContainer"]
+[node name="dock_fields" type="MarginContainer" unique_id=925478813]
 script = ExtResource("1_f3w00")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1677151748]
 layout_mode = 2
 
-[node name="title" type="Button" parent="VBoxContainer"]
+[node name="title" type="Button" parent="VBoxContainer" unique_id=362932566]
 layout_mode = 2
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_ptlkd")
 button_mask = 0
 text = "Aseprite"
 
-[node name="fields_changed_warning" type="PanelContainer" parent="VBoxContainer"]
+[node name="fields_changed_warning" type="PanelContainer" parent="VBoxContainer" unique_id=702501883]
 visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gu58o")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/fields_changed_warning"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/fields_changed_warning" unique_id=435810263]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/fields_changed_warning/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/fields_changed_warning/MarginContainer" unique_id=1996955349]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/fields_changed_warning/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/fields_changed_warning/MarginContainer/VBoxContainer" unique_id=1798971818]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="VBoxContainer/fields_changed_warning/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Icon" type="TextureRect" parent="VBoxContainer/fields_changed_warning/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1381507179]
 modulate = Color(1, 1, 1, 0.486275)
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
-texture = SubResource("ImageTexture_bfypj")
+texture = SubResource("DPITexture_qog2w")
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="VBoxContainer/fields_changed_warning/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/fields_changed_warning/MarginContainer/VBoxContainer/HBoxContainer" unique_id=459367100]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Configuration changed since last import"
 autowrap_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/fields_changed_warning/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/fields_changed_warning/MarginContainer/VBoxContainer" unique_id=92989567]
 layout_mode = 2
 theme_override_constants/margin_bottom = 4
 
-[node name="Button" type="Button" parent="VBoxContainer/fields_changed_warning/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="Button" type="Button" parent="VBoxContainer/fields_changed_warning/MarginContainer/VBoxContainer/MarginContainer" unique_id=776274107]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Revert Changes"
 
-[node name="section_title" type="PanelContainer" parent="VBoxContainer"]
+[node name="section_title" type="PanelContainer" parent="VBoxContainer" unique_id=468802925]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/section_title"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/section_title" unique_id=1441622691]
 layout_mode = 2
 alignment = 1
 
-[node name="icon" type="TextureRect" parent="VBoxContainer/section_title/HBoxContainer"]
+[node name="icon" type="TextureRect" parent="VBoxContainer/section_title/HBoxContainer" unique_id=85801814]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 
-[node name="title" type="Label" parent="VBoxContainer/section_title/HBoxContainer"]
+[node name="title" type="Label" parent="VBoxContainer/section_title/HBoxContainer" unique_id=76792963]
 layout_mode = 2
 text = "Aseprite"
 horizontal_alignment = 1
 
-[node name="modes" type="HBoxContainer" parent="VBoxContainer"]
+[node name="modes" type="HBoxContainer" parent="VBoxContainer" unique_id=1239056495]
 layout_mode = 2
 tooltip_text = "Import mode.
 Animation mode (default): set spritesheet as texture and imports animations to the selected AnimationPlayer.
 Image mode: Import only first frame and set as texture."
 
-[node name="Label" type="Label" parent="VBoxContainer/modes"]
+[node name="Label" type="Label" parent="VBoxContainer/modes" unique_id=1393629797]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Mode"
 
-[node name="options" type="OptionButton" parent="VBoxContainer/modes"]
+[node name="options" type="OptionButton" parent="VBoxContainer/modes" unique_id=1139291907]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
@@ -144,157 +136,157 @@ popup/item_0/id = 0
 popup/item_1/text = "Image"
 popup/item_1/id = 1
 
-[node name="animation_player" type="HBoxContainer" parent="VBoxContainer" groups=["aw_animation_player_only"]]
+[node name="animation_player" type="HBoxContainer" parent="VBoxContainer" unique_id=2031698715 groups=["aw_animation_player_only"]]
 layout_mode = 2
 tooltip_text = "AnimationPlayer  node where animations should be added to."
 
-[node name="Label" type="Label" parent="VBoxContainer/animation_player"]
+[node name="Label" type="Label" parent="VBoxContainer/animation_player" unique_id=1789964091]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "AnimationPlayer"
 
-[node name="options" parent="VBoxContainer/animation_player" instance=ExtResource("1_gh7xg")]
+[node name="options" parent="VBoxContainer/animation_player" unique_id=1543699338 instance=ExtResource("1_gh7xg")]
 layout_mode = 2
 
-[node name="source" type="HBoxContainer" parent="VBoxContainer"]
+[node name="source" type="HBoxContainer" parent="VBoxContainer" unique_id=484285212]
 layout_mode = 2
 tooltip_text = "Location of the Aseprite (*.ase, *.aseprite)  source file."
 
-[node name="Label" type="Label" parent="VBoxContainer/source"]
+[node name="Label" type="Label" parent="VBoxContainer/source" unique_id=642825523]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Aseprite File"
 
-[node name="button" parent="VBoxContainer/source" instance=ExtResource("1_y4qrm")]
+[node name="button" parent="VBoxContainer/source" unique_id=574567243 instance=ExtResource("1_y4qrm")]
 layout_mode = 2
 
-[node name="source_changed_warning" type="PanelContainer" parent="VBoxContainer"]
+[node name="source_changed_warning" type="PanelContainer" parent="VBoxContainer" unique_id=1386025329]
 visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gu58o")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/source_changed_warning"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/source_changed_warning" unique_id=553710793]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/source_changed_warning/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/source_changed_warning/MarginContainer" unique_id=464070372]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="VBoxContainer/source_changed_warning/MarginContainer/HBoxContainer"]
+[node name="Icon" type="TextureRect" parent="VBoxContainer/source_changed_warning/MarginContainer/HBoxContainer" unique_id=309685080]
 modulate = Color(1, 1, 1, 0.486275)
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
-texture = SubResource("ImageTexture_bfypj")
+texture = SubResource("DPITexture_qog2w")
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="VBoxContainer/source_changed_warning/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/source_changed_warning/MarginContainer/HBoxContainer" unique_id=2012302698]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Source file changed since last import"
 autowrap_mode = 2
 
-[node name="extra" type="MarginContainer" parent="VBoxContainer"]
+[node name="extra" type="MarginContainer" parent="VBoxContainer" unique_id=1411680838]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
-[node name="sections" type="VBoxContainer" parent="VBoxContainer/extra"]
+[node name="sections" type="VBoxContainer" parent="VBoxContainer/extra" unique_id=616466025]
 layout_mode = 2
 
-[node name="layers" type="VBoxContainer" parent="VBoxContainer/extra/sections"]
+[node name="layers" type="VBoxContainer" parent="VBoxContainer/extra/sections" unique_id=1596209039]
 layout_mode = 2
 
-[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/layers"]
+[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/layers" unique_id=1053752922]
 layout_mode = 2
 focus_mode = 0
 text = "Layers"
 icon = SubResource("ImageTexture_qqpl1")
 alignment = 0
 
-[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/layers"]
+[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/layers" unique_id=335844286]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
-[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content"]
+[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content" unique_id=1020085948]
 layout_mode = 2
 
-[node name="layer" type="HBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content/content"]
+[node name="layer" type="HBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content/content" unique_id=478449949]
 layout_mode = 2
 tooltip_text = "Aseprite layer to be used in the animation. By default all layers are included."
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/layers/section_content/content/layer"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/layers/section_content/content/layer" unique_id=776690670]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Layer"
 
-[node name="options" parent="VBoxContainer/extra/sections/layers/section_content/content/layer" instance=ExtResource("4_1c7t4")]
+[node name="options" parent="VBoxContainer/extra/sections/layers/section_content/content/layer" unique_id=1288436427 instance=ExtResource("4_1c7t4")]
 layout_mode = 2
 
-[node name="ex_pattern" type="HBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content/content"]
+[node name="ex_pattern" type="HBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content/content" unique_id=1295445617]
 layout_mode = 2
 tooltip_text = "Exclude layers with name matching this pattern (regex)."
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/layers/section_content/content/ex_pattern"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/layers/section_content/content/ex_pattern" unique_id=1762406728]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Exclude Pattern"
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/extra/sections/layers/section_content/content/ex_pattern"]
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/extra/sections/layers/section_content/content/ex_pattern" unique_id=293688063]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="visible_layers" type="HBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content/content"]
+[node name="visible_layers" type="HBoxContainer" parent="VBoxContainer/extra/sections/layers/section_content/content" unique_id=1841985774]
 layout_mode = 2
 tooltip_text = "If active, layers not visible in the source file won't be included in the final image."
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/layers/section_content/content/visible_layers"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/layers/section_content/content/visible_layers" unique_id=1073995348]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Only Visible Layers"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/layers/section_content/content/visible_layers"]
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/layers/section_content/content/visible_layers" unique_id=1337751692]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "On"
 
-[node name="slices" type="VBoxContainer" parent="VBoxContainer/extra/sections"]
+[node name="slices" type="VBoxContainer" parent="VBoxContainer/extra/sections" unique_id=2075234229]
 layout_mode = 2
 
-[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/slices"]
+[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/slices" unique_id=1555418006]
 layout_mode = 2
 focus_mode = 0
 text = "Slices"
 icon = SubResource("ImageTexture_qqpl1")
 alignment = 0
 
-[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/slices"]
+[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/slices" unique_id=1032995709]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
-[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/slices/section_content"]
+[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/slices/section_content" unique_id=281724696]
 layout_mode = 2
 
-[node name="slice" type="HBoxContainer" parent="VBoxContainer/extra/sections/slices/section_content/content"]
+[node name="slice" type="HBoxContainer" parent="VBoxContainer/extra/sections/slices/section_content/content" unique_id=357429238]
 layout_mode = 2
 tooltip_text = "Aseprite slice to be used in the animation. By default, the whole file is included."
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/slices/section_content/content/slice"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/slices/section_content/content/slice" unique_id=1745481377]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Slice"
 
-[node name="options" type="OptionButton" parent="VBoxContainer/extra/sections/slices/section_content/content/slice"]
+[node name="options" type="OptionButton" parent="VBoxContainer/extra/sections/slices/section_content/content/slice" unique_id=360146069]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
@@ -303,90 +295,90 @@ item_count = 1
 popup/item_0/text = "[all]"
 popup/item_0/id = 0
 
-[node name="animation" type="VBoxContainer" parent="VBoxContainer/extra/sections" groups=["aw_animation_player_only"]]
+[node name="animation" type="VBoxContainer" parent="VBoxContainer/extra/sections" unique_id=1812391166 groups=["aw_animation_player_only"]]
 layout_mode = 2
 
-[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/animation"]
+[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/animation" unique_id=516888628]
 layout_mode = 2
 focus_mode = 0
 text = "Animation"
 icon = SubResource("ImageTexture_qqpl1")
 alignment = 0
 
-[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/animation"]
+[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/animation" unique_id=1032110559]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
-[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content"]
+[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content" unique_id=184067823]
 layout_mode = 2
 
-[node name="keep_length" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content"]
+[node name="keep_length" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content" unique_id=1355031620]
 layout_mode = 2
 tooltip_text = "When this is active the animation length won't be adjusted if other properties were added and the resulting imported animation is shorter."
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/keep_length"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/keep_length" unique_id=38379270]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Keep Manual Animation Length"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation/section_content/content/keep_length"]
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation/section_content/content/keep_length" unique_id=103315940]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "On"
 
-[node name="auto_visible_track" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content"]
+[node name="auto_visible_track" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content" unique_id=1130310904]
 layout_mode = 2
 tooltip_text = "If active on import, this node will be set as hidden in every existing animation it is not part of"
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track" unique_id=974573068]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Hide When Unused"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track"]
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation/section_content/content/auto_visible_track" unique_id=885560541]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "On"
 
-[node name="snap_to_fps" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content"]
+[node name="snap_to_fps" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content" unique_id=201229146]
 layout_mode = 2
 tooltip_text = "If active, Aseprite frame durations will be converted from their integer millisecond values to match the exact fractional timing of the target FPS."
 
-[node name="convert_to_fps" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps"]
+[node name="convert_to_fps" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps" unique_id=150252439]
 layout_mode = 2
 tooltip_text = "If active, Aseprite frame durations will be converted from their integer millisecond values to match the exact fractional timing of the target FPS."
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_to_fps"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_to_fps" unique_id=1567190627]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Snap to FPS"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_to_fps"]
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_to_fps" unique_id=740208574]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "On"
 
-[node name="convert_ratio_container" type="MarginContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps"]
+[node name="convert_ratio_container" type="MarginContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps" unique_id=1952430007]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="convert_ratio" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container"]
+[node name="convert_ratio" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container" unique_id=736575355]
 layout_mode = 2
 tooltip_text = "For example, if set to 16 ms = 1/60 FPS, a frame with a duration of 320 ms becomes 333.33 ms."
 
-[node name="ms" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio"]
+[node name="ms" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio" unique_id=474570792]
 layout_mode = 2
 
-[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/ms"]
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/ms" unique_id=815777606]
 layout_mode = 2
 min_value = 1.0
 max_value = 1000.0
@@ -394,23 +386,23 @@ value = 16.0
 rounded = true
 allow_greater = true
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/ms"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/ms" unique_id=1755411980]
 layout_mode = 2
 size_flags_stretch_ratio = 2.0
 text = "ms in Aseprite"
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio" unique_id=696054008]
 layout_mode = 2
 text = "="
 horizontal_alignment = 1
 
-[node name="fps" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio"]
+[node name="fps" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio" unique_id=673126575]
 layout_mode = 2
 
-[node name="fraction" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps"]
+[node name="fraction" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps" unique_id=864146595]
 layout_mode = 2
 
-[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps/fraction"]
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps/fraction" unique_id=1312424367]
 layout_mode = 2
 min_value = 1.0
 max_value = 1000.0
@@ -419,137 +411,195 @@ rounded = true
 allow_greater = true
 prefix = "1/"
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps" unique_id=320057607]
 layout_mode = 2
 size_flags_stretch_ratio = 2.0
 text = "FPS in Godot"
 
-[node name="ms" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps"]
+[node name="ms" type="Label" parent="VBoxContainer/extra/sections/animation/section_content/content/snap_to_fps/convert_ratio_container/convert_ratio/fps" unique_id=1018745004]
 layout_mode = 2
 size_flags_stretch_ratio = 2.0
 text = "(16.667 ms)"
 
-[node name="animation_sf" type="VBoxContainer" parent="VBoxContainer/extra/sections"]
+[node name="animation_sf" type="VBoxContainer" parent="VBoxContainer/extra/sections" unique_id=22658758]
 layout_mode = 2
 
-[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/animation_sf"]
+[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/animation_sf" unique_id=2113136626]
 layout_mode = 2
 focus_mode = 0
 text = "Animation"
 icon = SubResource("ImageTexture_qqpl1")
 alignment = 0
 
-[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/animation_sf"]
+[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/animation_sf" unique_id=684677704]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
-[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation_sf/section_content"]
+[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/animation_sf/section_content" unique_id=2084147671]
 layout_mode = 2
 
-[node name="round_fps" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation_sf/section_content/content"]
+[node name="round_fps" type="HBoxContainer" parent="VBoxContainer/extra/sections/animation_sf/section_content/content" unique_id=1599716933]
 layout_mode = 2
 tooltip_text = "Round FPS to the next integer number."
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation_sf/section_content/content/round_fps"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/animation_sf/section_content/content/round_fps" unique_id=907611640]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Round FPS"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation_sf/section_content/content/round_fps"]
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/animation_sf/section_content/content/round_fps" unique_id=2038214616]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 button_pressed = true
 text = "On"
 
-[node name="output" type="VBoxContainer" parent="VBoxContainer/extra/sections"]
+[node name="output" type="VBoxContainer" parent="VBoxContainer/extra/sections" unique_id=2102689140]
 layout_mode = 2
 
-[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/output"]
+[node name="section_header" type="Button" parent="VBoxContainer/extra/sections/output" unique_id=95276739]
 layout_mode = 2
 focus_mode = 0
 text = "Output"
 icon = SubResource("ImageTexture_qqpl1")
 alignment = 0
 
-[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/output"]
+[node name="section_content" type="MarginContainer" parent="VBoxContainer/extra/sections/output" unique_id=1636402454]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
-[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/output/section_content"]
+[node name="content" type="VBoxContainer" parent="VBoxContainer/extra/sections/output/section_content" unique_id=639976712]
 layout_mode = 2
 
-[node name="embed" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content"]
+[node name="embed" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content" unique_id=633928443]
 layout_mode = 2
 tooltip_text = "Embed texture in the SpriteFrames instead of creating an external file"
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/embed"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/embed" unique_id=2126397784]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Embed Texture"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/output/section_content/content/embed"]
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/extra/sections/output/section_content/content/embed" unique_id=954280010]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 button_pressed = true
 text = "On"
 
-[node name="out_folder" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content"]
+[node name="out_folder" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content" unique_id=1864914541]
 visible = false
 layout_mode = 2
 tooltip_text = "Location where the spritesheet file should be saved."
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/out_folder"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/out_folder" unique_id=1131892230]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Folder"
 
-[node name="button" parent="VBoxContainer/extra/sections/output/section_content/content/out_folder" instance=ExtResource("2_pypqg")]
+[node name="button" parent="VBoxContainer/extra/sections/output/section_content/content/out_folder" unique_id=1728857866 instance=ExtResource("2_pypqg")]
 layout_mode = 2
 
-[node name="out_filename" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content"]
+[node name="out_filename" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content" unique_id=2107893174]
 visible = false
 layout_mode = 2
 tooltip_text = "Base filename for spritesheet. In case the layer option is used, this works as a prefix to the layer name."
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/out_filename"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/out_filename" unique_id=1226342062]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "File Name"
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/extra/sections/output/section_content/content/out_filename"]
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/extra/sections/output/section_content/content/out_filename" unique_id=1460291759]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="scale" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content"]
+[node name="scale" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content" unique_id=1144183782]
 layout_mode = 2
 tooltip_text = "Scale for the generated files"
 
-[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/scale"]
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/scale" unique_id=763205013]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Scale"
 
-[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/output/section_content/content/scale"]
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/output/section_content/content/scale" unique_id=974982378]
 layout_mode = 2
 min_value = 1.0
 value = 1.0
 rounded = true
 allow_greater = true
 
-[node name="import" type="Button" parent="VBoxContainer"]
+[node name="sheet_type" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content" unique_id=1670700327]
+layout_mode = 2
+tooltip_text = "Algorithm to create the sprite sheet"
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/sheet_type" unique_id=1275310535]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Sheet Type"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/extra/sections/output/section_content/content/sheet_type" unique_id=1050327482]
+layout_mode = 2
+selected = 4
+item_count = 5
+popup/item_0/text = "horizontal"
+popup/item_0/id = 0
+popup/item_1/text = "vertical"
+popup/item_1/id = 1
+popup/item_2/text = "columns"
+popup/item_2/id = 2
+popup/item_3/text = "rows"
+popup/item_3/id = 3
+popup/item_4/text = "packed"
+popup/item_4/id = 4
+
+[node name="sheet_item_count" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content" unique_id=584241705]
+visible = false
+layout_mode = 2
+tooltip_text = "Scale for the generated files"
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/sheet_item_count" unique_id=434270828]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Sheet Columns"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/output/section_content/content/sheet_item_count" unique_id=372387066]
+layout_mode = 2
+min_value = 1.0
+value = 12.0
+rounded = true
+allow_greater = true
+
+[node name="frame_padding" type="HBoxContainer" parent="VBoxContainer/extra/sections/output/section_content/content" unique_id=721239355]
+layout_mode = 2
+tooltip_text = "Includes a separation between each frame of N pixels."
+
+[node name="Label" type="Label" parent="VBoxContainer/extra/sections/output/section_content/content/frame_padding" unique_id=1016435701]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Frame padding"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/extra/sections/output/section_content/content/frame_padding" unique_id=1181578179]
+layout_mode = 2
+rounded = true
+allow_greater = true
+
+[node name="import" type="Button" parent="VBoxContainer" unique_id=2001187824]
 layout_mode = 2
 text = "Import"
 
-[node name="DebounceTimer" type="Timer" parent="."]
+[node name="DebounceTimer" type="Timer" parent="." unique_id=1364303913]
 wait_time = 0.6
 one_shot = true
 
@@ -565,4 +615,7 @@ one_shot = true
 [connection signal="toggled" from="VBoxContainer/extra/sections/output/section_content/content/embed/CheckBox" to="." method="_on_round_fps_toggled"]
 [connection signal="text_changed" from="VBoxContainer/extra/sections/output/section_content/content/out_filename/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="value_changed" from="VBoxContainer/extra/sections/output/section_content/content/scale/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="item_selected" from="VBoxContainer/extra/sections/output/section_content/content/sheet_type/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="value_changed" from="VBoxContainer/extra/sections/output/section_content/content/sheet_item_count/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/extra/sections/output/section_content/content/frame_padding/SpinBox" to="." method="_on_spin_box_value_changed"]
 [connection signal="timeout" from="DebounceTimer" to="." method="_on_debounce_timer_timeout"]
