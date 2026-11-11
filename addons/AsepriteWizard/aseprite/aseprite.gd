@@ -16,6 +16,7 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 	var output_name = file_name if options.get('output_filename') == "" else options.get('output_filename', file_name)
 	var first_frame_only = options.get("first_frame_only", false)
 	var scale = options.get('scale', '1')
+	var trim_cels = options.get("trim_cels", false)
 	var basename = _get_file_basename(output_name)
 	var output_dir = ProjectSettings.globalize_path(output_folder)
 	var data_file = "%s/%s.json" % [output_dir, basename]
@@ -23,9 +24,13 @@ func export_file(file_name: String, output_folder: String, options: Dictionary) 
 	var output = []
 	var arguments = _export_command_common_arguments(file_name, data_file, sprite_sheet)
 
+
 	if scale != "1":
 		arguments.push_back("--scale")
 		arguments.push_back(scale)
+	
+	if trim_cels:
+		arguments.push_front("--trim")
 
 	if not only_visible_layers:
 		arguments.push_front("--all-layers")
