@@ -10,6 +10,7 @@ const TextureImportPlugin = preload("importers/static_texture_import_plugin.gd")
 const TextureSplitImportPlugin = preload("res://addons/AsepriteWizard/importers/static_texture_multiple_import_plugin.gd")
 const LayerSpriteFramesImportPlugin = preload("res://addons/AsepriteWizard/importers/split_layer_importers/layer_import_plugin.gd")
 const LayerTextureImportPlugin = preload("res://addons/AsepriteWizard/importers/split_layer_importers/layer_texture_import_plugin.gd")
+const AseImageFormatLoader = preload("res://addons/AsepriteWizard/importers/ase_image_format_loader.gd")
 const FileSystemHelper = preload("importers/helpers/file_system_helper.gd")
 # export
 const ExportPlugin = preload("export/export_plugin.gd")
@@ -42,6 +43,7 @@ var animated_sprite_inspector_plugin: EditorInspectorPlugin
 var sprite_frame_preview_generator: SpriteFramesPreviewGenerator
 var sprite_frame_tooltip_plugin: SpriteFramesTooltip
 
+var image_loader_extension: AseImageFormatLoader = AseImageFormatLoader.new()
 var file_system_helper
 
 var _importers = []
@@ -58,6 +60,7 @@ func _enter_tree():
 	_setup_sprite_inspector_plugin()
 	_setup_file_listeners()
 	_setup_preview_generator()
+	image_loader_extension.add_format_loader()
 
 
 func _exit_tree():
@@ -72,6 +75,7 @@ func _disable_plugin():
 	_remove_inspector_plugins()
 	_remove_file_listeners()
 	_remove_preview_generators()
+	image_loader_extension.remove_format_loader()
 
 
 func _load_config():
@@ -172,7 +176,7 @@ func _open_window():
 		return
 
 	window = WizardWindow.instantiate()
-	window.connect("close_requested",Callable(self,"_on_window_closed"))
+	window.connect("close_requested", Callable(self, "_on_window_closed"))
 	add_control_to_bottom_panel(window, "Aseprite Wizard")
 	make_bottom_panel_item_visible(window)
 
