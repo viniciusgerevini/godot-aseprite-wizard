@@ -7,6 +7,7 @@ const logger = preload("../config/logger.gd")
 var config = preload("../config/config.gd").new()
 var _aseprite = preload("../aseprite/aseprite.gd").new()
 var _bakery = preload("./helpers/bakery.gd").new()
+var _aseprite_file_exporter = preload("../aseprite/file_exporter.gd").new()
 
 var file_system_helper
 
@@ -23,7 +24,7 @@ func _get_save_extension():
 
 
 func _get_resource_type():
-	return "PackedDataContainer"
+	return "PortableCompressedTexture2D"
 
 
 func _get_preset_count():
@@ -72,9 +73,6 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 		var source_base_dir = source_file.get_base_dir()
 		layers_resources_folder = source_base_dir.path_join(layers_resources_folder).simplify_path()
 
-	var import_options = _get_base_import_options(options)
-	import_options["source"] = source_file
-
 	var base_name = source_file.get_basename()
 
 	if layers_resources_folder != "":
@@ -82,31 +80,56 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 			DirAccess.make_dir_recursive_absolute(layers_resources_folder)
 		base_name = "%s/%s" % [layers_resources_folder, base_name.get_file()]
 
-	var data_to_save = {
-		"layers": {}
+	var import_options = _get_base_import_options(options)
+
+	var aseprite_opts = {
+		"layers": layers,
+		"split_layers": true,
+		"output_filename": '',
+		"output_folder": source_file.get_base_dir()
 	}
+	aseprite_opts.merge(import_options, true)
+
+	var export_result = _aseprite_file_exporter.generate_aseprite_file(absolute_source_file, aseprite_opts)
+	if not export_result.is_ok:
+		logger.error("Could not import aseprite file: %s" % result_codes.get_error_message(export_result.code), source_file)
+		return FAILED
+
+	var json_result = _aseprite_file_exporter.load_json_content(export_result.content.data_file)
+	if not json_result.is_ok:
+		logger.error("Could not read JSON: '%s'" % result_codes.get_error_message(json_result.code), source_file)
+		return FAILED
+
+	var sprite_sheet_abs = ProjectSettings.globalize_path(export_result.content.sprite_sheet)
+	var atlas_image = Image.load_from_file(sprite_sheet_abs)
+	if atlas_image == null:
+		logger.error("Could not load image", source_file)
+		return FAILED
+
+	var atlas_tex = PortableCompressedTexture2D.new()
+	atlas_tex.create_from_image(atlas_image, PortableCompressedTexture2D.COMPRESSION_MODE_LOSSLESS)
+
+	var frames_by_layer = _group_frames_by_layer(json_result.content)
 
 	for layer in layers:
+		if not frames_by_layer.has(layer):
+			continue
 		var flat_layer_name = (layer as String).replace("/", "_")
-		var layer_save_path = "%s_%s.%s" % [base_name, flat_layer_name, _layer_extension()]
-		var file = FileAccess.open(layer_save_path, FileAccess.WRITE)
-		var source_hash = FileAccess.get_md5(absolute_source_file)
-		file.store_string(JSON.stringify({
-			"layer": layer,
-			"import_options": import_options,
-			"source_hash": source_hash
-		}))
-		data_to_save.layers[layer] = layer_save_path
+		var resource = _create_layer_resource(layer, atlas_tex, frames_by_layer[layer], json_result.content, options)
+		var res_path = "%s_%s.res" % [base_name, flat_layer_name]
+		ResourceSaver.save(resource, res_path)
+		gen_files.push_back(res_path)
 
-	var packed = PackedDataContainer.new()
-	packed.pack(data_to_save)
-
-	var exit_code = ResourceSaver.save(packed, "%s.%s" % [save_path, _get_save_extension()])
+	var exit_code = ResourceSaver.save(atlas_tex, "%s.%s" % [save_path, _get_save_extension()])
 
 	if config.should_generate_bake_files():
-		var bake_code = _bakery.save_bake_file(source_file, packed)
+		var bake_code = _bakery.save_bake_file(source_file, atlas_tex)
 		if bake_code != OK:
 			logger.error('Bake file creation failed (%s) ' % bake_code, source_file)
+
+	if config.should_remove_source_files():
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(export_result.content.data_file))
+		DirAccess.remove_absolute(sprite_sheet_abs)
 
 	_cleanup_old_layers(old_data, layers)
 
@@ -114,12 +137,31 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 
 	return exit_code
 
-
-func _layer_extension() -> String:
-	return ""
-
 func _get_base_import_options(options: Dictionary):
 	return {}
+
+
+func _create_layer_resource(_layer: String, atlas_tex: PortableCompressedTexture2D, layer_frames: Array, _json_content: Dictionary, _options: Dictionary) -> Resource:
+	var f = layer_frames[0].frame
+	var at := AtlasTexture.new()
+	at.atlas = atlas_tex
+	at.region = Rect2(f.x, f.y, f.w, f.h)
+	return at
+
+func _group_frames_by_layer(json_content: Dictionary) -> Dictionary:
+	var regex = RegEx.new()
+	regex.compile("(?<=\\().*(?=\\))")
+
+	var groups = {}
+	for frame in _aseprite.get_content_frames(json_content):
+		var m = regex.search(frame.filename)
+		if m == null:
+			continue
+		var layer_name: String = m.get_string()
+		if not groups.has(layer_name):
+			groups[layer_name] = []
+		groups[layer_name].append(frame)
+	return groups
 
 
 func _load_old_data(source_file: String):

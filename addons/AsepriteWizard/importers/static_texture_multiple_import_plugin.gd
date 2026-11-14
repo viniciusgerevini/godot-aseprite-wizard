@@ -44,10 +44,6 @@ func _get_import_options(_path, _i):
 	]
 
 
-func _layer_extension() -> String:
-	return "ase_layer_tex"
-
-
 func _get_base_import_options(options: Dictionary):
 	return  {
 		"trim_cels": options["sheet/trim_cels"],

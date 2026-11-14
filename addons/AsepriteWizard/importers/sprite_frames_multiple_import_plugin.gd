@@ -1,6 +1,7 @@
 @tool
 extends "./multiple_import_plugin_base.gd"
 
+var _sf_creator = preload("../creators/sprite_frames/sprite_frames_creator.gd").new()
 
 func _get_importer_name():
 	return "aseprite_wizard.plugin.spriteframes-split"
@@ -45,8 +46,12 @@ func _get_import_options(_path, _i):
 	]
 
 
-func _layer_extension() -> String:
-	return "ase_layer"
+func _create_layer_resource(_layer: String, atlas_tex: PortableCompressedTexture2D, layer_frames: Array, json_content: Dictionary, options: Dictionary) -> Resource:
+	var layer_json = {
+		"frames": layer_frames,
+		"meta": json_content.meta,
+	}
+	return _sf_creator._create_sprite_frames_with_animations(layer_json, atlas_tex, _get_base_import_options(options))
 
 
 func _get_base_import_options(options: Dictionary):
